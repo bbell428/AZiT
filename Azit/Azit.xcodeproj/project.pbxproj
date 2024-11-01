@@ -34,6 +34,12 @@
 		8EAFF0152CD4A33E00136348 /* AlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFF0142CD4A33E00136348 /* AlbumView.swift */; };
 		8EAFF0182CD4A36B00136348 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFF0172CD4A36B00136348 /* AuthManager.swift */; };
 		8EAFF01A2CD4A37900136348 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFF0192CD4A37900136348 /* LoginView.swift */; };
+		EAF93B852CD4A4D600116035 /* AuthManager+Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF93B842CD4A4D600116035 /* AuthManager+Email.swift */; };
+		EAF93B872CD4A4DC00116035 /* AuthManager+Google.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF93B862CD4A4DC00116035 /* AuthManager+Google.swift */; };
+		EAF93B8A2CD4A4F600116035 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EAF93B892CD4A4F600116035 /* Info.plist */; };
+		EAF93B8B2CD4A4F600116035 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EAF93B882CD4A4F600116035 /* GoogleService-Info.plist */; };
+		EAF93B8E2CD4A50700116035 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF93B8C2CD4A50700116035 /* AuthView.swift */; };
+		EAF93B8F2CD4A50700116035 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF93B8D2CD4A50700116035 /* SignupView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +77,12 @@
 		8EAFF0142CD4A33E00136348 /* AlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumView.swift; sourceTree = "<group>"; };
 		8EAFF0172CD4A36B00136348 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		8EAFF0192CD4A37900136348 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		EAF93B842CD4A4D600116035 /* AuthManager+Email.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthManager+Email.swift"; sourceTree = "<group>"; };
+		EAF93B862CD4A4DC00116035 /* AuthManager+Google.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthManager+Google.swift"; sourceTree = "<group>"; };
+		EAF93B882CD4A4F600116035 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		EAF93B892CD4A4F600116035 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EAF93B8C2CD4A50700116035 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		EAF93B8D2CD4A50700116035 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -163,6 +175,8 @@
 			children = (
 				8EAFEFA42CD4528E00136348 /* Preview Content */,
 				8EAFEFA52CD4528E00136348 /* Assets.xcassets */,
+				EAF93B882CD4A4F600116035 /* GoogleService-Info.plist */,
+				EAF93B892CD4A4F600116035 /* Info.plist */,
 				8EAFEFB02CD4571D00136348 /* Fonts */,
 				8EAFEFA62CD4528E00136348 /* AzitApp.swift */,
 				8EAFEFEB2CD47A0700136348 /* Auth */,
@@ -215,6 +229,8 @@
 			isa = PBXGroup;
 			children = (
 				8EAFF0172CD4A36B00136348 /* AuthManager.swift */,
+				EAF93B842CD4A4D600116035 /* AuthManager+Email.swift */,
+				EAF93B862CD4A4DC00116035 /* AuthManager+Google.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -238,6 +254,8 @@
 		8EAFEFFF2CD4A04300136348 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				EAF93B8C2CD4A50700116035 /* AuthView.swift */,
+				EAF93B8D2CD4A50700116035 /* SignupView.swift */,
 				8EAFF0192CD4A37900136348 /* LoginView.swift */,
 			);
 			path = Login;
@@ -397,6 +415,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8EAFEFA92CD4528E00136348 /* Preview Assets.xcassets in Resources */,
+				EAF93B8A2CD4A4F600116035 /* Info.plist in Resources */,
+				EAF93B8B2CD4A4F600116035 /* GoogleService-Info.plist in Resources */,
 				8EAFEFAA2CD4528E00136348 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -422,6 +442,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAF93B8E2CD4A50700116035 /* AuthView.swift in Sources */,
+				EAF93B8F2CD4A50700116035 /* SignupView.swift in Sources */,
 				8EAFEFB82CD45CCE00136348 /* ChatRoom.swift in Sources */,
 				8EAFEFAB2CD4528E00136348 /* AzitApp.swift in Sources */,
 				8EAFEFAC2CD4528E00136348 /* MainView.swift in Sources */,
@@ -430,8 +452,10 @@
 				8EAFEFB22CD4580800136348 /* UserInfo.swift in Sources */,
 				8EAFF01A2CD4A37900136348 /* LoginView.swift in Sources */,
 				8EAFEFB62CD45CB100136348 /* Chat.swift in Sources */,
+				EAF93B872CD4A4DC00116035 /* AuthManager+Google.swift in Sources */,
 				8EAFF00F2CD4A31300136348 /* StoryStore.swift in Sources */,
 				8EAFF0182CD4A36B00136348 /* AuthManager.swift in Sources */,
+				EAF93B852CD4A4D600116035 /* AuthManager+Email.swift in Sources */,
 				8EAFF0152CD4A33E00136348 /* AlbumView.swift in Sources */,
 				8EAFEFB42CD4582200136348 /* Story.swift in Sources */,
 			);
