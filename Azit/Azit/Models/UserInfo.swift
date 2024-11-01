@@ -1,5 +1,5 @@
 //
-//  User.swift
+//  UserInfo.swift
 //  Azit
 //
 //  Created by Hyunwoo Shin on 11/1/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct User: Codable, Equatable, Identifiable {
+struct UserInfo: Codable, Equatable, Identifiable {
     var id: String // uid
     var email: String  // email
     var nickname: String // 닉네임

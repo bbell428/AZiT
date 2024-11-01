@@ -19,7 +19,7 @@ struct ChatRoom: Codable, Identifiable {
 
 struct ChatRoomWithUser: Codable {
     var chatRoom: ChatRoom
-    var chatUser: User
+    var chatUser: UserInfo
     var myUid: String
     var unreadCount: Int = 0
 }

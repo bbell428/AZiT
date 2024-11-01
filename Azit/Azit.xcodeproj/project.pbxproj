@@ -11,7 +11,7 @@
 		8EAFEFAA2CD4528E00136348 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EAFEFA52CD4528E00136348 /* Assets.xcassets */; };
 		8EAFEFAB2CD4528E00136348 /* AzitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFEFA62CD4528E00136348 /* AzitApp.swift */; };
 		8EAFEFAC2CD4528E00136348 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFEFA72CD4528E00136348 /* MainView.swift */; };
-		8EAFEFB22CD4580800136348 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFEFB12CD4580800136348 /* User.swift */; };
+		8EAFEFB22CD4580800136348 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFEFB12CD4580800136348 /* UserInfo.swift */; };
 		8EAFEFB42CD4582200136348 /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFEFB32CD4582200136348 /* Story.swift */; };
 		8EAFEFB62CD45CB100136348 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFEFB52CD45CB100136348 /* Chat.swift */; };
 		8EAFEFB82CD45CCE00136348 /* ChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFEFB72CD45CCE00136348 /* ChatRoom.swift */; };
@@ -28,6 +28,12 @@
 		8EAFEFD12CD45F0700136348 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 8EAFEFD02CD45F0700136348 /* FirebaseCore */; };
 		8EAFEFD32CD45F5A00136348 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 8EAFEFD22CD45F5A00136348 /* FirebaseFunctions */; };
 		8EAFEFD52CD45F5A00136348 /* FirebaseFunctionsCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 8EAFEFD42CD45F5A00136348 /* FirebaseFunctionsCombine-Community */; };
+		8EAFF00F2CD4A31300136348 /* StoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFF00E2CD4A31300136348 /* StoryStore.swift */; };
+		8EAFF0112CD4A32F00136348 /* UploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFF0102CD4A32F00136348 /* UploadView.swift */; };
+		8EAFF0132CD4A33600136348 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFF0122CD4A33600136348 /* MessageView.swift */; };
+		8EAFF0152CD4A33E00136348 /* AlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFF0142CD4A33E00136348 /* AlbumView.swift */; };
+		8EAFF0182CD4A36B00136348 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFF0172CD4A36B00136348 /* AuthManager.swift */; };
+		8EAFF01A2CD4A37900136348 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFF0192CD4A37900136348 /* LoginView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,10 +61,16 @@
 		8EAFEFA52CD4528E00136348 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8EAFEFA62CD4528E00136348 /* AzitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzitApp.swift; sourceTree = "<group>"; };
 		8EAFEFA72CD4528E00136348 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		8EAFEFB12CD4580800136348 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		8EAFEFB12CD4580800136348 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		8EAFEFB32CD4582200136348 /* Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Story.swift; sourceTree = "<group>"; };
 		8EAFEFB52CD45CB100136348 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		8EAFEFB72CD45CCE00136348 /* ChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoom.swift; sourceTree = "<group>"; };
+		8EAFF00E2CD4A31300136348 /* StoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryStore.swift; sourceTree = "<group>"; };
+		8EAFF0102CD4A32F00136348 /* UploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadView.swift; sourceTree = "<group>"; };
+		8EAFF0122CD4A33600136348 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
+		8EAFF0142CD4A33E00136348 /* AlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumView.swift; sourceTree = "<group>"; };
+		8EAFF0172CD4A36B00136348 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		8EAFF0192CD4A37900136348 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -164,7 +176,7 @@
 		8EAFEFAD2CD4529300136348 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				8EAFEFB12CD4580800136348 /* User.swift */,
+				8EAFEFB12CD4580800136348 /* UserInfo.swift */,
 				8EAFEFB32CD4582200136348 /* Story.swift */,
 				8EAFEFB52CD45CB100136348 /* Chat.swift */,
 				8EAFEFB72CD45CCE00136348 /* ChatRoom.swift */,
@@ -187,6 +199,7 @@
 		8EAFEFAF2CD452A600136348 /* Stores */ = {
 			isa = PBXGroup;
 			children = (
+				8EAFF00E2CD4A31300136348 /* StoryStore.swift */,
 			);
 			path = Stores;
 			sourceTree = "<group>";
@@ -201,6 +214,7 @@
 		8EAFEFEB2CD47A0700136348 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				8EAFF0172CD4A36B00136348 /* AuthManager.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -216,6 +230,7 @@
 		8EAFEFFE2CD4A03C00136348 /* Message */ = {
 			isa = PBXGroup;
 			children = (
+				8EAFF0122CD4A33600136348 /* MessageView.swift */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -223,6 +238,7 @@
 		8EAFEFFF2CD4A04300136348 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				8EAFF0192CD4A37900136348 /* LoginView.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -230,6 +246,7 @@
 		8EAFF0002CD4A04900136348 /* Upload */ = {
 			isa = PBXGroup;
 			children = (
+				8EAFF0102CD4A32F00136348 /* UploadView.swift */,
 			);
 			path = Upload;
 			sourceTree = "<group>";
@@ -237,6 +254,7 @@
 		8EAFF0012CD4A05C00136348 /* Album */ = {
 			isa = PBXGroup;
 			children = (
+				8EAFF0142CD4A33E00136348 /* AlbumView.swift */,
 			);
 			path = Album;
 			sourceTree = "<group>";
@@ -407,8 +425,14 @@
 				8EAFEFB82CD45CCE00136348 /* ChatRoom.swift in Sources */,
 				8EAFEFAB2CD4528E00136348 /* AzitApp.swift in Sources */,
 				8EAFEFAC2CD4528E00136348 /* MainView.swift in Sources */,
-				8EAFEFB22CD4580800136348 /* User.swift in Sources */,
+				8EAFF0132CD4A33600136348 /* MessageView.swift in Sources */,
+				8EAFF0112CD4A32F00136348 /* UploadView.swift in Sources */,
+				8EAFEFB22CD4580800136348 /* UserInfo.swift in Sources */,
+				8EAFF01A2CD4A37900136348 /* LoginView.swift in Sources */,
 				8EAFEFB62CD45CB100136348 /* Chat.swift in Sources */,
+				8EAFF00F2CD4A31300136348 /* StoryStore.swift in Sources */,
+				8EAFF0182CD4A36B00136348 /* AuthManager.swift in Sources */,
+				8EAFF0152CD4A33E00136348 /* AlbumView.swift in Sources */,
 				8EAFEFB42CD4582200136348 /* Story.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
