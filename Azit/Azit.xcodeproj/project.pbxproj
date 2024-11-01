@@ -153,6 +153,7 @@
 				8EAFEFA52CD4528E00136348 /* Assets.xcassets */,
 				8EAFEFB02CD4571D00136348 /* Fonts */,
 				8EAFEFA62CD4528E00136348 /* AzitApp.swift */,
+				8EAFEFEB2CD47A0700136348 /* Auth */,
 				8EAFEFAD2CD4529300136348 /* Models */,
 				8EAFEFAF2CD452A600136348 /* Stores */,
 				8EAFEFAE2CD4529E00136348 /* Views */,
@@ -191,6 +192,13 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8EAFEFEB2CD47A0700136348 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
