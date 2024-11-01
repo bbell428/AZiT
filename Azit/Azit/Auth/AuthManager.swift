@@ -31,7 +31,7 @@ enum AuthenticationError: Error {
 }
 
 @MainActor
-class AuthenticationStore: ObservableObject {
+class AuthManager: ObservableObject {
     @Published var name: String = "unkown"
     
     @Published var email: String = ""
@@ -94,7 +94,7 @@ class AuthenticationStore: ObservableObject {
 }
 
 // 인증 수단마다 처리할 방법을 추가로 제시한다
-extension AuthenticationStore {
+extension AuthManager {
     func signOut() {
         do {
             try Auth.auth().signOut()

@@ -12,7 +12,7 @@ import FirebaseAuth
 import GoogleSignIn
 import GoogleSignInSwift
 
-extension AuthenticationStore {
+extension AuthManager {
     func signInWithEmailPassword() async -> Bool {
         authenticationState = .authenticating
         do {

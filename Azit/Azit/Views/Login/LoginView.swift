@@ -13,7 +13,7 @@ private enum FocusableField: Hashable {
 }
 
 struct LoginView: View {
-    @EnvironmentObject var authenticationStore: AuthenticationStore
+    @EnvironmentObject var authManager: AuthManager
     
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
@@ -22,7 +22,7 @@ struct LoginView: View {
     
     private func signInWithEmailPassword() {
         Task {
-            if await authenticationStore.signInWithEmailPassword() == true {
+            if await authManager.signInWithEmailPassword() == true {
                 dismiss()
             }
         }
@@ -30,7 +30,7 @@ struct LoginView: View {
     
     private func signInWithGoogle() {
         Task {
-            if await authenticationStore.signInWithGoogle() == true {
+            if await authManager.signInWithGoogle() == true {
                 dismiss()
             }
         }
@@ -48,7 +48,7 @@ struct LoginView: View {
             .foregroundStyle(.accent)
             
             // 로그인 에러 메시지
-            if !authenticationStore.errorMessage.isEmpty {
+            if !authManager.errorMessage.isEmpty {
                 VStack {
                     Text("아이디와 비밀번호를 확인해주세요.")
                         .foregroundColor(Color(UIColor.systemRed))
@@ -57,7 +57,7 @@ struct LoginView: View {
             
             //MARK: 이메일로 로그인
             HStack {
-                TextField("이메일을 입력하세요", text: $authenticationStore.email)
+                TextField("이메일을 입력하세요", text: $authManager.email)
                     .font(.subheadline)
                     .textInputAutocapitalization(.never) // 대문자 금지
                     .disableAutocorrection(true)         // 자동 수정 금지
@@ -75,7 +75,7 @@ struct LoginView: View {
             }
             
             HStack {
-                SecureField("비밀번호를 입력하세요", text: $authenticationStore.password)
+                SecureField("비밀번호를 입력하세요", text: $authManager.password)
                     .font(.subheadline)
                     .focused($focus, equals: .password)
                     .submitLabel(.go)
@@ -91,7 +91,7 @@ struct LoginView: View {
             }
             
             Button(action: signInWithEmailPassword) {
-                if authenticationStore.authenticationState != .authenticating {
+                if authManager.authenticationState != .authenticating {
                     Text("이메일로 로그인")
                         .padding(.vertical, 8)
                         .frame(maxWidth: .infinity)
@@ -103,7 +103,7 @@ struct LoginView: View {
                         .frame(maxWidth: .infinity)
                 }
             }
-            .disabled(!authenticationStore.isValid)
+            .disabled(!authManager.isValid)
             .frame(maxWidth: .infinity)
             .buttonStyle(.borderedProminent)
             
@@ -113,6 +113,7 @@ struct LoginView: View {
                 VStack { Divider() }
             }
             
+            // 구글로 로그인
             Button(action: signInWithGoogle) {
                 Text("Sign in with Google")
                     .padding(.vertical, 8)
@@ -127,7 +128,7 @@ struct LoginView: View {
             
             HStack {
                 Text("Don't have an account yet?")
-                Button(action: { authenticationStore.switchFlow() }) {
+                Button(action: { authManager.switchFlow() }) {
                     Text("Sign up")
                         .fontWeight(.semibold)
                         .foregroundColor(.blue)
@@ -143,5 +144,5 @@ struct LoginView: View {
 
 #Preview {
     LoginView()
-        .environmentObject(AuthenticationStore())
+        .environmentObject(AuthManager())
 }
