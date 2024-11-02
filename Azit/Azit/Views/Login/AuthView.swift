@@ -26,6 +26,12 @@ struct AuthView: View {
             case .authenticated:
                 VStack {
                     Text("로그인 후 뷰")
+                    Button {
+                        authManager.signOut()
+                    } label: {
+                        Text("로그아웃")
+                    }
+
                 }
             }
         }
