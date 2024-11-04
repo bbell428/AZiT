@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8BD71F7E2CD4BB280030693B /* CustomCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F7D2CD4BB1A0030693B /* CustomCameraView.swift */; };
 		8EAFEFA92CD4528E00136348 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EAFEFA32CD4528E00136348 /* Preview Assets.xcassets */; };
 		8EAFEFAA2CD4528E00136348 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EAFEFA52CD4528E00136348 /* Assets.xcassets */; };
 		8EAFEFAB2CD4528E00136348 /* AzitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFEFA62CD4528E00136348 /* AzitApp.swift */; };
@@ -54,6 +55,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8BD71F7D2CD4BB1A0030693B /* CustomCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCameraView.swift; sourceTree = "<group>"; };
 		8EAFEF762CD4524500136348 /* Azit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Azit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EAFEF862CD4524600136348 /* AzitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EAFEF902CD4524600136348 /* AzitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -246,6 +248,7 @@
 		8EAFF0002CD4A04900136348 /* Upload */ = {
 			isa = PBXGroup;
 			children = (
+				8BD71F7D2CD4BB1A0030693B /* CustomCameraView.swift */,
 				8EAFF0102CD4A32F00136348 /* UploadView.swift */,
 			);
 			path = Upload;
@@ -424,6 +427,7 @@
 			files = (
 				8EAFEFB82CD45CCE00136348 /* ChatRoom.swift in Sources */,
 				8EAFEFAB2CD4528E00136348 /* AzitApp.swift in Sources */,
+				8BD71F7E2CD4BB280030693B /* CustomCameraView.swift in Sources */,
 				8EAFEFAC2CD4528E00136348 /* MainView.swift in Sources */,
 				8EAFF0132CD4A33600136348 /* MessageView.swift in Sources */,
 				8EAFF0112CD4A32F00136348 /* UploadView.swift in Sources */,
