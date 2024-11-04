@@ -8,22 +8,19 @@
 import SwiftUI
 
 struct MessageView: View {
-    @EnvironmentObject var viewModel: ChatListStore
-    
     var body: some View {
-        GeometryReader { geometry in
-            VStack {
-                MessageTopBar() // 상단바
-                    .frame(width: geometry.size.width, height: geometry.size.height * 0.1)
-                
-                MessageList() // 메시지 목록
-                    .frame(width: geometry.size.width, height: geometry.size.height * 0.9)
-                    .refreshable {
-                        // 메시지 새로 고침 로직
-                    }
-            }
-            .onAppear {
-                viewModel.fetchChatList()
+        NavigationStack {
+            GeometryReader { geometry in
+                VStack {
+                    MessageTopBar() // 상단바
+                        .frame(width: geometry.size.width, height: geometry.size.height * 0.1)
+                    
+                    MessageList() // 메시지 목록
+                        .frame(width: geometry.size.width, height: geometry.size.height * 0.9)
+                        .refreshable {
+                            // 메시지 새로 고침 로직
+                        }
+                }
             }
         }
     }
@@ -31,27 +28,25 @@ struct MessageView: View {
 
 struct MessageTopBar: View {
     var body: some View {
-        NavigationStack {
-            GeometryReader { geometry in
-                HStack {
-                    // 첫 번째 영역 (왼쪽 빈 공간)
-                    Color.clear
-                        .frame(maxWidth: .infinity)
+        GeometryReader { geometry in
+            HStack {
+                // 첫 번째 영역 (왼쪽 빈 공간)
+                Color.clear
+                    .frame(maxWidth: .infinity)
+                
+                // 가운데 텍스트 영역
+                Text("Messages")
+                    .font(.title3)
+                    .fontWeight(.bold)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                
+                // 세 번째 영역 (오른쪽 화살표)
+                Button {
                     
-                    // 가운데 텍스트 영역
-                    Text("Messages")
-                        .font(.title3)
-                        .fontWeight(.bold)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                    
-                    // 세 번째 영역 (오른쪽 화살표)
-                    Button {
-                        
-                    } label: {
-                        Image(systemName: "chevron.right")
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                            .padding(.trailing, 30) // 우측 여백 추가
-                    }
+                } label: {
+                    Image(systemName: "chevron.right")
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                        .padding(.trailing, 30) // 우측 여백 추가
                 }
             }
         }
@@ -59,15 +54,15 @@ struct MessageTopBar: View {
 }
 
 struct MessageList: View {
+    @EnvironmentObject var chatListStore: ChatListStore
+    
     var body: some View {
         GeometryReader { geometry in
             ScrollView {
                 LazyVStack(spacing: 20) {
-                    ForEach(0..<100) { chatroom in
+                    ForEach(chatListStore.chatList, id: \.id) { chatroom in
                         NavigationLink {
-                            VStack {
-                                Text("ㅎㅇ")
-                            }
+                            MessageDetailView()
                         } label: {
                             HStack {
                                 ZStack(alignment: .center) {
@@ -83,16 +78,16 @@ struct MessageList: View {
                                 
                                 VStack(alignment: .leading, spacing: 5) {
                                     HStack {
-                                        Text("박준영")
+                                        Text("\( chatroom.participants.first!)")
                                             .font(.title3)
                                             .fontWeight(.bold)
                                             .foregroundStyle(Color.black)
-                                        Text("4:11 PM")
+                                        Text(chatroom.formattedLastMessageAt)
                                             .font(.subheadline)
                                             .foregroundStyle(.gray)
                                     }
                                     
-                                    Text("너 고양시 근처야 ?")
+                                    Text("\(chatroom.lastMessage)")
                                         .font(.subheadline)
                                         .fontWeight(.thin)
                                         .foregroundStyle(Color.black)
@@ -118,6 +113,12 @@ struct MessageList: View {
                     }
                 }
             }
+        }
+        .onAppear {
+            chatListStore.startTimer() // MessageView가 나타날 때 타이머 시작
+        }
+        .onDisappear {
+            chatListStore.stopTimer() // MessageView가 닫힐 때 타이머 중지
         }
     }
 }
