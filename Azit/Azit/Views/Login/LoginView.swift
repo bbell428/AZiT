@@ -70,7 +70,6 @@ struct LoginView: View {
                         focusType: .password,
                         onSubmit: signInWithEmailPassword
                     )
-                    .frame(width: geometry.size.width * 0.85)
                     
                     //MARK: 자동 로그인 체크박스 추가
                     HStack {
@@ -86,7 +85,6 @@ struct LoginView: View {
                         .foregroundColor(.primary)
                         Spacer()
                     }
-                    .frame(width: geometry.size.width * 0.85)
                     .padding(.vertical, 4)
                     .padding(.bottom, 8)
                     
@@ -97,7 +95,6 @@ struct LoginView: View {
                         isValid: authManager.isValid,
                         action: signInWithEmailPassword
                     )
-                    .frame(width: geometry.size.width * 0.85)
                     
                     // MARK: 회원가입
                     HStack {
@@ -123,7 +120,6 @@ struct LoginView: View {
                             .foregroundStyle(Color.gray)
                         VStack { Divider() }
                     }
-                    .frame(width: geometry.size.width * 0.85)
                     
                     HStack(spacing: 20) {
                         SignInButton(imageName: "GoogleLogo", backColor: .white) {
@@ -138,6 +134,7 @@ struct LoginView: View {
                 .onTapGesture {             // 빈 영역 터치시 함수 호출 -> 키보드 내려감
                     self.endTextEditing()
                 }
+                .frame(width: geometry.size.width * 0.85)
                 .frame(width: geometry.size.width, height: geometry.size.height)
             }
             .ignoresSafeArea(.keyboard) // 키보드 올라올 때 화면 찌부되는 거 사라지게 함

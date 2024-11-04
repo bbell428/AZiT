@@ -27,10 +27,11 @@ extension AuthManager {
         }
     }
     
-    func signUpWithEmailPassword() async -> Bool {
+    func signUpWithEmailPassword(_ fullEmail: String) async -> Bool {
+        email = fullEmail // 로그인 화면으로 돌아갈 때 그대로 가져옴
         authenticationState = .authenticating
         do  {
-            try await Auth.auth().createUser(withEmail: email, password: password)
+            try await Auth.auth().createUser(withEmail: fullEmail, password: password)
             return true
         }
         catch {
