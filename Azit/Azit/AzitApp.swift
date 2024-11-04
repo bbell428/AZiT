@@ -28,11 +28,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct AzitApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject private var chatListStore = ChatListStore()
+    @StateObject private var chatDetailViewStore = ChatDetailViewStore()
     
     var body: some Scene {
         WindowGroup {
             MessageView()
         }
         .environmentObject(chatListStore)
+        .environmentObject(chatDetailViewStore)
     }
 }

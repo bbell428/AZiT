@@ -60,9 +60,9 @@ struct MessageList: View {
         GeometryReader { geometry in
             ScrollView {
                 LazyVStack(spacing: 20) {
-                    ForEach(chatListStore.chatList, id: \.id) { chatroom in
+                    ForEach(chatListStore.chatRoomList, id: \.id) { chatroom in
                         NavigationLink {
-                            MessageDetailView()
+                            MessageDetailView(roomId: chatroom.roomId)
                         } label: {
                             HStack {
                                 ZStack(alignment: .center) {

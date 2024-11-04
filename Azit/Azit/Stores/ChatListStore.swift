@@ -13,8 +13,8 @@ import Combine
 
 class ChatListStore: ObservableObject {
     private var db = Firestore.firestore() // 파이어베이스
-    @Published private(set) var chatList: [ChatRoom] = [] // 채팅방 리스트
-    var useruid: String = "parkjunyoung" // 사용자 uid (이후 Auth.uid로 대체 예정)
+    @Published private(set) var chatRoomList: [ChatRoom] = [] // 채팅방 리스트
+    var useruid: String = "chu" // 사용자 uid (이후 Auth.uid로 대체 예정)
     private var timer: AnyCancellable? // startTimer()를 주기적으로 호출하기 위한 타이머
     
     init() {
@@ -36,7 +36,7 @@ class ChatListStore: ObservableObject {
         db.collection("Chat")
         /// participants: 채팅방에 참여된 사용자 uid를 기록하는 배열 공간,
         /// 해당 배열값에서 원하는 uid를 검색해서 참여중인 채팅방을 필터링하기 위함.
-            .whereField("participants", arrayContains: "parkjunyoung")
+            .whereField("participants", arrayContains: "chu")
         // 정보 갱신을 위한 리스너
             .addSnapshotListener { documentSnapshot, error in
                 guard let document = documentSnapshot?.documents else {
@@ -44,35 +44,19 @@ class ChatListStore: ObservableObject {
                     return
                 }
                 
-                self.chatList = document.compactMap { document -> ChatRoom? in
+                self.chatRoomList = document.compactMap { document -> ChatRoom? in
                     do {
                         return try document.data(as: ChatRoom.self)
                     } catch {
-                        print("메시지 문서를 디코딩하는데 오류가 발생했습니다 : \(error)")
+                        print("채팅방 디코딩하는데 오류가 발생했습니다 : \(error)")
                         return nil
                     }
                 }
                 
-                // 이름순서대로 정렬
-                // self.chatList.sort { $0.participants.first! < $1.participants.first! }
-                
                 // 가장 최근에 받은 메시지대로 정렬
-                self.chatList.sort { $0.lastMessageAt > $1.lastMessageAt }
-                
-                //                document.documentChanges.forEach { diff in
-                //                    do {
-                //                        let chatRoom = try diff.document.data(as: ChatRoom.self)
-                //                        switch diff.type {
-                //                        case .added: print("New : \(diff.document.data())")
-                //                        case .modified: print("Modified : \(diff.document.data())")
-                //                        case .removed: print("Removed : \(diff.document.data())")
-                //                        }
-                //                    } catch {
-                //                        print("디코딩 실패")
-                //                    }
-                //                }
+                self.chatRoomList.sort { $0.lastMessageAt > $1.lastMessageAt }
+                print("메시지 : \(self.chatRoomList)")
             }
-        print("메시지 : \(self.chatList)")
     }
     
     // 날짜를 포맷하는 함수

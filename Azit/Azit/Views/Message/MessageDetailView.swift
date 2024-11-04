@@ -45,10 +45,12 @@ struct CustomNavigationView<Content: View>: UIViewControllerRepresentable {
 }
 
 struct MessageDetailView: View {
+    @EnvironmentObject var chatDetailViewStore: ChatDetailViewStore
     @Environment(\.dismiss) var dismiss
+    var roomId: String
     
     var body: some View {
-        CustomNavigationView {
+        NavigationStack {
             VStack {
                 // 채팅방 상단 (dismiss를 사용하기 위한 클로저 처리)
                 MessageDetailTopBar(dismissAction: { dismiss() })
@@ -58,15 +60,19 @@ struct MessageDetailView: View {
                 TextMessage()
                 
                 // 메시지 입력 공간
-                MessageField()
+                MessageField(roomId: roomId)
                     .frame(maxHeight: 50)
                     .padding(.bottom)
             }
             .navigationBarBackButtonHidden(true)
+            .onAppear {
+                chatDetailViewStore.getChatMessages(roomId: roomId)
+            }
         }
     }
 }
 
+// 채팅방 상단
 struct MessageDetailTopBar: View {
     let dismissAction: () -> Void
     
@@ -106,12 +112,21 @@ struct MessageDetailTopBar: View {
     }
 }
 
+// 채팅방 메시지 내용
 struct TextMessage: View {
+    @EnvironmentObject var chatDetailViewStore: ChatDetailViewStore
+    
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 20) {
-                SendMessage()
-                PostMessage()
+                ForEach(chatDetailViewStore.chatList, id: \.id) { chat in
+                    if chat.sender == "chu" {
+                        PostMessage(chat: chat)
+                    } else {
+                        SendMessage(chat: chat)
+                    }
+                }
+                //PostMessage()
             }
         }
         .onTapGesture {
@@ -122,6 +137,8 @@ struct TextMessage: View {
 
 // 받은 메시지
 struct SendMessage: View {
+    var chat: Chat
+    
     var body: some View {
         HStack(alignment: .top) {
             Text("\u{1F642}")
@@ -129,7 +146,7 @@ struct SendMessage: View {
                 .padding(.leading, 20)
             
             VStack {
-                Text("안녕하세요")
+                Text(chat.message)
                     .font(.headline)
                     .foregroundStyle(Color.white)
                     .frame(width: 100, height: 200, alignment: .topLeading)
@@ -140,7 +157,7 @@ struct SendMessage: View {
             .padding(.leading, 10)
             
             VStack {
-                Text("오후 1:10")
+                Text(chat.formattedCreateAt)
                     .font(.subheadline)
                     .fontWeight(.light)
                     .foregroundStyle(Color.gray)
@@ -154,10 +171,12 @@ struct SendMessage: View {
 
 // 보낸 메시지
 struct PostMessage: View {
+    var chat: Chat
+    
     var body: some View {
         HStack(alignment: .top) {
             VStack {
-                Text("오후 1:10")
+                Text(chat.formattedCreateAt)
                     .font(.subheadline)
                     .fontWeight(.light)
                     .foregroundStyle(Color.gray)
@@ -166,7 +185,7 @@ struct PostMessage: View {
             }
             
             VStack {
-                Text("안녕하세요")
+                Text(chat.message)
                     .font(.headline)
                     .foregroundStyle(Color.black.opacity(0.5))
                     .frame(width: 100, height: 20, alignment: .topTrailing)
@@ -182,7 +201,9 @@ struct PostMessage: View {
 
 // 메시지를 보내는 공간
 struct MessageField: View {
+    @EnvironmentObject var chatDetailViewStore: ChatDetailViewStore
     @State var text: String = ""
+    var roomId: String
     
     var body: some View {
         HStack {
@@ -192,9 +213,11 @@ struct MessageField: View {
                 .cornerRadius(20)
             
             Button(action: {
-                // 전송 버튼을 눌렀을 때의 동작을 정의합니다.
-                print("메시지 전송: \(text)")
-                text = "" // 메시지 전송 후 입력 필드를 비웁니다.
+                Task {
+                    print("메시지 전송: \(text)")
+                    chatDetailViewStore.sendMessage(text: text, roomId: roomId)
+                    text = "" // 메시지 전송 후 입력 필드를 비웁니다.
+                }
             }) {
                 Image(systemName: "paperplane.fill")
                     .foregroundColor(.accentColor)
@@ -206,5 +229,6 @@ struct MessageField: View {
 }
 
 #Preview {
-    MessageDetailView()
+    MessageDetailView(roomId: "chu_parkjunyoung")
+        .environmentObject(ChatDetailViewStore())
 }
