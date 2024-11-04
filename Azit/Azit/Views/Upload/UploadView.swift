@@ -7,16 +7,19 @@
 
 import SwiftUI
 
+// 업로드 뷰
 struct UploadView: View {
     var body: some View {
-        GeometryReader { geometry in
-                    Text("Hello, SwiftUI!")
-                        .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
-                }
-                
+        VStack {
+            Text("Photo Saved!")
+                .font(.largeTitle)
+                .padding()
+            Spacer()
+        }
+        .navigationBarTitle("Upload View", displayMode: .inline)
     }
 }
-
-#Preview {
-    UploadView()
-}
+//
+//#Preview {
+//    UploadView()
+//}

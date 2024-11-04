@@ -7,7 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8BD71F7E2CD4BB280030693B /* CustomCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F7D2CD4BB1A0030693B /* CustomCameraView.swift */; };
+		8BD71F7E2CD4BB280030693B /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F7D2CD4BB1A0030693B /* CameraView.swift */; };
+		8BD71F802CD89A8C0030693B /* CameraPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F7F2CD89A860030693B /* CameraPreview.swift */; };
+		8BD71F822CD89AC20030693B /* CameraService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F812CD89ABD0030693B /* CameraService.swift */; };
+		8BD71F842CD89AEA0030693B /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F832CD89AE90030693B /* PhotoPicker.swift */; };
+		8BD71F862CD8C4DF0030693B /* EmojiUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F852CD8C4D90030693B /* EmojiUploadView.swift */; };
+		8BD71F882CD8C6300030693B /* PhotoReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F872CD8C62B0030693B /* PhotoReviewView.swift */; };
 		8EAFEFA92CD4528E00136348 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EAFEFA32CD4528E00136348 /* Preview Assets.xcassets */; };
 		8EAFEFAA2CD4528E00136348 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EAFEFA52CD4528E00136348 /* Assets.xcassets */; };
 		8EAFEFAB2CD4528E00136348 /* AzitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFEFA62CD4528E00136348 /* AzitApp.swift */; };
@@ -55,7 +60,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8BD71F7D2CD4BB1A0030693B /* CustomCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCameraView.swift; sourceTree = "<group>"; };
+		8BD71F7D2CD4BB1A0030693B /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		8BD71F7F2CD89A860030693B /* CameraPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreview.swift; sourceTree = "<group>"; };
+		8BD71F812CD89ABD0030693B /* CameraService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraService.swift; sourceTree = "<group>"; };
+		8BD71F832CD89AE90030693B /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
+		8BD71F852CD8C4D90030693B /* EmojiUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiUploadView.swift; sourceTree = "<group>"; };
+		8BD71F872CD8C62B0030693B /* PhotoReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoReviewView.swift; sourceTree = "<group>"; };
 		8EAFEF762CD4524500136348 /* Azit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Azit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EAFEF862CD4524600136348 /* AzitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EAFEF902CD4524600136348 /* AzitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -248,8 +258,13 @@
 		8EAFF0002CD4A04900136348 /* Upload */ = {
 			isa = PBXGroup;
 			children = (
-				8BD71F7D2CD4BB1A0030693B /* CustomCameraView.swift */,
+				8BD71F852CD8C4D90030693B /* EmojiUploadView.swift */,
+				8BD71F7D2CD4BB1A0030693B /* CameraView.swift */,
+				8BD71F7F2CD89A860030693B /* CameraPreview.swift */,
+				8BD71F872CD8C62B0030693B /* PhotoReviewView.swift */,
 				8EAFF0102CD4A32F00136348 /* UploadView.swift */,
+				8BD71F812CD89ABD0030693B /* CameraService.swift */,
+				8BD71F832CD89AE90030693B /* PhotoPicker.swift */,
 			);
 			path = Upload;
 			sourceTree = "<group>";
@@ -426,8 +441,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				8EAFEFB82CD45CCE00136348 /* ChatRoom.swift in Sources */,
+				8BD71F862CD8C4DF0030693B /* EmojiUploadView.swift in Sources */,
 				8EAFEFAB2CD4528E00136348 /* AzitApp.swift in Sources */,
-				8BD71F7E2CD4BB280030693B /* CustomCameraView.swift in Sources */,
+				8BD71F882CD8C6300030693B /* PhotoReviewView.swift in Sources */,
+				8BD71F822CD89AC20030693B /* CameraService.swift in Sources */,
+				8BD71F7E2CD4BB280030693B /* CameraView.swift in Sources */,
+				8BD71F842CD89AEA0030693B /* PhotoPicker.swift in Sources */,
 				8EAFEFAC2CD4528E00136348 /* MainView.swift in Sources */,
 				8EAFF0132CD4A33600136348 /* MessageView.swift in Sources */,
 				8EAFF0112CD4A32F00136348 /* UploadView.swift in Sources */,
@@ -436,6 +455,7 @@
 				8EAFEFB62CD45CB100136348 /* Chat.swift in Sources */,
 				8EAFF00F2CD4A31300136348 /* StoryStore.swift in Sources */,
 				8EAFF0182CD4A36B00136348 /* AuthManager.swift in Sources */,
+				8BD71F802CD89A8C0030693B /* CameraPreview.swift in Sources */,
 				8EAFF0152CD4A33E00136348 /* AlbumView.swift in Sources */,
 				8EAFEFB42CD4582200136348 /* Story.swift in Sources */,
 			);
