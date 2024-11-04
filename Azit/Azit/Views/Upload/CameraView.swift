@@ -9,7 +9,7 @@ import AVFoundation
 import PhotosUI
 
 struct CameraView: View {
-    @ObservedObject var cameraService = CameraService()
+    @ObservedObject var cameraService = Camera()
     @State private var isPhotoTaken = false
     
     var body: some View {

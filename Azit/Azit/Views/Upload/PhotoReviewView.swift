@@ -40,16 +40,11 @@ struct PhotoReviewView: View {
                     .cornerRadius(10)
             }
             .padding(.bottom, 20)
-            
-            NavigationLink(
-                destination: UploadView(),
-                isActive: $showUploadView,
-                label: { EmptyView() }
-            )
         }
-        .navigationBarTitle("", displayMode: .inline)
+        .navigationBarTitle("게시물 공유", displayMode: .inline)
     }
     
+    // firebase storage에 저장
     func savePhoto() {
         guard let image = image else { return }
         UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)

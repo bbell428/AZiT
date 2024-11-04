@@ -9,7 +9,7 @@ import SwiftUI
 
 struct EmojiUploadView: View {
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 Spacer()
                 NavigationLink(destination: CameraView()) {

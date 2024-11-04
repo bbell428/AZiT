@@ -11,6 +11,7 @@ import SwiftUI
 struct AzitApp: App {
     var body: some Scene {
         WindowGroup {
+//            Text("Hello")
             EmojiUploadView()
             //MainView()
         }
