@@ -22,7 +22,6 @@ struct EmojiUploadView: View {
                 }
                 Spacer()
             }
-            .navigationBarTitle("Init View", displayMode: .inline)
         }
     }
 }

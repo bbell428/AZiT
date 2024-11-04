@@ -11,10 +11,15 @@ import PhotosUI
 struct CameraView: View {
     @ObservedObject var cameraService = Camera()
     @State private var isPhotoTaken = false
+    @State private var isGalleryPresented = false
     
     var body: some View {
         VStack {
             ProgressView(value: 1, total: 2)
+                .progressViewStyle(LinearProgressViewStyle())
+                .scaleEffect(x: 1, y: 3, anchor: .center)
+                .frame(height: 10)
+                .cornerRadius(6)
                 .padding()
             
             CameraPreview(session: cameraService.session)
@@ -24,23 +29,41 @@ struct CameraView: View {
             
             Spacer()
             
-            Button(action: {
-                cameraService.capturePhoto()
-            }) {
-                Circle()
-                    .fill(Color.white)
-                    .frame(width: 70, height: 70)
-                    .overlay(
-                        Circle()
-                            .stroke(Color.black, lineWidth: 2)
-                    )
-            }
-            .padding(.bottom, 20)
-            .onReceive(cameraService.$capturedImage) { image in
-                if image != nil {
-                    self.isPhotoTaken = true
+            HStack {
+                Button(action: {
+                    isGalleryPresented = true
+                }) {
+                    Image(systemName: "photo")
+                        .font(.largeTitle)
+                        .foregroundColor(.accentColor)
                 }
+                .padding(.bottom, 20)
+                .sheet(isPresented: $isGalleryPresented) {
+                    PhotoPicker(image: $cameraService.capturedImage) // 갤러리 뷰 표시
+                }
+                Spacer()
+                
+                Button(action: {
+                    cameraService.capturePhoto()
+                }) {
+                    Circle()
+                        .fill(Color.white)
+                        .frame(width: 50, height: 50)
+                        .overlay(
+                            Circle()
+                                .stroke(Color.accentColor, lineWidth: 6)
+                        )
+                }
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.bottom, 20)
+                .onReceive(cameraService.$capturedImage) { image in
+                    if image != nil {
+                        self.isPhotoTaken = true
+                    }
+                }
+                Spacer()
             }
+            .padding()
             
             NavigationLink(
                 destination: PhotoReviewView(image: cameraService.capturedImage),
@@ -48,7 +71,7 @@ struct CameraView: View {
                 label: { EmptyView() }
             )
         }
-        .navigationBarTitle("", displayMode: .inline)
+        .navigationBarTitle("사진 촬영", displayMode: .inline)
     }
 }
 
