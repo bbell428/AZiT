@@ -63,6 +63,7 @@ struct CameraView: View {
                 }
                 Spacer()
             }
+            .frame(maxWidth: .infinity, alignment: .center)
             .padding()
             
             NavigationLink(
