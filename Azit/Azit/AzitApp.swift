@@ -32,8 +32,9 @@ struct AzitApp: App {
     @StateObject private var chatListStore = ChatListStore()
     @StateObject private var chatDetailViewStore = ChatDetailViewStore()
     
+    var body: some Scene {
         WindowGroup {
-            MessageView()
+            AuthView()
         }
         .environmentObject(authManager)
         .environmentObject(userInfoStore)

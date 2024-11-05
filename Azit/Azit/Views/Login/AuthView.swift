@@ -26,14 +26,7 @@ struct AuthView: View {
             case .authenticated:
                 VStack {
                     if authManager.isNicknameExist  {
-                        Text("로그인 후 뷰")
-                        Text("\(authManager.userID)")
-                        Text("\(authManager.email)")
-                        Button {
-                            authManager.signOut()
-                        } label: {
-                            Text("로그아웃")
-                        }
+                        MessageView()
                     } else {
                         ProfileDetailView()
                             .environmentObject(authManager)
@@ -42,7 +35,7 @@ struct AuthView: View {
                 .task {
                     authManager.isNicknameExist =  await userInfoStore.isNicknameExists(for: authManager.userID)
                 }
-                    
+                
             }
         }
     }

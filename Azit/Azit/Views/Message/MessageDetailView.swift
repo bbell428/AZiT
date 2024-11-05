@@ -74,6 +74,7 @@ struct MessageDetailView: View {
 
 // 채팅방 상단
 struct MessageDetailTopBar: View {
+    @EnvironmentObject var authManager: AuthManager
     let dismissAction: () -> Void
     
     var body: some View {
@@ -101,7 +102,7 @@ struct MessageDetailTopBar: View {
             .frame(alignment: .leading)
             .padding(.leading, 10)
             
-            Text("박준영")
+            Text("User Name")
                 .font(.title3)
                 .fontWeight(.bold)
                 .foregroundStyle(Color.black)
