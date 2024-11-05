@@ -12,8 +12,7 @@ import GoogleSignIn
 
 struct AuthView: View {
     @StateObject private var authManager: AuthManager = AuthManager()
-    
-    @State private var isShowingLoginSheet: Bool = false
+    @StateObject private var userInfoStore: UserInfoStore = UserInfoStore()
     
     var body: some View {
         VStack {
@@ -22,17 +21,28 @@ struct AuthView: View {
             case .unauthenticated, .authenticating:
                 VStack {
                     LoginView()
+                        .environmentObject(authManager)
                 }
             case .authenticated:
                 VStack {
-                    Text("로그인 후 뷰")
-                    Button {
-                        authManager.signOut()
-                    } label: {
-                        Text("로그아웃")
+                    if authManager.isNicknameExist  {
+                        Text("로그인 후 뷰")
+                        Text("\(authManager.userID)")
+                        Text("\(authManager.email)")
+                        Button {
+                            authManager.signOut()
+                        } label: {
+                            Text("로그아웃")
+                        }
+                    } else {
+                        ProfileDetailView()
+                            .environmentObject(authManager)
                     }
-
                 }
+                .task {
+                    authManager.isNicknameExist =  await userInfoStore.isNicknameExists(for: authManager.userID)
+                }
+                    
             }
         }
     }

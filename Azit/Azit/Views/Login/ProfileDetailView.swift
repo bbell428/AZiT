@@ -9,14 +9,32 @@ import SwiftUI
 
 struct ProfileDetailView: View {
     @EnvironmentObject var authManager: AuthManager
+    @EnvironmentObject private var userInfoStore: UserInfoStore
+    
     @FocusState private var focus: FocusableField?
     
-    @State var isEmptyNickname: Bool = false
-    @State private var emoji: String = "🤦🏻" // 기본 이모지
+    @State var isShowNickname: Bool = false
+    @State var isShowEmoji: Bool = false // 이모지 존재에따라 테두리 색
+    
+    @State private var emoji: String = "" // 기본 이모지
     @State private var nickname: String = ""
+    @State var isSheetEmoji = false // 이모지 뷰
     
     private func StartAzit() {
-        
+        Task {
+            let newUserInfo = UserInfo(
+                id: authManager.userID,
+                email: authManager.email,
+                nickname: nickname,
+                profileImageName: emoji,
+                previousState: emoji,
+                friends: [],
+                latitude: 0.0,
+                longitude: 0.0
+            )
+            authManager.isNicknameExist.toggle()
+            await userInfoStore.addUserInfo(newUserInfo)
+        }
     }
     
     
@@ -29,23 +47,34 @@ struct ProfileDetailView: View {
                         .fontWeight(.bold)
                         .padding()
                     
-                    Button(action: {
-                        //
-                    }) {
+                    Button {
+                        isSheetEmoji.toggle()
+                    } label: {
                         ZStack {
                             Circle()
                                 .stroke(
-                                    Color.gray,
-                                    style: StrokeStyle(lineWidth: 2, lineCap: .round, dash: [10])
+                                    isShowEmoji ? Color.accentColor : Color.black,
+                                    style: isShowEmoji ? StrokeStyle(lineWidth: 2) : StrokeStyle(lineWidth: 2, lineCap: .round, dash: [10])
+                                    
                                 )
                                 .frame(width: geometry.size.width * 0.4, height: geometry.size.height * 0.2)
                             if emoji == "" {
                                 Image(systemName: "plus")
                                     .font(.system(size: geometry.size.width * 0.1))
                                     .foregroundStyle(Color.accentColor)
+                            } else {
+                                Text(emoji)
+                                    .font(.system(size: geometry.size.width * 0.17))
+                                    .onAppear {
+                                        isShowEmoji = true
+                                    }
                             }
-                            Text(emoji)
-                                .font(.system(size: geometry.size.width * 0.17))
+                        }
+                    }
+                    .onChange(of: emoji) {
+                        // 이모지가 여러 개 입력된 경우 첫 번째 문자만 유지
+                        if emoji.count > 1 {
+                            emoji = String(emoji.suffix(1))
                         }
                     }
                 }
@@ -57,7 +86,7 @@ struct ProfileDetailView: View {
                         inputText: "닉네임을 입력해주세요",
                         nickname: $nickname,
                         focus: $focus,
-                        isEmptyNickname: $isEmptyNickname
+                        isShowNickname: $isShowNickname
                     )
                     
                     Text("닉네임은 추후 변경이 가능하며 2~8자로 입력해주세요.")
@@ -67,17 +96,29 @@ struct ProfileDetailView: View {
                 .frame(width: geometry.size.width * 0.62)
                 
                 Spacer()
-                
+                Button {
+                    authManager.signOut()
+                } label: {
+                    Text("로그아웃")
+                }
                 StartButton(
                     inputText: "시작하기",
                     isLoading: authManager.authenticationState == .authenticating,
-                    isEmptyNickname: isEmptyNickname,
+                    isShowNickname: isShowNickname,
+                    isShowEmoji: isShowEmoji,
                     action: StartAzit
                 )
                 .frame(width: geometry.size.width * 0.85)
                 .multilineTextAlignment(.center)
                 .padding(.bottom, 10)
-                
+            }
+            .sheet(isPresented: $isSheetEmoji) { // 시트로 이모지 뷰 띄움
+                EmojiView(show: $isSheetEmoji, txt: $emoji)
+                    .presentationDetents([.fraction(0.4)])
+            }
+            .contentShape(Rectangle())
+            .onTapGesture {           
+                self.endTextEditing()
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
         }
@@ -88,4 +129,5 @@ struct ProfileDetailView: View {
 #Preview {
     ProfileDetailView()
         .environmentObject(AuthManager())
+        .environmentObject(UserInfoStore())
 }

@@ -25,12 +25,17 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 @main
 struct SyncLightApp: App {
+    @StateObject private var authManager = AuthManager()
+    @StateObject private var userInfoStore  = UserInfoStore()
+    
+    
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     var body: some Scene {
         WindowGroup {
-            ProfileDetailView()
-                .environmentObject(AuthManager())
+            AuthView()
+                .environmentObject(authManager)
+                .environmentObject(userInfoStore)
         }
     }
 }

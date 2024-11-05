@@ -120,6 +120,7 @@ struct LoginView: View {
                             .foregroundStyle(Color.gray)
                         VStack { Divider() }
                     }
+                    .padding(.bottom, 12)
                     
                     HStack(spacing: 20) {
                         SignInButton(imageName: "GoogleLogo", backColor: .white) {

@@ -202,7 +202,7 @@ struct NicknameTextField: View {
     @Binding var nickname: String
     
     @FocusState.Binding var focus: FocusableField?
-    @Binding var isEmptyNickname: Bool
+    @Binding var isShowNickname: Bool
     
     var body: some View {
         TextField("\(inputText)", text: $nickname)
@@ -219,10 +219,10 @@ struct NicknameTextField: View {
                     .stroke(focus == .nickname ? Color.accentColor : Color.black, lineWidth: 1) // 포커스에 따른 테두리 색상
             )
             .onChange(of: nickname) {   // 닉네임 입력하면 활성화 아니라면 비활성화, 2~8자 까지
-                if nickname != "" && nickname.count > 2 && nickname.count < 9 {
-                    isEmptyNickname = true
+                if nickname != "" && nickname.count > 1 && nickname.count < 9 {
+                    isShowNickname = true
                 } else {
-                    isEmptyNickname = false
+                    isShowNickname = false
                 }
             }
       
@@ -233,7 +233,8 @@ struct NicknameTextField: View {
 struct StartButton: View {
     var inputText: String   // 버튼의 텍스트
     var isLoading: Bool     // 로그인 중일 때 로딩 상태
-    var isEmptyNickname: Bool     // 입력 없으면 버튼 비활성
+    var isShowNickname: Bool     // 입력 없으면 버튼 비활성
+    var isShowEmoji: Bool     // 이모지 없으면 버튼 비활성
     var action: () -> Void
     
     var body: some View {
@@ -251,11 +252,66 @@ struct StartButton: View {
                     .frame(maxWidth: .infinity)
             }
         }
-        .disabled(!isEmptyNickname)
+        .disabled(!isShowNickname || !isShowEmoji)
         .buttonStyle(.borderedProminent)
         .cornerRadius(20)
     }
 }
+
+//MARK: 이모지뷰
+struct EmojiView : View {
+    
+    @Binding var show : Bool
+    @Binding var txt : String
+    
+    var body : some View{
+        ZStack(alignment: .topLeading) {
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack(spacing: 15){
+                    ForEach(self.getEmojiList(),id: \.self){i in
+                        HStack(spacing: 25){
+                            ForEach(i,id: \.self){j in
+                                Button(action: {
+                                    self.txt += String(UnicodeScalar(j)!)
+                                }) {
+                                    if (UnicodeScalar(j)?.properties.isEmoji)!{
+                                        Text(String(UnicodeScalar(j)!)).font(.system(size: 55))
+                                    }
+                                    else{
+                                        Text("")
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .padding(.top)
+            }
+            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 3)
+            .background(Color.white)
+            .cornerRadius(25)
+
+            Button(action: {
+                self.show.toggle()
+            }) {
+                Image(systemName: "xmark").foregroundColor(.black)
+            }.padding()
+        }
+    }
+    
+    func getEmojiList()->[[Int]]{
+        var emojis : [[Int]] = []
+        for i in stride(from: 0x1F601, to: 0x1F64F, by: 4){
+            var temp : [Int] = []
+            for j in i...i+3{
+                temp.append(j)
+            }
+            emojis.append(temp)
+        }
+        return emojis
+    }
+}
+
 
 
 //MARK: 텍스트필드 제외하고 빈 곳 터치하면 키보드 내리기
@@ -267,5 +323,3 @@ extension View {
         )
     }
 }
-
-

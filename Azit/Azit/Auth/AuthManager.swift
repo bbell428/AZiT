@@ -33,7 +33,6 @@ enum AuthenticationError: Error {
 @MainActor
 class AuthManager: ObservableObject {
     @Published var name: String = "unkown"
-    
     @Published var email: String = ""
     @Published var password: String = ""
     @Published var confirmPassword: String = ""
@@ -44,8 +43,10 @@ class AuthManager: ObservableObject {
     @Published var authenticationState: AuthenticationState = .unauthenticated
     @Published var errorMessage: String = ""
     @Published var user: User?
-    @Published var displayName: String = ""
+    @Published var userID: String = ""
     
+    @Published var isNicknameExist: Bool  = false
+
     init() {
         registerAuthStateHandler()
         
@@ -66,7 +67,8 @@ class AuthManager: ObservableObject {
             authStateHandler = Auth.auth().addStateDidChangeListener { auth, user in
                 self.user = user
                 self.authenticationState = user == nil ? .unauthenticated : .authenticated
-                self.displayName = user?.email ?? ""
+                self.email = user?.email ?? ""
+                self.userID = user?.uid ?? ""
             }
         }
     }

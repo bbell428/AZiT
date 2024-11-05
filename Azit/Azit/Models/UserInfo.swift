@@ -14,6 +14,6 @@ struct UserInfo: Codable, Equatable, Identifiable {
     var profileImageName: String // 프로필 이모티콘
     var previousState: String // 이전 이모티콘 상태 저장
     var friends: [String] // 유저 uid
-    var latitude: Double = 0.0 // 위도
-    var longitude: Double = 0.0 // 경도
+    var latitude: Double // 위도
+    var longitude: Double // 경도
 }

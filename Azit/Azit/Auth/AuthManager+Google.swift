@@ -39,6 +39,9 @@ extension AuthManager {
             
             let result = try await Auth.auth().signIn(with: credential)
             let firebaseUser = result.user
+            
+            self.userID = "\(firebaseUser.uid)"
+            self.email = "\(firebaseUser.email ?? "")"
             print("User \(firebaseUser.uid) signed in with email \(firebaseUser.email ?? "unknown")")
             return true
         }
