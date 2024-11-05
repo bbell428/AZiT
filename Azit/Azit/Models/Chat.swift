@@ -9,7 +9,7 @@ import Foundation
 import FirebaseFirestore
 
 struct Chat: Codable, Identifiable {
-    @DocumentID var id: String? // 채팅방 id
+    var id: String? // 채팅방 id
     var createAt: Date // 보낸 날짜
     var message: String // 메시지 내용
     var sender: String // 보낸 사람의 uid

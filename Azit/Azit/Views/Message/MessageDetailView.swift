@@ -60,7 +60,7 @@ struct MessageDetailView: View {
                 TextMessage()
                 
                 // 메시지 입력 공간
-                MessageField(roomId: roomId)
+                MessageSendField(roomId: roomId)
                     .frame(maxHeight: 50)
                     .padding(.bottom)
             }
@@ -117,17 +117,34 @@ struct TextMessage: View {
     @EnvironmentObject var chatDetailViewStore: ChatDetailViewStore
     
     var body: some View {
-        ScrollView {
-            LazyVStack(spacing: 20) {
-                ForEach(chatDetailViewStore.chatList, id: \.id) { chat in
-                    if chat.sender == "chu" {
-                        PostMessage(chat: chat)
-                    } else {
-                        SendMessage(chat: chat)
+        ScrollViewReader { proxy in
+            ScrollView {
+                LazyVStack(spacing: 20) {
+                    ForEach(chatDetailViewStore.chatList, id: \.id) { chat in
+                        if chat.sender == "parkjunyoung" {
+                            PostMessage(chat: chat)
+                        } else {
+                            SendMessage(chat: chat)
+                        }
                     }
+                    Rectangle()
+                        .fill(Color.white)
+                        .id("Bottom")
+                    //PostMessage()
                 }
-                //PostMessage()
+                .onAppear {
+                    proxy.scrollTo("Bottom", anchor: .bottom)
+                }
+                .onChange(of: chatDetailViewStore.lastMessageId) { id, _ in
+                        proxy.scrollTo("Bottom", anchor: .bottom)
+                }
             }
+            //            .task(id: chatDetailViewStore.lastMessageId) {
+            //                print("\(chatDetailViewStore.lastMessageId)")
+            //                withAnimation {
+            //                    proxy.scrollTo(chatDetailViewStore.lastMessageId, anchor: .bottom)
+            //                }
+            //            }
         }
         .onTapGesture {
             UIApplication.shared.endEditing()
@@ -135,72 +152,8 @@ struct TextMessage: View {
     }
 }
 
-// 받은 메시지
-struct SendMessage: View {
-    var chat: Chat
-    
-    var body: some View {
-        HStack(alignment: .top) {
-            Text("\u{1F642}")
-                .font(.largeTitle)
-                .padding(.leading, 20)
-            
-            VStack {
-                Text(chat.message)
-                    .font(.headline)
-                    .foregroundStyle(Color.white)
-                    .frame(width: 100, height: 200, alignment: .topLeading)
-                    .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
-            }
-            .background(.accent)
-            .cornerRadius(15)
-            .padding(.leading, 10)
-            
-            VStack {
-                Text(chat.formattedCreateAt)
-                    .font(.subheadline)
-                    .fontWeight(.light)
-                    .foregroundStyle(Color.gray)
-                    .frame(height: 200, alignment: .bottomLeading)
-                    .padding(.top, 15)
-            }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
-}
-
-// 보낸 메시지
-struct PostMessage: View {
-    var chat: Chat
-    
-    var body: some View {
-        HStack(alignment: .top) {
-            VStack {
-                Text(chat.formattedCreateAt)
-                    .font(.subheadline)
-                    .fontWeight(.light)
-                    .foregroundStyle(Color.gray)
-                    .frame(height: 20, alignment: .bottomTrailing)
-                    .padding(.top, 15)
-            }
-            
-            VStack {
-                Text(chat.message)
-                    .font(.headline)
-                    .foregroundStyle(Color.black.opacity(0.5))
-                    .frame(width: 100, height: 20, alignment: .topTrailing)
-                    .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
-            }
-            .background(Color.gray.opacity(0.4))
-            .cornerRadius(15)
-            .padding(.trailing, 30)
-        }
-        .frame(maxWidth: .infinity, alignment: .trailing)
-    }
-}
-
 // 메시지를 보내는 공간
-struct MessageField: View {
+struct MessageSendField: View {
     @EnvironmentObject var chatDetailViewStore: ChatDetailViewStore
     @State var text: String = ""
     var roomId: String

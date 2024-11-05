@@ -14,7 +14,7 @@ import Combine
 class ChatListStore: ObservableObject {
     private var db = Firestore.firestore() // 파이어베이스
     @Published private(set) var chatRoomList: [ChatRoom] = [] // 채팅방 리스트
-    var useruid: String = "chu" // 사용자 uid (이후 Auth.uid로 대체 예정)
+    var useruid: String = "parkjunyoung" // 사용자 uid (이후 Auth.uid로 대체 예정)
     private var timer: AnyCancellable? // startTimer()를 주기적으로 호출하기 위한 타이머
     
     init() {
@@ -36,7 +36,7 @@ class ChatListStore: ObservableObject {
         db.collection("Chat")
         /// participants: 채팅방에 참여된 사용자 uid를 기록하는 배열 공간,
         /// 해당 배열값에서 원하는 uid를 검색해서 참여중인 채팅방을 필터링하기 위함.
-            .whereField("participants", arrayContains: "chu")
+            .whereField("participants", arrayContains: "parkjunyoung")
         // 정보 갱신을 위한 리스너
             .addSnapshotListener { documentSnapshot, error in
                 guard let document = documentSnapshot?.documents else {
