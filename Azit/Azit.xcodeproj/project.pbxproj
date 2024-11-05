@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		8B3FE8AE2CD9E23E000A4519 /* EmojiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3FE8AD2CD9E239000A4519 /* EmojiView.swift */; };
-		8BCB839C2CDA104B00C49011 /* EmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 8BCB839B2CDA104B00C49011 /* EmojiPicker */; };
 		8BCB83A02CDA2A3500C49011 /* PublishScopeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCB839F2CDA2A3300C49011 /* PublishScopeView.swift */; };
 		8BD71F7E2CD4BB280030693B /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F7D2CD4BB1A0030693B /* CameraView.swift */; };
 		8BD71F802CD89A8C0030693B /* CameraPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F7F2CD89A860030693B /* CameraPreview.swift */; };
@@ -54,6 +53,7 @@
 		CE1859272CD9F08D004A8960 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE1859262CD9F08D004A8960 /* GoogleService-Info.plist */; };
 		CE374EAD2CD79F6300601AA7 /* ChatListStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE374EAC2CD79F6300601AA7 /* ChatListStore.swift */; };
 		CE3A16E22CD85A5B0045DB52 /* MessageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A16E12CD85A5B0045DB52 /* MessageDetailView.swift */; };
+		CE89D79E2CDA8D1600DC73A8 /* EmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = CE89D79D2CDA8D1600DC73A8 /* EmojiPicker */; };
 		EA3F965E2CD8B19C009904C0 /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA3F965D2CD8B19C009904C0 /* ProfileDetailView.swift */; };
 		EAD18AE52CD6719600AF3013 /* LoginSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD18AE42CD6719600AF3013 /* LoginSubView.swift */; };
 		EAF840742CD9B56200F23839 /* UserInfoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF840732CD9B56200F23839 /* UserInfoStore.swift */; };
@@ -153,7 +153,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8EAFEFC52CD45D8D00136348 /* FirebaseMessaging in Frameworks */,
-				8BCB839C2CDA104B00C49011 /* EmojiPicker in Frameworks */,
+				CE89D79E2CDA8D1600DC73A8 /* EmojiPicker in Frameworks */,
 				8EAFEFBF2CD45D8D00136348 /* FirebaseDatabase in Frameworks */,
 				8EAFEFD12CD45F0700136348 /* FirebaseCore in Frameworks */,
 				8EAFEFD32CD45F5A00136348 /* FirebaseFunctions in Frameworks */,
@@ -385,7 +385,7 @@
 				8EAFEFD02CD45F0700136348 /* FirebaseCore */,
 				8EAFEFD22CD45F5A00136348 /* FirebaseFunctions */,
 				8EAFEFD42CD45F5A00136348 /* FirebaseFunctionsCombine-Community */,
-				8BCB839B2CDA104B00C49011 /* EmojiPicker */,
+				CE89D79D2CDA8D1600DC73A8 /* EmojiPicker */,
 			);
 			productName = Azit;
 			productReference = 8EAFEF762CD4524500136348 /* Azit.app */;
@@ -472,7 +472,7 @@
 			packageReferences = (
 				8EAFEFB92CD45D8D00136348 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				8EAFEFCA2CD45DC600136348 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
-				8BCB839A2CDA0FC500C49011 /* XCRemoteSwiftPackageReference "EmojiPicker" */,
+				CE89D79C2CDA8D1600DC73A8 /* XCRemoteSwiftPackageReference "EmojiPicker" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 8EAFEF772CD4524500136348 /* Products */;
@@ -719,8 +719,8 @@
 				DEVELOPMENT_TEAM = 6R3M7VGRP2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "앱에서 사진을 촬영하기 위해 카메라 접근이 필요합니다.";
 				INFOPLIST_FILE = Azit/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "앱에서 사진을 촬영하기 위해 카메라 접근이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -752,8 +752,8 @@
 				DEVELOPMENT_TEAM = 6R3M7VGRP2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "앱에서 사진을 촬영하기 위해 카메라 접근이 필요합니다.";
 				INFOPLIST_FILE = Azit/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "앱에서 사진을 촬영하기 위해 카메라 접근이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -888,14 +888,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		8BCB839A2CDA0FC500C49011 /* XCRemoteSwiftPackageReference "EmojiPicker" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Kelvas09/EmojiPicker.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.1;
-			};
-		};
 		8EAFEFB92CD45D8D00136348 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -912,14 +904,17 @@
 				minimumVersion = 8.0.0;
 			};
 		};
+		CE89D79C2CDA8D1600DC73A8 /* XCRemoteSwiftPackageReference "EmojiPicker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Kelvas09/EmojiPicker";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		8BCB839B2CDA104B00C49011 /* EmojiPicker */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8BCB839A2CDA0FC500C49011 /* XCRemoteSwiftPackageReference "EmojiPicker" */;
-			productName = EmojiPicker;
-		};
 		8EAFEFBA2CD45D8D00136348 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8EAFEFB92CD45D8D00136348 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
@@ -984,6 +979,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8EAFEFB92CD45D8D00136348 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseFunctionsCombine-Community";
+		};
+		CE89D79D2CDA8D1600DC73A8 /* EmojiPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CE89D79C2CDA8D1600DC73A8 /* XCRemoteSwiftPackageReference "EmojiPicker" */;
+			productName = EmojiPicker;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
