@@ -39,7 +39,6 @@
 		EAF840742CD9B56200F23839 /* UserInfoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF840732CD9B56200F23839 /* UserInfoStore.swift */; };
 		EAF93B852CD4A4D600116035 /* AuthManager+Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF93B842CD4A4D600116035 /* AuthManager+Email.swift */; };
 		EAF93B872CD4A4DC00116035 /* AuthManager+Google.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF93B862CD4A4DC00116035 /* AuthManager+Google.swift */; };
-		EAF93B8B2CD4A4F600116035 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EAF93B882CD4A4F600116035 /* GoogleService-Info.plist */; };
 		EAF93B8E2CD4A50700116035 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF93B8C2CD4A50700116035 /* AuthView.swift */; };
 		EAF93B8F2CD4A50700116035 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF93B8D2CD4A50700116035 /* SignupView.swift */; };
 /* End PBXBuildFile section */
@@ -84,7 +83,6 @@
 		EAF840732CD9B56200F23839 /* UserInfoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoStore.swift; sourceTree = "<group>"; };
 		EAF93B842CD4A4D600116035 /* AuthManager+Email.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthManager+Email.swift"; sourceTree = "<group>"; };
 		EAF93B862CD4A4DC00116035 /* AuthManager+Google.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthManager+Google.swift"; sourceTree = "<group>"; };
-		EAF93B882CD4A4F600116035 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		EAF93B8C2CD4A50700116035 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		EAF93B8D2CD4A50700116035 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		EAF93B902CD4A61A00116035 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -181,7 +179,6 @@
 				8EAFEFA42CD4528E00136348 /* Preview Content */,
 				8EAFEFA52CD4528E00136348 /* Assets.xcassets */,
 				EAF93B902CD4A61A00116035 /* Info.plist */,
-				EAF93B882CD4A4F600116035 /* GoogleService-Info.plist */,
 				8EAFEFB02CD4571D00136348 /* Fonts */,
 				8EAFEFA62CD4528E00136348 /* AzitApp.swift */,
 				8EAFEFEB2CD47A0700136348 /* Auth */,
@@ -423,7 +420,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8EAFEFA92CD4528E00136348 /* Preview Assets.xcassets in Resources */,
-				EAF93B8B2CD4A4F600116035 /* GoogleService-Info.plist in Resources */,
 				8EAFEFAA2CD4528E00136348 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

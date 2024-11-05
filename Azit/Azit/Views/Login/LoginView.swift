@@ -55,6 +55,7 @@ struct LoginView: View {
                                 .fontWeight(.heavy)
                         }
                         .onAppear {
+                            isErrorEmail = true
                             isErrorPassword = true
                         }
                     }
