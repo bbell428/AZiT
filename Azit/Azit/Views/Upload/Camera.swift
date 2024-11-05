@@ -43,10 +43,19 @@ class Camera: NSObject, ObservableObject {
             self.session.beginConfiguration()
             
             // Add video input
-            let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
-            guard let videoDeviceInput = try? AVCaptureDeviceInput(device: videoDevice!), self.session.canAddInput(videoDeviceInput) else { return }
-            self.session.addInput(videoDeviceInput)
-            self.videoDeviceInput = videoDeviceInput
+            if let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
+                do {
+                    let videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
+                    if self.session.canAddInput(videoDeviceInput) {
+                        self.session.addInput(videoDeviceInput)
+                        self.videoDeviceInput = videoDeviceInput
+                    }
+                } catch {
+                    print("Error setting up video input: \(error)")
+                }
+            } else {
+                print("No video device available")
+            }
             
             // Add photo output
             if self.session.canAddOutput(self.photoOutput) {
@@ -75,9 +84,18 @@ class Camera: NSObject, ObservableObject {
     
     func capturePhoto() {
         sessionQueue.async {
-            let settings = AVCapturePhotoSettings()
-            self.photoOutput.capturePhoto(with: settings, delegate: self)
-        }
+                guard let videoConnection = self.photoOutput.connection(with: .video) else {
+                    print("No video connection available")
+                    return
+                }
+                
+                if videoConnection.isActive {
+                    let settings = AVCapturePhotoSettings()
+                    self.photoOutput.capturePhoto(with: settings, delegate: self)
+                } else {
+                    print("Video connection is not active")
+                }
+            }
     }
 }
 

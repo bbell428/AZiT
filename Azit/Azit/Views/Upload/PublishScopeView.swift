@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct PublishScopeView: View {
-    var friend1: UserInfo = .init(id: "1", email: "",nickname: "Hong", profileImageName: "😋",previousState: "",friends: [])
-    var friend2: UserInfo = .init(id: "2", email: "",nickname: "Hong", profileImageName: "🩵",previousState: "",friends: [])
-    var friend3: UserInfo = .init(id: "3", email: "",nickname: "Hong", profileImageName: "🤩",previousState: "",friends: [])
-    var friend4: UserInfo = .init(id: "4", email: "",nickname: "Hong", profileImageName: "🐼",previousState: "",friends: [])
+    var friend1: UserInfo = .init(id: "1", email: "",nickname: "Hong", profileImageName: "😋",previousState: "",friends: [], latitude: 0.0, longitude: 0.0)
+    var friend2: UserInfo = .init(id: "2", email: "",nickname: "Hong", profileImageName: "🩵",previousState: "",friends: [], latitude: 0.0, longitude: 0.0)
+    var friend3: UserInfo = .init(id: "3", email: "",nickname: "Hong", profileImageName: "🤩",previousState: "",friends: [], latitude: 0.0, longitude: 0.0)
+    var friend4: UserInfo = .init(id: "4", email: "",nickname: "Hong", profileImageName: "🐼",previousState: "",friends: [], latitude: 0.0, longitude: 0.0)
     
     @State var isSelected: Bool = false
     @State var AllSelected: Bool = true
