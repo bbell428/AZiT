@@ -7,12 +7,19 @@
 
 import SwiftUI
 
+// 업로드 뷰
 struct UploadView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Text("Photo Saved!")
+                .font(.largeTitle)
+                .padding()
+            Spacer()
+        }
+        .navigationBarTitle("Upload View", displayMode: .inline)
     }
 }
-
-#Preview {
-    UploadView()
-}
+//
+//#Preview {
+//    UploadView()
+//}
