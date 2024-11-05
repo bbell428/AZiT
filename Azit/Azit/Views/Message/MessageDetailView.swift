@@ -136,7 +136,7 @@ struct TextMessage: View {
                     proxy.scrollTo("Bottom", anchor: .bottom)
                 }
                 .onChange(of: chatDetailViewStore.lastMessageId) { id, _ in
-                        proxy.scrollTo("Bottom", anchor: .bottom)
+                    proxy.scrollTo("Bottom", anchor: .bottom)
                 }
             }
             //            .task(id: chatDetailViewStore.lastMessageId) {
@@ -164,6 +164,13 @@ struct MessageSendField: View {
                 .padding()
                 .background(Color(UIColor.systemGray6))
                 .cornerRadius(20)
+                .onSubmit {
+                    Task {
+                        print("메시지 전송: \(text)")
+                        chatDetailViewStore.sendMessage(text: text, roomId: roomId)
+                        text = "" // 메시지 전송 후 입력 필드를 비웁니다.
+                    }
+                }
             
             Button(action: {
                 Task {
