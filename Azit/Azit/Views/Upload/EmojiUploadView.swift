@@ -37,32 +37,32 @@ struct EmojiUploadView: View {
     @State var isUploading: Bool = false
     
     var body: some View {
-        ZStack {
-            // 상태 업로드 버튼
-            VStack {
-                Button(action: {
-                    displayEmojiPicker = true
-                }) {
-                    Text("Upload My Status")
-                        .padding()
-                        .background(Color.orange)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
+            ZStack {
+                // 상태 업로드 버튼
+                VStack {
+                    Button(action: {
+                        displayEmojiPicker = true
+                    }) {
+                        Text("Upload My Status")
+                            .padding()
+                            .background(Color.orange)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                }
+                
+                // 팝업창 모달
+                if displayEmojiPicker {
+                    Color.black.opacity(0.4)
+                        .edgesIgnoringSafeArea(.all)
+                        .onTapGesture {
+                            displayEmojiPicker = false // 배경 터치 시 닫기
+                        }
+                    
+                    EmojiView(message: $message, selectedEmoji: $selectedEmoji)
                 }
             }
-            
-            // 팝업창 모달
-            if displayEmojiPicker {
-                Color.black.opacity(0.4)
-                    .edgesIgnoringSafeArea(.all)
-                    .onTapGesture {
-                        displayEmojiPicker = false // 배경 터치 시 닫기
-                    }
-                
-                    EmojiView(message: $message, selectedEmoji: $selectedEmoji)
-            }
-        }
-        .animation(.easeInOut, value: displayEmojiPicker)
+            .animation(.easeInOut, value: displayEmojiPicker)
     }
 }
 

@@ -45,13 +45,9 @@ struct EmojiView : View {
                             }
                         }
                     }
-//                            .navigationTitle("States")
-//                            .navigationBarTitleDisplayMode(.inline)
                     
                     }.frame(width: UIScreen.main.bounds.width*0.9, height: UIScreen.main.bounds.height * 1.1 / 3)
                     .padding(.bottom)
-//                    .background(Color.subColor4)
-//                    .cornerRadius(25)
                 
                 // 메시지 입력
                 TextField("상태 메시지를 입력하세요.", text: $message)
@@ -73,25 +69,6 @@ struct EmojiView : View {
                 .padding(.bottom, 20)
             }
             .frame(width: 365, height: 500) // 팝업창 크기
-//            .toolbar {
-//                ToolbarItem(placement: .navigationBarLeading) {
-//                    Image(systemName: "location.fill")
-//                        .foregroundStyle(Color.accentColor)
-//                    Text("경기도 고양시")
-//                        .font(.caption2)
-//                }
-//                ToolbarItem(placement: .navigationBarTrailing) {
-//                    Button(action: {
-//                        isShowingsheet.toggle()
-//                    }) {
-//                        HStack {
-//                            Image(systemName: "person")
-//                            Text("전체 공개 >")
-//                                .font(.caption2)
-//                        }
-//                    }
-//                }
-//            }
             .background(
                 RoundedRectangle(cornerRadius: 15)
                     .fill(Color.subColor4)
