@@ -190,14 +190,14 @@
 		8EAFEFA82CD4528E00136348 /* Azit */ = {
 			isa = PBXGroup;
 			children = (
-				CE1859262CD9F08D004A8960 /* GoogleService-Info.plist */,
-				8EAFEFA42CD4528E00136348 /* Preview Content */,
 				8EAFEFA52CD4528E00136348 /* Assets.xcassets */,
-				EAF93B902CD4A61A00116035 /* Info.plist */,
-				8EAFEFB02CD4571D00136348 /* Fonts */,
-				8EAFEFA62CD4528E00136348 /* AzitApp.swift */,
 				8EAFEFEB2CD47A0700136348 /* Auth */,
+				8EAFEFA62CD4528E00136348 /* AzitApp.swift */,
+				8EAFEFB02CD4571D00136348 /* Fonts */,
+				CE1859262CD9F08D004A8960 /* GoogleService-Info.plist */,
+				EAF93B902CD4A61A00116035 /* Info.plist */,
 				8EAFEFAD2CD4529300136348 /* Models */,
+				8EAFEFA42CD4528E00136348 /* Preview Content */,
 				8EAFEFAF2CD452A600136348 /* Stores */,
 				8EAFEFAE2CD4529E00136348 /* Views */,
 			);
@@ -218,11 +218,11 @@
 		8EAFEFAE2CD4529E00136348 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				8EAFF0012CD4A05C00136348 /* Album */,
 				8EAFEFFF2CD4A04300136348 /* Login */,
 				8EAFEFFD2CD4A03200136348 /* Main */,
-				8EAFF0002CD4A04900136348 /* Upload */,
 				8EAFEFFE2CD4A03C00136348 /* Message */,
-				8EAFF0012CD4A05C00136348 /* Album */,
+				8EAFF0002CD4A04900136348 /* Upload */,
 			);
 			path = Views;
 			sourceTree = "<group>";

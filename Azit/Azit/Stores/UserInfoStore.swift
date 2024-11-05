@@ -15,6 +15,7 @@ import SwiftUICore
 class UserInfoStore: ObservableObject {
     private var authManager: AuthManager = .init()
     @Published var userInfo: UserInfo? = nil
+    @Published var friendInfo: [String: UserInfo] = [:] // UID를 키로 사용하는 딕셔너리 형태
     
     // MARK: - 사용자 정보 Firestore에 추가
     func addUserInfo(_ user: UserInfo) async {
@@ -89,9 +90,41 @@ class UserInfoStore: ObservableObject {
                 latitude: latitude,
                 longitude: longitude
             )
+            
+            print("userinfo: \(String(describing: self.userInfo))")
+            
+            loadFriendsInfo(friendsIDs: userInfo?.friends ?? [])
         } catch {
             print("Error loading user info: \(error)")
         }
+    }
+    
+    func loadFriendsInfo(friendsIDs: [String]) {
+        let db = Firestore.firestore()
+        
+        guard !friendsIDs.isEmpty else {
+            print("친구가 없습니다.")
+            return
+        }
+        
+        db.collection("User")
+            .whereField(FieldPath.documentID(), in: friendsIDs)
+            .addSnapshotListener { documentSnapshot, error in
+                guard let documents = documentSnapshot?.documents else {
+                    print("Error fetching documents: \(String(describing: error))")
+                    return
+                }
+                
+                self.friendInfo = documents.reduce(into: [String: UserInfo]()) { dict, document in
+                    if let userInfo = try? document.data(as: UserInfo.self) {
+                        dict[document.documentID] = userInfo
+                    } else {
+                        print("친구를 불러오는데 오류가 발생했습니다 : \(document.documentID)")
+                    }
+                }
+                
+                print("친구 : \(self.friendInfo)")
+            }
     }
     
     // MARK: - userID에 따른 사용자 정보 목록 로드
@@ -128,23 +161,23 @@ class UserInfoStore: ObservableObject {
     
     // MARK: - 사용자 nickname 존재 확인
     func isNicknameExists(for userID: String) async -> Bool {
-            let db = Firestore.firestore()
-            let documentRef = db.collection("User").document(userID)
+        let db = Firestore.firestore()
+        let documentRef = db.collection("User").document(userID)
+        
+        do {
+            let document = try await documentRef.getDocument()
             
-            do {
-                let document = try await documentRef.getDocument()
-                
-                // 문서가 존재, nickname필드가 존재하면 true
-                if let data = document.data(), data["nickname"] != nil {
-                    return true
-                } else {
-                    return false
-                }
-            } catch {
-                print("Error checking nickname existence: \(error)")
+            // 문서가 존재, nickname필드가 존재하면 true
+            if let data = document.data(), data["nickname"] != nil {
+                return true
+            } else {
                 return false
             }
+        } catch {
+            print("Error checking nickname existence: \(error)")
+            return false
         }
+    }
     
     // MARK: - 사용자 정보 제거
     func deleteUserInfo(userID: String) async throws {

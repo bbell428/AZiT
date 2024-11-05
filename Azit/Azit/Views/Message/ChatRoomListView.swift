@@ -8,6 +8,7 @@ import SwiftUI
 
 struct ChatRoomListView: View {
     @EnvironmentObject var chatListStore: ChatListStore
+    @EnvironmentObject var userInfoStore: UserInfoStore
     
     var body: some View {
         GeometryReader { geometry in
@@ -23,18 +24,31 @@ struct ChatRoomListView: View {
                                         .fill(.subColor3)
                                         .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
                                     
-                                    Text("\u{1F642}")
-                                        .font(.largeTitle)
+                                    if let friend = userInfoStore.friendInfo[chatroom.participants.first ?? ""] {
+                                        Text(friend.profileImageName) // 프로필 이미지가 문자열로 설정된 경우
+                                            .font(.largeTitle)
+                                    } else {
+                                        Text("\u{1F642}") // 기본 이모지
+                                            .font(.largeTitle)
+                                    }
                                 }
                                 .frame(alignment: .leading)
                                 .padding(.leading, 20)
                                 
                                 VStack(alignment: .leading, spacing: 5) {
                                     HStack {
-                                        Text("\( chatroom.participants.first!)")
-                                            .font(.title3)
-                                            .fontWeight(.bold)
-                                            .foregroundStyle(Color.black)
+                                        if let firstParticipantID = chatroom.participants.first,
+                                                   let friend = userInfoStore.friendInfo[firstParticipantID] {
+                                                    Text("\(friend.nickname)") // Display friend's nickname
+                                                        .font(.title3)
+                                                        .fontWeight(.bold)
+                                                        .foregroundStyle(Color.black)
+                                                } else {
+                                                    Text("Unknown") // Fallback if nickname is not found
+                                                        .font(.title3)
+                                                        .fontWeight(.bold)
+                                                        .foregroundStyle(Color.black)
+                                                }
                                         Text(chatroom.formattedLastMessageAt)
                                             .font(.subheadline)
                                             .foregroundStyle(.gray)
@@ -69,6 +83,7 @@ struct ChatRoomListView: View {
         }
         .onAppear {
             chatListStore.startTimer() // MessageView가 나타날 때 타이머 시작
+            //chatListStore.fetchChatRooms()
         }
         .onDisappear {
             chatListStore.stopTimer() // MessageView가 닫힐 때 타이머 중지

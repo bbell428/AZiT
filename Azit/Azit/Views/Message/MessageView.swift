@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct MessageView: View {
+    @EnvironmentObject var userInfoStore: UserInfoStore
+    @EnvironmentObject var authManager: AuthManager
+    @EnvironmentObject var chatListStore: ChatListStore
+    
     var body: some View {
         NavigationStack {
             GeometryReader { geometry in
@@ -21,6 +25,12 @@ struct MessageView: View {
                             // 메시지 새로 고침 로직
                         }
                 }
+            }
+        }
+        .onAppear {
+            Task {
+                await userInfoStore.loadUserInfo(userID: authManager.userID)
+                chatListStore.fetchChatRooms(userId: userInfoStore.userInfo?.id ?? "")
             }
         }
     }
