@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B3FE8AE2CD9E23E000A4519 /* EmojiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3FE8AD2CD9E239000A4519 /* EmojiView.swift */; };
+		8BCB83A02CDA2A3500C49011 /* PublishScopeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCB839F2CDA2A3300C49011 /* PublishScopeView.swift */; };
+		8BD71F7E2CD4BB280030693B /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F7D2CD4BB1A0030693B /* CameraView.swift */; };
+		8BD71F802CD89A8C0030693B /* CameraPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F7F2CD89A860030693B /* CameraPreview.swift */; };
+		8BD71F822CD89AC20030693B /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F812CD89ABD0030693B /* Camera.swift */; };
+		8BD71F842CD89AEA0030693B /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F832CD89AE90030693B /* PhotoPicker.swift */; };
+		8BD71F862CD8C4DF0030693B /* EmojiUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F852CD8C4D90030693B /* EmojiUploadView.swift */; };
+		8BD71F882CD8C6300030693B /* PhotoReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F872CD8C62B0030693B /* PhotoReviewView.swift */; };
+		8BDA11D52CDA769C004242DB /* EmojiPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDA11D42CDA7696004242DB /* EmojiPickerView.swift */; };
+		8E538EE12CD844700094ABD1 /* RotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E538EE02CD844700094ABD1 /* RotationView.swift */; };
+		8E538EE32CD844A50094ABD1 /* ContentsModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E538EE22CD844A50094ABD1 /* ContentsModalView.swift */; };
+		8E538EEB2CD85AB40094ABD1 /* AddContentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E538EEA2CD85AB40094ABD1 /* AddContentsView.swift */; };
 		8EAFEFA92CD4528E00136348 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EAFEFA32CD4528E00136348 /* Preview Assets.xcassets */; };
 		8EAFEFAA2CD4528E00136348 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EAFEFA52CD4528E00136348 /* Assets.xcassets */; };
 		8EAFEFAB2CD4528E00136348 /* AzitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFEFA62CD4528E00136348 /* AzitApp.swift */; };
@@ -34,6 +46,22 @@
 		8EAFF0152CD4A33E00136348 /* AlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFF0142CD4A33E00136348 /* AlbumView.swift */; };
 		8EAFF0182CD4A36B00136348 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFF0172CD4A36B00136348 /* AuthManager.swift */; };
 		8EAFF01A2CD4A37900136348 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFF0192CD4A37900136348 /* LoginView.swift */; };
+		CE062B9E2CD8DB8100CB5D4A /* ChatDetailViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062B9D2CD8DB8100CB5D4A /* ChatDetailViewStore.swift */; };
+		CE062BAC2CD91E2B00CB5D4A /* PostMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062BAB2CD91E2500CB5D4A /* PostMessageView.swift */; };
+		CE062BAE2CD91E6C00CB5D4A /* GetMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062BAD2CD91E6600CB5D4A /* GetMessageView.swift */; };
+		CE062BB02CD91EEE00CB5D4A /* ChatRoomListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062BAF2CD91EE700CB5D4A /* ChatRoomListView.swift */; };
+		CE1859272CD9F08D004A8960 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE1859262CD9F08D004A8960 /* GoogleService-Info.plist */; };
+		CE374EAD2CD79F6300601AA7 /* ChatListStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE374EAC2CD79F6300601AA7 /* ChatListStore.swift */; };
+		CE3A16E22CD85A5B0045DB52 /* MessageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A16E12CD85A5B0045DB52 /* MessageDetailView.swift */; };
+		CE89D79E2CDA8D1600DC73A8 /* EmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = CE89D79D2CDA8D1600DC73A8 /* EmojiPicker */; };
+		EA3F965E2CD8B19C009904C0 /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA3F965D2CD8B19C009904C0 /* ProfileDetailView.swift */; };
+		EAD18AE52CD6719600AF3013 /* LoginSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD18AE42CD6719600AF3013 /* LoginSubView.swift */; };
+		EAF840742CD9B56200F23839 /* UserInfoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF840732CD9B56200F23839 /* UserInfoStore.swift */; };
+		EAF840B32CD9FA0E00F23839 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF840B22CD9FA0E00F23839 /* MyPageView.swift */; };
+		EAF93B852CD4A4D600116035 /* AuthManager+Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF93B842CD4A4D600116035 /* AuthManager+Email.swift */; };
+		EAF93B872CD4A4DC00116035 /* AuthManager+Google.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF93B862CD4A4DC00116035 /* AuthManager+Google.swift */; };
+		EAF93B8E2CD4A50700116035 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF93B8C2CD4A50700116035 /* AuthView.swift */; };
+		EAF93B8F2CD4A50700116035 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF93B8D2CD4A50700116035 /* SignupView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +82,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8B3FE8AD2CD9E239000A4519 /* EmojiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiView.swift; sourceTree = "<group>"; };
+		8BCB839F2CDA2A3300C49011 /* PublishScopeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishScopeView.swift; sourceTree = "<group>"; };
+		8BD71F7D2CD4BB1A0030693B /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		8BD71F7F2CD89A860030693B /* CameraPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreview.swift; sourceTree = "<group>"; };
+		8BD71F812CD89ABD0030693B /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		8BD71F832CD89AE90030693B /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
+		8BD71F852CD8C4D90030693B /* EmojiUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiUploadView.swift; sourceTree = "<group>"; };
+		8BD71F872CD8C62B0030693B /* PhotoReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoReviewView.swift; sourceTree = "<group>"; };
+		8BDA11D42CDA7696004242DB /* EmojiPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiPickerView.swift; sourceTree = "<group>"; };
+		8E538EE02CD844700094ABD1 /* RotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotationView.swift; sourceTree = "<group>"; };
+		8E538EE22CD844A50094ABD1 /* ContentsModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsModalView.swift; sourceTree = "<group>"; };
+		8E538EEA2CD85AB40094ABD1 /* AddContentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContentsView.swift; sourceTree = "<group>"; };
 		8EAFEF762CD4524500136348 /* Azit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Azit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EAFEF862CD4524600136348 /* AzitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EAFEF902CD4524600136348 /* AzitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -71,6 +111,22 @@
 		8EAFF0142CD4A33E00136348 /* AlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumView.swift; sourceTree = "<group>"; };
 		8EAFF0172CD4A36B00136348 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		8EAFF0192CD4A37900136348 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		CE062B9D2CD8DB8100CB5D4A /* ChatDetailViewStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailViewStore.swift; sourceTree = "<group>"; };
+		CE062BAB2CD91E2500CB5D4A /* PostMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMessageView.swift; sourceTree = "<group>"; };
+		CE062BAD2CD91E6600CB5D4A /* GetMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMessageView.swift; sourceTree = "<group>"; };
+		CE062BAF2CD91EE700CB5D4A /* ChatRoomListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomListView.swift; sourceTree = "<group>"; };
+		CE1859262CD9F08D004A8960 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CE374EAC2CD79F6300601AA7 /* ChatListStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListStore.swift; sourceTree = "<group>"; };
+		CE3A16E12CD85A5B0045DB52 /* MessageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailView.swift; sourceTree = "<group>"; };
+		EA3F965D2CD8B19C009904C0 /* ProfileDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailView.swift; sourceTree = "<group>"; };
+		EAD18AE42CD6719600AF3013 /* LoginSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSubView.swift; sourceTree = "<group>"; };
+		EAF840732CD9B56200F23839 /* UserInfoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoStore.swift; sourceTree = "<group>"; };
+		EAF840B22CD9FA0E00F23839 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
+		EAF93B842CD4A4D600116035 /* AuthManager+Email.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthManager+Email.swift"; sourceTree = "<group>"; };
+		EAF93B862CD4A4DC00116035 /* AuthManager+Google.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthManager+Google.swift"; sourceTree = "<group>"; };
+		EAF93B8C2CD4A50700116035 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		EAF93B8D2CD4A50700116035 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
+		EAF93B902CD4A61A00116035 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -97,6 +153,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8EAFEFC52CD45D8D00136348 /* FirebaseMessaging in Frameworks */,
+				CE89D79E2CDA8D1600DC73A8 /* EmojiPicker in Frameworks */,
 				8EAFEFBF2CD45D8D00136348 /* FirebaseDatabase in Frameworks */,
 				8EAFEFD12CD45F0700136348 /* FirebaseCore in Frameworks */,
 				8EAFEFD32CD45F5A00136348 /* FirebaseFunctions in Frameworks */,
@@ -161,12 +218,14 @@
 		8EAFEFA82CD4528E00136348 /* Azit */ = {
 			isa = PBXGroup;
 			children = (
-				8EAFEFA42CD4528E00136348 /* Preview Content */,
 				8EAFEFA52CD4528E00136348 /* Assets.xcassets */,
-				8EAFEFB02CD4571D00136348 /* Fonts */,
-				8EAFEFA62CD4528E00136348 /* AzitApp.swift */,
 				8EAFEFEB2CD47A0700136348 /* Auth */,
+				8EAFEFA62CD4528E00136348 /* AzitApp.swift */,
+				8EAFEFB02CD4571D00136348 /* Fonts */,
+				CE1859262CD9F08D004A8960 /* GoogleService-Info.plist */,
+				EAF93B902CD4A61A00116035 /* Info.plist */,
 				8EAFEFAD2CD4529300136348 /* Models */,
+				8EAFEFA42CD4528E00136348 /* Preview Content */,
 				8EAFEFAF2CD452A600136348 /* Stores */,
 				8EAFEFAE2CD4529E00136348 /* Views */,
 			);
@@ -187,11 +246,12 @@
 		8EAFEFAE2CD4529E00136348 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				EAF840B12CD9F9C100F23839 /* MyPage */,
+				8EAFF0012CD4A05C00136348 /* Album */,
 				8EAFEFFF2CD4A04300136348 /* Login */,
 				8EAFEFFD2CD4A03200136348 /* Main */,
-				8EAFF0002CD4A04900136348 /* Upload */,
 				8EAFEFFE2CD4A03C00136348 /* Message */,
-				8EAFF0012CD4A05C00136348 /* Album */,
+				8EAFF0002CD4A04900136348 /* Upload */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -199,7 +259,10 @@
 		8EAFEFAF2CD452A600136348 /* Stores */ = {
 			isa = PBXGroup;
 			children = (
+				CE374EAC2CD79F6300601AA7 /* ChatListStore.swift */,
+				CE062B9D2CD8DB8100CB5D4A /* ChatDetailViewStore.swift */,
 				8EAFF00E2CD4A31300136348 /* StoryStore.swift */,
+				EAF840732CD9B56200F23839 /* UserInfoStore.swift */,
 			);
 			path = Stores;
 			sourceTree = "<group>";
@@ -215,6 +278,8 @@
 			isa = PBXGroup;
 			children = (
 				8EAFF0172CD4A36B00136348 /* AuthManager.swift */,
+				EAF93B842CD4A4D600116035 /* AuthManager+Email.swift */,
+				EAF93B862CD4A4DC00116035 /* AuthManager+Google.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -223,6 +288,9 @@
 			isa = PBXGroup;
 			children = (
 				8EAFEFA72CD4528E00136348 /* MainView.swift */,
+				8E538EE02CD844700094ABD1 /* RotationView.swift */,
+				8E538EE22CD844A50094ABD1 /* ContentsModalView.swift */,
+				8E538EEA2CD85AB40094ABD1 /* AddContentsView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -230,7 +298,11 @@
 		8EAFEFFE2CD4A03C00136348 /* Message */ = {
 			isa = PBXGroup;
 			children = (
+				CE062BAF2CD91EE700CB5D4A /* ChatRoomListView.swift */,
+				CE3A16E12CD85A5B0045DB52 /* MessageDetailView.swift */,
 				8EAFF0122CD4A33600136348 /* MessageView.swift */,
+				CE062BAB2CD91E2500CB5D4A /* PostMessageView.swift */,
+				CE062BAD2CD91E6600CB5D4A /* GetMessageView.swift */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -238,7 +310,11 @@
 		8EAFEFFF2CD4A04300136348 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				EAF93B8C2CD4A50700116035 /* AuthView.swift */,
 				8EAFF0192CD4A37900136348 /* LoginView.swift */,
+				EAF93B8D2CD4A50700116035 /* SignupView.swift */,
+				EA3F965D2CD8B19C009904C0 /* ProfileDetailView.swift */,
+				EAD18AE42CD6719600AF3013 /* LoginSubView.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -246,7 +322,16 @@
 		8EAFF0002CD4A04900136348 /* Upload */ = {
 			isa = PBXGroup;
 			children = (
+				8BD71F852CD8C4D90030693B /* EmojiUploadView.swift */,
+				8B3FE8AD2CD9E239000A4519 /* EmojiView.swift */,
+				8BDA11D42CDA7696004242DB /* EmojiPickerView.swift */,
+				8BCB839F2CDA2A3300C49011 /* PublishScopeView.swift */,
+				8BD71F7D2CD4BB1A0030693B /* CameraView.swift */,
+				8BD71F7F2CD89A860030693B /* CameraPreview.swift */,
+				8BD71F872CD8C62B0030693B /* PhotoReviewView.swift */,
 				8EAFF0102CD4A32F00136348 /* UploadView.swift */,
+				8BD71F812CD89ABD0030693B /* Camera.swift */,
+				8BD71F832CD89AE90030693B /* PhotoPicker.swift */,
 			);
 			path = Upload;
 			sourceTree = "<group>";
@@ -257,6 +342,14 @@
 				8EAFF0142CD4A33E00136348 /* AlbumView.swift */,
 			);
 			path = Album;
+			sourceTree = "<group>";
+		};
+		EAF840B12CD9F9C100F23839 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				EAF840B22CD9FA0E00F23839 /* MyPageView.swift */,
+			);
+			path = MyPage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -292,6 +385,7 @@
 				8EAFEFD02CD45F0700136348 /* FirebaseCore */,
 				8EAFEFD22CD45F5A00136348 /* FirebaseFunctions */,
 				8EAFEFD42CD45F5A00136348 /* FirebaseFunctionsCombine-Community */,
+				CE89D79D2CDA8D1600DC73A8 /* EmojiPicker */,
 			);
 			productName = Azit;
 			productReference = 8EAFEF762CD4524500136348 /* Azit.app */;
@@ -378,6 +472,7 @@
 			packageReferences = (
 				8EAFEFB92CD45D8D00136348 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				8EAFEFCA2CD45DC600136348 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				CE89D79C2CDA8D1600DC73A8 /* XCRemoteSwiftPackageReference "EmojiPicker" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 8EAFEF772CD4524500136348 /* Products */;
@@ -396,6 +491,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE1859272CD9F08D004A8960 /* GoogleService-Info.plist in Resources */,
 				8EAFEFA92CD4528E00136348 /* Preview Assets.xcassets in Resources */,
 				8EAFEFAA2CD4528E00136348 /* Assets.xcassets in Resources */,
 			);
@@ -422,18 +518,44 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8BDA11D52CDA769C004242DB /* EmojiPickerView.swift in Sources */,
+				EAF93B8E2CD4A50700116035 /* AuthView.swift in Sources */,
+				EAF93B8F2CD4A50700116035 /* SignupView.swift in Sources */,
 				8EAFEFB82CD45CCE00136348 /* ChatRoom.swift in Sources */,
+				8BD71F862CD8C4DF0030693B /* EmojiUploadView.swift in Sources */,
 				8EAFEFAB2CD4528E00136348 /* AzitApp.swift in Sources */,
+				8BD71F882CD8C6300030693B /* PhotoReviewView.swift in Sources */,
+				8BD71F822CD89AC20030693B /* Camera.swift in Sources */,
+				8BCB83A02CDA2A3500C49011 /* PublishScopeView.swift in Sources */,
+				8BD71F7E2CD4BB280030693B /* CameraView.swift in Sources */,
+				8BD71F842CD89AEA0030693B /* PhotoPicker.swift in Sources */,
 				8EAFEFAC2CD4528E00136348 /* MainView.swift in Sources */,
+				EA3F965E2CD8B19C009904C0 /* ProfileDetailView.swift in Sources */,
+				8E538EEB2CD85AB40094ABD1 /* AddContentsView.swift in Sources */,
 				8EAFF0132CD4A33600136348 /* MessageView.swift in Sources */,
 				8EAFF0112CD4A32F00136348 /* UploadView.swift in Sources */,
+				CE374EAD2CD79F6300601AA7 /* ChatListStore.swift in Sources */,
 				8EAFEFB22CD4580800136348 /* UserInfo.swift in Sources */,
+				8B3FE8AE2CD9E23E000A4519 /* EmojiView.swift in Sources */,
+				CE062BAC2CD91E2B00CB5D4A /* PostMessageView.swift in Sources */,
+				CE062B9E2CD8DB8100CB5D4A /* ChatDetailViewStore.swift in Sources */,
+				CE062BB02CD91EEE00CB5D4A /* ChatRoomListView.swift in Sources */,
+				EAF840742CD9B56200F23839 /* UserInfoStore.swift in Sources */,
 				8EAFF01A2CD4A37900136348 /* LoginView.swift in Sources */,
+				EAF840B32CD9FA0E00F23839 /* MyPageView.swift in Sources */,
 				8EAFEFB62CD45CB100136348 /* Chat.swift in Sources */,
+				EAD18AE52CD6719600AF3013 /* LoginSubView.swift in Sources */,
+				EAF93B872CD4A4DC00116035 /* AuthManager+Google.swift in Sources */,
 				8EAFF00F2CD4A31300136348 /* StoryStore.swift in Sources */,
 				8EAFF0182CD4A36B00136348 /* AuthManager.swift in Sources */,
+				8BD71F802CD89A8C0030693B /* CameraPreview.swift in Sources */,
+				EAF93B852CD4A4D600116035 /* AuthManager+Email.swift in Sources */,
+				8E538EE12CD844700094ABD1 /* RotationView.swift in Sources */,
 				8EAFF0152CD4A33E00136348 /* AlbumView.swift in Sources */,
+				8E538EE32CD844A50094ABD1 /* ContentsModalView.swift in Sources */,
 				8EAFEFB42CD4582200136348 /* Story.swift in Sources */,
+				CE062BAE2CD91E6C00CB5D4A /* GetMessageView.swift in Sources */,
+				CE3A16E22CD85A5B0045DB52 /* MessageDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -597,11 +719,14 @@
 				DEVELOPMENT_TEAM = 6R3M7VGRP2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Azit/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "앱에서 사진을 촬영하기 위해 카메라 접근이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -627,11 +752,14 @@
 				DEVELOPMENT_TEAM = 6R3M7VGRP2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Azit/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "앱에서 사진을 촬영하기 위해 카메라 접근이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -776,6 +904,14 @@
 				minimumVersion = 8.0.0;
 			};
 		};
+		CE89D79C2CDA8D1600DC73A8 /* XCRemoteSwiftPackageReference "EmojiPicker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Kelvas09/EmojiPicker";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -843,6 +979,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8EAFEFB92CD45D8D00136348 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseFunctionsCombine-Community";
+		};
+		CE89D79D2CDA8D1600DC73A8 /* EmojiPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CE89D79C2CDA8D1600DC73A8 /* XCRemoteSwiftPackageReference "EmojiPicker" */;
+			productName = EmojiPicker;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
