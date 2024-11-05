@@ -272,7 +272,7 @@ struct StartButton: View {
 }
 
 //MARK: 이모지뷰
-struct EmojiView : View {
+struct EmojiSheetView : View {
     
     @Binding var show : Bool
     @Binding var txt : String

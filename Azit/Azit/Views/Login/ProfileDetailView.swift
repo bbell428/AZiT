@@ -113,7 +113,7 @@ struct ProfileDetailView: View {
                 .padding(.bottom, 10)
             }
             .sheet(isPresented: $isSheetEmoji) { // 시트로 이모지 뷰 띄움
-                EmojiView(show: $isSheetEmoji, txt: $emoji)
+                EmojiSheetView(show: $isSheetEmoji, txt: $emoji)
                     .presentationDetents([.fraction(0.4)])
             }
             .contentShape(Rectangle())
