@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E538EE12CD844700094ABD1 /* RotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E538EE02CD844700094ABD1 /* RotationView.swift */; };
+		8E538EE32CD844A50094ABD1 /* ContentsModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E538EE22CD844A50094ABD1 /* ContentsModalView.swift */; };
+		8E538EEB2CD85AB40094ABD1 /* AddContentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E538EEA2CD85AB40094ABD1 /* AddContentsView.swift */; };
 		8EAFEFA92CD4528E00136348 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EAFEFA32CD4528E00136348 /* Preview Assets.xcassets */; };
 		8EAFEFAA2CD4528E00136348 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EAFEFA52CD4528E00136348 /* Assets.xcassets */; };
 		8EAFEFAB2CD4528E00136348 /* AzitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFEFA62CD4528E00136348 /* AzitApp.swift */; };
@@ -54,6 +57,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8E538EE02CD844700094ABD1 /* RotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotationView.swift; sourceTree = "<group>"; };
+		8E538EE22CD844A50094ABD1 /* ContentsModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsModalView.swift; sourceTree = "<group>"; };
+		8E538EEA2CD85AB40094ABD1 /* AddContentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContentsView.swift; sourceTree = "<group>"; };
 		8EAFEF762CD4524500136348 /* Azit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Azit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EAFEF862CD4524600136348 /* AzitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EAFEF902CD4524600136348 /* AzitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -223,6 +229,9 @@
 			isa = PBXGroup;
 			children = (
 				8EAFEFA72CD4528E00136348 /* MainView.swift */,
+				8E538EE02CD844700094ABD1 /* RotationView.swift */,
+				8E538EE22CD844A50094ABD1 /* ContentsModalView.swift */,
+				8E538EEA2CD85AB40094ABD1 /* AddContentsView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -425,6 +434,7 @@
 				8EAFEFB82CD45CCE00136348 /* ChatRoom.swift in Sources */,
 				8EAFEFAB2CD4528E00136348 /* AzitApp.swift in Sources */,
 				8EAFEFAC2CD4528E00136348 /* MainView.swift in Sources */,
+				8E538EEB2CD85AB40094ABD1 /* AddContentsView.swift in Sources */,
 				8EAFF0132CD4A33600136348 /* MessageView.swift in Sources */,
 				8EAFF0112CD4A32F00136348 /* UploadView.swift in Sources */,
 				8EAFEFB22CD4580800136348 /* UserInfo.swift in Sources */,
@@ -432,7 +442,9 @@
 				8EAFEFB62CD45CB100136348 /* Chat.swift in Sources */,
 				8EAFF00F2CD4A31300136348 /* StoryStore.swift in Sources */,
 				8EAFF0182CD4A36B00136348 /* AuthManager.swift in Sources */,
+				8E538EE12CD844700094ABD1 /* RotationView.swift in Sources */,
 				8EAFF0152CD4A33E00136348 /* AlbumView.swift in Sources */,
+				8E538EE32CD844A50094ABD1 /* ContentsModalView.swift in Sources */,
 				8EAFEFB42CD4582200136348 /* Story.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -21,4 +21,5 @@ struct Story: Codable, Equatable, Identifiable {
     var content: String = "" // 작성글
     
     var publishedTargets: [String] = [] // 공개 대상 (유저 uid)
+    var readUsers: [String] = [] // 게시글을 읽은 사람 (유저 uid)
 }
