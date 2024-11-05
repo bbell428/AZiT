@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MyPageView: View {
+    @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var authManager: AuthManager
     @State private var emoji: String = "🐶"
     @State var isShowEmoji = false
@@ -19,11 +20,11 @@ struct MyPageView: View {
                     Circle()
                         .fill(Color.subColor4)
                         .frame(width: 150, height: 150)
-                    Text(emoji)
+                    Text("\(userInfoStore.userInfo?.profileImageName ?? "🐶")")
                         .font(.system(size: 100))
                 }
                 HStack {
-                    Text("지츄")
+                    Text("\(userInfoStore.userInfo?.nickname ?? "")")
                         .font(.title)
                         .fontWeight(.bold)
                         .foregroundColor(.accentColor)

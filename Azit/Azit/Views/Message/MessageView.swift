@@ -51,7 +51,7 @@ struct MessageView: View {
         }
         .onAppear {
             Task {
-                await userInfoStore.loadUserInfo(userID: authManager.userID)
+                //await userInfoStore.loadUserInfo(userID: authManager.userID)
                 chatListStore.fetchChatRooms(userId: userInfoStore.userInfo?.id ?? "")
             }
         }

@@ -9,6 +9,8 @@ import SwiftUI
 
 struct MainView: View {
     @State private var isModalPresented: Bool = false
+    @EnvironmentObject var userInfoStore: UserInfoStore
+    @EnvironmentObject var authManager: AuthManager
     
     var body: some View {
         NavigationStack {
@@ -63,6 +65,11 @@ struct MainView: View {
                 .zIndex(1)
             }
         }
+        .onAppear {
+            Task {
+                await userInfoStore.loadUserInfo(userID: authManager.userID)
+            }
+        }
     }
 }
 
@@ -98,6 +105,16 @@ struct MainTopView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 30)
                 }
+                
+                NavigationLink {
+                    MyPageView()
+                } label: {
+                    Image(systemName: "person.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 30)
+                }
+
             }
             .padding()
         }
