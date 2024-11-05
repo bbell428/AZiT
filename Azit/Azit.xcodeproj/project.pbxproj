@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		8B3FE8AE2CD9E23E000A4519 /* EmojiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3FE8AD2CD9E239000A4519 /* EmojiView.swift */; };
-		8B96957F2CD8DE7400009690 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B96957E2CD8DE7400009690 /* GoogleService-Info.plist */; };
 		8BCB839C2CDA104B00C49011 /* EmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 8BCB839B2CDA104B00C49011 /* EmojiPicker */; };
 		8BCB83A02CDA2A3500C49011 /* PublishScopeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCB839F2CDA2A3300C49011 /* PublishScopeView.swift */; };
 		8BD71F7E2CD4BB280030693B /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F7D2CD4BB1A0030693B /* CameraView.swift */; };
@@ -65,7 +64,6 @@
 
 /* Begin PBXFileReference section */
 		8B3FE8AD2CD9E239000A4519 /* EmojiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiView.swift; sourceTree = "<group>"; };
-		8B96957E2CD8DE7400009690 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8BCB839F2CDA2A3300C49011 /* PublishScopeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishScopeView.swift; sourceTree = "<group>"; };
 		8BD71F7D2CD4BB1A0030693B /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		8BD71F7F2CD89A860030693B /* CameraPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreview.swift; sourceTree = "<group>"; };
@@ -181,7 +179,6 @@
 		8EAFEFA82CD4528E00136348 /* Azit */ = {
 			isa = PBXGroup;
 			children = (
-				8B96957E2CD8DE7400009690 /* GoogleService-Info.plist */,
 				8EAFEFA42CD4528E00136348 /* Preview Content */,
 				8EAFEFA52CD4528E00136348 /* Assets.xcassets */,
 				8EAFEFB02CD4571D00136348 /* Fonts */,
@@ -428,7 +425,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8EAFEFA92CD4528E00136348 /* Preview Assets.xcassets in Resources */,
-				8B96957F2CD8DE7400009690 /* GoogleService-Info.plist in Resources */,
 				8EAFEFAA2CD4528E00136348 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
