@@ -11,45 +11,57 @@ struct MainView: View {
     @State private var isModalPresented: Bool = false
     
     var body: some View {
-        ZStack {
-            VStack {
-                MainTopView(isModalPresented: $isModalPresented)
-                Spacer()
-            }
-            
-            if isModalPresented {
-                Color.black.opacity(0.4)
-                    .ignoresSafeArea()
-                    .zIndex(1)
-            }
-            
-            RotationView(isModalPresented: $isModalPresented)
-                .frame(width: 300, height: 300)
-                .zIndex(1)
-            
-            VStack {
-                
-                Spacer()
-                HStack{
+        NavigationStack {
+            ZStack {
+                VStack {
+                    MainTopView(isModalPresented: $isModalPresented)
                     Spacer()
+                }
+                
+                if isModalPresented {
+                    Color.black.opacity(0.4)
+                        .ignoresSafeArea()
+                        .zIndex(1)
+                }
+                
+                RotationView(isModalPresented: $isModalPresented)
+                    .frame(width: 300, height: 300)
+                    .zIndex(1)
+                
+                VStack {
                     
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(.white)
-                            .frame(width: 40, height: 40)
-                        Button {
-                            // 지도 화면으로 넘어가기
+                    Spacer()
+                    HStack{
+                        NavigationLink {
+                            MessageView()
                         } label: {
-                            Image(systemName: "map")
+                            Image(systemName: "ellipsis.message.fill")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 25)
+                                .frame(width: 40, height: 40)
                         }
+                        .padding()
+                        
+                        Spacer()
+                        
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(.white)
+                                .frame(width: 40, height: 40)
+                            Button {
+                                // 지도 화면으로 넘어가기
+                            } label: {
+                                Image(systemName: "map")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 25)
+                            }
+                        }
+                        .padding()
                     }
-                    .padding()
                 }
+                .zIndex(1)
             }
-            .zIndex(1)
         }
     }
 }
