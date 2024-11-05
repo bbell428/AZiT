@@ -16,7 +16,12 @@ struct ChatRoomListView: View {
                 LazyVStack(spacing: 20) {
                     ForEach(chatListStore.chatRoomList, id: \.id) { chatroom in
                         NavigationLink {
-                            MessageDetailView(roomId: chatroom.roomId)
+                            if let friend = userInfoStore.friendInfo[chatroom.participants.first ?? ""] {
+                                if let firstParticipantID = chatroom.participants.first,
+                                   let friend = userInfoStore.friendInfo[firstParticipantID] {
+                                    MessageDetailView(roomId: chatroom.roomId, nickname: friend.nickname, profileImageName: friend.profileImageName)
+                                }
+                            }
                         } label: {
                             HStack {
                                 ZStack(alignment: .center) {

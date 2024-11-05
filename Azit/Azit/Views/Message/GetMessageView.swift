@@ -7,12 +7,13 @@
 import SwiftUI
 
 // 받은 메시지
-struct SendMessage: View {
+struct GetMessage: View {
     var chat: Chat
+    var profileImageName: String
     
     var body: some View {
         HStack(alignment: .top) {
-            Text("\u{1F642}")
+            Text(profileImageName)
                 .font(.largeTitle)
                 .padding(.leading, 20)
             
@@ -41,5 +42,5 @@ struct SendMessage: View {
 }
 
 #Preview {
-    SendMessage(chat: Chat(createAt: Date(), message: "안녕하세요! 반갑습니다 어서오세요 안녕하세요! 반갑습니다 어서오세요 \n새로운 줄입니다!", sender: "parkjunyoung"))
+    GetMessage(chat: Chat(createAt: Date(), message: "안녕하세요! 반갑습니다 어서오세요 안녕하세요! 반갑습니다 어서오세요 \n새로운 줄입니다!", sender: "parkjunyoung"), profileImageName: "\u{1F642}")
 }

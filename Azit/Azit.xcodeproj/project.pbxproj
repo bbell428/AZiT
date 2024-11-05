@@ -39,7 +39,7 @@
 		8EAFF01A2CD4A37900136348 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFF0192CD4A37900136348 /* LoginView.swift */; };
 		CE062B9E2CD8DB8100CB5D4A /* ChatDetailViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062B9D2CD8DB8100CB5D4A /* ChatDetailViewStore.swift */; };
 		CE062BAC2CD91E2B00CB5D4A /* PostMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062BAB2CD91E2500CB5D4A /* PostMessageView.swift */; };
-		CE062BAE2CD91E6C00CB5D4A /* SendMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062BAD2CD91E6600CB5D4A /* SendMessageView.swift */; };
+		CE062BAE2CD91E6C00CB5D4A /* GetMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062BAD2CD91E6600CB5D4A /* GetMessageView.swift */; };
 		CE062BB02CD91EEE00CB5D4A /* ChatRoomListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062BAF2CD91EE700CB5D4A /* ChatRoomListView.swift */; };
 		CE1859272CD9F08D004A8960 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE1859262CD9F08D004A8960 /* GoogleService-Info.plist */; };
 		CE374EAD2CD79F6300601AA7 /* ChatListStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE374EAC2CD79F6300601AA7 /* ChatListStore.swift */; };
@@ -94,7 +94,7 @@
 		8EAFF0192CD4A37900136348 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		CE062B9D2CD8DB8100CB5D4A /* ChatDetailViewStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailViewStore.swift; sourceTree = "<group>"; };
 		CE062BAB2CD91E2500CB5D4A /* PostMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMessageView.swift; sourceTree = "<group>"; };
-		CE062BAD2CD91E6600CB5D4A /* SendMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendMessageView.swift; sourceTree = "<group>"; };
+		CE062BAD2CD91E6600CB5D4A /* GetMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMessageView.swift; sourceTree = "<group>"; };
 		CE062BAF2CD91EE700CB5D4A /* ChatRoomListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomListView.swift; sourceTree = "<group>"; };
 		CE1859262CD9F08D004A8960 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CE374EAC2CD79F6300601AA7 /* ChatListStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListStore.swift; sourceTree = "<group>"; };
@@ -282,7 +282,7 @@
 				CE3A16E12CD85A5B0045DB52 /* MessageDetailView.swift */,
 				8EAFF0122CD4A33600136348 /* MessageView.swift */,
 				CE062BAB2CD91E2500CB5D4A /* PostMessageView.swift */,
-				CE062BAD2CD91E6600CB5D4A /* SendMessageView.swift */,
+				CE062BAD2CD91E6600CB5D4A /* GetMessageView.swift */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -514,7 +514,7 @@
 				8EAFF0152CD4A33E00136348 /* AlbumView.swift in Sources */,
 				8E538EE32CD844A50094ABD1 /* ContentsModalView.swift in Sources */,
 				8EAFEFB42CD4582200136348 /* Story.swift in Sources */,
-				CE062BAE2CD91E6C00CB5D4A /* SendMessageView.swift in Sources */,
+				CE062BAE2CD91E6C00CB5D4A /* GetMessageView.swift in Sources */,
 				CE3A16E22CD85A5B0045DB52 /* MessageDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

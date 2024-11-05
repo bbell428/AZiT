@@ -48,16 +48,18 @@ struct MessageDetailView: View {
     @EnvironmentObject var chatDetailViewStore: ChatDetailViewStore
     @Environment(\.dismiss) var dismiss
     var roomId: String
+    var nickname: String
+    var profileImageName: String
     
     var body: some View {
         NavigationStack {
             VStack {
                 // 채팅방 상단 (dismiss를 사용하기 위한 클로저 처리)
-                MessageDetailTopBar(dismissAction: { dismiss() })
+                MessageDetailTopBar(dismissAction: { dismiss() }, nickname: nickname, profileImageName: profileImageName)
                     .frame(maxHeight: 80)
                 
                 // 채팅방 메시지 내용
-                TextMessage()
+                TextMessage(profileImageName: profileImageName)
                 
                 // 메시지 입력 공간
                 MessageSendField(roomId: roomId)
@@ -76,6 +78,8 @@ struct MessageDetailView: View {
 struct MessageDetailTopBar: View {
     @EnvironmentObject var authManager: AuthManager
     let dismissAction: () -> Void
+    var nickname: String
+    var profileImageName: String
     
     var body: some View {
         HStack {
@@ -96,13 +100,13 @@ struct MessageDetailTopBar: View {
                     .fill(.subColor3)
                     .frame(width: 60, height: 60)
                 
-                Text("\u{1F642}")
+                Text(profileImageName)
                     .font(.system(size: 40))
             }
             .frame(alignment: .leading)
             .padding(.leading, 10)
             
-            Text("User Name")
+            Text(nickname)
                 .font(.title3)
                 .fontWeight(.bold)
                 .foregroundStyle(Color.black)
@@ -116,6 +120,7 @@ struct MessageDetailTopBar: View {
 // 채팅방 메시지 내용
 struct TextMessage: View {
     @EnvironmentObject var chatDetailViewStore: ChatDetailViewStore
+    var profileImageName: String
     
     var body: some View {
         ScrollViewReader { proxy in
@@ -125,7 +130,7 @@ struct TextMessage: View {
                         if chat.sender == "parkjunyoung" {
                             PostMessage(chat: chat)
                         } else {
-                            SendMessage(chat: chat)
+                            GetMessage(chat: chat, profileImageName: profileImageName)
                         }
                     }
                     Rectangle()
@@ -190,6 +195,6 @@ struct MessageSendField: View {
 }
 
 #Preview {
-    MessageDetailView(roomId: "chu_parkjunyoung")
+    MessageDetailView(roomId: "chu_parkjunyoung", nickname: "Test", profileImageName: "🐶")
         .environmentObject(ChatDetailViewStore())
 }
