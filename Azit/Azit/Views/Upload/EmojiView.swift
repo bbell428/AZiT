@@ -15,8 +15,8 @@ struct EmojiView : View {
     
     var body : some View{
         VStack {
-            NavigationStack {
-                EmojiPickerView(selectedEmoji: $selectedEmoji, selectedColor: Color.accent)
+            NavigationView {
+                EmojiPickerView(selectedEmoji: $selectedEmoji, searchEnabled: false,  selectedColor: Color.accent)
                     .background(Color.subColor4)
                     .toolbar {
                         ToolbarItem(placement: .navigationBarLeading) {

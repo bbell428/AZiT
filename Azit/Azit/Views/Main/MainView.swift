@@ -11,6 +11,9 @@ struct MainView: View {
     @State private var isModalPresented: Bool = false
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var authManager: AuthManager
+    @State var isdisplayEmojiPicker: Bool = false
+    @State var selectedEmoji: Emoji?
+    @State private var message: String = ""
     
     var body: some View {
         NavigationStack {
@@ -26,7 +29,7 @@ struct MainView: View {
                         .zIndex(1)
                 }
                 
-                RotationView(isModalPresented: $isModalPresented)
+                RotationView(isModalPresented: $isModalPresented, isdisplayEmojiPicker: $isdisplayEmojiPicker)
                     .frame(width: 300, height: 300)
                     .zIndex(1)
                 
@@ -63,6 +66,18 @@ struct MainView: View {
                     }
                 }
                 .zIndex(1)
+                
+                if isdisplayEmojiPicker {
+                    Color.black.opacity(0.4)
+                        .edgesIgnoringSafeArea(.all)
+                        .onTapGesture {
+                            isdisplayEmojiPicker = false // 배경 터치 시 닫기
+                        }
+                        .zIndex(2)
+                    
+                    EmojiView(message: $message, selectedEmoji: $selectedEmoji)
+                        .zIndex(3)
+                }
             }
         }
         .onAppear {

@@ -11,9 +11,9 @@ import EmojiPicker
 struct RotationView: View {
     @State private var rotation: Double = 270.0
     @Binding var isModalPresented: Bool
-    @State var displayEmojiPicker: Bool = false
-    @State private var message: String = ""
+    @Binding var isdisplayEmojiPicker: Bool
     @State var selectedEmoji: Emoji?
+    @State private var message: String = ""
     @State var sortedUsers: [UserInfo] = []
     let angles: [(Double, Double)] = [
         (0, 60),
@@ -91,7 +91,7 @@ struct RotationView: View {
         VStack {
             ZStack {
                 Button {
-                    displayEmojiPicker = true
+                    isdisplayEmojiPicker = true
                 } label: {
                     ZStack {
                         Circle()
@@ -118,17 +118,6 @@ struct RotationView: View {
                 }
                 .zIndex(1)
                 .offset(y: 250)
-                
-                if displayEmojiPicker {
-                    Color.black.opacity(0.4)
-                        .edgesIgnoringSafeArea(.all)
-                        .onTapGesture {
-                            displayEmojiPicker = false // 배경 터치 시 닫기
-                        }
-                    
-                    EmojiView(message: $message, selectedEmoji: $selectedEmoji)
-                        .zIndex(3)
-                }
             
                 ForEach(0..<4, id: \.self) { index in
                     Ellipse()
