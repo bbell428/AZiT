@@ -13,7 +13,9 @@ struct LoginView: View {
     @FocusState private var focus: FocusableField?
     
     @State private var isAutoLogin = false // 자동 로그인 상태
-    
+    @State private var isErrorPassword = false // 비밀번호 틀리면 테두리색 빨갛게
+    @State private var isErrorEmail = false // 이메일 틀리면 테두리색 빨갛게
+     
     private func signInWithEmailPassword() {
         Task {
             if await authManager.signInWithEmailPassword() == true {
@@ -52,13 +54,17 @@ struct LoginView: View {
                                 .foregroundColor(Color.red)
                                 .fontWeight(.heavy)
                         }
+                        .onAppear {
+                            isErrorPassword = true
+                        }
                     }
                     
                     // MARK: 이메일로 로그인
                     EmailTextField(
                         inputText: "이메일을 입력하세요",
                         email: $authManager.email,
-                        focus: $focus
+                        focus: $focus,
+                        isErrorEmail: $isErrorEmail
                     )
                     .frame(width: geometry.size.width * 0.85)
                     .padding(6)
@@ -68,7 +74,8 @@ struct LoginView: View {
                         password: $authManager.password,
                         focus: $focus,
                         focusType: .password,
-                        onSubmit: signInWithEmailPassword
+                        onSubmit: signInWithEmailPassword,
+                        isErrorPassword: $isErrorPassword
                     )
                     
                     //MARK: 자동 로그인 체크박스 추가

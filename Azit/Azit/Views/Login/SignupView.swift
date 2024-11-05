@@ -13,6 +13,9 @@ struct SignupView: View {
     @State private var errorMessagePassword: String? // 비밀번호 확인 에러메시지
     @State private var selectedDomain: String? = "naver.com" // 도메인 전달 -> SignUpEmailTextField
     
+    @State private var isErrorPassword = false // 비밀번호 틀리면 테두리색 빨갛게
+    @State private var isErrorEmail = false // 이메일 틀리면 테두리색 빨갛게
+    
     @EnvironmentObject var authManager: AuthManager
     @Environment(\.dismiss) var dismiss
     
@@ -32,12 +35,16 @@ struct SignupView: View {
         
         if authManager.password != authManager.confirmPassword {
             errorMessagePassword = "비밀번호가 일치하지 않습니다."
+            isErrorPassword = true
         } else if authManager.password.count < 8 || authManager.password.count > 12 {
             errorMessagePassword = "비밀번호는 8~12자로 입력해주세요."
+            isErrorPassword = true
         } else if !NSPredicate(format: "SELF MATCHES %@", passwordRegex).evaluate(with: authManager.password) {
             errorMessagePassword = "비밀번호는 영문 대소문자 1개 이상 포함해주세요."
+            isErrorPassword = true
         } else {
             errorMessagePassword = ""
+            isErrorPassword = false
             Task {
                 if await authManager.signUpWithEmailPassword(fullEmail) == true {
                     dismiss()
@@ -83,6 +90,9 @@ struct SignupView: View {
                                     .fontWeight(.heavy)
                             }
                         }
+                        .onAppear {
+                            isErrorEmail = true
+                        }
                     }
                     
                     
@@ -92,7 +102,8 @@ struct SignupView: View {
                             inputText: "이메일",
                             email: $authManager.email,
                             focus: $focus,
-                            selectedDomain: $selectedDomain
+                            selectedDomain: $selectedDomain,
+                            isErrorEmail: $isErrorEmail
                         )
                         
                         Text(exEamilString)
@@ -121,7 +132,8 @@ struct SignupView: View {
                             password: $authManager.password,
                             focus: $focus,
                             focusType: .password,
-                            onSubmit: confirmPassword
+                            onSubmit: confirmPassword,
+                            isErrorPassword: $isErrorPassword
                         )
                         
                         PasswordTextField(
@@ -129,7 +141,8 @@ struct SignupView: View {
                             password: $authManager.confirmPassword,
                             focus: $focus,
                             focusType: .confirmPassword,
-                            onSubmit: signUpWithEmailPassword
+                            onSubmit: signUpWithEmailPassword,
+                            isErrorPassword: $isErrorPassword
                         )
                         
                         Text(exPasswordString)

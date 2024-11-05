@@ -20,6 +20,8 @@ struct EmailTextField: View {
     var inputText: String
     @Binding var email: String
     @FocusState.Binding var focus: FocusableField?
+    @Binding var isErrorEmail: Bool
+    
     
     var body: some View {
         TextField("\(inputText)", text: $email)
@@ -34,7 +36,10 @@ struct EmailTextField: View {
             .cornerRadius(8)
             .overlay(
                 RoundedRectangle(cornerRadius: 8)
-                    .stroke(focus == .email ? Color.accentColor : Color.black, lineWidth: 1) // 포커스에 따른 테두리 색상
+                    .stroke(
+                        focus == .email ? (isErrorEmail ? Color.red : Color.accentColor) : Color.black, lineWidth: 1
+                    ) // 포커스에 따른 테두리 색상
+                
             )
     }
 }
@@ -42,11 +47,13 @@ struct EmailTextField: View {
 //MARK: 회원가입 이메일 입력 필드
 struct SignUpEmailTextField: View {
     @EnvironmentObject var authManager: AuthManager
-    
     var inputText: String
     @Binding var email: String
     @FocusState.Binding var focus: FocusableField?
     @Binding var selectedDomain: String?
+    
+    @Binding var isErrorEmail: Bool
+    
     let domains = ["naver.com", "gmail.com", "icloud.com"]
     
     var body: some View {
@@ -96,7 +103,9 @@ struct SignUpEmailTextField: View {
         .cornerRadius(8)
         .overlay(
             RoundedRectangle(cornerRadius: 8)
-                .stroke(focus == .email ? Color.accentColor : Color.black, lineWidth: 1) // 포커스에 따른 테두리 색상
+                .stroke(
+                    focus == .email ? (isErrorEmail ? Color.red : Color.accentColor) : Color.black, lineWidth: 1
+                ) // 포커스에 따른 테두리 색상
         )
     }
 }
@@ -111,6 +120,8 @@ struct PasswordTextField: View {
     var focusType: FocusableField   // 패스워드 혹은 패스워드 확인인지 파악하기 위해
     @State private var isPassword = false    // 비밀번호 보임/숨김
     var onSubmit: () -> Void
+    
+    @Binding var isErrorPassword: Bool
     
     
     var body: some View {
@@ -138,7 +149,9 @@ struct PasswordTextField: View {
         .cornerRadius(8)
         .overlay(
             RoundedRectangle(cornerRadius: 8)
-                .stroke(focus == focusType ? Color.accentColor : Color.black, lineWidth: 1)
+                .stroke(
+                    focus == focusType ? (isErrorPassword ? Color.red : Color.accentColor) : Color.black, lineWidth: 1
+                )
         )
     }
 }
