@@ -16,6 +16,7 @@
 		8BD71F842CD89AEA0030693B /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F832CD89AE90030693B /* PhotoPicker.swift */; };
 		8BD71F862CD8C4DF0030693B /* EmojiUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F852CD8C4D90030693B /* EmojiUploadView.swift */; };
 		8BD71F882CD8C6300030693B /* PhotoReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F872CD8C62B0030693B /* PhotoReviewView.swift */; };
+		8BDA11D52CDA769C004242DB /* EmojiPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDA11D42CDA7696004242DB /* EmojiPickerView.swift */; };
 		8E538EE12CD844700094ABD1 /* RotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E538EE02CD844700094ABD1 /* RotationView.swift */; };
 		8E538EE32CD844A50094ABD1 /* ContentsModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E538EE22CD844A50094ABD1 /* ContentsModalView.swift */; };
 		8E538EEB2CD85AB40094ABD1 /* AddContentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E538EEA2CD85AB40094ABD1 /* AddContentsView.swift */; };
@@ -89,6 +90,7 @@
 		8BD71F832CD89AE90030693B /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		8BD71F852CD8C4D90030693B /* EmojiUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiUploadView.swift; sourceTree = "<group>"; };
 		8BD71F872CD8C62B0030693B /* PhotoReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoReviewView.swift; sourceTree = "<group>"; };
+		8BDA11D42CDA7696004242DB /* EmojiPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiPickerView.swift; sourceTree = "<group>"; };
 		8E538EE02CD844700094ABD1 /* RotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotationView.swift; sourceTree = "<group>"; };
 		8E538EE22CD844A50094ABD1 /* ContentsModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsModalView.swift; sourceTree = "<group>"; };
 		8E538EEA2CD85AB40094ABD1 /* AddContentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContentsView.swift; sourceTree = "<group>"; };
@@ -322,6 +324,7 @@
 			children = (
 				8BD71F852CD8C4D90030693B /* EmojiUploadView.swift */,
 				8B3FE8AD2CD9E239000A4519 /* EmojiView.swift */,
+				8BDA11D42CDA7696004242DB /* EmojiPickerView.swift */,
 				8BCB839F2CDA2A3300C49011 /* PublishScopeView.swift */,
 				8BD71F7D2CD4BB1A0030693B /* CameraView.swift */,
 				8BD71F7F2CD89A860030693B /* CameraPreview.swift */,
@@ -515,6 +518,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8BDA11D52CDA769C004242DB /* EmojiPickerView.swift in Sources */,
 				EAF93B8E2CD4A50700116035 /* AuthView.swift in Sources */,
 				EAF93B8F2CD4A50700116035 /* SignupView.swift in Sources */,
 				8EAFEFB82CD45CCE00136348 /* ChatRoom.swift in Sources */,
