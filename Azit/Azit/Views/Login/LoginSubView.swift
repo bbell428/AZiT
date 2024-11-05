@@ -12,6 +12,7 @@ enum FocusableField: Hashable {
     case email
     case password
     case confirmPassword
+    case nickname
 }
 
 //MARK: 이메일 입력 필드
@@ -83,7 +84,9 @@ struct SignUpEmailTextField: View {
                         Text(selectedDomain ?? "")
                             .foregroundColor(.accentColor)
                             .underline()
-                        Image(systemName: "chevron.down")
+                        Image(systemName: "arrowtriangle.down.fill")
+                            .padding(.top, 4)
+                            .font(.caption2)
                             .foregroundColor(.accentColor)
                     }
                 }
@@ -192,6 +195,69 @@ struct SignInButton: View {
     }
 }
 
+//MARK: 프로필 디테일
+// 닉네임 입력 필드
+struct NicknameTextField: View {
+    var inputText: String
+    @Binding var nickname: String
+    
+    @FocusState.Binding var focus: FocusableField?
+    @Binding var isEmptyNickname: Bool
+    
+    var body: some View {
+        TextField("\(inputText)", text: $nickname)
+            .font(.subheadline)
+            .focused($focus, equals: .nickname)
+            .onSubmit {
+                //
+            }
+            .padding()
+            .cornerRadius(8)
+            .multilineTextAlignment(.center)
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(focus == .nickname ? Color.accentColor : Color.black, lineWidth: 1) // 포커스에 따른 테두리 색상
+            )
+            .onChange(of: nickname) {   // 닉네임 입력하면 활성화 아니라면 비활성화, 2~8자 까지
+                if nickname != "" && nickname.count > 2 && nickname.count < 9 {
+                    isEmptyNickname = true
+                } else {
+                    isEmptyNickname = false
+                }
+            }
+      
+    }
+}
+
+// 프로필 디테일 뷰에서 시작하기 버튼
+struct StartButton: View {
+    var inputText: String   // 버튼의 텍스트
+    var isLoading: Bool     // 로그인 중일 때 로딩 상태
+    var isEmptyNickname: Bool     // 입력 없으면 버튼 비활성
+    var action: () -> Void
+    
+    var body: some View {
+        Button {
+            action()
+        } label: {
+            if isLoading {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                    .padding(.vertical, 8)
+                    .frame(maxWidth: .infinity) // 버튼 형식은 텍스트필드와 달리 가로가 전체로 먹지 않아서 사용
+            } else {
+                Text(inputText)
+                    .padding(.vertical, 8)
+                    .frame(maxWidth: .infinity)
+            }
+        }
+        .disabled(!isEmptyNickname)
+        .buttonStyle(.borderedProminent)
+        .cornerRadius(20)
+    }
+}
+
+
 //MARK: 텍스트필드 제외하고 빈 곳 터치하면 키보드 내리기
 extension View {
     func endTextEditing() {
@@ -201,3 +267,5 @@ extension View {
         )
     }
 }
+
+

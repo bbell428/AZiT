@@ -149,6 +149,7 @@ struct SignupView: View {
                         isValid: authManager.isValid,
                         action: signUpWithEmailPassword
                     )
+                    .padding(.bottom, 10)
                 }
                 .contentShape(Rectangle())
                 .onTapGesture {

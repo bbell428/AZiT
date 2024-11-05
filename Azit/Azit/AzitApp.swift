@@ -29,7 +29,7 @@ struct SyncLightApp: App {
     
     var body: some Scene {
         WindowGroup {
-            AuthView()
+            ProfileDetailView()
                 .environmentObject(AuthManager())
         }
     }
