@@ -26,7 +26,7 @@ struct AuthView: View {
             case .authenticated:
                 VStack {
                     if authManager.isNicknameExist  {
-                        MessageView()
+                        MainView()
                     } else {
                         ProfileDetailView()
                             .environmentObject(authManager)
