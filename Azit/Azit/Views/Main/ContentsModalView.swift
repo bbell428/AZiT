@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct ContentsModalView: View {
+    let screenBounds = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds
     @State var story: Story?
     @StateObject var storyStore: StoryStore = StoryStore()
-    let screenBounds = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds
     @Binding var isModalPresented: Bool
     @Binding var message: String
     @Binding var selectedUserInfo: UserInfo

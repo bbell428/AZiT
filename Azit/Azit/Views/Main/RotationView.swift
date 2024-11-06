@@ -135,12 +135,12 @@ struct RotationView: View {
                             }
                         
                         if isModalPresented {
-                            Color.black.opacity(0.4)
+                            Color.black.opacity(0.2)
                                 .ignoresSafeArea()
                                 .onTapGesture {
                                     isModalPresented = false
                                 }
-                                .zIndex(1)
+                                .zIndex(2)
                             
                             ContentsModalView(isModalPresented: $isModalPresented, message: $message, selectedUserInfo: $sortedUsers[selectedIndex])
                                 .zIndex(3)

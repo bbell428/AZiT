@@ -19,58 +19,17 @@ struct MainView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                VStack {
-                    MainTopView(isModalPresented: $isModalPresented)
-                    Spacer()
-                }
-                
-                if isModalPresented {
-                    Color.black.opacity(0.4)
-                        .ignoresSafeArea()
-                        .zIndex(1)
-                }
-                 
                 if isMainExposed {
                     RotationView(isModalPresented: $isModalPresented, isdisplayEmojiPicker: $isdisplayEmojiPicker)
                         .frame(width: 300, height: 300)
-                        .zIndex(1)
+                        .zIndex(isModalPresented ? 2 : 1)
                 } else {
                     MapView()
                         .zIndex(1)
                 }
                 
-                VStack {
-                    Spacer()
-                    HStack{
-                        NavigationLink {
-                            MessageView()
-                        } label: {
-                            Image(systemName: "ellipsis.message.fill")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 40, height: 40)
-                        }
-                        .padding()
-                        
-                        Spacer()
-                        
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(.white)
-                                .frame(width: 40, height: 40)
-                            Button {
-                                isMainExposed.toggle()
-                            } label: {
-                                Image(systemName: isMainExposed ? "map" : "house")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 25)
-                            }
-                        }
-                        .padding()
-                    }
-                }
-                .zIndex(1)
+                MainTopView(isModalPresented: $isModalPresented, isMainExposed: $isMainExposed)
+                    .zIndex(1)
                 
                 if isdisplayEmojiPicker {
                     Color.black.opacity(0.4)
@@ -94,60 +53,91 @@ struct MainView: View {
 }
 
 struct MainTopView: View {
+    let screenBounds = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds
     @Binding var isModalPresented: Bool
+    @Binding var isMainExposed: Bool
     
     var body: some View {
-        HStack() {
-            Text("AZiT")
-                .font(.largeTitle)
-                .fontWeight(.black)
-                .bold()
+        VStack {
+            HStack() {
+                Text("AZiT")
+                    .font(.largeTitle)
+                    .fontWeight(.black)
+                    .bold()
+                    .padding()
+                
+                Spacer()
+                
+                HStack(spacing: 20) {
+                    Button {
+                        // 게시글 리로드
+                    } label: {
+                        Image(systemName: "arrow.clockwise")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25)
+                    }
+                    .disabled(isModalPresented ? true : false)
+                    
+                    Button {
+                        // 앨범 리스트
+                    } label: {
+                        Image(systemName: "photo.stack")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30)
+                    }
+                    
+                    NavigationLink {
+                        MyPageView()
+                    } label: {
+                        Image(systemName: "person.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30)
+                    }
+                    
+                }
                 .padding()
+            }
+            .foregroundStyle(.accent)
             
             Spacer()
             
-            HStack(spacing: 20) {
-                Button {
-                    // 게시글 리로드
-                } label: {
-                    Image(systemName: "arrow.clockwise")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 25)
-                }
-                .disabled(isModalPresented ? true : false)
-                
-                Button {
-                    // 앨범 리스트
-                } label: {
-                    Image(systemName: "photo.stack")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 30)
-                }
-                
+            HStack{
                 NavigationLink {
-                    MyPageView()
+                    MessageView()
                 } label: {
-                    Image(systemName: "person.fill")
+                    Image(systemName: "ellipsis.message.fill")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 30)
+                        .frame(width: 40, height: 40)
                 }
-
+                .padding()
+                
+                Spacer()
+                
+                Button {
+                    isMainExposed.toggle()
+                } label: {
+                    Image(systemName: isMainExposed ? "map" : "house")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 40)
+                }
+                .padding()
             }
-            .padding()
         }
-        .foregroundStyle(.accent)
+        .frame(maxWidth: screenBounds?.width, maxHeight: screenBounds?.height)
     }
 }
 
 #Preview {
-//    AuthView()
-//        .environmentObject(AuthManager())
-//        .environmentObject(UserInfoStore())
-//        .environmentObject(ChatListStore())
-//        .environmentObject(ChatDetailViewStore())
+    //    AuthView()
+    //        .environmentObject(AuthManager())
+    //        .environmentObject(UserInfoStore())
+    //        .environmentObject(ChatListStore())
+    //        .environmentObject(ChatDetailViewStore())
     MainView()
         .environmentObject(AuthManager())
         .environmentObject(UserInfoStore())
