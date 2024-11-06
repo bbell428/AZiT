@@ -14,14 +14,14 @@ import SwiftUICore
 
 class ChatListStore: ObservableObject {
     @EnvironmentObject var userInfoStore: UserInfoStore
-    private var db = Firestore.firestore() // 파이어베이스
     @Published private(set) var chatRoomList: [ChatRoom] = [] // 채팅방 리스트
-    var useruid: String = "parkjunyoung" // 사용자 uid (이후 Auth.uid로 대체 예정)
+    private var db = Firestore.firestore() // 파이어베이스
     private var timer: AnyCancellable? // startTimer()를 주기적으로 호출하기 위한 타이머
+    private var listener: ListenerRegistration? // 리스너 저장용 변수
     
-//    init() {
-//        fetchChatRooms()
-//    }
+    //    init() {
+    //        fetchChatRooms()
+    //    }
     
     deinit {
         timer?.cancel()
@@ -29,37 +29,39 @@ class ChatListStore: ObservableObject {
     
     // 채팅방 데이터 불러오기
     func fetchChatRooms(userId: String) {
-        print("채팅방 데이터")
-        //        guard let userUid = Auth.auth().currentUser?.uid else {
-        //                    print("로그인 상태 아님")
-        //                    return
-        //                }
+        print("채팅방 데이터 불러오기")
         
-        // 채팅collection 에서 로그인한 사용자 uid값이 포함된 문서(= 채팅방)만 가져오게 함
-        db.collection("Chat")
-        /// participants: 채팅방에 참여된 사용자 uid를 기록하는 배열 공간,
-        /// 해당 배열값에서 원하는 uid를 검색해서 참여중인 채팅방을 필터링하기 위함.
+        // 기존 리스너가 있으면 제거
+        listener?.remove()
+        
+        // 새로운 리스너 등록
+        listener = db.collection("Chat")
             .whereField("participants", arrayContains: userId)
-        // 정보 갱신을 위한 리스너
             .addSnapshotListener { documentSnapshot, error in
-                guard let document = documentSnapshot?.documents else {
-                    print("Error fetching document: \(error!)")
+                guard let documents = documentSnapshot?.documents else {
+                    print("Error fetching documents: \(error!)")
                     return
                 }
                 
-                self.chatRoomList = document.compactMap { document -> ChatRoom? in
+                self.chatRoomList = documents.compactMap { document -> ChatRoom? in
                     do {
                         return try document.data(as: ChatRoom.self)
                     } catch {
-                        print("채팅방 디코딩하는데 오류가 발생했습니다 : \(error)")
+                        print("채팅방 디코딩 오류: \(error)")
                         return nil
                     }
                 }
                 
-                // 가장 최근에 받은 메시지대로 정렬
+                // 최신 메시지 기준으로 정렬
                 self.chatRoomList.sort { $0.lastMessageAt > $1.lastMessageAt }
-                print("메시지 : \(self.chatRoomList)")
+                print("채팅방 목록: \(self.chatRoomList)")
             }
+    }
+    
+    // 리스너 중단 메서드
+    func removeChatRoomsListener() {
+        listener?.remove()
+        listener = nil
     }
     
     // 날짜를 포맷하는 함수

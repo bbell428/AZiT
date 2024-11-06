@@ -8,6 +8,7 @@ import SwiftUI
 
 // 받은 메시지
 struct GetMessage: View {
+    @EnvironmentObject var authManager: AuthManager
     var chat: Chat
     var profileImageName: String
     
@@ -32,7 +33,20 @@ struct GetMessage: View {
                         .font(.caption2)
                         .fontWeight(.light)
                         .foregroundStyle(Color.gray)
+                    
+                    if !chat.readBy.contains(authManager.userID) {
+                        VStack {
+                            Text("1")
+                                .font(.caption2)
+                                .fontWeight(.bold)
+                                .foregroundStyle(Color.green)
+                                .padding(.top, 10)
+                        }
+                    }
                 }
+                
+                /// 연기 사유 : 주요업무 수행
+                /// 알림마당 공지사항
             }
             .fixedSize(horizontal: false, vertical: true) // 높이를 내용에 맞게 조절
             .padding(.leading, 10)
@@ -42,5 +56,5 @@ struct GetMessage: View {
 }
 
 #Preview {
-    GetMessage(chat: Chat(createAt: Date(), message: "안녕하세요! 반갑습니다 어서오세요 안녕하세요! 반갑습니다 어서오세요 \n새로운 줄입니다!", sender: "parkjunyoung"), profileImageName: "\u{1F642}")
+    GetMessage(chat: Chat(createAt: Date(), message: "안녕하세요! 반갑습니다 어서오세요 안녕하세요! 반갑습니다 어서오세요 \n새로운 줄입니다!", sender: "parkjunyoung", readBy: ["parkjunyoung"]), profileImageName: "\u{1F642}")
 }

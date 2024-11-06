@@ -13,6 +13,7 @@ struct Chat: Codable, Identifiable {
     var createAt: Date // 보낸 날짜
     var message: String // 메시지 내용
     var sender: String // 보낸 사람의 uid
+    var readBy: [String] // 읽은 사람 uid
     
     // 포맷팅된 날짜 속성
     var formattedCreateAt: String {

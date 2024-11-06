@@ -45,6 +45,7 @@ struct CustomNavigationView<Content: View>: UIViewControllerRepresentable {
 }
 
 struct MessageDetailView: View {
+    @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var chatDetailViewStore: ChatDetailViewStore
     @Environment(\.dismiss) var dismiss
     var roomId: String
@@ -68,7 +69,10 @@ struct MessageDetailView: View {
             }
             .navigationBarBackButtonHidden(true)
             .onAppear {
-                chatDetailViewStore.getChatMessages(roomId: roomId)
+                chatDetailViewStore.getChatMessages(roomId: roomId, userId: authManager.userID)
+            }
+            .onDisappear {
+                chatDetailViewStore.removeChatMessagesListener()
             }
         }
     }
@@ -76,7 +80,6 @@ struct MessageDetailView: View {
 
 // 채팅방 상단
 struct MessageDetailTopBar: View {
-    @EnvironmentObject var authManager: AuthManager
     let dismissAction: () -> Void
     var nickname: String
     var profileImageName: String
@@ -119,6 +122,7 @@ struct MessageDetailTopBar: View {
 
 // 채팅방 메시지 내용
 struct TextMessage: View {
+    @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var chatDetailViewStore: ChatDetailViewStore
     var profileImageName: String
     
@@ -127,7 +131,7 @@ struct TextMessage: View {
             ScrollView {
                 LazyVStack(spacing: 20) {
                     ForEach(chatDetailViewStore.chatList, id: \.id) { chat in
-                        if chat.sender == "parkjunyoung" {
+                        if chat.sender == authManager.userID {
                             PostMessage(chat: chat)
                         } else {
                             GetMessage(chat: chat, profileImageName: profileImageName)
@@ -160,6 +164,7 @@ struct TextMessage: View {
 
 // 메시지를 보내는 공간
 struct MessageSendField: View {
+    @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var chatDetailViewStore: ChatDetailViewStore
     @State var text: String = ""
     var roomId: String
@@ -173,7 +178,7 @@ struct MessageSendField: View {
                 .onSubmit {
                     Task {
                         print("메시지 전송: \(text)")
-                        chatDetailViewStore.sendMessage(text: text, roomId: roomId)
+                        chatDetailViewStore.sendMessage(text: text, roomId: roomId, userId: authManager.userID)
                         text = "" // 메시지 전송 후 입력 필드를 비웁니다.
                     }
                 }
@@ -181,7 +186,7 @@ struct MessageSendField: View {
             Button(action: {
                 Task {
                     print("메시지 전송: \(text)")
-                    chatDetailViewStore.sendMessage(text: text, roomId: roomId)
+                    chatDetailViewStore.sendMessage(text: text, roomId: roomId, userId: authManager.userID)
                     text = "" // 메시지 전송 후 입력 필드를 비웁니다.
                 }
             }) {

@@ -8,10 +8,22 @@ import SwiftUI
 
 // 보낸 메시지
 struct PostMessage: View {
+    @EnvironmentObject var authManager: AuthManager
     var chat: Chat
     
     var body: some View {
         HStack(alignment: .bottom) {
+            if !chat.readBy.contains(where: { $0 != authManager.userID }) {
+                // authManager.userID 외 다른 UID가 없을 경우
+                VStack {
+                    Text("1")
+                        .font(.caption2)
+                        .fontWeight(.bold)
+                        .foregroundStyle(Color.green)
+                        .padding(.top, 10)
+                }
+            }
+            
             VStack {
                 Text(chat.formattedCreateAt)
                     .font(.caption2)
@@ -38,5 +50,5 @@ struct PostMessage: View {
 }
 
 #Preview {
-    PostMessage(chat: Chat(createAt: Date(), message: "안녕하세요! 반갑습니다 어서오세요 안녕하세요! 반갑습니다 어서오세요 \n새로운 줄입니다!", sender: "parkjunyoung"))
+    PostMessage(chat: Chat(createAt: Date(), message: "안녕하세요! 반갑습니다 어서오세요 안녕하세요! 반갑습니다 어서오세요 \n새로운 줄입니다!", sender: "parkjunyoung", readBy: ["parkjunyoung"]))
 }
