@@ -10,8 +10,9 @@ import SwiftUI
 struct MyPageView: View {
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var authManager: AuthManager
-    @State private var emoji: String = "🐶"
+    
     @State var isShowEmoji = false
+    @State var isPresented: Bool = false
     
     var body: some View {
         VStack(alignment: .center) {
@@ -20,7 +21,7 @@ struct MyPageView: View {
                     Circle()
                         .fill(Color.subColor4)
                         .frame(width: 150, height: 150)
-                    Text("\(userInfoStore.userInfo?.profileImageName ?? "🐶")")
+                    Text("\(userInfoStore.userInfo?.profileImageName ?? "")")
                         .font(.system(size: 100))
                 }
                 HStack {
@@ -30,7 +31,7 @@ struct MyPageView: View {
                         .foregroundColor(.accentColor)
                     
                     Button {
-                        // 편집
+                        isPresented.toggle()
                     } label: {
                         Text("편집")
                             .font(.caption)
@@ -42,6 +43,15 @@ struct MyPageView: View {
                             )
                             .foregroundColor(.accentColor)
                             .padding(.leading, 10)
+                    }
+                    .sheet(isPresented: $isPresented, onDismiss: {
+                        // 닉네임, 이모지 업데이트
+                        Task {
+                            await userInfoStore.loadUserInfo(userID: authManager.userID)
+                        }
+                    }) {
+                        EditProfileView(isPresented: $isPresented)
+                            .presentationDetents([.fraction(4/9)])
                     }
                 }
                 .padding(.top, -50)
@@ -101,7 +111,7 @@ struct MyPageView: View {
                                 Circle()
                                     .fill(Color.subColor4)
                                     .frame(width: 45, height: 45)
-                                Text(emoji)
+                                Text("😁")
                                     .font(.system(size: 30))
                                     .bold()
                             }
@@ -220,6 +230,12 @@ struct MyPageView: View {
             .padding(.top, -10)
             .frame(maxWidth: .infinity)
         }
+        .onAppear {
+            Task {
+                await userInfoStore.loadUserInfo(userID: authManager.userID)
+            }
+        }
+        
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }

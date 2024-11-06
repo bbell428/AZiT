@@ -59,6 +59,7 @@
 		EAD18AE52CD6719600AF3013 /* LoginSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD18AE42CD6719600AF3013 /* LoginSubView.swift */; };
 		EAF840742CD9B56200F23839 /* UserInfoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF840732CD9B56200F23839 /* UserInfoStore.swift */; };
 		EAF840B32CD9FA0E00F23839 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF840B22CD9FA0E00F23839 /* MyPageView.swift */; };
+		EAF8BB1B2CDB368F00B67AAF /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF8BB1A2CDB368F00B67AAF /* EditProfileView.swift */; };
 		EAF93B852CD4A4D600116035 /* AuthManager+Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF93B842CD4A4D600116035 /* AuthManager+Email.swift */; };
 		EAF93B872CD4A4DC00116035 /* AuthManager+Google.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF93B862CD4A4DC00116035 /* AuthManager+Google.swift */; };
 		EAF93B8E2CD4A50700116035 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF93B8C2CD4A50700116035 /* AuthView.swift */; };
@@ -124,6 +125,7 @@
 		EAD18AE42CD6719600AF3013 /* LoginSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSubView.swift; sourceTree = "<group>"; };
 		EAF840732CD9B56200F23839 /* UserInfoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoStore.swift; sourceTree = "<group>"; };
 		EAF840B22CD9FA0E00F23839 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
+		EAF8BB1A2CDB368F00B67AAF /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
 		EAF93B842CD4A4D600116035 /* AuthManager+Email.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthManager+Email.swift"; sourceTree = "<group>"; };
 		EAF93B862CD4A4DC00116035 /* AuthManager+Google.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthManager+Google.swift"; sourceTree = "<group>"; };
 		EAF93B8C2CD4A50700116035 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
@@ -351,6 +353,7 @@
 			isa = PBXGroup;
 			children = (
 				EAF840B22CD9FA0E00F23839 /* MyPageView.swift */,
+				EAF8BB1A2CDB368F00B67AAF /* EditProfileView.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -545,6 +548,7 @@
 				CE062B9E2CD8DB8100CB5D4A /* ChatDetailViewStore.swift in Sources */,
 				CE062BB02CD91EEE00CB5D4A /* ChatRoomListView.swift in Sources */,
 				EAF840742CD9B56200F23839 /* UserInfoStore.swift in Sources */,
+				EAF8BB1B2CDB368F00B67AAF /* EditProfileView.swift in Sources */,
 				8EAFF01A2CD4A37900136348 /* LoginView.swift in Sources */,
 				EAF840B32CD9FA0E00F23839 /* MyPageView.swift in Sources */,
 				8EAFEFB62CD45CB100136348 /* Chat.swift in Sources */,
