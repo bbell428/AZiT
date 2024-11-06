@@ -9,17 +9,20 @@ import SwiftUI
 
 struct ContentsModalView: View {
     let screenBounds = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds
+    @State var story: Story?
+    @StateObject var storyStore: StoryStore = StoryStore()
     @Binding var isModalPresented: Bool
     @Binding var message: String
+    @Binding var selectedUserInfo: UserInfo
     @State private var isLiked: Bool = false
     @State private var scale: CGFloat = 0.1
     
     var body: some View {
         VStack(spacing: 15) {
             HStack(spacing: 5) {
-                Text("🥰")
+                Text(selectedUserInfo.profileImageName)
                 
-                Text("혀누")
+                Text(selectedUserInfo.nickname)
                     .font(.caption)
                 
                 Spacer()
@@ -35,7 +38,7 @@ struct ContentsModalView: View {
             }
             
             HStack() {
-                Text("아주 졸리다 그러니까")
+                Text(story?.content ?? "")
                 
                 Spacer()
             }
@@ -79,9 +82,13 @@ struct ContentsModalView: View {
         .cornerRadius(8)
         .scaleEffect(scale)
         .onAppear {
+            Task {
+                try await story = storyStore.loadStorysByIds(ids: [selectedUserInfo.id])[0]
+            }
             withAnimation(.easeInOut(duration: 0.3)) {
                 scale = 1.0
             }
+            
         }
         .onDisappear {
             withAnimation(.easeInOut(duration: 0.3)) {

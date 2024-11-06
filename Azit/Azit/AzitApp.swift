@@ -35,10 +35,11 @@ struct AzitApp: App {
     var body: some Scene {
         WindowGroup {
             AuthView()
+                .environmentObject(authManager)
+                .environmentObject(userInfoStore)
+                .environmentObject(chatListStore)
+                .environmentObject(chatDetailViewStore)
         }
-        .environmentObject(authManager)
-        .environmentObject(userInfoStore)
-        .environmentObject(chatListStore)
-        .environmentObject(chatDetailViewStore)
+        
     }
 }

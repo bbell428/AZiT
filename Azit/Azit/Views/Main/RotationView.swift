@@ -9,12 +9,15 @@ import SwiftUI
 import EmojiPicker
 
 struct RotationView: View {
+    @EnvironmentObject var userInfoStore: UserInfoStore
+    @EnvironmentObject var authManager: AuthManager
     @State private var rotation: Double = 270.0
     @Binding var isModalPresented: Bool
     @Binding var isdisplayEmojiPicker: Bool
     @State var selectedEmoji: Emoji?
-    @State private var message: String = ""
     @State var sortedUsers: [UserInfo] = []
+    @State private var selectedIndex: Int = 0
+    @State private var message: String = ""
     let angles: [(Double, Double)] = [
         (0, 60),
         (-60, 0),
@@ -72,20 +75,6 @@ struct RotationView: View {
     ]
     
     @State private var numberOfCircles: Int = 0
-    
-    let sampleMyInfo: UserInfo = UserInfo(id: "10", email: "user10@example.com", nickname: "혀누", profileImageName: "😲", previousState: "😕", friends: ["9"], latitude: 34.0522, longitude: -118.2437)
-
-    @State var sampleUserInfos: [UserInfo] = [
-        UserInfo(id: "1", email: "user1@example.com", nickname: "준영", profileImageName: "😊", previousState: "😄", friends: ["2", "3"], latitude: 37.5665, longitude: 126.978),
-        UserInfo(id: "2", email: "user2@example.com", nickname: "종혁", profileImageName: "😎", previousState: "🤔", friends: ["1", "4"], latitude: 34.0522, longitude: -118.2437),
-        UserInfo(id: "3", email: "user3@example.com", nickname: "지수", profileImageName: "😇", previousState: "😌", friends: ["1"], latitude: 51.5074, longitude: -0.1278),
-        UserInfo(id: "4", email: "user4@example.com", nickname: "차나핑", profileImageName: "😋", previousState: "😓", friends: ["2"], latitude: 48.8566, longitude: 2.3522),
-        UserInfo(id: "5", email: "user5@example.com", nickname: "좀하디", profileImageName: "😃", previousState: "😊", friends: ["6", "7"], latitude: 35.6895, longitude: 139.6917),
-        UserInfo(id: "6", email: "user6@example.com", nickname: "주녕란보", profileImageName: "😏", previousState: "😌", friends: ["5"], latitude: -33.8688, longitude: 151.2093),
-        UserInfo(id: "7", email: "user7@example.com", nickname: "홈지수", profileImageName: "😜", previousState: "😃", friends: ["5", "8"], latitude: 55.7558, longitude: 37.6173),
-        UserInfo(id: "8", email: "user8@example.com", nickname: "잠온다", profileImageName: "😆", previousState: "😝", friends: ["7", "9"], latitude: 40.7128, longitude: -74.0060),
-        UserInfo(id: "9", email: "user9@example.com", nickname: "나도잠와", profileImageName: "😍", previousState: "😌", friends: ["8", "10"], latitude: 39.9042, longitude: 116.4074)
-    ]
 
     var body: some View {
         VStack {
@@ -101,7 +90,7 @@ struct RotationView: View {
                                 ZStack {
                                     Circle()
                                         .stroke(.white, lineWidth: 3)
-                                    Text(sampleMyInfo.previousState)
+                                    Text(userInfoStore.userInfo?.previousState ?? "")
                                         .font(.system(size: 80))
                                 }
                             )
@@ -139,19 +128,24 @@ struct RotationView: View {
 
                         let interpolationRatio: CGFloat = numberOfCircles > 1 ? CGFloat(index) / CGFloat(numberOfCircles - 1) : 0
 
-                        ContentEmojiView(userInfo: $sortedUsers[index], rotation: $rotation, isModalPresented: $isModalPresented, index: index, startEllipse: startEllipse, endEllipse: endEllipse, interpolationRatio: interpolationRatio, randomAngleOffset: randomAngleOffset, num : index)
-                    }
-                }
-                if isModalPresented {
-                    Color.black.opacity(0.4)
-                        .ignoresSafeArea()
-                        .onTapGesture {
-                            isModalPresented = false
+                        ContentEmojiView(userInfo: $sortedUsers[index], rotation: $rotation, isModalPresented: $isModalPresented, selectedIndex: $selectedIndex, index: index, startEllipse: startEllipse, endEllipse: endEllipse, interpolationRatio: interpolationRatio, randomAngleOffset: randomAngleOffset, num : index)
+                            .onTapGesture {
+                                selectedIndex = index
+                                print(selectedIndex)
+                            }
+                        
+                        if isModalPresented {
+                            Color.black.opacity(0.2)
+                                .ignoresSafeArea()
+                                .onTapGesture {
+                                    isModalPresented = false
+                                }
+                                .zIndex(2)
+                            
+                            ContentsModalView(isModalPresented: $isModalPresented, message: $message, selectedUserInfo: $sortedUsers[selectedIndex])
+                                .zIndex(3)
                         }
-                        .zIndex(1)
-                    
-                    ContentsModalView(isModalPresented: $isModalPresented, message: $message)
-                        .zIndex(3)
+                    }
                 }
             }
             .gesture(
@@ -163,8 +157,14 @@ struct RotationView: View {
             .padding()
         }
         .onAppear {
-            sortedUsers = sortUsersByDistance(from: sampleUserInfos[0], users: sampleUserInfos)
-            numberOfCircles = sampleUserInfos.count
+            Task {
+                await userInfoStore.loadUserInfo(userID: authManager.userID)
+                userInfoStore.loadFriendsInfo(friendsIDs: userInfoStore.userInfo?.friends ?? [])
+                
+                sortedUsers = try await sortUsersByDistance(from: userInfoStore.userInfo!, users: userInfoStore.loadUsersInfoByEmail(userID: userInfoStore.userInfo?.friends ?? []))
+                numberOfCircles = userInfoStore.userInfo?.friends.count ?? 0
+            }
+            
         }
     }
 
@@ -210,6 +210,7 @@ struct ContentEmojiView: View {
     @Binding var userInfo: UserInfo
     @Binding var rotation: Double
     @Binding var isModalPresented: Bool
+    @Binding var selectedIndex: Int
     var index: Int
     var startEllipse: (width: CGFloat, height: CGFloat)
     var endEllipse: (width: CGFloat, height: CGFloat)
@@ -223,6 +224,7 @@ struct ContentEmojiView: View {
         let angle = (rotation + randomAngleOffset) * .pi / 180
         
         Button {
+            selectedIndex = index 
             isModalPresented = true
         } label: {
             VStack {
@@ -230,6 +232,7 @@ struct ContentEmojiView: View {
                     .font(.caption)
                     .fontWeight(.bold)
                     .foregroundStyle(.black)
+                    .frame(minWidth: 100)
                     .padding(.top, -40)
                 
                 ZStack {
@@ -262,5 +265,5 @@ struct ContentEmojiView: View {
 }
 
 #Preview {
-    MainView()
+    RotationView(isModalPresented: .constant(false), isdisplayEmojiPicker: .constant(false))
 }
