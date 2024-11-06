@@ -63,13 +63,7 @@ struct PublishScopeView: View {
                         }
                     }
                 }
-//                .listRowInsets(EdgeInsets())
                 .padding(10)
-                
-//                if friend != friends.last {
-//                    Divider()
-//                        .padding(.leading, 50) // Divider 위치 맞춤
-//                }
             }
             .listStyle(PlainListStyle())
         }

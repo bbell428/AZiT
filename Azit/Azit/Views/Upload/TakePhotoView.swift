@@ -8,8 +8,8 @@ import SwiftUI
 import AVFoundation
 import PhotosUI
 
-struct CameraView: View {
-    @ObservedObject var cameraService = Camera()
+struct TakePhotoView: View {
+    @StateObject var cameraService = CameraService()
     @State private var isPhotoTaken = false
     @State private var isGalleryPresented = false
     
@@ -37,10 +37,15 @@ struct CameraView: View {
                         .font(.largeTitle)
                         .foregroundColor(.accentColor)
                 }
-                .padding(.bottom, 20)
+                .padding([.leading, .bottom])
                 .sheet(isPresented: $isGalleryPresented) {
+                    // 사진 가져와서 capturedImage에 담아야 함.
                     PhotoPicker(image: $cameraService.capturedImage) // 갤러리 뷰 표시
+                        .onChange(of: cameraService.capturedImage){
+                            self.isPhotoTaken = true
+                        }
                 }
+                
                 Spacer()
                 
                 Button(action: {
@@ -62,20 +67,34 @@ struct CameraView: View {
                     }
                 }
                 Spacer()
+                    Button(action: {}) {
+                        Image(systemName: "photo")
+                            .font(.largeTitle)
+                            .foregroundColor(.clear)
+                    }
+                    .padding([.trailing, .bottom])
             }
             .frame(maxWidth: .infinity, alignment: .center)
-            .padding()
+            .padding(.bottom)
             
             NavigationLink(
                 destination: PhotoReviewView(image: cameraService.capturedImage),
                 isActive: $isPhotoTaken,
                 label: { EmptyView() }
             )
+            
         }
         .navigationBarTitle("사진 촬영", displayMode: .inline)
+        .onChange(of: cameraService.capturedImage) { image in
+            Task {
+                if image != nil {
+                    self.isPhotoTaken = true
+                }
+            }
+        }
     }
 }
 
 #Preview {
-    CameraView()
+    TakePhotoView()
 }
