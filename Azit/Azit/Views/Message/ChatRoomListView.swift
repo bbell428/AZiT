@@ -58,17 +58,17 @@ struct ChatRoomListView: View {
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .padding(.leading, 20)
                                     
-                                    ZStack(alignment: .center) {
-                                        Circle()
-                                            .fill(Color.red)
-                                            .frame(width: geometry.size.width * 0.06, height: geometry.size.width * 0.06)
-                                        
-                                        Text("1")
-                                            .font(.subheadline)
-                                            .foregroundStyle(Color.white)
-                                    }
-                                    .frame(alignment: .trailing)
-                                    .padding(.trailing, 20)
+//                                    ZStack(alignment: .center) {
+//                                        Circle()
+//                                            .fill(Color.red)
+//                                            .frame(width: geometry.size.width * 0.06, height: geometry.size.width * 0.06)
+//                                        
+//                                        Text("1")
+//                                            .font(.subheadline)
+//                                            .foregroundStyle(Color.white)
+//                                    }
+//                                    .frame(alignment: .trailing)
+//                                    .padding(.trailing, 20)
                                 }
                                 .frame(height: geometry.size.height * 0.1)
                             }
