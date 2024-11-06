@@ -50,7 +50,7 @@ struct ChatRoomListView: View {
                                                 .foregroundStyle(.gray)
                                         }
                                         
-                                        Text("\(chatroom.lastMessage)")
+                                        Text(chatroom.lastMessage.count > 10 ? "\(chatroom.lastMessage.prefix(10))..." : chatroom.lastMessage)
                                             .font(.subheadline)
                                             .fontWeight(.thin)
                                             .foregroundStyle(Color.black)

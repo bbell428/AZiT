@@ -63,7 +63,7 @@ struct MessageDetailView: View {
                 TextMessage(profileImageName: profileImageName)
                 
                 // 메시지 입력 공간
-                MessageSendField(roomId: roomId)
+                MessageSendField(roomId: roomId, nickname: nickname)
                     .frame(maxHeight: 50)
                     .padding(.bottom)
             }
@@ -162,20 +162,23 @@ struct TextMessage: View {
     }
 }
 
-// 메시지를 보내는 공간
+// 메시지 보내는 공간
 struct MessageSendField: View {
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var chatDetailViewStore: ChatDetailViewStore
     @State var text: String = ""
     var roomId: String
+    var nickname: String
     
     var body: some View {
         HStack {
-            TextField("친구에게 메시지 보내기", text: $text)
+            TextField("\(nickname)에게 보내기", text: $text)
                 .padding()
                 .background(Color(UIColor.systemGray6))
                 .cornerRadius(20)
                 .onSubmit {
+                    // 메시지가 비어 있지 않을 경우에만 전송
+                    guard !text.isEmpty else { return }
                     Task {
                         print("메시지 전송: \(text)")
                         chatDetailViewStore.sendMessage(text: text, roomId: roomId, userId: authManager.userID)
@@ -191,9 +194,12 @@ struct MessageSendField: View {
                 }
             }) {
                 Image(systemName: "paperplane.fill")
+                    .font(.title2)
                     .foregroundColor(.accentColor)
                     .padding()
             }
+            // 텍스트가 없으면 버튼 비활성화
+            .disabled(text.isEmpty)
         }
         .padding(.horizontal)
     }

@@ -13,23 +13,21 @@ struct PostMessage: View {
     
     var body: some View {
         HStack(alignment: .bottom) {
-            if !chat.readBy.contains(where: { $0 != authManager.userID }) {
-                // authManager.userID 외 다른 UID가 없을 경우
-                VStack {
-                    Text("1")
-                        .font(.caption2)
-                        .fontWeight(.bold)
-                        .foregroundStyle(Color.green)
-                        .padding(.top, 10)
+            VStack(alignment: .trailing) {
+                if !chat.readBy.contains(where: { $0 != authManager.userID }) {
+                    // authManager.userID 외 다른 UID가 없을 경우
+                    VStack {
+                        Text("1")
+                            .font(.caption2)
+                            .fontWeight(.bold)
+                            .foregroundStyle(Color.green)
+                    }
                 }
-            }
-            
-            VStack {
+                
                 Text(chat.formattedCreateAt)
                     .font(.caption2)
                     .fontWeight(.light)
                     .foregroundStyle(Color.gray)
-                    .padding(.top, 10)
             }
             
             VStack(alignment: .trailing) {
@@ -37,7 +35,7 @@ struct PostMessage: View {
                     .font(.headline)
                     .foregroundStyle(Color.black.opacity(0.5))
                     .multilineTextAlignment(.trailing)
-                    .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
+                    .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
                     .background(Color.gray.opacity(0.4))
                     .cornerRadius(15)
                     .fixedSize(horizontal: false, vertical: true) // 높이를 내용에 맞게 조절

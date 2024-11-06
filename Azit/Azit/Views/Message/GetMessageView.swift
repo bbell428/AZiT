@@ -24,29 +24,24 @@ struct GetMessage: View {
                         .font(.headline)
                         .foregroundStyle(Color.white)
                         .multilineTextAlignment(.leading)
-                        .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
+                        .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
                         .background(.accent)
                         .cornerRadius(15)
                         .id(chat.id)
                     
-                    Text(chat.formattedCreateAt)
-                        .font(.caption2)
-                        .fontWeight(.light)
-                        .foregroundStyle(Color.gray)
-                    
-                    if !chat.readBy.contains(authManager.userID) {
-                        VStack {
-                            Text("1")
-                                .font(.caption2)
-                                .fontWeight(.bold)
-                                .foregroundStyle(Color.green)
-                                .padding(.top, 10)
+                    VStack(alignment: .leading) {
+                        if !chat.readBy.contains(authManager.userID) {
+                                Text("1")
+                                    .font(.caption2)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(Color.green)
                         }
+                        Text(chat.formattedCreateAt)
+                            .font(.caption2)
+                            .fontWeight(.light)
+                            .foregroundStyle(Color.gray)
                     }
                 }
-                
-                /// 연기 사유 : 주요업무 수행
-                /// 알림마당 공지사항
             }
             .fixedSize(horizontal: false, vertical: true) // 높이를 내용에 맞게 조절
             .padding(.leading, 10)
