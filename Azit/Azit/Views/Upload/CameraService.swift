@@ -8,7 +8,7 @@ import SwiftUI
 import AVFoundation
 
 // MARK: - Camera Service to handle camera functionality
-class Camera: NSObject, ObservableObject {
+class CameraService: NSObject, ObservableObject {
     @Published var capturedImage: UIImage?
     
     var session: AVCaptureSession
@@ -100,7 +100,7 @@ class Camera: NSObject, ObservableObject {
 }
 
 // MARK: - Capture Photo Delegate
-extension Camera: AVCapturePhotoCaptureDelegate {
+extension CameraService: AVCapturePhotoCaptureDelegate {
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         sessionQueue.async {
             guard let imageData = photo.fileDataRepresentation() else { return }

@@ -8,12 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		8B3FE8AE2CD9E23E000A4519 /* EmojiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3FE8AD2CD9E239000A4519 /* EmojiView.swift */; };
+		8BA5D4A22CDAFC7900B03843 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA5D4A12CDAFC7500B03843 /* SearchView.swift */; };
 		8BCB83A02CDA2A3500C49011 /* PublishScopeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCB839F2CDA2A3300C49011 /* PublishScopeView.swift */; };
-		8BD71F7E2CD4BB280030693B /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F7D2CD4BB1A0030693B /* CameraView.swift */; };
+		8BD71F7E2CD4BB280030693B /* TakePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F7D2CD4BB1A0030693B /* TakePhotoView.swift */; };
 		8BD71F802CD89A8C0030693B /* CameraPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F7F2CD89A860030693B /* CameraPreview.swift */; };
-		8BD71F822CD89AC20030693B /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F812CD89ABD0030693B /* Camera.swift */; };
+		8BD71F822CD89AC20030693B /* CameraService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F812CD89ABD0030693B /* CameraService.swift */; };
 		8BD71F842CD89AEA0030693B /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F832CD89AE90030693B /* PhotoPicker.swift */; };
-		8BD71F862CD8C4DF0030693B /* EmojiUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F852CD8C4D90030693B /* EmojiUploadView.swift */; };
+		8BD71F862CD8C4DF0030693B /* EmojiUploadTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F852CD8C4D90030693B /* EmojiUploadTest.swift */; };
 		8BD71F882CD8C6300030693B /* PhotoReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F872CD8C62B0030693B /* PhotoReviewView.swift */; };
 		8BDA11D52CDA769C004242DB /* EmojiPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDA11D42CDA7696004242DB /* EmojiPickerView.swift */; };
 		8E538EE12CD844700094ABD1 /* RotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E538EE02CD844700094ABD1 /* RotationView.swift */; };
@@ -83,12 +84,13 @@
 
 /* Begin PBXFileReference section */
 		8B3FE8AD2CD9E239000A4519 /* EmojiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiView.swift; sourceTree = "<group>"; };
+		8BA5D4A12CDAFC7500B03843 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		8BCB839F2CDA2A3300C49011 /* PublishScopeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishScopeView.swift; sourceTree = "<group>"; };
-		8BD71F7D2CD4BB1A0030693B /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		8BD71F7D2CD4BB1A0030693B /* TakePhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakePhotoView.swift; sourceTree = "<group>"; };
 		8BD71F7F2CD89A860030693B /* CameraPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreview.swift; sourceTree = "<group>"; };
-		8BD71F812CD89ABD0030693B /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		8BD71F812CD89ABD0030693B /* CameraService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraService.swift; sourceTree = "<group>"; };
 		8BD71F832CD89AE90030693B /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
-		8BD71F852CD8C4D90030693B /* EmojiUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiUploadView.swift; sourceTree = "<group>"; };
+		8BD71F852CD8C4D90030693B /* EmojiUploadTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiUploadTest.swift; sourceTree = "<group>"; };
 		8BD71F872CD8C62B0030693B /* PhotoReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoReviewView.swift; sourceTree = "<group>"; };
 		8BDA11D42CDA7696004242DB /* EmojiPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiPickerView.swift; sourceTree = "<group>"; };
 		8E538EE02CD844700094ABD1 /* RotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotationView.swift; sourceTree = "<group>"; };
@@ -322,15 +324,16 @@
 		8EAFF0002CD4A04900136348 /* Upload */ = {
 			isa = PBXGroup;
 			children = (
-				8BD71F852CD8C4D90030693B /* EmojiUploadView.swift */,
+				8BD71F852CD8C4D90030693B /* EmojiUploadTest.swift */,
 				8B3FE8AD2CD9E239000A4519 /* EmojiView.swift */,
 				8BDA11D42CDA7696004242DB /* EmojiPickerView.swift */,
+				8BA5D4A12CDAFC7500B03843 /* SearchView.swift */,
 				8BCB839F2CDA2A3300C49011 /* PublishScopeView.swift */,
-				8BD71F7D2CD4BB1A0030693B /* CameraView.swift */,
+				8BD71F7D2CD4BB1A0030693B /* TakePhotoView.swift */,
 				8BD71F7F2CD89A860030693B /* CameraPreview.swift */,
 				8BD71F872CD8C62B0030693B /* PhotoReviewView.swift */,
 				8EAFF0102CD4A32F00136348 /* UploadView.swift */,
-				8BD71F812CD89ABD0030693B /* Camera.swift */,
+				8BD71F812CD89ABD0030693B /* CameraService.swift */,
 				8BD71F832CD89AE90030693B /* PhotoPicker.swift */,
 			);
 			path = Upload;
@@ -522,12 +525,12 @@
 				EAF93B8E2CD4A50700116035 /* AuthView.swift in Sources */,
 				EAF93B8F2CD4A50700116035 /* SignupView.swift in Sources */,
 				8EAFEFB82CD45CCE00136348 /* ChatRoom.swift in Sources */,
-				8BD71F862CD8C4DF0030693B /* EmojiUploadView.swift in Sources */,
+				8BD71F862CD8C4DF0030693B /* EmojiUploadTest.swift in Sources */,
 				8EAFEFAB2CD4528E00136348 /* AzitApp.swift in Sources */,
 				8BD71F882CD8C6300030693B /* PhotoReviewView.swift in Sources */,
-				8BD71F822CD89AC20030693B /* Camera.swift in Sources */,
+				8BD71F822CD89AC20030693B /* CameraService.swift in Sources */,
 				8BCB83A02CDA2A3500C49011 /* PublishScopeView.swift in Sources */,
-				8BD71F7E2CD4BB280030693B /* CameraView.swift in Sources */,
+				8BD71F7E2CD4BB280030693B /* TakePhotoView.swift in Sources */,
 				8BD71F842CD89AEA0030693B /* PhotoPicker.swift in Sources */,
 				8EAFEFAC2CD4528E00136348 /* MainView.swift in Sources */,
 				EA3F965E2CD8B19C009904C0 /* ProfileDetailView.swift in Sources */,
@@ -552,6 +555,7 @@
 				EAF93B852CD4A4D600116035 /* AuthManager+Email.swift in Sources */,
 				8E538EE12CD844700094ABD1 /* RotationView.swift in Sources */,
 				8EAFF0152CD4A33E00136348 /* AlbumView.swift in Sources */,
+				8BA5D4A22CDAFC7900B03843 /* SearchView.swift in Sources */,
 				8E538EE32CD844A50094ABD1 /* ContentsModalView.swift in Sources */,
 				8EAFEFB42CD4582200136348 /* Story.swift in Sources */,
 				CE062BAE2CD91E6C00CB5D4A /* GetMessageView.swift in Sources */,
