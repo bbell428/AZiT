@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MainView: View {
+    @State private var isMainExposed: Bool = true
     @State private var isModalPresented: Bool = false
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var authManager: AuthManager
@@ -28,13 +29,17 @@ struct MainView: View {
                         .ignoresSafeArea()
                         .zIndex(1)
                 }
-                
-                RotationView(isModalPresented: $isModalPresented, isdisplayEmojiPicker: $isdisplayEmojiPicker)
-                    .frame(width: 300, height: 300)
-                    .zIndex(1)
+                 
+                if isMainExposed {
+                    RotationView(isModalPresented: $isModalPresented, isdisplayEmojiPicker: $isdisplayEmojiPicker)
+                        .frame(width: 300, height: 300)
+                        .zIndex(1)
+                } else {
+                    MapView()
+                        .zIndex(1)
+                }
                 
                 VStack {
-                    
                     Spacer()
                     HStack{
                         NavigationLink {
@@ -54,9 +59,9 @@ struct MainView: View {
                                 .fill(.white)
                                 .frame(width: 40, height: 40)
                             Button {
-                                // 지도 화면으로 넘어가기
+                                isMainExposed.toggle()
                             } label: {
-                                Image(systemName: "map")
+                                Image(systemName: isMainExposed ? "map" : "house")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 25)
@@ -138,5 +143,12 @@ struct MainTopView: View {
 }
 
 #Preview {
+//    AuthView()
+//        .environmentObject(AuthManager())
+//        .environmentObject(UserInfoStore())
+//        .environmentObject(ChatListStore())
+//        .environmentObject(ChatDetailViewStore())
     MainView()
+        .environmentObject(AuthManager())
+        .environmentObject(UserInfoStore())
 }

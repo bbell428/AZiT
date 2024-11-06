@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import FirebaseCore
+import FirebaseFirestore
 
 struct Story: Codable, Equatable, Identifiable {
     var id: String = UUID().uuidString
@@ -22,4 +24,25 @@ struct Story: Codable, Equatable, Identifiable {
     
     var publishedTargets: [String] = [] // 공개 대상 (유저 uid)
     var readUsers: [String] = [] // 게시글을 읽은 사람 (유저 uid)
+    
+    init(document: QueryDocumentSnapshot) async throws {
+        let docData = document.data()
+        
+        self.id = document.documentID
+        self.userId = docData["userId"] as? String ?? ""
+        self.likes = docData["likes"] as? [String] ?? []
+        self.latitude = docData["latitude"] as? Double ?? 0.0
+        self.longitude = docData["longitude"] as? Double ?? 0.0
+        self.emoji = docData["emoji"] as? String ?? ""
+        self.image = docData["image"] as? String ?? ""
+        self.content = docData["content"] as? String ?? ""
+        self.publishedTargets = docData["publishedTargets"] as? [String] ?? []
+        self.readUsers = docData["readUsers"] as? [String] ?? []
+        
+        if let timestamp = docData["date"] as? Timestamp {
+            self.date = timestamp.dateValue()
+        } else {
+            self.date = Date()
+        }
+    }
 }
