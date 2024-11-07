@@ -12,10 +12,12 @@ import PhotosUI
 struct PhotoReviewView: View {
     @EnvironmentObject var storyStore: StoryStore
     @EnvironmentObject var storyDraft: StoryDraft
+    @EnvironmentObject var authManager: AuthManager
     
     var image: UIImage?
     @State private var showUploadView = false
     @State var isdisplayEmojiPicker: Bool = false
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         ZStack {
@@ -79,8 +81,23 @@ struct PhotoReviewView: View {
                 
                 // save 버튼
                 Button(action: {
-                    savePhoto()
+//                    savePhoto()
+                    let newStory = Story(
+                        userId: authManager.userID,
+                        date: Date(),
+                        latitude: storyDraft.latitude,
+                        longitude: storyDraft.longitude,
+                        emoji: storyDraft.emoji,
+                        content: storyDraft.content,
+                        publishedTargets: []
+                    )
+                    
+                    Task {
+                        await storyStore.addStory(newStory)
+                    }
                     showUploadView = true
+                    dismiss()
+                    dismiss()
                 }) {
                     RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
                         .stroke(Color.accentColor, lineWidth: 1)
@@ -104,7 +121,7 @@ struct PhotoReviewView: View {
                             isdisplayEmojiPicker = false // 배경 터치 시 닫기
                         }
                     
-                    EditStoryView()
+                    EditStoryView(isdisplayEmojiPicker: $isdisplayEmojiPicker)
                 }
             }
         }

@@ -13,6 +13,7 @@ struct EmojiView : View {
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var storyDraft: StoryDraft
     @Binding var isdisplayEmojiPicker: Bool // MainView에서 전달받은 바인딩 변수
+//    @Binding var navigateToRoot: Bool
     
     // 작성될 때의 경도와 위도 값 받기 > 위치 변환하려면 api 받아야 하나
 //    @State var currentLatitude: Double = 0

@@ -17,6 +17,7 @@ struct MainView: View {
     @EnvironmentObject var storyDraft: StoryDraft
     
     @State var isdisplayEmojiPicker: Bool = false
+//    @State private var navigateToRoot = false
     @State var selectedEmoji: String = ""
     @State private var message: String = ""
     
