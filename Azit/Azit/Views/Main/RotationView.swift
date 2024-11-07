@@ -236,11 +236,12 @@ struct ContentEmojiView: View {
                     .padding(.top, -40)
                 
                 ZStack {
-                    Circle()
+                    Ellipse()
                         .fill(RadialGradient(gradient: Gradient(colors: [Color.black.opacity(0.4), Color.black.opacity(0)]),
                                              center: .center,
                                              startRadius: 0,
                                              endRadius: 20))
+                        .frame(width: 30, height: 12)
                     
                     Circle()
                         .fill(.clear)
