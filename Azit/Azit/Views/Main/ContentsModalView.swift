@@ -18,7 +18,7 @@ struct ContentsModalView: View {
     @State private var scale: CGFloat = 0.1
     
     var body: some View {
-        VStack(spacing: 15) {
+        VStack(alignment: .center, spacing: 15) {
             HStack(spacing: 5) {
                 Text(selectedUserInfo.previousState)
                 
@@ -37,18 +37,37 @@ struct ContentsModalView: View {
                     .font(.caption)
             }
             
-            HStack() {
-                Text(story?.content ?? "")
-                
-                Spacer()
-            }
-            
             if story?.image != "" {
+                HStack() {
+                    Text(story?.content ?? "")
+                    
+                    Spacer()
+                }
+                
                 Image("asdf")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                     .onTapGesture { }
+            } else {
+                if story?.emoji ?? "" != "" {
+                    if story?.content ?? "" != "" {
+                        HStack() {
+                            SpeechBubbleView(text: story?.content ?? "")
+                        }
+                        .padding(.bottom, -10)
+                    }
+                    
+                    Text(story?.emoji ?? "")
+                        .font(.system(size: 100))
+                } else {
+                    if story?.content ?? "" != "" {
+                        HStack() {
+                            Text(story?.content ?? "")
+                            Spacer()
+                        }
+                    }
+                }
             }
             
             HStack {
@@ -97,6 +116,41 @@ struct ContentsModalView: View {
             }
         }
         .frame(width: (screenBounds?.width ?? 0) - 32)
+    }
+}
+
+// 추 후 컴포넌트로 빼기
+struct SpeechBubbleView: View {
+    var text: String
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(text)
+                .padding(5)
+                .padding([.leading, .trailing], 10)
+                .foregroundStyle(.white)
+        }
+        .background(
+            SpeechBubbleTail()
+                .stroke(Color.accent, lineWidth: 2)
+                .background(SpeechBubbleTail().fill(Color.accent))
+        )
+    }
+}
+
+struct SpeechBubbleTail: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        
+        path.addRoundedRect(in: rect, cornerSize: CGSize(width: 8, height: 8))
+        
+        path.move(to: CGPoint(x: rect.midX - 3, y: rect.maxY))
+        path.addLine(to: CGPoint(x: rect.midX, y: rect.maxY + 8))
+        path.addLine(to: CGPoint(x: rect.midX + 3, y: rect.maxY))
+        
+        path.closeSubpath()
+        
+        return path
     }
 }
 
