@@ -11,17 +11,14 @@ import Smile
 
 public struct EmojiPickerView: View {
 
-    @Environment(\.dismiss)
-    var dismiss
+    @Environment(\.dismiss) var dismiss
 
-    @Binding
-    public var selectedEmoji: Emoji?
+    @Binding public var selectedEmoji: Emoji?
 
-    @State
-    private var search: String = ""
+    @State private var search: String = ""
 
     private var selectedColor: Color
-    private var searchEnabled: Bool
+    @State private var searchEnabled: Bool
 
     public init(selectedEmoji: Binding<Emoji?>, searchEnabled: Bool = false, selectedColor: Color = .blue, emojiProvider: EmojiProvider = DefaultEmojiProvider()) {
         self._selectedEmoji = selectedEmoji
@@ -46,6 +43,9 @@ public struct EmojiPickerView: View {
     }
 
     public var body: some View {
+        SearchView(search: $search, searchEnabled: $searchEnabled)
+            .frame(width: 340, height: 40)
+        
         ScrollView {
             LazyVGrid(columns: columns, spacing: 20) {
                 ForEach(searchResults, id: \.self) { emoji in
@@ -65,13 +65,10 @@ public struct EmojiPickerView: View {
             .padding(.horizontal)
         }
         .frame(maxHeight: .infinity)
-        .searchable(text: $search)
     }
-
 }
 
 public struct Emoji: Hashable {
-
     public let value: String
     public let name: String
 
@@ -91,8 +88,6 @@ public final class DefaultEmojiProvider: EmojiProvider {
     }
 
 }
-
-import Foundation
 
 public protocol EmojiProvider {
     func getAll() -> [Emoji]

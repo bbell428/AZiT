@@ -55,6 +55,9 @@ struct MessageView: View {
                 chatListStore.fetchChatRooms(userId: userInfoStore.userInfo?.id ?? "")
             }
         }
+        .onDisappear {
+            chatListStore.removeChatRoomsListener()
+        }
     }
 }
 

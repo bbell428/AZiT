@@ -12,37 +12,43 @@ struct EmojiView : View {
     @Binding var message: String
     @Binding var selectedEmoji: Emoji?
     @State var isShowingsheet: Bool = false
+
+    @State var isPicture:Bool = false
+    
+    var isShareEnabled: Bool {
+        return selectedEmoji != nil || !message.isEmpty
+    }
     
     var body : some View{
         VStack {
-            NavigationView {
-                EmojiPickerView(selectedEmoji: $selectedEmoji, searchEnabled: false,  selectedColor: Color.accent)
-                    .background(Color.subColor4)
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            HStack {
-                                Image(systemName: "location.fill")
-                                    .foregroundStyle(Color.accentColor)
-                                
-                                // 위치 데이터
-                                Text("경기도 고양시")
-                                    .font(.caption2)
-                            }
-                        }
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            Button(action: {
-                                isShowingsheet.toggle()
-                            }) {
-                                HStack {
-                                    Image(systemName: "person")
-                                    Text("전체 공개")
-                                        .font(.caption2)
-                                    Text(">")
-                                        .font(.caption2)
-                                }
-                            }
+            NavigationStack {
+                HStack {
+                    HStack {
+                        Image(systemName: "location.fill")
+                            .foregroundStyle(Color.accentColor)
+                        
+                        // 위치 데이터
+                        Text("경기도 고양시")
+                            .font(.caption2)
+                    }
+                    Spacer()
+                    Button(action: {
+                        isShowingsheet.toggle()
+                    }) {
+                        HStack {
+                            Image(systemName: "person")
+                            Text("전체 공개")
+                                .font(.caption2)
+                            Text(">")
+                                .font(.caption2)
                         }
                     }
+                }
+                .padding(.horizontal)
+                
+                EmojiPickerView(selectedEmoji: $selectedEmoji, searchEnabled: false,  selectedColor: Color.accent)
+                    .background(Color.subColor4)
+
                 
             }.frame(width: UIScreen.main.bounds.width*0.9, height: UIScreen.main.bounds.height * 1.1 / 3)
                 .padding(.bottom)
@@ -59,7 +65,7 @@ struct EmojiView : View {
                 .padding(.bottom)
             
             // camera button
-            NavigationLink(destination: CameraView()) {
+            NavigationLink(destination: TakePhotoView()) {
                 RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
                     .background(RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
                         .fill(Color.accentColor))
@@ -72,22 +78,23 @@ struct EmojiView : View {
             .padding(.bottom, 20)
             
             // 공유 버튼
-//            Button (action:{
-//                
-//            }) {
-//                RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
-//                    .background(RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
-//                        .fill(Color.white))
-//                    .stroke(Color.accentColor, lineWidth: 0.5)
-//                    .frame(width: 340, height: 40)
-//                    .overlay(Text("Share")
-//                        .padding()
-//                        .foregroundColor(Color.accentColor)
-//                    )
-//                
-//            }
+            Button (action:{
+                //Post 모델에 데이터 연결
+                
+            }) {
+                RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
+                    .stroke(Color.accentColor, lineWidth: 0.5)
+                    .background(RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
+                        .fill(Color.white))
+                    .frame(width: 340, height: 40)
+                    .overlay(Text("Share")
+                        .padding()
+                        .foregroundColor(Color.accentColor)
+                    )
+            }
+            .disabled(!isShareEnabled)
         }
-        .frame(width: 365, height: 500) // 팝업창 크기
+        .frame(width: 365, height: 550) // 팝업창 크기
         .background(
             RoundedRectangle(cornerRadius: 15)
                 .fill(Color.subColor4)

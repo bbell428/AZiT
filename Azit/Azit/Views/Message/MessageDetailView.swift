@@ -45,6 +45,7 @@ struct CustomNavigationView<Content: View>: UIViewControllerRepresentable {
 }
 
 struct MessageDetailView: View {
+    @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var chatDetailViewStore: ChatDetailViewStore
     @Environment(\.dismiss) var dismiss
     var roomId: String
@@ -62,13 +63,16 @@ struct MessageDetailView: View {
                 TextMessage(profileImageName: profileImageName)
                 
                 // 메시지 입력 공간
-                MessageSendField(roomId: roomId)
+                MessageSendField(roomId: roomId, nickname: nickname)
                     .frame(maxHeight: 50)
                     .padding(.bottom)
             }
             .navigationBarBackButtonHidden(true)
             .onAppear {
-                chatDetailViewStore.getChatMessages(roomId: roomId)
+                chatDetailViewStore.getChatMessages(roomId: roomId, userId: authManager.userID)
+            }
+            .onDisappear {
+                chatDetailViewStore.removeChatMessagesListener()
             }
         }
     }
@@ -76,7 +80,6 @@ struct MessageDetailView: View {
 
 // 채팅방 상단
 struct MessageDetailTopBar: View {
-    @EnvironmentObject var authManager: AuthManager
     let dismissAction: () -> Void
     var nickname: String
     var profileImageName: String
@@ -119,6 +122,7 @@ struct MessageDetailTopBar: View {
 
 // 채팅방 메시지 내용
 struct TextMessage: View {
+    @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var chatDetailViewStore: ChatDetailViewStore
     var profileImageName: String
     
@@ -127,7 +131,7 @@ struct TextMessage: View {
             ScrollView {
                 LazyVStack(spacing: 20) {
                     ForEach(chatDetailViewStore.chatList, id: \.id) { chat in
-                        if chat.sender == "parkjunyoung" {
+                        if chat.sender == authManager.userID {
                             PostMessage(chat: chat)
                         } else {
                             GetMessage(chat: chat, profileImageName: profileImageName)
@@ -158,22 +162,26 @@ struct TextMessage: View {
     }
 }
 
-// 메시지를 보내는 공간
+// 메시지 보내는 공간
 struct MessageSendField: View {
+    @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var chatDetailViewStore: ChatDetailViewStore
     @State var text: String = ""
     var roomId: String
+    var nickname: String
     
     var body: some View {
         HStack {
-            TextField("친구에게 메시지 보내기", text: $text)
+            TextField("\(nickname)에게 보내기", text: $text)
                 .padding()
                 .background(Color(UIColor.systemGray6))
                 .cornerRadius(20)
                 .onSubmit {
+                    // 메시지가 비어 있지 않을 경우에만 전송
+                    guard !text.isEmpty else { return }
                     Task {
                         print("메시지 전송: \(text)")
-                        chatDetailViewStore.sendMessage(text: text, roomId: roomId)
+                        chatDetailViewStore.sendMessage(text: text, roomId: roomId, userId: authManager.userID)
                         text = "" // 메시지 전송 후 입력 필드를 비웁니다.
                     }
                 }
@@ -181,14 +189,17 @@ struct MessageSendField: View {
             Button(action: {
                 Task {
                     print("메시지 전송: \(text)")
-                    chatDetailViewStore.sendMessage(text: text, roomId: roomId)
+                    chatDetailViewStore.sendMessage(text: text, roomId: roomId, userId: authManager.userID)
                     text = "" // 메시지 전송 후 입력 필드를 비웁니다.
                 }
             }) {
                 Image(systemName: "paperplane.fill")
+                    .font(.title2)
                     .foregroundColor(.accentColor)
                     .padding()
             }
+            // 텍스트가 없으면 버튼 비활성화
+            .disabled(text.isEmpty)
         }
         .padding(.horizontal)
     }

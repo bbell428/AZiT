@@ -286,6 +286,7 @@ struct EmojiSheetView : View {
                             ForEach(i,id: \.self){j in
                                 Button(action: {
                                     self.txt += String(UnicodeScalar(j)!)
+                                    self.show.toggle()
                                 }) {
                                     if (UnicodeScalar(j)?.properties.isEmoji)!{
                                         Text(String(UnicodeScalar(j)!)).font(.system(size: 55))

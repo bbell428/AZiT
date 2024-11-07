@@ -16,6 +16,7 @@ class UserInfoStore: ObservableObject {
     private var authManager: AuthManager = .init()
     @Published var userInfo: UserInfo? = nil
     @Published var friendInfo: [String: UserInfo] = [:] // UID를 키로 사용하는 딕셔너리 형태
+    @Published var friendInfos: [UserInfo] = []
     
     // MARK: - 사용자 정보 Firestore에 추가
     func addUserInfo(_ user: UserInfo) async {
@@ -189,4 +190,5 @@ class UserInfoStore: ObservableObject {
             throw error
         }
     }
+    
 }

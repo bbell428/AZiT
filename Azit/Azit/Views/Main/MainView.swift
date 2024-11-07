@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MainView: View {
+    @State private var isMainExposed: Bool = true
     @State private var isModalPresented: Bool = false
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var authManager: AuthManager
@@ -18,54 +19,17 @@ struct MainView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                VStack {
-                    MainTopView(isModalPresented: $isModalPresented)
-                    Spacer()
-                }
-                
-                if isModalPresented {
-                    Color.black.opacity(0.4)
-                        .ignoresSafeArea()
+                if isMainExposed {
+                    RotationView(isModalPresented: $isModalPresented, isdisplayEmojiPicker: $isdisplayEmojiPicker)
+                        .frame(width: 300, height: 300)
+                        .zIndex(isModalPresented ? 2 : 1)
+                } else {
+                    MapView()
                         .zIndex(1)
                 }
                 
-                RotationView(isModalPresented: $isModalPresented, isdisplayEmojiPicker: $isdisplayEmojiPicker)
-                    .frame(width: 300, height: 300)
+                MainTopView(isModalPresented: $isModalPresented, isMainExposed: $isMainExposed)
                     .zIndex(1)
-                
-                VStack {
-                    
-                    Spacer()
-                    HStack{
-                        NavigationLink {
-                            MessageView()
-                        } label: {
-                            Image(systemName: "ellipsis.message.fill")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 40, height: 40)
-                        }
-                        .padding()
-                        
-                        Spacer()
-                        
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(.white)
-                                .frame(width: 40, height: 40)
-                            Button {
-                                // 지도 화면으로 넘어가기
-                            } label: {
-                                Image(systemName: "map")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 25)
-                            }
-                        }
-                        .padding()
-                    }
-                }
-                .zIndex(1)
                 
                 if isdisplayEmojiPicker {
                     Color.black.opacity(0.4)
@@ -89,54 +53,112 @@ struct MainView: View {
 }
 
 struct MainTopView: View {
+    let screenBounds = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds
     @Binding var isModalPresented: Bool
+    @Binding var isMainExposed: Bool
     
     var body: some View {
-        HStack() {
-            Text("AZiT")
-                .font(.largeTitle)
-                .fontWeight(.black)
-                .bold()
-                .padding()
+        VStack {
+            ZStack {
+                if isMainExposed == false {
+                    Rectangle()
+                        .fill(LinearGradient(gradient: Gradient(colors: [Color.clear, Color.white]),
+                                             startPoint: .bottom,
+                                             endPoint: .top))
+                }
+                
+                HStack() {
+                    Text("AZiT")
+                        .font(.largeTitle)
+                        .fontWeight(.black)
+                        .bold()
+                        .padding()
+                    
+                    Spacer()
+                    
+                    HStack(spacing: 20) {
+//                        Button {
+//                            // 게시글 리로드
+//                        } label: {
+//                            Image(systemName: "arrow.clockwise")
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fit)
+//                                .frame(width: 25)
+//                        }
+//                        .disabled(isModalPresented ? true : false)
+                        
+                        NavigationLink {
+                            MessageView()
+                        } label: {
+                            Image(systemName: "ellipsis.message.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30)
+                        }
+                        
+                        Button {
+                            // 앨범 리스트
+                        } label: {
+                            Image(systemName: "photo.stack")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30)
+                        }
+                        
+                        NavigationLink {
+                            MyPageView()
+                        } label: {
+                            Image(systemName: "person.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30)
+                        }
+                    }
+                    .frame(width: 150, height: 50)
+                    .background(Color.gray.opacity(0.1))
+                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                    .padding()
+                }
+                .foregroundStyle(.accent)
+            }
+            .frame(maxHeight: (screenBounds?.height ?? 0) * 0.25)
+            .ignoresSafeArea()
             
             Spacer()
             
-            HStack(spacing: 20) {
-                Button {
-                    // 게시글 리로드
-                } label: {
-                    Image(systemName: "arrow.clockwise")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 25)
-                }
-                .disabled(isModalPresented ? true : false)
+            HStack{
+                Spacer()
                 
                 Button {
-                    // 앨범 리스트
+                    isMainExposed.toggle()
                 } label: {
-                    Image(systemName: "photo.stack")
+                    Image(systemName: isMainExposed ? "map" : "house")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 30)
                 }
-                
-                NavigationLink {
-                    MyPageView()
-                } label: {
-                    Image(systemName: "person.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 30)
-                }
-
+                .frame(width: 60, height: 60)
+                .background(Color.white)
+                .clipShape(RoundedRectangle(cornerRadius: 15))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 15)
+                        .stroke(.accent, lineWidth: 2) // 원하는 색상과 선 두께로 설정
+                )
             }
             .padding()
+            
         }
-        .foregroundStyle(.accent)
+        .frame(maxWidth: screenBounds?.width, maxHeight: screenBounds?.height)
     }
 }
 
 #Preview {
+    //    AuthView()
+    //        .environmentObject(AuthManager())
+    //        .environmentObject(UserInfoStore())
+    //        .environmentObject(ChatListStore())
+    //        .environmentObject(ChatDetailViewStore())
     MainView()
+        .environmentObject(AuthManager())
+        .environmentObject(UserInfoStore())
 }
