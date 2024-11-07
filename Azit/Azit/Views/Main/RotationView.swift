@@ -143,7 +143,7 @@ struct RotationView: View {
             .gesture(
                 DragGesture()
                     .onChanged { value in
-                        rotation += Double(value.translation.width) * 0.05
+                        rotation += Double(value.translation.width) * 0.01
                     }
             )
             .gesture(
