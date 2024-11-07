@@ -241,7 +241,7 @@ struct ContentEmojiView: View {
                                              center: .center,
                                              startRadius: 0,
                                              endRadius: 20))
-                        .frame(width: 30, height: 12)
+                        .frame(width: 20 * (1.5 - interpolationRatio), height: 10 * (1.5 - interpolationRatio))
                     
                     Circle()
                         .fill(.clear)
@@ -250,12 +250,12 @@ struct ContentEmojiView: View {
                                 Circle()
                                     .stroke(.white, lineWidth: 3)
                                 Text(userInfo.previousState)
-                                    .font(.system(size: 35))
+                                    .font(.system(size: 25 * (1.5 - interpolationRatio)))
                             }
                             
                         )
                         .offset(x: 0, y: -30)
-                        .frame(width: 50, height: 50)
+                        .frame(width: 40 * (1.5 - interpolationRatio), height: 40 * (1.5 - interpolationRatio))
                 }
             }
         }

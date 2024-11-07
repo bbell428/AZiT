@@ -41,11 +41,11 @@ struct MapView: View {
                                             Circle()
                                                 .stroke(.accent, lineWidth: 3)
                                             Text(user.previousState)
-                                                .font(.system(size: 50))
+                                                .font(.system(size: 45))
                                         }
                                     )
                                     .offset(x: 0, y: -30)
-                                    .frame(width: 65, height: 65)
+                                    .frame(width: 60, height: 60)
                             }
                         }
                     }
