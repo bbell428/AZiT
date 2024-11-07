@@ -38,6 +38,7 @@ struct AzitApp: App {
                 .environmentObject(authManager)
                 .environmentObject(userInfoStore)
                 .environmentObject(chatListStore)
+                .environmentObject(StoryStore())
                 .environmentObject(chatDetailViewStore)
                 .environmentObject(StoryDraft())
         }

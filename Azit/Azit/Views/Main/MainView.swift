@@ -42,8 +42,7 @@ struct MainView: View {
                             isdisplayEmojiPicker = false // 배경 터치 시 닫기
                         }
                         .zIndex(2)
-                    
-                    EmojiView()
+                    EmojiView(isdisplayEmojiPicker: $isdisplayEmojiPicker)
                         .zIndex(3)
                 }
             }

@@ -12,7 +12,8 @@ struct EditStoryView : View {
     @EnvironmentObject var storyStore: StoryStore
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var storyDraft: StoryDraft
-    @Environment(\.presentationMode) var presentationMode
+//    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     
     // 작성될 때의 경도와 위도 값 받기 > 위치 변환하려면 api 받아야 하나
 //    @State var currentLatitude: Double = 0
@@ -73,10 +74,10 @@ struct EditStoryView : View {
                 )
                 .padding(.bottom)
             
-            // 공유 버튼
+            // 수정 완료 버튼
             Button (action:{
                 let newStory = Story(
-                    userId: "",
+                    userId: authManager.userID,
                     date: Date(),
                     latitude: storyDraft.latitude,
                     longitude: storyDraft.longitude,
@@ -88,7 +89,8 @@ struct EditStoryView : View {
                 Task {
                     await storyStore.addStory(newStory)
                 }
-                presentationMode.wrappedValue.dismiss()
+//                presentationMode.wrappedValue.dismiss()
+                dismiss()
                 resetStory()
             }) {
                 RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
@@ -101,7 +103,6 @@ struct EditStoryView : View {
                         .foregroundColor(Color.accentColor)
                     )
             }
-            .disabled(!isShareEnabled)
         }
         .frame(width: 365, height: 550) // 팝업창 크기
         .background(

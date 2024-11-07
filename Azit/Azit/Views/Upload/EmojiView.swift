@@ -12,7 +12,7 @@ struct EmojiView : View {
     @EnvironmentObject var storyStore: StoryStore
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var storyDraft: StoryDraft
-    @Environment(\.presentationMode) var presentationMode
+    @Binding var isdisplayEmojiPicker: Bool // MainView에서 전달받은 바인딩 변수
     
     // 작성될 때의 경도와 위도 값 받기 > 위치 변환하려면 api 받아야 하나
 //    @State var currentLatitude: Double = 0
@@ -89,7 +89,7 @@ struct EmojiView : View {
             // 공유 버튼
             Button (action:{
                 let newStory = Story(
-                    userId: "",
+                    userId: authManager.userID,
                     date: Date(),
                     latitude: storyDraft.latitude,
                     longitude: storyDraft.longitude,
@@ -101,8 +101,8 @@ struct EmojiView : View {
                 Task {
                     await storyStore.addStory(newStory)
                 }
-                presentationMode.wrappedValue.dismiss()
                 resetStory()
+                isdisplayEmojiPicker = false
             }) {
                 RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
                     .stroke(Color.accentColor, lineWidth: 0.5)
@@ -114,7 +114,7 @@ struct EmojiView : View {
                         .foregroundColor(Color.accentColor)
                     )
             }
-            .disabled(!isShareEnabled)
+            .disabled(isShareEnabled)
         }
         .frame(width: 365, height: 550) // 팝업창 크기
         .background(
