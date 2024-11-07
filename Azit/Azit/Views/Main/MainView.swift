@@ -96,8 +96,8 @@ struct MainTopView: View {
                                 .frame(width: 30)
                         }
                         
-                        Button {
-                            // 앨범 리스트
+                        NavigationLink {
+                            AlbumView()
                         } label: {
                             Image(systemName: "photo.stack")
                                 .resizable()
