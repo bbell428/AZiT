@@ -1,14 +1,14 @@
 //
-//  EmojiView.swift
+//  EditStoryView.swift
 //  Azit
 //
-//  Created by 홍지수 on 11/5/24.
+//  Created by 홍지수 on 11/8/24.
 //
 
 import SwiftUI
 //import EmojiPicker
 
-struct EmojiView : View {
+struct EditStoryView : View {
     @EnvironmentObject var storyStore: StoryStore
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var storyDraft: StoryDraft
@@ -73,19 +73,6 @@ struct EmojiView : View {
                 )
                 .padding(.bottom)
             
-            // 카메라 촬영 버튼
-            NavigationLink(destination: TakePhotoView()) {
-                RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
-                    .background(RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
-                        .fill(Color.accentColor))
-                    .frame(width: 340, height: 40)
-                    .overlay(Image(systemName: "camera.fill")
-                        .padding()
-                        .foregroundColor(Color.white)
-                    )
-            }
-            .padding(.bottom, 20)
-            
             // 공유 버튼
             Button (action:{
                 let newStory = Story(
@@ -109,7 +96,7 @@ struct EmojiView : View {
                     .background(RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
                         .fill(Color.white))
                     .frame(width: 340, height: 40)
-                    .overlay(Text("Share")
+                    .overlay(Text("수정 완료")
                         .padding()
                         .foregroundColor(Color.accentColor)
                     )

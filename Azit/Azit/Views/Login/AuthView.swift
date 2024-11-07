@@ -45,4 +45,5 @@ struct AuthView: View {
 
 #Preview {
     AuthView()
+        .environmentObject(StoryDraft())
 }

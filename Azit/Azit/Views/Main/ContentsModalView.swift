@@ -99,6 +99,6 @@ struct ContentsModalView: View {
     }
 }
 
-#Preview {
-    MainView()
-}
+//#Preview {
+//    MainView()
+//}

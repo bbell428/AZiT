@@ -12,15 +12,15 @@ import Smile
 public struct EmojiPickerView: View {
 
     @Environment(\.dismiss) var dismiss
-
-    @Binding public var selectedEmoji: Emoji?
+    // binding 사용
+    @Binding public var selectedEmoji: String
 
     @State private var search: String = ""
 
     private var selectedColor: Color
     @State private var searchEnabled: Bool
 
-    public init(selectedEmoji: Binding<Emoji?>, searchEnabled: Bool = false, selectedColor: Color = .blue, emojiProvider: EmojiProvider = DefaultEmojiProvider()) {
+    public init(selectedEmoji: Binding<String>, searchEnabled: Bool = false, selectedColor: Color = .blue, emojiProvider: EmojiProvider = DefaultEmojiProvider()) {
         self._selectedEmoji = selectedEmoji
         self.selectedColor = selectedColor
         self.searchEnabled = searchEnabled
@@ -50,14 +50,14 @@ public struct EmojiPickerView: View {
             LazyVGrid(columns: columns, spacing: 20) {
                 ForEach(searchResults, id: \.self) { emoji in
                     RoundedRectangle(cornerRadius: 16)
-                        .fill((selectedEmoji == emoji ? selectedColor : Color.subColor2).opacity(0.3))
+                        .fill((getEmojiName(for: selectedEmoji, in: searchResults) == emoji.name ? selectedColor : Color.subColor2).opacity(0.3))
                         .frame(width: 40, height: 40)
                         .overlay {
                             Text(emoji.value)
                                 .font(.title)
                         }
                         .onTapGesture {
-                            selectedEmoji = emoji
+                            selectedEmoji = emoji.value
                             dismiss()
                         }
                 }
@@ -66,6 +66,10 @@ public struct EmojiPickerView: View {
         }
         .frame(maxHeight: .infinity)
     }
+}
+
+func getEmojiName(for value: String, in emojis: [Emoji]) -> String? {
+    return emojis.first(where: { $0.value == value })?.name
 }
 
 public struct Emoji: Hashable {

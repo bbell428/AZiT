@@ -58,7 +58,7 @@ struct EmojiUploadTest: View {
                             displayEmojiPicker = false // 배경 터치 시 닫기
                         }
                     
-                    EmojiView(message: $message, selectedEmoji: $selectedEmoji)
+                    EmojiView()
                 }
             }
             .animation(.easeInOut, value: displayEmojiPicker)
@@ -68,5 +68,6 @@ struct EmojiUploadTest: View {
 
 #Preview {
     EmojiUploadTest()
+        .environmentObject(StoryDraft())
 }
 
