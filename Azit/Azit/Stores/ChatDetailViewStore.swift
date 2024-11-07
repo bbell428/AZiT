@@ -49,20 +49,20 @@ class ChatDetailViewStore: ObservableObject {
                         print("마지막 id = \(self.lastMessageId)")
                     }
                     
-                    let batch = self.db.batch()
-                    
-                    for document in documents {
-                        let messageRef = document.reference
-                        batch.updateData(["readBy": FieldValue.arrayUnion([userId])], forDocument: messageRef)
-                    }
-                    
-                    batch.commit { error in
-                        if let error = error {
-                            print("Batch update failed: \(error)")
-                        } else {
-                            print("User \(userId) added to readBy array in all messages")
-                        }
-                    }
+//                    let batch = self.db.batch()
+//                    
+//                    for document in documents {
+//                        let messageRef = document.reference
+//                        batch.updateData(["readBy": FieldValue.arrayUnion([userId])], forDocument: messageRef)
+//                    }
+//                    
+//                    batch.commit { error in
+//                        if let error = error {
+//                            print("Batch update failed: \(error)")
+//                        } else {
+//                            print("User \(userId) added to readBy array in all messages")
+//                        }
+//                    }
                 }
         }
         
