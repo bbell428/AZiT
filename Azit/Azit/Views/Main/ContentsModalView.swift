@@ -20,7 +20,7 @@ struct ContentsModalView: View {
     var body: some View {
         VStack(spacing: 15) {
             HStack(spacing: 5) {
-                Text(selectedUserInfo.profileImageName)
+                Text(selectedUserInfo.previousState)
                 
                 Text(selectedUserInfo.nickname)
                     .font(.caption)
