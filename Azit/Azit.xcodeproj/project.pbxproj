@@ -22,7 +22,6 @@
 		8E538EEB2CD85AB40094ABD1 /* AddContentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E538EEA2CD85AB40094ABD1 /* AddContentsView.swift */; };
 		8E9402612CDAE99E0005C2BB /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9402602CDAE99E0005C2BB /* MapView.swift */; };
 		8EAFEFA92CD4528E00136348 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EAFEFA32CD4528E00136348 /* Preview Assets.xcassets */; };
-		8EAFEFAA2CD4528E00136348 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EAFEFA52CD4528E00136348 /* Assets.xcassets */; };
 		8EAFEFAB2CD4528E00136348 /* AzitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFEFA62CD4528E00136348 /* AzitApp.swift */; };
 		8EAFEFAC2CD4528E00136348 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFEFA72CD4528E00136348 /* MainView.swift */; };
 		8EAFEFB22CD4580800136348 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFEFB12CD4580800136348 /* UserInfo.swift */; };
@@ -48,6 +47,7 @@
 		8EAFF0152CD4A33E00136348 /* AlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFF0142CD4A33E00136348 /* AlbumView.swift */; };
 		8EAFF0182CD4A36B00136348 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFF0172CD4A36B00136348 /* AuthManager.swift */; };
 		8EAFF01A2CD4A37900136348 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFF0192CD4A37900136348 /* LoginView.swift */; };
+		8EFEC4A82CDCAC7A00726CED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EFEC4A72CDCAC7A00726CED /* Assets.xcassets */; };
 		CE062B9E2CD8DB8100CB5D4A /* ChatDetailViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062B9D2CD8DB8100CB5D4A /* ChatDetailViewStore.swift */; };
 		CE062BAC2CD91E2B00CB5D4A /* PostMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062BAB2CD91E2500CB5D4A /* PostMessageView.swift */; };
 		CE062BAE2CD91E6C00CB5D4A /* GetMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062BAD2CD91E6600CB5D4A /* GetMessageView.swift */; };
@@ -103,7 +103,6 @@
 		8EAFEF862CD4524600136348 /* AzitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EAFEF902CD4524600136348 /* AzitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EAFEFA32CD4528E00136348 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		8EAFEFA52CD4528E00136348 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8EAFEFA62CD4528E00136348 /* AzitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzitApp.swift; sourceTree = "<group>"; };
 		8EAFEFA72CD4528E00136348 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		8EAFEFB12CD4580800136348 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
@@ -116,6 +115,7 @@
 		8EAFF0142CD4A33E00136348 /* AlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumView.swift; sourceTree = "<group>"; };
 		8EAFF0172CD4A36B00136348 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		8EAFF0192CD4A37900136348 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		8EFEC4A72CDCAC7A00726CED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE062B9D2CD8DB8100CB5D4A /* ChatDetailViewStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailViewStore.swift; sourceTree = "<group>"; };
 		CE062BAB2CD91E2500CB5D4A /* PostMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMessageView.swift; sourceTree = "<group>"; };
 		CE062BAD2CD91E6600CB5D4A /* GetMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMessageView.swift; sourceTree = "<group>"; };
@@ -224,7 +224,7 @@
 		8EAFEFA82CD4528E00136348 /* Azit */ = {
 			isa = PBXGroup;
 			children = (
-				8EAFEFA52CD4528E00136348 /* Assets.xcassets */,
+				8EFEC4A72CDCAC7A00726CED /* Assets.xcassets */,
 				8EAFEFEB2CD47A0700136348 /* Auth */,
 				8EAFEFA62CD4528E00136348 /* AzitApp.swift */,
 				8EAFEFB02CD4571D00136348 /* Fonts */,
@@ -501,8 +501,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE1859272CD9F08D004A8960 /* GoogleService-Info.plist in Resources */,
+				8EFEC4A82CDCAC7A00726CED /* Assets.xcassets in Resources */,
 				8EAFEFA92CD4528E00136348 /* Preview Assets.xcassets in Resources */,
-				8EAFEFAA2CD4528E00136348 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

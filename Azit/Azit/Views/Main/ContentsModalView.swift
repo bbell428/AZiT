@@ -43,12 +43,13 @@ struct ContentsModalView: View {
                 Spacer()
             }
             
-            
-            Image(.realToBed)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
-                .onTapGesture { }
+            if story?.image != "" {
+                Image("asdf")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .onTapGesture { }
+            }
             
             HStack {
                 TextField("message", text: $message, prompt: Text("친구에게 메세지 보내기")
@@ -78,7 +79,7 @@ struct ContentsModalView: View {
             }
         }
         .padding()
-        .background(Color(UIColor.systemGray6))
+        .background(.subColor4)
         .cornerRadius(8)
         .scaleEffect(scale)
         .onAppear {

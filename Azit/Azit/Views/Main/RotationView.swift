@@ -249,7 +249,7 @@ struct ContentEmojiView: View {
                 Text("\(userInfo.nickname)")
                     .font(.caption)
                     .fontWeight(.bold)
-                    .foregroundStyle(.black)
+                    .foregroundStyle(Color(UIColor.darkGray))
                     .frame(minWidth: 100)
                     .padding(.top, -40).scaleEffect(1)
                 
