@@ -51,20 +51,20 @@ class ChatDetailViewStore: ObservableObject {
                 }
                 
                 // 사용자가 읽지 않은 메시지에 대해 `readBy` 필드를 업데이트
-                for document in documents {
-                    let messageRef = document.reference
-                    if var chat = try? document.data(as: Chat.self),
-                       !chat.readBy.contains(userId) {
-                        // 사용자의 uid가 포함되지 않은 경우 추가
-                        messageRef.updateData(["readBy": FieldValue.arrayUnion([userId])]) { error in
-                            if let error = error {
-                                print("Failed to add \(userId) to readBy array: \(error)")
-                            } else {
-                                print("User \(userId) added to readBy for message \(String(describing: chat.id))")
-                            }
-                        }
-                    }
-                }
+//                for document in documents {
+//                    let messageRef = document.reference
+//                    if var chat = try? document.data(as: Chat.self),
+//                       !chat.readBy.contains(userId) {
+//                        // 사용자의 uid가 포함되지 않은 경우 추가
+//                        messageRef.updateData(["readBy": FieldValue.arrayUnion([userId])]) { error in
+//                            if let error = error {
+//                                print("Failed to add \(userId) to readBy array: \(error)")
+//                            } else {
+//                                print("User \(userId) added to readBy for message \(String(describing: chat.id))")
+//                            }
+//                        }
+//                    }
+//                }
             }
     }
 

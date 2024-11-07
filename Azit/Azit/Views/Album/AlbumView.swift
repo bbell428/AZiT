@@ -61,7 +61,7 @@ struct AlbumView: View {
                 
                 VStack(alignment: .trailing) {
                     Button {
-                        
+                        // 날짜 선택
                     } label: {
                         Image(systemName: "line.3.horizontal.decrease")
                     }
