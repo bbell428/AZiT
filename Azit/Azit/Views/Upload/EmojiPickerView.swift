@@ -11,7 +11,6 @@ import Smile
 
 public struct EmojiPickerView: View {
 
-    @Environment(\.dismiss) var dismiss
     // binding 사용
     @Binding public var selectedEmoji: String
 
@@ -58,7 +57,6 @@ public struct EmojiPickerView: View {
                         }
                         .onTapGesture {
                             selectedEmoji = emoji.value
-                            dismiss()
                         }
                 }
             }

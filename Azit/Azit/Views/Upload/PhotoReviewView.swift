@@ -49,12 +49,13 @@ struct PhotoReviewView: View {
                     .frame(width: 330, height: 80)
                     .overlay(
                         HStack {
-                            VStack {
+                            VStack(alignment: .leading) {
                                 Text(storyDraft.emoji)
                                 Text(storyDraft.content)
                             }
+                            .padding()
                             Spacer()
-                            VStack {
+                            VStack(alignment: .trailing) {
                                 Text("\(storyDraft.latitude)")
                                 // 공개 범위 text
                                 
@@ -96,6 +97,7 @@ struct PhotoReviewView: View {
                         await storyStore.addStory(newStory)
                     }
                     showUploadView = true
+                    dismiss()
                     dismiss()
                     dismiss()
                 }) {
