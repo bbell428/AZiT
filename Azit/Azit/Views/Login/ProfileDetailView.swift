@@ -32,8 +32,8 @@ struct ProfileDetailView: View {
                 latitude: 0.0,
                 longitude: 0.0
             )
-            authManager.isNicknameExist.toggle()
             await userInfoStore.addUserInfo(newUserInfo)
+            authManager.authenticationState = .authenticated
         }
     }
     
@@ -117,7 +117,7 @@ struct ProfileDetailView: View {
                     .presentationDetents([.fraction(0.4)])
             }
             .contentShape(Rectangle())
-            .onTapGesture {           
+            .onTapGesture {
                 self.endTextEditing()
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
