@@ -216,11 +216,14 @@ struct SignInButton: View {
 //MARK: 프로필 디테일
 // 닉네임 입력 필드
 struct NicknameTextField: View {
+    @EnvironmentObject private var userInfoStore: UserInfoStore
+    
     var inputText: String
     @Binding var nickname: String
     
     @FocusState.Binding var focus: FocusableField?
     @Binding var isShowNickname: Bool
+    @Binding var isNicknameExists: Bool
     
     var body: some View {
         TextField("\(inputText)", text: $nickname)
@@ -253,7 +256,15 @@ struct NicknameTextField: View {
                 
                 // 닉네임 길이 조건에 따라 isShowNickname 설정
                 if nickname.count > 1 && nickname.count < 9 && !hasSingleConsonantOrVowel {
-                    isShowNickname = true
+                    Task {
+                        if await userInfoStore.isNicknameExists(nickname) {
+                            isShowNickname = false
+                            isNicknameExists = true
+                        } else {
+                            isShowNickname = true
+                            isNicknameExists = false
+                        }
+                    }
                 } else {
                     isShowNickname = false
                 }
