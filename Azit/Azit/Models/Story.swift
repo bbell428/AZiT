@@ -17,6 +17,7 @@ struct Story: Codable, Equatable, Identifiable {
     var date: Date // 작성날짜
     var latitude: Double = 0.0 // 위도
     var longitude: Double = 0.0 // 경도
+    var address: String = "" // 주소
     
     var emoji: String = "" // 이모지
     var image: String = "" // 이미지
@@ -25,19 +26,20 @@ struct Story: Codable, Equatable, Identifiable {
     var publishedTargets: [String] = [] // 공개 대상 (유저 uid)
     var readUsers: [String] = [] // 게시글을 읽은 사람 (유저 uid)
     
-    init(id: String = UUID().uuidString, userId: String, likes: [String] = [], date: Date, latitude: Double = 0.0, longitude: Double = 0.0, emoji: String = "", image: String = "", content: String = "", publishedTargets: [String] = [], readUsers: [String] = []) {
-            self.id = id
-            self.userId = userId
-            self.likes = likes
-            self.date = date
-            self.latitude = latitude
-            self.longitude = longitude
-            self.emoji = emoji
-            self.image = image
-            self.content = content
-            self.publishedTargets = publishedTargets
-            self.readUsers = readUsers
-        }
+    init(id: String = UUID().uuidString, userId: String, likes: [String] = [], date: Date, latitude: Double = 0.0, longitude: Double = 0.0, address: String = "", emoji: String = "", image: String = "", content: String = "", publishedTargets: [String] = [], readUsers: [String] = []) {
+        self.id = id
+        self.userId = userId
+        self.likes = likes
+        self.date = date
+        self.latitude = latitude
+        self.longitude = longitude
+        self.address = address
+        self.emoji = emoji
+        self.image = image
+        self.content = content
+        self.publishedTargets = publishedTargets
+        self.readUsers = readUsers
+    }
     
     init(document: QueryDocumentSnapshot) async throws {
         let docData = document.data()
@@ -47,6 +49,7 @@ struct Story: Codable, Equatable, Identifiable {
         self.likes = docData["likes"] as? [String] ?? []
         self.latitude = docData["latitude"] as? Double ?? 0.0
         self.longitude = docData["longitude"] as? Double ?? 0.0
+        self.address = docData["address"] as? String ?? ""
         self.emoji = docData["emoji"] as? String ?? ""
         self.image = docData["image"] as? String ?? ""
         self.content = docData["content"] as? String ?? ""

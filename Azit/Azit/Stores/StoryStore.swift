@@ -10,6 +10,7 @@ import Observation
 import FirebaseCore
 import FirebaseFirestore
 import SwiftUICore
+import FirebaseStorage
 
 class StoryStore: ObservableObject {
     @Published var stories: [Story] = []
@@ -25,6 +26,7 @@ class StoryStore: ObservableObject {
                 "date": Timestamp(date: story.date),
                 "latitude": story.latitude,
                 "longitude": story.longitude,
+                "address": story.address,
                 "emoji": story.emoji,
                 "image": story.image,
                 "content": story.content,
@@ -55,7 +57,7 @@ class StoryStore: ObservableObject {
                     stories.append(story)
                     
                 } catch {
-                    print("loadMemos error: \(error.localizedDescription)")
+                    print("loadStories error: \(error.localizedDescription)")
                     
                     return []
                 }
@@ -63,7 +65,7 @@ class StoryStore: ObservableObject {
             
             self.stories = stories
         } catch {
-            print("loadMemos error: \(error.localizedDescription)")
+            print("loadStories error: \(error.localizedDescription)")
             
             return []
         }
@@ -75,12 +77,13 @@ class StoryStore: ObservableObject {
 // 메인 뷰에서 작성된 story 임시 저장 class
 class StoryDraft: ObservableObject {
     @Published var id: String = UUID().uuidString
-    @Published var userId: String = ""// 작성자 uid
+    @Published var userId: String = "" // 작성자 uid
     
     @Published var likes: [String] = [] // 좋아요를 누른 사람 (유저 uid)
     @Published var date: Date = Date() // 작성날짜
     @Published var latitude: Double = 0.0 // 위도
     @Published var longitude: Double = 0.0 // 경도
+    @Published var address: String = "" // 주소
     
     @Published var emoji: String = "" // 이모지
     @Published var image: String = "" // 이미지
