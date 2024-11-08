@@ -13,6 +13,7 @@ struct EmojiView : View {
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var storyDraft: StoryDraft
     @Binding var isdisplayEmojiPicker: Bool // MainView에서 전달받은 바인딩 변수
+    
 //    @Binding var navigateToRoot: Bool
     
     // 작성될 때의 경도와 위도 값 받기 > 위치 변환하려면 api 받아야 하나
@@ -75,7 +76,7 @@ struct EmojiView : View {
                 .padding(.bottom)
             
             // 카메라 촬영 버튼
-            NavigationLink(destination: TakePhotoView()) {
+            NavigationLink(destination: TakePhotoView(mainPath: $mainPath)) {
                 RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
                     .background(RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
                         .fill(Color.accentColor))

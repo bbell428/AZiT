@@ -13,6 +13,7 @@ struct PhotoReviewView: View {
     @EnvironmentObject var storyStore: StoryStore
     @EnvironmentObject var storyDraft: StoryDraft
     @EnvironmentObject var authManager: AuthManager
+    @Binding var mainPath: NavigationPath
     
     var image: UIImage?
     @State private var showUploadView = false
@@ -97,9 +98,9 @@ struct PhotoReviewView: View {
                         await storyStore.addStory(newStory)
                     }
                     showUploadView = true
-                    dismiss()
-                    dismiss()
-                    dismiss()
+                    
+                    mainPath = NavigationPath()
+                    
                 }) {
                     RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
                         .stroke(Color.accentColor, lineWidth: 1)

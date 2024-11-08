@@ -18,6 +18,7 @@ struct RotationView: View {
     @State var sortedUsers: [UserInfo] = []
     @State private var selectedIndex: Int = 0
     @State private var message: String = ""
+    
     let angles: [(Double, Double)] = [
         (0, 60),
         (-60, 0),

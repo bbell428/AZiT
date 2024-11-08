@@ -22,7 +22,7 @@ struct MainView: View {
     @State private var message: String = ""
     
     var body: some View {
-        NavigationStack {
+        NavigationStack() {
             ZStack {
                 if isMainExposed {
                     RotationView(isModalPresented: $isModalPresented, isdisplayEmojiPicker: $isdisplayEmojiPicker)
