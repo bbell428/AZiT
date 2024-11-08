@@ -89,7 +89,7 @@ class AuthManager: ObservableObject {
     func registerAuthStateHandler() {
         authenticationState = .splash
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             if self.authStateHandler == nil {
                 self.authStateHandler = Auth.auth().addStateDidChangeListener { auth, user in
                     Task {
