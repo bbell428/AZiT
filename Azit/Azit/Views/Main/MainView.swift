@@ -17,7 +17,7 @@ struct MainView: View {
     @EnvironmentObject var storyDraft: StoryDraft
     
     @State var isdisplayEmojiPicker: Bool = false
-//    @State private var navigateToRoot = false
+    //    @State private var navigateToRoot = false
     @State var selectedEmoji: String = ""
     @State private var message: String = ""
     
@@ -81,15 +81,15 @@ struct MainTopView: View {
                     Spacer()
                     
                     HStack(spacing: 20) {
-//                        Button {
-//                            // 게시글 리로드
-//                        } label: {
-//                            Image(systemName: "arrow.clockwise")
-//                                .resizable()
-//                                .aspectRatio(contentMode: .fit)
-//                                .frame(width: 25)
-//                        }
-//                        .disabled(isModalPresented ? true : false)
+                        //                        Button {
+                        //                            // 게시글 리로드
+                        //                        } label: {
+                        //                            Image(systemName: "arrow.clockwise")
+                        //                                .resizable()
+                        //                                .aspectRatio(contentMode: .fit)
+                        //                                .frame(width: 25)
+                        //                        }
+                        //                        .disabled(isModalPresented ? true : false)
                         
                         NavigationLink {
                             MessageView()
