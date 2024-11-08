@@ -12,7 +12,8 @@ struct TakePhotoView: View {
     @StateObject var cameraService = CameraService()
     @State private var isPhotoTaken = false
     @State private var isGalleryPresented = false
-    //@Binding var mainPath: NavigationPath
+    @Binding var firstNaviLinkActive: Bool
+    @Binding var isMainDisplay: Bool // MainView에서 전달받은 바인딩 변수
     
     var body: some View {
         VStack {
@@ -79,7 +80,7 @@ struct TakePhotoView: View {
             .padding(.bottom)
             
             NavigationLink(
-                destination: PhotoReviewView(image: cameraService.capturedImage),
+                destination: PhotoReviewView(firstNaviLinkActive: $firstNaviLinkActive,isMainDisplay: $isMainDisplay , image: cameraService.capturedImage),
                 isActive: $isPhotoTaken,
                 label: { EmptyView() }
             )
@@ -97,5 +98,7 @@ struct TakePhotoView: View {
 }
 
 //#Preview {
-//    TakePhotoView()
+//    NavigationStack {
+//        TakePhotoView()
+//    }
 //}

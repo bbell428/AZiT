@@ -29,6 +29,8 @@ struct EmojiView : View {
         return storyDraft.emoji.isEmpty || storyDraft.content.isEmpty
     }
     
+    @State var firstNaviLinkActive = false
+    
     var body : some View{
         VStack {
             NavigationStack {
@@ -76,7 +78,7 @@ struct EmojiView : View {
                 .padding(.bottom)
             
             // 카메라 촬영 버튼
-            NavigationLink(destination: TakePhotoView()) {
+            NavigationLink(destination: TakePhotoView(firstNaviLinkActive: $firstNaviLinkActive, isMainDisplay: $isdisplayEmojiPicker), isActive: $firstNaviLinkActive) {
                 RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
                     .background(RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
                         .fill(Color.accentColor))

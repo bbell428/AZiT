@@ -13,7 +13,8 @@ struct PhotoReviewView: View {
     @EnvironmentObject var storyStore: StoryStore
     @EnvironmentObject var storyDraft: StoryDraft
     @EnvironmentObject var authManager: AuthManager
-    //@Binding var mainPath: NavigationPath
+    @Binding var firstNaviLinkActive: Bool
+    @Binding var isMainDisplay: Bool // MainView에서 전달받은 바인딩 변수
     
     var image: UIImage?
     @State private var showUploadView = false
@@ -98,8 +99,8 @@ struct PhotoReviewView: View {
                         await storyStore.addStory(newStory)
                     }
                     showUploadView = true
-                    
-                    //mainPath = NavigationPath()
+                    firstNaviLinkActive = false
+                    isMainDisplay = false
                     
                 }) {
                     RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
