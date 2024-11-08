@@ -15,7 +15,6 @@ struct MessageView: View {
     
     var body: some View {
         NavigationStack {
-            GeometryReader { geometry in
                 VStack {
                     HStack {
                         Button {
@@ -35,14 +34,12 @@ struct MessageView: View {
                         Color.clear
                             .frame(maxWidth: .infinity)
                     }
-                        .frame(width: geometry.size.width, height: geometry.size.height * 0.1)
+                        .frame(height: 70)
                     
                     ChatRoomListView() // 메시지 목록
-                        .frame(width: geometry.size.width, height: geometry.size.height * 0.9)
                         .refreshable {
                             // 메시지 새로 고침 로직
                         }
-                }
             }
         }
         .navigationBarBackButtonHidden(true)

@@ -33,7 +33,7 @@ struct AlbumView: View {
                     Color.clear
                         .frame(maxWidth: .infinity)
                 }
-                .frame(height: 100)
+                .frame(height: 70)
                 .padding(.horizontal, 30)
                 
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -60,15 +60,21 @@ struct AlbumView: View {
                 .frame(height: 50)
                 
                 VStack(alignment: .trailing) {
-                    Button {
-                        // 날짜 선택
-                    } label: {
-                        Image(systemName: "line.3.horizontal.decrease")
+                    HStack {
+                        Spacer()
+                        
+                        Button {
+                            // 날짜 선택
+                        } label: {
+                            Image(systemName: "line.3.horizontal.decrease")
+                        }
+                        .frame(width: 50, height: 30)
+                        .background(.subColor4)
+                        .cornerRadius(15)
+                        .padding(EdgeInsets(top: 30, leading: 0, bottom: 0, trailing: 16))
                     }
-                    .frame(width: 50, height: 30)
-                    .background(.subColor4)
-                    .cornerRadius(15)
-                    .padding(EdgeInsets(top: 30, leading: 0, bottom: 0, trailing: 16))
+//                    .frame(maxWidth: .infinity, maxHeight: 30)
+//                    .background(Color.black)
                     
                     // 시간대별로 묶어서 for문으로 만들고 처리
                     ScrollView {
@@ -122,7 +128,6 @@ struct AlbumView: View {
                     }
                     
                 }
-                .frame(maxHeight: .infinity)
             }
             .navigationBarBackButtonHidden(true)
         }

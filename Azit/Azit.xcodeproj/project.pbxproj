@@ -52,7 +52,7 @@
 		CE062BAC2CD91E2B00CB5D4A /* PostMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062BAB2CD91E2500CB5D4A /* PostMessageView.swift */; };
 		CE062BAE2CD91E6C00CB5D4A /* GetMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062BAD2CD91E6600CB5D4A /* GetMessageView.swift */; };
 		CE062BB02CD91EEE00CB5D4A /* ChatRoomListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062BAF2CD91EE700CB5D4A /* ChatRoomListView.swift */; };
-		CE1859272CD9F08D004A8960 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE1859262CD9F08D004A8960 /* GoogleService-Info.plist */; };
+		CE200F2E2CDD9DE500BBEF9E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE200F2D2CDD9DE500BBEF9E /* GoogleService-Info.plist */; };
 		CE374EAD2CD79F6300601AA7 /* ChatListStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE374EAC2CD79F6300601AA7 /* ChatListStore.swift */; };
 		CE3A16E22CD85A5B0045DB52 /* MessageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A16E12CD85A5B0045DB52 /* MessageDetailView.swift */; };
 		CE89D79E2CDA8D1600DC73A8 /* EmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = CE89D79D2CDA8D1600DC73A8 /* EmojiPicker */; };
@@ -120,7 +120,7 @@
 		CE062BAB2CD91E2500CB5D4A /* PostMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMessageView.swift; sourceTree = "<group>"; };
 		CE062BAD2CD91E6600CB5D4A /* GetMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMessageView.swift; sourceTree = "<group>"; };
 		CE062BAF2CD91EE700CB5D4A /* ChatRoomListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomListView.swift; sourceTree = "<group>"; };
-		CE1859262CD9F08D004A8960 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CE200F2D2CDD9DE500BBEF9E /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CE374EAC2CD79F6300601AA7 /* ChatListStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListStore.swift; sourceTree = "<group>"; };
 		CE3A16E12CD85A5B0045DB52 /* MessageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailView.swift; sourceTree = "<group>"; };
 		EA3F965D2CD8B19C009904C0 /* ProfileDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailView.swift; sourceTree = "<group>"; };
@@ -228,7 +228,7 @@
 				8EAFEFEB2CD47A0700136348 /* Auth */,
 				8EAFEFA62CD4528E00136348 /* AzitApp.swift */,
 				8EAFEFB02CD4571D00136348 /* Fonts */,
-				CE1859262CD9F08D004A8960 /* GoogleService-Info.plist */,
+				CE200F2D2CDD9DE500BBEF9E /* GoogleService-Info.plist */,
 				EAF93B902CD4A61A00116035 /* Info.plist */,
 				8EAFEFAD2CD4529300136348 /* Models */,
 				8EAFEFA42CD4528E00136348 /* Preview Content */,
@@ -500,8 +500,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE1859272CD9F08D004A8960 /* GoogleService-Info.plist in Resources */,
 				8EAFEFA92CD4528E00136348 /* Preview Assets.xcassets in Resources */,
+				CE200F2E2CDD9DE500BBEF9E /* GoogleService-Info.plist in Resources */,
 				8EAFEFAA2CD4528E00136348 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

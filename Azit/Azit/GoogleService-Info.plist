@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>675907644331-6ptd55uh3plrua6an2jp3ot6ja8505rn.apps.googleusercontent.com</string>
+	<string>324396532549-5csucbdbn986kgchdo3ifrob8iqsaqs1.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.675907644331-6ptd55uh3plrua6an2jp3ot6ja8505rn</string>
+	<string>com.googleusercontent.apps.324396532549-5csucbdbn986kgchdo3ifrob8iqsaqs1</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAq7pR1FGjH3o-J5OLd8cneZcvNhd1faZw</string>
+	<string>AIzaSyAH7_6WixK8dIWdUP3CbZvdkdTs-q_3lBI</string>
 	<key>GCM_SENDER_ID</key>
-	<string>675907644331</string>
+	<string>324396532549</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>education.techit.Azit</string>
 	<key>PROJECT_ID</key>
-	<string>azit-4d4a8</string>
+	<string>lab1and4-board</string>
 	<key>STORAGE_BUCKET</key>
-	<string>azit-4d4a8.firebasestorage.app</string>
+	<string>lab1and4-board.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:675907644331:ios:bbcd871577479fb0ec80ee</string>
+	<string>1:324396532549:ios:4c3ffa761620d8da66742c</string>
 </dict>
 </plist>
