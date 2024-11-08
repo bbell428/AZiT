@@ -76,7 +76,7 @@ struct EmojiView : View {
                 .padding(.bottom)
             
             // 카메라 촬영 버튼
-            NavigationLink(destination: TakePhotoView(mainPath: $mainPath)) {
+            NavigationLink(destination: TakePhotoView()) {
                 RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
                     .background(RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
                         .fill(Color.accentColor))
