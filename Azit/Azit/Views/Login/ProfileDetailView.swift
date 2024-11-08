@@ -15,6 +15,7 @@ struct ProfileDetailView: View {
     
     @State var isShowNickname: Bool = false
     @State var isShowEmoji: Bool = false // 이모지 존재에따라 테두리 색
+    @State var isNicknameExists: Bool = false
     
     @State private var emoji: String = "" // 기본 이모지
     @State private var nickname: String = ""
@@ -81,12 +82,20 @@ struct ProfileDetailView: View {
                 .padding(.top, 90)
                 .padding(.bottom, 40)
                 
+                if isNicknameExists {
+                    Text("이미 사용중인 닉네임입니다.")
+                        .font(.caption)
+                        .foregroundColor(Color.red)
+                        .fontWeight(.heavy)
+                        .multilineTextAlignment(.center)
+                }
                 VStack(alignment: .leading) {
                     NicknameTextField(
                         inputText: "닉네임을 입력해주세요",
                         nickname: $nickname,
                         focus: $focus,
-                        isShowNickname: $isShowNickname
+                        isShowNickname: $isShowNickname,
+                        isNicknameExists: $isNicknameExists
                     )
                     
                     Text("닉네임은 추후 변경이 가능하며 2~8자로 입력해주세요.")
