@@ -37,10 +37,11 @@ struct EmailTextField: View {
             .overlay(
                 RoundedRectangle(cornerRadius: 8)
                     .stroke(
-                        focus == .email ? (isErrorEmail ? Color.red : Color.accentColor) : Color.black, lineWidth: 1
+                        focus == .email ? Color.accentColor : (isErrorEmail ? Color.red : Color.black), lineWidth: 1
                     ) // 포커스에 따른 테두리 색상
                 
             )
+            .keyboardType(.emailAddress) // 키보드를 이메일 형식
     }
 }
 
@@ -73,6 +74,7 @@ struct SignUpEmailTextField: View {
                         selectedDomain = "naver.com"
                     }
                 }
+                .keyboardType(.emailAddress) // 키보드를 이메일 형식
             
             // '@' 이메일에 포함되지 않은 경우에만 메뉴 표시
             if !email.contains("@") {
@@ -104,7 +106,7 @@ struct SignUpEmailTextField: View {
         .overlay(
             RoundedRectangle(cornerRadius: 8)
                 .stroke(
-                    focus == .email ? (isErrorEmail ? Color.red : Color.accentColor) : Color.black, lineWidth: 1
+                    focus == .email ? Color.accentColor : (isErrorEmail ? Color.red : Color.black), lineWidth: 1
                 ) // 포커스에 따른 테두리 색상
         )
     }
@@ -122,7 +124,6 @@ struct PasswordTextField: View {
     var onSubmit: () -> Void
     
     @Binding var isErrorPassword: Bool
-    
     
     var body: some View {
         HStack {
@@ -150,7 +151,8 @@ struct PasswordTextField: View {
         .overlay(
             RoundedRectangle(cornerRadius: 8)
                 .stroke(
-                    focus == focusType ? (isErrorPassword ? Color.red : Color.accentColor) : Color.black, lineWidth: 1
+                    focus == focusType ? Color.accentColor : (isErrorPassword ? Color.red : Color.black),
+                    lineWidth: 1
                 )
         )
     }
@@ -163,8 +165,11 @@ struct LoginButton: View {
     var isValid: Bool     // 입력 없으면 버튼 비활성
     var action: () -> Void
     
+    @FocusState.Binding var focus: FocusableField?
+    
     var body: some View {
         Button {
+            focus = nil
             action()
         } label: {
             if isLoading {
@@ -238,7 +243,7 @@ struct NicknameTextField: View {
                     isShowNickname = false
                 }
             }
-      
+        
     }
 }
 
@@ -304,7 +309,7 @@ struct EmojiSheetView : View {
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 3)
             .background(Color.white)
             .cornerRadius(25)
-
+            
             Button(action: {
                 self.show.toggle()
             }) {

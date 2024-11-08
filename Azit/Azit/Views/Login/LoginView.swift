@@ -9,13 +9,14 @@ import SwiftUI
 
 struct LoginView: View {
     @EnvironmentObject var authManager: AuthManager
+    @EnvironmentObject private var userInfoStore: UserInfoStore
     @Environment(\.dismiss) var dismiss
     @FocusState private var focus: FocusableField?
     
     @State private var isAutoLogin = false // 자동 로그인 상태
     @State private var isErrorPassword = false // 비밀번호 틀리면 테두리색 빨갛게
     @State private var isErrorEmail = false // 이메일 틀리면 테두리색 빨갛게
-     
+    
     private func signInWithEmailPassword() {
         Task {
             if await authManager.signInWithEmailPassword() == true {
@@ -34,31 +35,44 @@ struct LoginView: View {
     
     var body: some View {
         NavigationStack {
-            GeometryReader { geometry in
+            GeometryReader { _ in // 키보드 올리면 화면 찌부되어갖고 ignoresSafeArea 사용할려고 사용
                 VStack(alignment: .center) {
                     VStack {
                         Text("Hello,")
-                            .font(.system(size: geometry.size.width * 0.05))
+                            .font(.system(size: 20))
                         Text("AZiT")
-                            .font(.system(size: geometry.size.width * 0.16))
+                            .font(.system(size: 60))
                             .fontWeight(.black)
                     }
                     .foregroundStyle(.accent)
-                    .padding(.bottom, geometry.size.height * 0.12)
+                    .padding(.bottom, 100)
                     
                     // 로그인 에러 메시지
-                    if !authManager.errorMessage.isEmpty {
+                    if authManager.errorMessage == "The email address is badly formatted." {
                         VStack {
-                            Text("아이디와 비밀번호를 확인해주세요.")
+                            Text("이메일 형식이 아닙니다.")
                                 .font(.caption)
                                 .foregroundColor(Color.red)
                                 .fontWeight(.heavy)
                         }
                         .onAppear {
                             isErrorEmail = true
+                        }
+                        .frame(width: 330)
+                    } else if authManager.errorMessage == "The supplied auth credential is malformed or has expired." {
+                        VStack {
+                            Text("이메일 혹은 비밀번호를 확인해주세요")
+                                .font(.caption)
+                                .foregroundColor(Color.red)
+                                .fontWeight(.heavy)
+                        }
+                        .onAppear {
+                            isErrorEmail = false
                             isErrorPassword = true
                         }
+                        .frame(width: 330)
                     }
+                    
                     
                     // MARK: 이메일로 로그인
                     EmailTextField(
@@ -67,7 +81,7 @@ struct LoginView: View {
                         focus: $focus,
                         isErrorEmail: $isErrorEmail
                     )
-                    .frame(width: geometry.size.width * 0.85)
+                    .frame(width: 330)
                     .padding(6)
                     
                     PasswordTextField(
@@ -78,31 +92,19 @@ struct LoginView: View {
                         onSubmit: signInWithEmailPassword,
                         isErrorPassword: $isErrorPassword
                     )
-                    
-                    //MARK: 자동 로그인 체크박스 추가
-                    HStack {
-                        Button {
-                            isAutoLogin.toggle()
-                        } label: {
-                            HStack {
-                                Image(systemName: isAutoLogin ? "checkmark.square" : "square")
-                                Text("로그인 유지")
-                                    .font(.footnote)
-                            }
-                        }
-                        .foregroundColor(.primary)
-                        Spacer()
-                    }
-                    .padding(.vertical, 4)
-                    .padding(.bottom, 8)
+                    .frame(width: 330)
+                    .padding(.bottom, 30)
                     
                     //MARK: 로그인 버튼
                     LoginButton(
                         inputText: "이메일로 로그인",
                         isLoading: authManager.authenticationState == .authenticating,
                         isValid: authManager.isValid,
-                        action: signInWithEmailPassword
+                        action: signInWithEmailPassword,
+                        focus: $focus
                     )
+                    .frame(width: 330)
+                    .padding(.bottom, 10)
                     
                     // MARK: 회원가입
                     HStack {
@@ -116,8 +118,8 @@ struct LoginView: View {
                                 .foregroundStyle(.accent)
                         }
                     }
-                    .padding(.vertical, 10)
-                    .padding(.bottom, 40)
+                    //                    .padding(.vertical, 10)
+                    .padding(.bottom, 110)
                     
                     // MARK: 간편로그인
                     HStack {
@@ -128,9 +130,10 @@ struct LoginView: View {
                             .foregroundStyle(Color.gray)
                         VStack { Divider() }
                     }
+                    .frame(width: 330)
                     .padding(.bottom, 12)
                     
-                    HStack(spacing: 20) {
+                    HStack(spacing: 30) {
                         SignInButton(imageName: "GoogleLogo", backColor: .white) {
                             signInWithGoogle()
                         }
@@ -143,11 +146,24 @@ struct LoginView: View {
                 .onTapGesture {             // 빈 영역 터치시 함수 호출 -> 키보드 내려감
                     self.endTextEditing()
                 }
-                .frame(width: geometry.size.width * 0.85)
-                .frame(width: geometry.size.width, height: geometry.size.height)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 20)
+                .onAppear {
+                    authManager.email = ""
+                    authManager.password = ""
+                    isErrorEmail = false
+                    isErrorPassword = false
+                }
+                .onDisappear { // 백버튼으로 돌아왔을 때
+                    authManager.email = ""
+                    authManager.password = ""
+                    isErrorEmail = false
+                    isErrorPassword = false
+                }
             }
-            .ignoresSafeArea(.keyboard) // 키보드 올라올 때 화면 찌부되는 거 사라지게 함
         }
+        .ignoresSafeArea(.keyboard) // 키보드 올라올 때 화면 찌부되는 거 사라지게 함
     }
 }
 
