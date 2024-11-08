@@ -10,10 +10,15 @@ import SwiftUI
 struct MainView: View {
     @State private var isMainExposed: Bool = true
     @State private var isModalPresented: Bool = false
+    
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var authManager: AuthManager
+    @EnvironmentObject var storyStore: StoryStore
+    @EnvironmentObject var storyDraft: StoryDraft
+    
     @State var isdisplayEmojiPicker: Bool = false
-    @State var selectedEmoji: Emoji?
+//    @State private var navigateToRoot = false
+    @State var selectedEmoji: String = ""
     @State private var message: String = ""
     
     var body: some View {
@@ -38,8 +43,7 @@ struct MainView: View {
                             isdisplayEmojiPicker = false // 배경 터치 시 닫기
                         }
                         .zIndex(2)
-                    
-                    EmojiView(message: $message, selectedEmoji: $selectedEmoji)
+                    EmojiView(isdisplayEmojiPicker: $isdisplayEmojiPicker)
                         .zIndex(3)
                 }
             }
@@ -161,4 +165,5 @@ struct MainTopView: View {
     MainView()
         .environmentObject(AuthManager())
         .environmentObject(UserInfoStore())
+        .environmentObject(StoryDraft())
 }

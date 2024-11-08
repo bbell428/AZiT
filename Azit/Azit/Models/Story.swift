@@ -25,6 +25,20 @@ struct Story: Codable, Equatable, Identifiable {
     var publishedTargets: [String] = [] // 공개 대상 (유저 uid)
     var readUsers: [String] = [] // 게시글을 읽은 사람 (유저 uid)
     
+    init(id: String = UUID().uuidString, userId: String, likes: [String] = [], date: Date, latitude: Double = 0.0, longitude: Double = 0.0, emoji: String = "", image: String = "", content: String = "", publishedTargets: [String] = [], readUsers: [String] = []) {
+            self.id = id
+            self.userId = userId
+            self.likes = likes
+            self.date = date
+            self.latitude = latitude
+            self.longitude = longitude
+            self.emoji = emoji
+            self.image = image
+            self.content = content
+            self.publishedTargets = publishedTargets
+            self.readUsers = readUsers
+        }
+    
     init(document: QueryDocumentSnapshot) async throws {
         let docData = document.data()
         

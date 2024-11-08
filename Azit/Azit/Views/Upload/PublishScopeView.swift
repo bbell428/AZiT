@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct PublishScopeView: View {
+    @EnvironmentObject var storyStore: StoryStore
+    @EnvironmentObject var storyDraft: StoryDraft
+    @EnvironmentObject var authManager: AuthManager
     var friend1: UserInfo = .init(id: "1", email: "",nickname: "Hong", profileImageName: "😋",previousState: "",friends: [], latitude: 0.0, longitude: 0.0)
     var friend2: UserInfo = .init(id: "2", email: "",nickname: "Hong", profileImageName: "🩵",previousState: "",friends: [], latitude: 0.0, longitude: 0.0)
     var friend3: UserInfo = .init(id: "3", email: "",nickname: "Hong", profileImageName: "🤩",previousState: "",friends: [], latitude: 0.0, longitude: 0.0)
