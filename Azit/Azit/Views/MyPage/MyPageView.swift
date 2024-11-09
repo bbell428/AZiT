@@ -52,6 +52,7 @@ struct MyPageView: View {
                     }) {
                         EditProfileView(isPresented: $isPresented)
                             .presentationDetents([.fraction(4/9)])
+                            .presentationDragIndicator(.visible)
                     }
                 }
                 .padding(.top, -50)
