@@ -27,44 +27,66 @@ class ChatDetailViewStore: ObservableObject {
         listener = db.collection("Chat")
             .document(roomId)
             .collection("Messages")
+            .order(by: "createAt")
             .addSnapshotListener { documentSnapshot, error in
                 guard let documents = documentSnapshot?.documents else {
                     print("Error fetching document: \(error!)")
                     return
                 }
                 
-                // 메시지 리스트를 가져오고 정렬
+                var updatedMessages: [Chat] = []
+                var newLastMessageId: String?
+                var messageIdsToUpdate: [String] = []  // Firestore에 일괄 업데이트할 메시지 ID 저장
+                
                 self.chatList = documents.compactMap { document -> Chat? in
                     do {
-                        return try document.data(as: Chat.self)
+                        var chat = try document.data(as: Chat.self)
+                        
+                        // 마지막 읽은 메시지 이후의 새로운 메시지만 읽음 처리
+                        if chat.id != self.lastMessageId, !chat.readBy.contains(userId) {
+                            chat.readBy.append(userId)
+                            updatedMessages.append(chat)
+                            messageIdsToUpdate.append(chat.id ?? "")
+                        }
+                        
+                        newLastMessageId = chat.id  // 메시지 ID를 최신으로 갱신
+                        return chat
                     } catch {
                         print("메시지 문서를 디코딩하는데 오류가 발생했습니다 : \(error)")
                         return nil
                     }
                 }
                 
+                // Firestore에 한 번에 업데이트
+                if !messageIdsToUpdate.isEmpty {
+                    let batch = self.db.batch()
+                    
+                    messageIdsToUpdate.forEach { messageId in
+                        let messageRef = self.db.collection("Chat")
+                            .document(roomId)
+                            .collection("Messages")
+                            .document(messageId)
+                        
+                        batch.updateData(["readBy": FieldValue.arrayUnion([userId])], forDocument: messageRef)
+                    }
+                    
+                    batch.commit { error in
+                        if let error = error {
+                            print("읽음 상태 일괄 업데이트 오류: \(error.localizedDescription)")
+                        } else {
+                            print("\(messageIdsToUpdate.count)개의 메시지가 일괄 읽음 처리되었습니다.")
+                        }
+                    }
+                }
+                
+                // 메시지 리스트를 시간순으로 정렬
                 self.chatList.sort { $0.createAt < $1.createAt }
                 
-                if let id = self.chatList.last?.id {
+                // 마지막 메시지 ID를 업데이트
+                if let id = newLastMessageId {
                     self.lastMessageId = id
                     print("마지막 id = \(self.lastMessageId)")
                 }
-                
-                // 사용자가 읽지 않은 메시지에 대해 `readBy` 필드를 업데이트
-//                for document in documents {
-//                    let messageRef = document.reference
-//                    if var chat = try? document.data(as: Chat.self),
-//                       !chat.readBy.contains(userId) {
-//                        // 사용자의 uid가 포함되지 않은 경우 추가
-//                        messageRef.updateData(["readBy": FieldValue.arrayUnion([userId])]) { error in
-//                            if let error = error {
-//                                print("Failed to add \(userId) to readBy array: \(error)")
-//                            } else {
-//                                print("User \(userId) added to readBy for message \(String(describing: chat.id))")
-//                            }
-//                        }
-//                    }
-//                }
             }
     }
 
