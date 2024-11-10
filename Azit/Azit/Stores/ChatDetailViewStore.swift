@@ -14,12 +14,18 @@ import SwiftUICore
 
 class ChatDetailViewStore: ObservableObject {
     @EnvironmentObject var authManager: AuthManager
-    private var db = Firestore.firestore() // 파이어베이스
     @Published private(set) var chatList: [Chat] = [] // 채팅방 리스트
     @Published private(set) var lastMessageId: String = ""
-    var useruid: String = "parkjunyoung" // 사용자 uid (이후 Auth.uid로 대체 예정)
+    private var db = Firestore.firestore() // 파이어베이스
     private var listener: ListenerRegistration?
 
+    // 메시지 리스너 제거
+    func removeChatMessagesListener() {
+        listener?.remove()
+        listener = nil
+    }
+    
+    // 메시지 내용 받아오기
     func getChatMessages(roomId: String, userId: String) {
         // 이전 리스너가 있으면 해제
         listener?.remove()
@@ -90,17 +96,14 @@ class ChatDetailViewStore: ObservableObject {
             }
     }
 
-    func removeChatMessagesListener() {
-        listener?.remove()
-        listener = nil
-    }
-
     // 메시지 전송
     func sendMessage(text: String, roomId: String, userId: String) {
-        let newMessageId = UUID().uuidString // Generate unique ID
+        let newMessageId = UUID().uuidString
         do {
             let newMessage = Chat(id: newMessageId, createAt: Date(), message: text, sender: userId, readBy: [userId])
+            // 메시지 저장
             try db.collection("Chat").document(roomId).collection("Messages").document(newMessageId).setData(from: newMessage)
+            // 메시지 채팅방에 마지막에 올라온 내용과 시간 업데이트
             db.collection("Chat").document(roomId)
                 .updateData(["lastMessageAt": Date(),
                              "lastMessage": text])
