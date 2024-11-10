@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// 메시지 채팅방 View
 struct MessageView: View {
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var authManager: AuthManager
@@ -16,6 +17,7 @@ struct MessageView: View {
     var body: some View {
         NavigationStack {
                 VStack {
+                    // 상단바
                     HStack {
                         Button {
                             dismiss()
@@ -43,12 +45,8 @@ struct MessageView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
-        .swipeActions(edge: .trailing) {
-            MainView()
-        }
         .onAppear {
             Task {
-                //await userInfoStore.loadUserInfo(userID: authManager.userID)
                 chatListStore.fetchChatRooms(userId: userInfoStore.userInfo?.id ?? "")
             }
         }
