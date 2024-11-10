@@ -13,10 +13,14 @@ struct MyPageView: View {
     
     @State var isShowEmoji = false
     @State var isPresented: Bool = false
+    @State var showAllFriends = false // 친구 목록 더 보기
+    
+    @State var friends: [UserInfo] = []
     
     var body: some View {
         VStack(alignment: .center) {
             VStack {
+                //MARK: 내 프로필이미지, 닉네임
                 ZStack {
                     Circle()
                         .fill(Color.subColor4)
@@ -96,7 +100,7 @@ struct MyPageView: View {
                                 .font(.caption)
                                 .bold()
                                 .padding(.horizontal, 13)
-                                .padding(.vertical, 4)
+                                .padding(.vertical, 6)
                                 .background(Color.accentColor)
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
@@ -105,35 +109,57 @@ struct MyPageView: View {
                     Divider()
                         .foregroundStyle(Color.accentColor)
                     
-                    // 친구 항목 예시
-                    ForEach(["박준영", "신현우", "김종혁"], id: \.self) { friend in
-                        HStack {
-                            ZStack {
-                                Circle()
-                                    .fill(Color.subColor4)
-                                    .frame(width: 45, height: 45)
-                                Text("😁")
-                                    .font(.system(size: 30))
-                                    .bold()
+                    VStack(alignment: .center) {
+                        //MARK: 친구 목록
+                        ForEach(showAllFriends ? friends : Array(friends.prefix(3)), id: \.id) { friend in
+                            HStack {
+                                ZStack {
+                                    Circle()
+                                        .fill(Color.subColor4)
+                                        .frame(width: 45, height: 45)
+                                    Text(friend.profileImageName)
+                                        .font(.system(size: 30))
+                                        .bold()
+                                }
+                                Text(friend.nickname)
+                                    .fontWeight(.light)
+                                    .foregroundStyle(Color.gray)
+                                
+                                Spacer()
+                                
+                                Button {
+                                    //
+                                } label: {
+                                    Image(systemName: "line.horizontal.3")
+                                        .foregroundColor(.gray)
+                                        .padding(.trailing, 20)
+                                        .font(.title3)
+                                }
                             }
-                            Text(friend)
-                                .fontWeight(.light)
-                                .foregroundStyle(Color.gray)
+                            .padding(.vertical, 1)
                             
-                            Spacer()
-                            
-                            Button {
-                                //
-                            } label: {
-                                Image(systemName: "line.horizontal.3")
-                                    .foregroundColor(.gray)
-                                    .padding(.trailing, 20)
-                                    .font(.title3)
-                            }
+                            Divider()
                         }
-                        .padding(.vertical, 1)
-                        
-                        Divider()
+                        if friends.count > 3 {
+                            Button {
+                                withAnimation { // 애니메이션을 추가, 자연스러운 느낌쓰
+                                    showAllFriends.toggle()
+                                }
+                            } label: {
+                                Image(systemName: showAllFriends ? "chevron.up" : "chevron.down")
+                                    .font(.caption)
+                                    .fontWeight(.light)
+                                    .padding(.horizontal, 20)
+                                    .padding(.vertical, 7)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke(Color.gray.opacity(0.7), lineWidth: 1)
+                                    )
+                                    .foregroundColor(.gray)
+                                    .padding(.leading, 10)
+                            }
+                            .padding(.top, 5)
+                        }
                     }
                 }
                 .padding(.horizontal)
@@ -234,6 +260,15 @@ struct MyPageView: View {
         .onAppear {
             Task {
                 await userInfoStore.loadUserInfo(userID: authManager.userID)
+                
+                // 나의 friends를 friendInfo: [String: UserInfo]에 딕셔너리 형태로 할당하기 위해 사용
+                userInfoStore.loadFriendsInfo(friendsIDs: userInfoStore.userInfo?.friends ?? [])
+                
+                // 친구 uid 긁어옴
+                let friendIDs = userInfoStore.userInfo?.friends ?? []
+                
+                // 그 친구 uid를 비교하며 순서대로 가져옴
+                friends = friendIDs.compactMap { userInfoStore.friendInfo[$0] }
             }
         }
         
