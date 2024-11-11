@@ -25,7 +25,8 @@ struct MapView: View {
                             Text(user.nickname)
                                 .font(.caption)
                                 .foregroundStyle(.black)
-                                .padding(.top, -40)
+                                .padding(.top, max(-40, min(-20, -40 * (1.0 / (region.span.latitudeDelta * 12.5)))))
+                                
                             
                             ZStack {
                                 Circle()
@@ -41,12 +42,13 @@ struct MapView: View {
                                             Circle()
                                                 .stroke(.accent, lineWidth: 3)
                                             Text(user.previousState)
-                                                .font(.system(size: 50))
+                                                .font(.system(size: 45))
                                         }
                                     )
                                     .offset(x: 0, y: -30)
-                                    .frame(width: 65, height: 65)
+                                    .frame(width: 60, height: 60)
                             }
+                            .scaleEffect(max(0.5, min(1.0, 1.0 / (region.span.latitudeDelta * 12.5))))
                         }
                     }
                 }

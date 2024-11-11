@@ -1,10 +1,3 @@
-//
-//  ChatDetailViewStore.swift
-//  Azit
-//
-//  Created by 박준영 on 11/4/24.
-//
-
 import Foundation
 import FirebaseFirestore
 import Observation

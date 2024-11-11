@@ -18,7 +18,9 @@ struct RotationView: View {
     @State var sortedUsers: [UserInfo] = []
     @State private var selectedIndex: Int = 0
     @State private var message: String = ""
-    
+    @State private var scale: CGFloat = 1.0
+    @State private var previousScale: CGFloat = 1.0
+  
     let angles: [(Double, Double)] = [
         (0, 60),
         (-60, 0),
@@ -78,7 +80,7 @@ struct RotationView: View {
     @State private var numberOfCircles: Int = 0
 
     var body: some View {
-        VStack {
+        ZStack {
             ZStack {
                 Button {
                     isdisplayEmojiPicker = true
@@ -135,27 +137,43 @@ struct RotationView: View {
                                 print(selectedIndex)
                             }
                         
-                        if isModalPresented {
-                            Color.black.opacity(0.2)
-                                .ignoresSafeArea()
-                                .onTapGesture {
-                                    isModalPresented = false
-                                }
-                                .zIndex(2)
-                            
-                            ContentsModalView(isModalPresented: $isModalPresented, message: $message, selectedUserInfo: $sortedUsers[selectedIndex])
-                                .zIndex(3)
-                        }
+                        
                     }
                 }
             }
             .gesture(
                 DragGesture()
                     .onChanged { value in
-                        rotation += Double(value.translation.width) * 0.05
+                        rotation += Double(value.translation.width) * 0.01
                     }
             )
+            .gesture(
+                MagnificationGesture()
+                    .onChanged { value in
+                        let newScale = previousScale * value
+                        
+                        if newScale > 0.3 && newScale < 2.0 {
+                            scale = newScale
+                        }
+                    }
+                    .onEnded { value in
+                        previousScale = scale
+                    }
+            )
+            .scaleEffect(scale)
             .padding()
+            
+            if isModalPresented {
+                Color.black.opacity(0.2)
+                    .ignoresSafeArea()
+                    .onTapGesture {
+                        isModalPresented = false
+                    }
+                    .zIndex(2)
+                
+                ContentsModalView(isModalPresented: $isModalPresented, message: $message, selectedUserInfo: $sortedUsers[selectedIndex])
+                    .zIndex(3)
+            }
         }
         .onAppear {
             Task {
@@ -232,16 +250,17 @@ struct ContentEmojiView: View {
                 Text("\(userInfo.nickname)")
                     .font(.caption)
                     .fontWeight(.bold)
-                    .foregroundStyle(.black)
+                    .foregroundStyle(Color(UIColor.darkGray))
                     .frame(minWidth: 100)
-                    .padding(.top, -40)
+                    .padding(.top, -40).scaleEffect(1)
                 
                 ZStack {
-                    Circle()
+                    Ellipse()
                         .fill(RadialGradient(gradient: Gradient(colors: [Color.black.opacity(0.4), Color.black.opacity(0)]),
                                              center: .center,
                                              startRadius: 0,
                                              endRadius: 20))
+                        .frame(width: 20 * (1.5 - interpolationRatio), height: 10 * (1.5 - interpolationRatio))
                     
                     Circle()
                         .fill(.clear)
@@ -250,12 +269,12 @@ struct ContentEmojiView: View {
                                 Circle()
                                     .stroke(.white, lineWidth: 3)
                                 Text(userInfo.previousState)
-                                    .font(.system(size: 35))
+                                    .font(.system(size: 25 * (1.5 - interpolationRatio)))
                             }
                             
                         )
                         .offset(x: 0, y: -30)
-                        .frame(width: 50, height: 50)
+                        .frame(width: 40 * (1.5 - interpolationRatio), height: 40 * (1.5 - interpolationRatio))
                 }
             }
         }

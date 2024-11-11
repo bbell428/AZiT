@@ -152,7 +152,6 @@ struct MainTopView: View {
             .padding()
             
         }
-        .frame(maxWidth: screenBounds?.width, maxHeight: screenBounds?.height)
     }
 }
 
