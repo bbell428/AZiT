@@ -11,7 +11,7 @@ struct ContentEmojiView: View {
     @EnvironmentObject var storyStore: StoryStore
     @Binding var userInfo: UserInfo
     @Binding var rotation: Double
-    @Binding var isModalPresented: Bool
+    @Binding var isFriendsModalPresented: Bool
     @Binding var selectedIndex: Int
     var index: Int
     var startEllipse: (width: CGFloat, height: CGFloat)
@@ -28,7 +28,7 @@ struct ContentEmojiView: View {
         
         Button {
             selectedIndex = index
-            isModalPresented = true
+            isFriendsModalPresented = true
         } label: {
             VStack {
                 Text("\(userInfo.nickname)")
@@ -51,7 +51,7 @@ struct ContentEmojiView: View {
                         .overlay(
                             ZStack {
                                 Circle()
-                                    .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createCircleGradient()), lineWidth: 3)
+                                    .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createCircleGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 3)
                                 Text(userInfo.previousState)
                                     .font(.system(size: 25 * (1.5 - interpolationRatio)))
                             }

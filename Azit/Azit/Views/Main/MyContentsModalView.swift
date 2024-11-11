@@ -1,21 +1,19 @@
 //
-//  ContentsModalView.swift
+//  MyContentsModalView.swift
 //  Azit
 //
-//  Created by Hyunwoo Shin on 11/4/24.
+//  Created by Hyunwoo Shin on 11/11/24.
 //
 
 import SwiftUI
 
-struct ContentsModalView: View {
+struct MyContentsModalView: View {
     let screenBounds = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds
     @State var story: Story?
     @StateObject var storyStore: StoryStore = StoryStore()
-    @Binding var isModalPresented: Bool
-    @Binding var message: String
-    @Binding var selectedUserInfo: UserInfo
-    @State private var isLiked: Bool = false
+    @Binding var isMyModalPresented: Bool
     @State private var scale: CGFloat = 0.1
+    var selectedUserInfo: UserInfo
     
     var body: some View {
         VStack(alignment: .center, spacing: 15) {
@@ -37,7 +35,7 @@ struct ContentsModalView: View {
                     .font(.caption)
             }
             
-            if story?.image != "" {
+            if story?.image ?? "" != "" {
                 HStack() {
                     Text(story?.content ?? "")
                     
@@ -71,24 +69,10 @@ struct ContentsModalView: View {
             }
             
             HStack {
-                TextField("message", text: $message, prompt: Text("친구에게 메세지 보내기")
-                    .font(.caption))
-                .padding(3)
-                .padding(.leading, 10)
-                .frame(height: 30)
-                .background(.white)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(.accent, lineWidth: 1)
-                )
-                
-                Spacer()
-                
                 Button(action: {
-                    isLiked.toggle()
+                    // isPresentedLikedSheet
                 }) {
-                    Image(systemName: isLiked ? "heart.fill" : "heart")
+                    Image(systemName: "heart.fill")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .foregroundStyle(.accent)
@@ -119,41 +103,3 @@ struct ContentsModalView: View {
     }
 }
 
-// 추 후 컴포넌트로 빼기
-struct SpeechBubbleView: View {
-    var text: String
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text(text)
-                .padding(5)
-                .padding([.leading, .trailing], 10)
-                .foregroundStyle(.white)
-        }
-        .background(
-            SpeechBubbleTail()
-                .stroke(Color.accent, lineWidth: 2)
-                .background(SpeechBubbleTail().fill(Color.accent))
-        )
-    }
-}
-
-struct SpeechBubbleTail: Shape {
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        
-        path.addRoundedRect(in: rect, cornerSize: CGSize(width: 8, height: 8))
-        
-        path.move(to: CGPoint(x: rect.midX - 3, y: rect.maxY))
-        path.addLine(to: CGPoint(x: rect.midX, y: rect.maxY + 8))
-        path.addLine(to: CGPoint(x: rect.midX + 3, y: rect.maxY))
-        
-        path.closeSubpath()
-        
-        return path
-    }
-}
-
-#Preview {
-    MainView()
-}

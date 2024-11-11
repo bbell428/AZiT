@@ -20,9 +20,9 @@ struct Utility {
         )
     }
     
-    static func createCircleGradient() -> LinearGradient {
+    static func createCircleGradient(colors: [Color]) -> LinearGradient {
         return LinearGradient(
-            gradient: Gradient(colors: [.accent, .gradation1, .gradation2]),
+            gradient: Gradient(colors: colors),
             startPoint: .top,
             endPoint: .bottom
         )
