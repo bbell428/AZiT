@@ -50,16 +50,16 @@ class AuthManager: ObservableObject {
     
     
     init() {
-            registerAuthStateHandler()
-            
-            $flow
-                .combineLatest($email, $password, $confirmPassword)
-                .map { flow, email, password, confirmPassword in
-                    flow == .login
-                    ? !(email.isEmpty || password.isEmpty)
-                    : !(email.isEmpty || password.isEmpty || confirmPassword.isEmpty)
-                }
-                .assign(to: &$isValid)
+        authenticationState = .splash
+        
+        $flow
+            .combineLatest($email, $password, $confirmPassword)
+            .map { flow, email, password, confirmPassword in
+                flow == .login
+                ? !(email.isEmpty || password.isEmpty)
+                : !(email.isEmpty || password.isEmpty || confirmPassword.isEmpty)
+            }
+            .assign(to: &$isValid)
     }
     
     private var authStateHandler: AuthStateDidChangeListenerHandle?
@@ -87,8 +87,6 @@ class AuthManager: ObservableObject {
     
     // 자동로그인
     func registerAuthStateHandler() {
-        authenticationState = .splash
-        
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             if self.authStateHandler == nil {
                 self.authStateHandler = Auth.auth().addStateDidChangeListener { auth, user in

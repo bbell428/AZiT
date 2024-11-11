@@ -16,16 +16,10 @@ struct SplashView: View {
 
     var body: some View {
         VStack {
-            if isReadyToNavigate {
-                AuthView()
-            } else {
                 ProgressView("Loading...")
-            }
         }
         .onAppear {
-            Task {
-                isReadyToNavigate = true
-            }
+            authManager.registerAuthStateHandler()
         }
     }
 }
