@@ -258,12 +258,7 @@ struct MyPageView: View {
             .frame(maxWidth: .infinity)
         }
         .onAppear {
-            Task {
-                await userInfoStore.loadUserInfo(userID: authManager.userID)
-                
-                // 나의 friends를 friendInfo: [String: UserInfo]에 딕셔너리 형태로 할당하기 위해 사용
-                userInfoStore.loadFriendsInfo(friendsIDs: userInfoStore.userInfo?.friends ?? [])
-                
+            Task {                
                 // 친구 uid 긁어옴
                 let friendIDs = userInfoStore.userInfo?.friends ?? []
                 

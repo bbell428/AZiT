@@ -156,7 +156,6 @@ struct LoginView: View {
                     isErrorPassword = false
                 }
                 .onDisappear { // 백버튼으로 돌아왔을 때
-                    authManager.email = ""
                     authManager.password = ""
                     isErrorEmail = false
                     isErrorPassword = false
