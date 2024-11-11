@@ -19,10 +19,6 @@ class ChatListStore: ObservableObject {
     private var timer: AnyCancellable? // startTimer()를 주기적으로 호출하기 위한 타이머
     private var listener: ListenerRegistration? // 리스너 저장용 변수
     
-    //    init() {
-    //        fetchChatRooms()
-    //    }
-    
     deinit {
         timer?.cancel()
     }

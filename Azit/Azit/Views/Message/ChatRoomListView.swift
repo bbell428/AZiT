@@ -6,6 +6,7 @@
 //
 import SwiftUI
 
+// 메시지 채팅방 List View
 struct ChatRoomListView: View {
     @EnvironmentObject var chatListStore: ChatListStore
     @EnvironmentObject var userInfoStore: UserInfoStore
@@ -45,11 +46,12 @@ struct ChatRoomListView: View {
                                                 .fontWeight(.bold)
                                                 .foregroundStyle(Color.black)
                                             
-                                            Text(chatroom.formattedLastMessageAt)
+                                            Text(chatroom.formattedLastMessageAt) // 보내고 나서 지난 시간
                                                 .font(.subheadline)
                                                 .foregroundStyle(.gray)
                                         }
                                         
+                                        // 메시지 길이가 10 보다 크다면 생략표시
                                         Text(chatroom.lastMessage.count > 10 ? "\(chatroom.lastMessage.prefix(10))..." : chatroom.lastMessage)
                                             .font(.subheadline)
                                             .fontWeight(.thin)

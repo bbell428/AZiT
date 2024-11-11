@@ -11,11 +11,14 @@ import FirebaseCore
 import FirebaseAuth
 import GoogleSignIn
 import GoogleSignInSwift
+import FirebaseFirestore
 
 // 인증 처리 상태
 enum AuthenticationState {
+    case splash             // 스플래쉬
     case unauthenticated    // 인증 안됨
     case authenticating     // 인증 진행중
+    case profileExist       // 프로필 입력 뷰
     case authenticated      // 인증 완료
 }
 
@@ -45,30 +48,59 @@ class AuthManager: ObservableObject {
     @Published var user: User?
     @Published var userID: String = ""
     
-    @Published var isNicknameExist: Bool  = false
-
+    
     init() {
-        registerAuthStateHandler()
-        
-        $flow
-            .combineLatest($email, $password, $confirmPassword)
-            .map { flow, email, password, confirmPassword in
-                flow == .login
-                ? !(email.isEmpty || password.isEmpty)
-                : !(email.isEmpty || password.isEmpty || confirmPassword.isEmpty)
-            }
-            .assign(to: &$isValid)
+            registerAuthStateHandler()
+            
+            $flow
+                .combineLatest($email, $password, $confirmPassword)
+                .map { flow, email, password, confirmPassword in
+                    flow == .login
+                    ? !(email.isEmpty || password.isEmpty)
+                    : !(email.isEmpty || password.isEmpty || confirmPassword.isEmpty)
+                }
+                .assign(to: &$isValid)
     }
     
     private var authStateHandler: AuthStateDidChangeListenerHandle?
     
+    // MARK: - 사용자 nickname 존재 확인
+    // 닉네임이 없으면 프로필디테일로 아니라면 메인홈으로 가기 위한 함수
+    func isNicknameExists(for userID: String) async -> Bool {
+        let db = Firestore.firestore()
+        let documentRef = db.collection("User").document(userID)
+        
+        do {
+            let document = try await documentRef.getDocument()
+            
+            // 문서가 존재, nickname필드가 존재하면 true
+            if let data = document.data(), data["nickname"] != nil {
+                return true
+            } else {
+                return false
+            }
+        } catch {
+            print("Error checking nickname existence: \(error)")
+            return false
+        }
+    }
+    
+    // 자동로그인
     func registerAuthStateHandler() {
-        if authStateHandler == nil {
-            authStateHandler = Auth.auth().addStateDidChangeListener { auth, user in
-                self.user = user
-                self.authenticationState = user == nil ? .unauthenticated : .authenticated
-                self.email = user?.email ?? ""
-                self.userID = user?.uid ?? ""
+        authenticationState = .splash
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            if self.authStateHandler == nil {
+                self.authStateHandler = Auth.auth().addStateDidChangeListener { auth, user in
+                    Task {
+                        self.user = user
+                        
+                        self.authenticationState = user == nil ? .unauthenticated : await self.isNicknameExists(for: user?.uid ?? "") ? .authenticated : .profileExist
+                        
+                        self.email = user?.email ?? ""
+                        self.userID = user?.uid ?? ""
+                    }
+                }
             }
         }
     }
@@ -100,6 +132,7 @@ extension AuthManager {
     func signOut() {
         do {
             try Auth.auth().signOut()
+            authenticationState = .unauthenticated
         }
         catch {
             print(error)

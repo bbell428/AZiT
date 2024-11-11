@@ -1,20 +1,18 @@
 //
-//  EmojiView.swift
+//  EditStoryView.swift
 //  Azit
 //
-//  Created by 홍지수 on 11/5/24.
+//  Created by 홍지수 on 11/8/24.
 //
 
 import SwiftUI
 //import EmojiPicker
 
-struct EmojiView : View {
+struct EditStoryView : View {
     @EnvironmentObject var storyStore: StoryStore
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var storyDraft: StoryDraft
-    @Binding var isdisplayEmojiPicker: Bool // MainView에서 전달받은 바인딩 변수
-    
-//    @Binding var navigateToRoot: Bool
+    @Environment(\.dismiss) var dismiss
     
     // 작성될 때의 경도와 위도 값 받기 > 위치 변환하려면 api 받아야 하나
 //    @State var currentLatitude: Double = 0
@@ -22,14 +20,13 @@ struct EmojiView : View {
 //    @Binding var message: String
 //    @Binding var selectedEmoji: String
     @State var publishedTargets: [String] = []
+    @Binding var isdisplayEmojiPicker: Bool
     
     @State var isShowingsheet: Bool = false
     @State var isPicture:Bool = false
     var isShareEnabled: Bool {
         return storyDraft.emoji.isEmpty || storyDraft.content.isEmpty
     }
-    
-    @State var firstNaviLinkActive = false
     
     var body : some View{
         VStack {
@@ -77,35 +74,8 @@ struct EmojiView : View {
                 )
                 .padding(.bottom)
             
-            // 카메라 촬영 버튼
-            NavigationLink(destination: TakePhotoView(firstNaviLinkActive: $firstNaviLinkActive, isMainDisplay: $isdisplayEmojiPicker), isActive: $firstNaviLinkActive) {
-                RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
-                    .background(RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
-                        .fill(Color.accentColor))
-                    .frame(width: 340, height: 40)
-                    .overlay(Image(systemName: "camera.fill")
-                        .padding()
-                        .foregroundColor(Color.white)
-                    )
-            }
-            .padding(.bottom, 20)
-            
-            // 공유 버튼
+            // 수정 완료 버튼
             Button (action:{
-                let newStory = Story(
-                    userId: authManager.userID,
-                    date: Date(),
-                    latitude: storyDraft.latitude,
-                    longitude: storyDraft.longitude,
-                    emoji: storyDraft.emoji,
-                    content: storyDraft.content,
-                    publishedTargets: []
-                )
-                
-                Task {
-                    await storyStore.addStory(newStory)
-                }
-                resetStory()
                 isdisplayEmojiPicker = false
             }) {
                 RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
@@ -113,12 +83,11 @@ struct EmojiView : View {
                     .background(RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
                         .fill(Color.white))
                     .frame(width: 340, height: 40)
-                    .overlay(Text("Share")
+                    .overlay(Text("수정 완료")
                         .padding()
                         .foregroundColor(Color.accentColor)
                     )
             }
-            .disabled(isShareEnabled)
         }
         .frame(width: 365, height: 550) // 팝업창 크기
         .background(
@@ -134,12 +103,7 @@ struct EmojiView : View {
                 .presentationDetents([.medium])
         }
     }
-    
-    // 저장 후 초기화 함수
-    func resetStory() {
-        storyDraft.content = ""
-        storyDraft.emoji = ""
-    }
+
     
     //    func getEmojiList()->[[Int]] {
     //        var emojis : [[Int]] = []

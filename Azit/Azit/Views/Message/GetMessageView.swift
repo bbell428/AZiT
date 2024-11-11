@@ -10,7 +10,7 @@ import SwiftUI
 struct GetMessage: View {
     @EnvironmentObject var authManager: AuthManager
     var chat: Chat
-    var profileImageName: String
+    var profileImageName: String // 상대방 프로필 아이콘
     
     var body: some View {
         HStack(alignment: .top) {
@@ -18,6 +18,7 @@ struct GetMessage: View {
                 .font(.largeTitle)
                 .padding(.leading, 20)
             
+            // 받은 메시지 내용
             VStack(alignment: .leading) {
                 HStack(alignment: .bottom) {
                     Text(chat.message)
@@ -27,11 +28,13 @@ struct GetMessage: View {
                         .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
                         .background(.accent)
                         .cornerRadius(15)
+                        .fixedSize(horizontal: false, vertical: true) // 높이를 내용에 맞게 조절
                         .id(chat.id)
                     
+                    // readBy 리스트에 내 uid가 포함되지 않았다면 (아마 필요없을거같긴함)
                     VStack(alignment: .leading) {
                         if !chat.readBy.contains(authManager.userID) {
-                                Text("1")
+                                Text("1") // 미읽음 처리
                                     .font(.caption2)
                                     .fontWeight(.bold)
                                     .foregroundStyle(Color.green)
