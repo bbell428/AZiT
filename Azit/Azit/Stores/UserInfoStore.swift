@@ -124,6 +124,8 @@ class UserInfoStore: ObservableObject {
                     }
                 }
                 
+                self.friendInfos = Array(self.friendInfo.values)
+                
                 print("친구 : \(self.friendInfo)")
             }
     }

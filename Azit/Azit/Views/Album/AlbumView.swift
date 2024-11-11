@@ -16,6 +16,7 @@ struct ScrollPreferenceKey: PreferenceKey {
 }
 
 struct AlbumView: View {
+    @EnvironmentObject var userInfoStore: UserInfoStore
     @State private var showHorizontalScroll = true
     @State private var offsetY: CGFloat = .zero
     @State private var lastOffsetY: CGFloat = .zero // 마지막 스크롤 위치 저장
@@ -24,17 +25,7 @@ struct AlbumView: View {
     @State private var isLoading = false
     
     @State var selectedIndex: Int = 0
-
-    let titles: [String] =
-        ["김종혁",
-         "박준영",
-         "신현우",
-         "홍지수",
-         "김종혁",
-          "박준영",
-          "신현우",
-          "홍지수",
-        ]
+    @State var isOpenCalendar: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -45,51 +36,43 @@ struct AlbumView: View {
                             dismiss()
                         } label: {
                             Image(systemName: "chevron.left")
+                                .font(.system(size: 25))
                                 .frame(maxWidth: .infinity, alignment: .leading)
                         }
                         .padding(.horizontal, 30)
                         
+                        Color.clear
+                            .frame(maxWidth: .infinity)
+                        
                         // 가운데 텍스트 영역
-                        Text("Album : \(lastOffsetY)")
+                        Text("Album")
                             .font(.title3)
                             .fontWeight(.bold)
                             .frame(maxWidth: .infinity, alignment: .center)
                         
                         Color.clear
                             .frame(maxWidth: .infinity)
+                        
+                        Button {
+                            isOpenCalendar = true
+                        } label: {
+                            Image(systemName: "calendar")
+                                .font(.system(size: 25))
+                        }
+                        .padding(.horizontal, 30)
+                        
                     }
                     .zIndex(3)
                     .frame(height: 70)
                     .background(Color.white)
                     
                     if showHorizontalScroll {
-                        FriendSegmentView(selectedIndex: $selectedIndex, titles: titles)
-//                        ScrollView(.horizontal, showsIndicators: false) {
-//                            HStack(spacing: 6) {
-//                                ForEach(0..<10) { _ in
-//                                    Button {
-//                                        // 사용자 상태 클릭 시,
-//                                    } label: {
-//                                        ZStack(alignment: .center) {
-//                                            Circle()
-//                                                .fill(.subColor4)
-//                                                .frame(width: 70, height: 70)
-//                                            
-//                                            Text("🤣")
-//                                                .font(.largeTitle)
-//                                        }
-//                                        .frame(alignment: .leading)
-//                                        .padding([.leading, .bottom], 10)
-//                                    }
-//                                }
-//                            }
-//                            .frame(height: 100)
-//                        }
-                        .zIndex(2)
-                        .transition(.move(edge: .top).combined(with: .opacity)) // 애니메이션 효과
-                        .animation(.easeInOut(duration: 0.3), value: showHorizontalScroll)
-                        .padding(.top, 70)
-                        .background(Color.white)
+                        FriendSegmentView(selectedIndex: $selectedIndex, titles: userInfoStore.friendInfos)
+                            .zIndex(2)
+                            .transition(.move(edge: .top).combined(with: .opacity)) // 애니메이션 효과
+                            .animation(.easeInOut(duration: 0.3), value: showHorizontalScroll)
+                            .padding(.top, 60)
+                            .background(Color.white)
                     }
                     
                     ScrollView {

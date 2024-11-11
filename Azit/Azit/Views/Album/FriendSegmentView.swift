@@ -14,11 +14,11 @@ struct UnderlineModifier: ViewModifier {
                     .cornerRadius(12)
                     .offset(x: frames[selectedIndex].minX - frames[0].minX), alignment: .bottomLeading
             )
-//            .background(
-//                Rectangle()
-//                    .fill(Color.gray)
-//                    .frame(height: 1), alignment: .bottomLeading
-//            )
+        //            .background(
+        //                Rectangle()
+        //                    .fill(Color.gray)
+        //                    .frame(height: 1), alignment: .bottomLeading
+        //            )
             .animation(.default)
     }
 }
@@ -41,9 +41,9 @@ struct FriendSegmentView: View {
     @State private var backgroundFrame = CGRect.zero
     @State private var isScrollable = true
     
-    private let titles: [String]
+    private let titles: [UserInfo]
     
-    init(selectedIndex: Binding<Int>, titles: [String]) {
+    init(selectedIndex: Binding<Int>, titles: [UserInfo]) {
         self._selectedIndex = selectedIndex
         self.titles = titles
         frames = Array<CGRect>(repeating: .zero, count: titles.count)
@@ -104,10 +104,10 @@ private struct SegmentedControlButtonView: View {
     @Binding private var backgroundFrame: CGRect
     @Binding private var isScrollable: Bool
     
-    private let titles: [String]
+    private let titles: [UserInfo]
     let checkIsScrollable: (() -> Void)
     
-    init(selectedIndex: Binding<Int>, frames: Binding<[CGRect]>, backgroundFrame: Binding<CGRect>, isScrollable: Binding<Bool>, checkIsScrollable: (@escaping () -> Void), titles: [String])
+    init(selectedIndex: Binding<Int>, frames: Binding<[CGRect]>, backgroundFrame: Binding<CGRect>, isScrollable: Binding<Bool>, checkIsScrollable: (@escaping () -> Void), titles: [UserInfo])
     {
         _selectedIndex = selectedIndex
         _frames = frames
@@ -121,11 +121,26 @@ private struct SegmentedControlButtonView: View {
     var body: some View {
         HStack(spacing: 0) {
             ForEach(titles.indices, id: \.self) { index in
-                Button(action:{ selectedIndex = index })
-                {
-                    HStack {
-                        Text(titles[index])
-                            .frame(height: 42)
+                Button {
+                    selectedIndex = index
+                    print("\(titles[index].nickname)의 id : \(titles[index].id)")
+                } label: {
+                    VStack(alignment: .center) {
+                        ZStack(alignment: .center) {
+                            Circle()
+                                .fill(selectedIndex == index ? .accent : .subColor4)
+                                .frame(width: 60, height: 60)
+                            
+                            Text(titles[index].profileImageName)
+                                .font(.largeTitle)
+                        }
+                        .padding(.bottom, 5)
+                        
+                        HStack(alignment: .center) {
+                            Text(titles[index].nickname)
+                                .font(.caption2)
+                                .foregroundStyle(selectedIndex == index ? .black : .gray)
+                        }
                     }
                 }
                 .buttonStyle(CustomSegmentButtonStyle())
@@ -160,6 +175,6 @@ private struct CustomSegmentButtonStyle: ButtonStyle {
     }
 }
 
-#Preview {
-    FriendSegmentView(selectedIndex: .constant(0), titles: ["First", "Second", "Third"])
-}
+//#Preview {
+//    FriendSegmentView(selectedIndex: .constant(0), titles: [])
+//}
