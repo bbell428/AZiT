@@ -10,6 +10,7 @@ import SwiftUI
 struct MainView: View {
     @State private var isMainExposed: Bool = true
     @State private var isModalPresented: Bool = false
+    @State private var isPassed24Hours: Bool = false
     
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var authManager: AuthManager
@@ -25,7 +26,7 @@ struct MainView: View {
         NavigationStack() {
             ZStack {
                 if isMainExposed {
-                    RotationView(isModalPresented: $isModalPresented, isdisplayEmojiPicker: $isdisplayEmojiPicker)
+                    RotationView(isModalPresented: $isModalPresented, isdisplayEmojiPicker: $isdisplayEmojiPicker, isPassed24Hours: $isPassed24Hours)
                         .frame(width: 300, height: 300)
                         .zIndex(isModalPresented ? 2 : 1)
                 } else {

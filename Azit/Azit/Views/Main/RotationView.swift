@@ -11,9 +11,12 @@ import EmojiPicker
 struct RotationView: View {
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var authManager: AuthManager
+    @EnvironmentObject var storyStore: StoryStore
+    
     @State private var rotation: Double = 270.0
     @Binding var isModalPresented: Bool
     @Binding var isdisplayEmojiPicker: Bool
+    @Binding var isPassed24Hours: Bool
     @State var selectedEmoji: Emoji?
     @State var sortedUsers: [UserInfo] = []
     @State private var selectedIndex: Int = 0
@@ -92,20 +95,22 @@ struct RotationView: View {
                             .overlay(
                                 ZStack {
                                     Circle()
-                                        .stroke(.white, lineWidth: 3)
+                                        .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createCircleGradient()), lineWidth: 3)
+                                    
                                     Text(userInfoStore.userInfo?.previousState ?? "")
                                         .font(.system(size: 80))
                                 }
                             )
-                                                    
-                        Circle()
-                            .fill(.white)
-                            .frame(width: 25, height: 25)
-                            .overlay(
-                                Text("+")
-                                    .fontWeight(.black)
-                            )
-                            .offset(y: 50)
+                        if isPassed24Hours {
+                            Circle()
+                                .fill(.white)
+                                .frame(width: 25, height: 25)
+                                .overlay(
+                                    Text("+")
+                                        .fontWeight(.black)
+                                )
+                                .offset(y: 50)
+                        }
                     }
                 }
                 .zIndex(1)
@@ -113,7 +118,7 @@ struct RotationView: View {
             
                 ForEach(0..<4, id: \.self) { index in
                     Ellipse()
-                        .fill(createGradient(index: index, width: CGFloat(1260 - index * 293), height: CGFloat(1008 - CGFloat(index * 234))))
+                        .fill(Utility.createGradient(index: index, width: CGFloat(1260 - index * 293), height: CGFloat(1008 - CGFloat(index * 234))))
                         .frame(width: CGFloat(1260 - index * 293), height: CGFloat(1008 - CGFloat(index * 234)))
                         .overlay(
                             Ellipse()
@@ -136,8 +141,6 @@ struct RotationView: View {
                                 selectedIndex = index
                                 print(selectedIndex)
                             }
-                        
-                        
                     }
                 }
             }
@@ -182,108 +185,24 @@ struct RotationView: View {
                 
                 sortedUsers = try await sortUsersByDistance(from: userInfoStore.userInfo!, users: userInfoStore.loadUsersInfoByEmail(userID: userInfoStore.userInfo?.friends ?? []))
                 numberOfCircles = userInfoStore.userInfo?.friends.count ?? 0
+                
+                let story = try await storyStore.loadRecentStoryById(id: userInfoStore.userInfo?.id ?? "")
+                
+                isPassed24Hours = Utility.hasPassed24Hours(from: story.date)
             }
             
         }
-    }
-
-    private func createGradient(index: Int, width: CGFloat, height: CGFloat) -> RadialGradient {
-        let colors: [Color] = [.subColor4, .subColor3, .subColor2, .subColor1]
-        let startColor: Color = colors[index]
-        
-        return RadialGradient(
-            gradient: Gradient(colors: [startColor.opacity(1), .clear]),
-            center: .center,
-            startRadius: 0,
-            endRadius: 150 + height / 2
-        )
-    }
-    
-    func haversineDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double) -> Double {
-        let r = 6371.0 // 지구의 반지름 (킬로미터)
-
-        let lat1Rad = lat1 * .pi / 180.0
-        let lat2Rad = lat2 * .pi / 180.0
-        let deltaLat = (lat2 - lat1) * .pi / 180.0
-        let deltaLon = (lon2 - lon1) * .pi / 180.0
-
-        let a = sin(deltaLat / 2) * sin(deltaLat / 2) +
-                cos(lat1Rad) * cos(lat2Rad) *
-                sin(deltaLon / 2) * sin(deltaLon / 2)
-
-        let c = 2 * atan2(sqrt(a), sqrt(1 - a))
-
-        return r * c // 거리 (킬로미터)
-    }
+    }    
 
     func sortUsersByDistance(from user: UserInfo, users: [UserInfo]) -> [UserInfo] {
         return users.sorted { (user1, user2) -> Bool in
-            let distance1 = haversineDistance(lat1: user.latitude, lon1: user.longitude, lat2: user1.latitude, lon2: user1.longitude)
-            let distance2 = haversineDistance(lat1: user.latitude, lon1: user.longitude, lat2: user2.latitude, lon2: user2.longitude)
+            let distance1 = Utility.haversineDistance(lat1: user.latitude, lon1: user.longitude, lat2: user1.latitude, lon2: user1.longitude)
+            let distance2 = Utility.haversineDistance(lat1: user.latitude, lon1: user.longitude, lat2: user2.latitude, lon2: user2.longitude)
             return distance1 < distance2
         }
     }
 }
 
-struct ContentEmojiView: View {
-    @Binding var userInfo: UserInfo
-    @Binding var rotation: Double
-    @Binding var isModalPresented: Bool
-    @Binding var selectedIndex: Int
-    var index: Int
-    var startEllipse: (width: CGFloat, height: CGFloat)
-    var endEllipse: (width: CGFloat, height: CGFloat)
-    var interpolationRatio: CGFloat
-    @State var randomAngleOffset: Double
-    var num = 0
-    
-    var body: some View {
-        let majorAxis = startEllipse.width / 2 * (1 - interpolationRatio) + endEllipse.width / 2 * interpolationRatio
-        let minorAxis = startEllipse.height / 2 * (1 - interpolationRatio) + endEllipse.height / 2 * interpolationRatio
-        let angle = (rotation + randomAngleOffset) * .pi / 180
-        
-        Button {
-            selectedIndex = index 
-            isModalPresented = true
-        } label: {
-            VStack {
-                Text("\(userInfo.nickname)")
-                    .font(.caption)
-                    .fontWeight(.bold)
-                    .foregroundStyle(Color(UIColor.darkGray))
-                    .frame(minWidth: 100)
-                    .padding(.top, -40).scaleEffect(1)
-                
-                ZStack {
-                    Ellipse()
-                        .fill(RadialGradient(gradient: Gradient(colors: [Color.black.opacity(0.4), Color.black.opacity(0)]),
-                                             center: .center,
-                                             startRadius: 0,
-                                             endRadius: 20))
-                        .frame(width: 20 * (1.5 - interpolationRatio), height: 10 * (1.5 - interpolationRatio))
-                    
-                    Circle()
-                        .fill(.clear)
-                        .overlay(
-                            ZStack {
-                                Circle()
-                                    .stroke(.white, lineWidth: 3)
-                                Text(userInfo.previousState)
-                                    .font(.system(size: 25 * (1.5 - interpolationRatio)))
-                            }
-                            
-                        )
-                        .offset(x: 0, y: -30)
-                        .frame(width: 40 * (1.5 - interpolationRatio), height: 40 * (1.5 - interpolationRatio))
-                }
-            }
-        }
-        .frame(width: 50, height: 50)
-        .offset(x: majorAxis * cos(angle), y: minorAxis * sin(angle) + 250)
-        .animation(.easeInOut(duration: 0.5), value: rotation)
-    }
-}
-
-#Preview {
-    RotationView(isModalPresented: .constant(false), isdisplayEmojiPicker: .constant(false))
-}
+//#Preview {
+//    RotationView(isModalPresented: .constant(false), isdisplayEmojiPicker: .constant(false), isPassed24Hour: .constant(false))
+//}

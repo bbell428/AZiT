@@ -63,7 +63,7 @@ class StoryStore: ObservableObject {
                 }
             }
             
-            self.stories = stories
+            self.stories = stories.sorted { $0.date > $1.date }
         } catch {
             print("loadStories error: \(error.localizedDescription)")
             
@@ -72,6 +72,39 @@ class StoryStore: ObservableObject {
         
         return stories
     }
+    
+    @MainActor
+    func loadRecentStoryById(id: String) async throws -> Story {
+        let db = Firestore.firestore()
+        
+        do {
+            let querySnapshot = try await db.collection("Story")
+                .whereField("userId", in: [id]).getDocuments()
+            
+            var stories: [Story] = []
+            
+            for document in querySnapshot.documents {
+                do {
+                    let story = try await Story(document: document)
+                    
+                    stories.append(story)
+                    
+                } catch {
+                    print("loadStories error: \(error.localizedDescription)")
+                    
+                    return Story(userId: "", date: Date.now)
+                }
+            }
+            
+            self.stories = stories.sorted { $0.date > $1.date }
+        } catch {
+            print("loadStories error: \(error.localizedDescription)")
+            
+            return Story(userId: "", date: Date.now)
+        }
+        
+        return stories[0]
+    }    
 }
 
 // 메인 뷰에서 작성된 story 임시 저장 class
