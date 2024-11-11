@@ -79,32 +79,22 @@ class StoryStore: ObservableObject {
         
         do {
             let querySnapshot = try await db.collection("Story")
-                .whereField("userId", in: [id]).getDocuments()
+                .whereField("userId", isEqualTo: id)
+                .order(by: "date", descending: true)
+                .limit(to: 1)
+                .getDocuments()
             
-            var stories: [Story] = []
-            
-            for document in querySnapshot.documents {
-                do {
-                    let story = try await Story(document: document)
-                    
-                    stories.append(story)
-                    
-                } catch {
-                    print("loadStories error: \(error.localizedDescription)")
-                    
-                    return Story(userId: "", date: Date.now)
-                }
+            if let document = querySnapshot.documents.first {
+                return try await Story(document: document)
+            } else {
+                throw NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Story not found"])
             }
             
-            self.stories = stories.sorted { $0.date > $1.date }
         } catch {
             print("loadStories error: \(error.localizedDescription)")
-            
-            return Story(userId: "", date: Date.now)
+            throw error
         }
-        
-        return stories[0]
-    }    
+    }
 }
 
 // 메인 뷰에서 작성된 story 임시 저장 class
