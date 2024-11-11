@@ -143,7 +143,6 @@ private struct SegmentedControlButtonView: View {
                         }
                     }
                 }
-                .frame(maxWidth: 90)
                 .buttonStyle(CustomSegmentButtonStyle())
                 .background(
                     GeometryReader { geoReader in
@@ -171,7 +170,7 @@ private struct CustomSegmentButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration
             .label
-            .padding(EdgeInsets(top: 14, leading: 0, bottom: 14, trailing: 0))
+            .padding(EdgeInsets(top: 14, leading: 10, bottom: 14, trailing: 10))
             .background(configuration.isPressed ? Color(red: 0.808, green: 0.831, blue: 0.855, opacity: 0.5): Color.clear)
     }
 }
