@@ -78,7 +78,7 @@ struct AlbumView: View {
                     ScrollView {
                         VStack(alignment: .leading) {
                             Rectangle()
-                                .frame(height: 150)
+                                .frame(height: 160)
                                 .foregroundStyle(Color.white)
                             
                             GeometryReader { proxy in
