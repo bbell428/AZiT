@@ -15,21 +15,23 @@ struct PostMessage: View {
         HStack(alignment: .bottom) {
             VStack(alignment: .trailing) {
                 if !chat.readBy.contains(where: { $0 != authManager.userID }) {
-                    // authManager.userID 외 다른 UID가 없을 경우
+                    // authManager.userID 외 다른 UID가 없을 경우 (상대방 uid가 없을때)
                     VStack {
-                        Text("1")
+                        Text("1") // 미읽음 표시
                             .font(.caption2)
                             .fontWeight(.bold)
                             .foregroundStyle(Color.green)
                     }
                 }
                 
+                // 보낸 시간
                 Text(chat.formattedCreateAt)
                     .font(.caption2)
                     .fontWeight(.light)
                     .foregroundStyle(Color.gray)
             }
             
+            // 보낸 내용
             VStack(alignment: .trailing) {
                 Text(chat.message)
                     .font(.headline)

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// 메시지 채팅방 View
 struct MessageView: View {
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var authManager: AuthManager
@@ -15,8 +16,8 @@ struct MessageView: View {
     
     var body: some View {
         NavigationStack {
-            GeometryReader { geometry in
                 VStack {
+                    // 상단바
                     HStack {
                         Button {
                             dismiss()
@@ -35,23 +36,17 @@ struct MessageView: View {
                         Color.clear
                             .frame(maxWidth: .infinity)
                     }
-                        .frame(width: geometry.size.width, height: geometry.size.height * 0.1)
+                        .frame(height: 70)
                     
                     ChatRoomListView() // 메시지 목록
-                        .frame(width: geometry.size.width, height: geometry.size.height * 0.9)
                         .refreshable {
                             // 메시지 새로 고침 로직
                         }
-                }
             }
         }
         .navigationBarBackButtonHidden(true)
-        .swipeActions(edge: .trailing) {
-            MainView()
-        }
         .onAppear {
             Task {
-                //await userInfoStore.loadUserInfo(userID: authManager.userID)
                 chatListStore.fetchChatRooms(userId: userInfoStore.userInfo?.id ?? "")
             }
         }

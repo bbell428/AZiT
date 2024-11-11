@@ -15,6 +15,8 @@ extension UIApplication {
     }
 }
 
+// NavigationTitle를 숨겨도, 뒤로가는 제스처(Swipe)는 그대로 유지하기 위한
+// 단점 : 모든 NavigationStack에 적용됨 (extension으로)
 extension UINavigationController: ObservableObject, UIGestureRecognizerDelegate {
     open override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,13 +46,14 @@ struct CustomNavigationView<Content: View>: UIViewControllerRepresentable {
     }
 }
 
+// 1:1 메시지방 View
 struct MessageDetailView: View {
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var chatDetailViewStore: ChatDetailViewStore
     @Environment(\.dismiss) var dismiss
-    var roomId: String
-    var nickname: String
-    var profileImageName: String
+    var roomId: String // 메시지방 id
+    var nickname: String // 상대방 닉네임
+    var profileImageName: String // 상대방 프로필 아이콘
     
     var body: some View {
         NavigationStack {
@@ -140,22 +143,18 @@ struct TextMessage: View {
                     Rectangle()
                         .fill(Color.white)
                         .id("Bottom")
-                    //PostMessage()
                 }
+                // 초기에 가장 하단 스크롤으로 이동
                 .onAppear {
                     proxy.scrollTo("Bottom", anchor: .bottom)
                 }
+                // 메시지가 전송/전달 되면 하단 스크롤으로 이동
                 .onChange(of: chatDetailViewStore.lastMessageId) { id, _ in
                     proxy.scrollTo("Bottom", anchor: .bottom)
                 }
             }
-            //            .task(id: chatDetailViewStore.lastMessageId) {
-            //                print("\(chatDetailViewStore.lastMessageId)")
-            //                withAnimation {
-            //                    proxy.scrollTo(chatDetailViewStore.lastMessageId, anchor: .bottom)
-            //                }
-            //            }
         }
+        // 다른곳 터치시 키보드 내리기
         .onTapGesture {
             UIApplication.shared.endEditing()
         }
@@ -166,7 +165,7 @@ struct TextMessage: View {
 struct MessageSendField: View {
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var chatDetailViewStore: ChatDetailViewStore
-    @State var text: String = ""
+    @State var text: String = "" // 텍스트 필드
     var roomId: String
     var nickname: String
     
@@ -176,6 +175,7 @@ struct MessageSendField: View {
                 .padding()
                 .background(Color(UIColor.systemGray6))
                 .cornerRadius(20)
+                // 키보드에 있는 전송 버튼을 활용할때,
                 .onSubmit {
                     // 메시지가 비어 있지 않을 경우에만 전송
                     guard !text.isEmpty else { return }
@@ -186,6 +186,7 @@ struct MessageSendField: View {
                     }
                 }
             
+            // 전송 버튼
             Button(action: {
                 Task {
                     print("메시지 전송: \(text)")

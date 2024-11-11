@@ -20,6 +20,7 @@ struct RotationView: View {
     @State private var message: String = ""
     @State private var scale: CGFloat = 1.0
     @State private var previousScale: CGFloat = 1.0
+  
     let angles: [(Double, Double)] = [
         (0, 60),
         (-60, 0),

@@ -160,24 +160,20 @@ class UserInfoStore: ObservableObject {
         return usersInfo
     }
     
-    // MARK: - 사용자 nickname 존재 확인
-    func isNicknameExists(for userID: String) async -> Bool {
+    // MARK: - 중복된 nickname 확인
+    func isNicknameExists(_ nickname: String) async -> Bool {
         let db = Firestore.firestore()
-        let documentRef = db.collection("User").document(userID)
-        
-        do {
-            let document = try await documentRef.getDocument()
-            
-            // 문서가 존재, nickname필드가 존재하면 true
-            if let data = document.data(), data["nickname"] != nil {
-                return true
-            } else {
-                return false
-            }
-        } catch {
-            print("Error checking nickname existence: \(error)")
-            return false
-        }
+               
+               do {
+                   let querySnapshot = try await db.collection("User")
+                       .whereField("nickname", isEqualTo: nickname)
+                       .getDocuments()
+                   
+                   return !querySnapshot.isEmpty // 쿼리 결과가 비어 있지 않으면 닉네임이 존재함
+               } catch {
+                   print("Error checking nickname existence: \(error)")
+                   return false
+               }
     }
     
     // MARK: - 사용자 정보 제거
