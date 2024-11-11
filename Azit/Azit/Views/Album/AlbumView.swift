@@ -23,10 +23,23 @@ struct AlbumView: View {
     @State private var items = Array(0..<10)
     @State private var isLoading = false
     
+    @State var selectedIndex: Int = 0
+
+    let titles: [String] =
+        ["김종혁",
+         "박준영",
+         "신현우",
+         "홍지수",
+         "김종혁",
+          "박준영",
+          "신현우",
+          "홍지수",
+        ]
+    
     var body: some View {
         NavigationStack {
             VStack {
-                ZStack(alignment: .topTrailing) {
+                ZStack(alignment: .topLeading) {
                     HStack {
                         Button {
                             dismiss()
@@ -49,43 +62,29 @@ struct AlbumView: View {
                     .frame(height: 70)
                     .background(Color.white)
                     
-                    //                    HStack {
-                    //                        Spacer()
-                    //
-                    //                        Button {
-                    //                            // 날짜 선택
-                    //                        } label: {
-                    //                            Image(systemName: "line.3.horizontal.decrease")
-                    //                        }
-                    //                        .frame(width: 50, height: 30)
-                    //                        .background(.subColor4)
-                    //                        .cornerRadius(15)
-                    //                        .padding(EdgeInsets(top: 30, leading: 0, bottom: 0, trailing: 16))
-                    //                    }
-                    
-                    
                     if showHorizontalScroll {
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 6) {
-                                ForEach(0..<10) { _ in
-                                    Button {
-                                        // 사용자 상태 클릭 시,
-                                    } label: {
-                                        ZStack(alignment: .center) {
-                                            Circle()
-                                                .fill(.subColor4)
-                                                .frame(width: 70, height: 70)
-                                            
-                                            Text("🤣")
-                                                .font(.largeTitle)
-                                        }
-                                        .frame(alignment: .leading)
-                                        .padding([.leading, .bottom], 10)
-                                    }
-                                }
-                            }
-                            .frame(height: 100)
-                        }
+                        FriendSegmentView(selectedIndex: $selectedIndex, titles: titles)
+//                        ScrollView(.horizontal, showsIndicators: false) {
+//                            HStack(spacing: 6) {
+//                                ForEach(0..<10) { _ in
+//                                    Button {
+//                                        // 사용자 상태 클릭 시,
+//                                    } label: {
+//                                        ZStack(alignment: .center) {
+//                                            Circle()
+//                                                .fill(.subColor4)
+//                                                .frame(width: 70, height: 70)
+//                                            
+//                                            Text("🤣")
+//                                                .font(.largeTitle)
+//                                        }
+//                                        .frame(alignment: .leading)
+//                                        .padding([.leading, .bottom], 10)
+//                                    }
+//                                }
+//                            }
+//                            .frame(height: 100)
+//                        }
                         .zIndex(2)
                         .transition(.move(edge: .top).combined(with: .opacity)) // 애니메이션 효과
                         .animation(.easeInOut(duration: 0.3), value: showHorizontalScroll)
@@ -121,7 +120,7 @@ struct AlbumView: View {
                             .frame(height: 0)
                             
                             Text("1시간 전")
-                                .font(.subheadline)
+                                .font(.caption2)
                                 .fontWeight(.bold)
                                 .foregroundStyle(Color.gray)
                             
@@ -141,7 +140,7 @@ struct AlbumView: View {
                         
                         VStack(alignment: .leading) {
                             Text("2시간 전")
-                                .font(.subheadline)
+                                .font(.caption2)
                                 .fontWeight(.bold)
                                 .foregroundStyle(Color.gray)
                             
