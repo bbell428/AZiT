@@ -24,7 +24,8 @@ struct RotationView: View {
     @State private var message: String = "" // 친구에게 보낼 메세지
     @State private var scale: CGFloat = 1.0 // 확대, 축소를 위한 스케일
     @State private var previousScale: CGFloat = 1.0 // 이전 스케일을 보존
-    @State private var numberOfCircles: Int = 0 // 친구 스토리의 개수
+    @State private var friendsStories: [Story] = [] // 친구들의 story
+    @State private var numberOfCircles: Int = 0 // 친구 story 개수
 
     var body: some View {
         ZStack {
@@ -106,10 +107,23 @@ struct RotationView: View {
                 await userInfoStore.loadUserInfo(userID: authManager.userID)
                 // 사용자 본인의 친구 받아오기
                 userInfoStore.loadFriendsInfo(friendsIDs: userInfoStore.userInfo?.friends ?? [])
+                
+                var tempUsers: [UserInfo] = []
+                // 스토리가 있는 친구들 분류
+                for friend in userInfoStore.userInfo?.friends ?? [] {
+                    do {
+                        let tempStory = try await storyStore.loadRecentStoryById(id: friend)
+                        
+                        if tempStory.id != "" {
+                            try await tempUsers.append(userInfoStore.loadUsersInfoByEmail(userID: [friend])[0])
+                        }
+                    } catch { }
+                }
+                
                 // 사용자 본인의 친구들을 거리를 바탕으로 정렬
-                sortedUsers = try await Utility.sortUsersByDistance(from: userInfoStore.userInfo!, users: userInfoStore.loadUsersInfoByEmail(userID: userInfoStore.userInfo?.friends ?? []))
-                // 친구들의 최근 story, 인당 1개
-                numberOfCircles = userInfoStore.userInfo?.friends.count ?? 0 // 친구가 아니라 친구의 게시글이 numberOfCircle이 되어야 함
+                sortedUsers = Utility.sortUsersByDistance(from: userInfoStore.userInfo!, users: tempUsers)
+                // 친구들의 최근 story 개수
+                numberOfCircles = sortedUsers.count
                 // 사용자 본인의 최근 story 불러오기
                 let story = try await storyStore.loadRecentStoryById(id: userInfoStore.userInfo?.id ?? "")
                 // 24시간이 지났는 지 판별

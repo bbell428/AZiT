@@ -39,8 +39,7 @@ struct MapView: View {
                             ZStack {
                                 MyContentEmojiView(isPassed24Hours: $isPassed24Hours, previousState: userInfoStore.userInfo?.previousState ?? "")
                                     .zIndex(3)
-                            }
-                            
+                            }                            
                         }
                     } else {
                         MapContentEmojiView(user: $user,
@@ -79,8 +78,21 @@ struct MapView: View {
                     if let user = userInfoStore.userInfo {
                         users.append(user)
                     }
+                    
+                    var tempUsers: [UserInfo] = []
+                    // 스토리가 있는 친구들 분류
+                    for friend in userInfoStore.userInfo?.friends ?? [] {
+                        do {
+                            let tempStory = try await storyStore.loadRecentStoryById(id: friend)
+                            
+                            if tempStory.id != "" {
+                                try await tempUsers.append(userInfoStore.loadUsersInfoByEmail(userID: [friend])[0])
+                            }
+                        } catch { }
+                    }                    
+                    
                     // 친구들을 users 배열에 추가
-                    users += try await userInfoStore.loadUsersInfoByEmail(userID: userInfoStore.userInfo?.friends ?? [])
+                    users += tempUsers
                     
                     // 사용자 본인의 위도, 경도 값을 변수에 저장
                     let userLat = userInfoStore.userInfo?.latitude ?? 0
