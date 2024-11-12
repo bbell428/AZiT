@@ -256,7 +256,7 @@ struct StoryView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .cornerRadius(15)
-                .frame(width: 120, height: 180)
+                .frame(width: 120, height: 160)
             Text(story.content)
         }
     }
