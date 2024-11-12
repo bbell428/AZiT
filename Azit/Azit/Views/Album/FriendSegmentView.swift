@@ -14,11 +14,6 @@ struct UnderlineModifier: ViewModifier {
                     .cornerRadius(12)
                     .offset(x: frames[selectedIndex].minX - frames[0].minX), alignment: .bottomLeading
             )
-        //            .background(
-        //                Rectangle()
-        //                    .fill(Color.gray)
-        //                    .frame(height: 1), alignment: .bottomLeading
-        //            )
             .animation(.default)
     }
 }
@@ -172,7 +167,7 @@ private struct CustomSegmentButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration
             .label
-            .padding(EdgeInsets(top: 14, leading: 10, bottom: 14, trailing: 10))
+            .padding(5)
             .background(configuration.isPressed ? Color(red: 0.808, green: 0.831, blue: 0.855, opacity: 0.5): Color.clear)
     }
 }

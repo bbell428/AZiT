@@ -41,7 +41,7 @@ struct AlbumView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                ZStack(alignment: .topLeading) {
+                ZStack(alignment: .top) {
                     HStack {
                         Button {
                             dismiss()
@@ -50,7 +50,7 @@ struct AlbumView: View {
                                 .font(.system(size: 25))
                                 .frame(maxWidth: .infinity, alignment: .leading)
                         }
-                        .padding(.horizontal, 30)
+                        .padding(.horizontal, 20)
                         
                         Color.clear
                             .frame(maxWidth: .infinity)
@@ -69,67 +69,99 @@ struct AlbumView: View {
                             Image(systemName: "calendar")
                                 .font(.system(size: 25))
                         }
-                        .padding(.horizontal, 30)
+                        .padding(.horizontal, 20)
                         
                     }
-                    .zIndex(3)
+                    .zIndex(4)
                     .frame(height: 70)
                     .background(Color.white)
                     
                     if isShowHorizontalScroll {
-                        FriendSegmentView(selectedIndex: $selectedIndex, titles: userInfoStore.friendInfos)
+                        ZStack(alignment: .bottomLeading) {
+                            FriendSegmentView(selectedIndex: $selectedIndex, titles: userInfoStore.friendInfos)
+                                .animation(.easeInOut(duration: 0.3), value: isShowHorizontalScroll)
+                                .padding(.leading, 20)
+                            //.background(Color.white)
+                                .zIndex(3)
+                            
+                            VStack {
+                                Rectangle()
+                                    .fill(.subColor2)
+                                    .frame(height: 1, alignment: .bottomLeading)
+                                    .padding(.bottom, 1)
+                            }
                             .zIndex(2)
-                            .transition(.move(edge: .top).combined(with: .opacity))
-                            .animation(.easeInOut(duration: 0.3), value: isShowHorizontalScroll)
-                            .padding(.top, 60)
-                            .background(Color.white)
+                        }
+                        .background(Color.white)
+                        .padding(.top, 70)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                        .zIndex(3)
                     }
                     
-                    ScrollView {
-                        Rectangle()
-                            .frame(height: 180)
-                            .foregroundStyle(Color.white)
-                        
-                        GeometryReader { proxy in
-                            let offsetY = proxy.frame(in: .global).origin.y
+                    if albumstore.storys.contains(where: { $0.userId == albumstore.filterUserID }) {
+                        ScrollView {
+                            Rectangle()
+                                .frame(height: 160)
+                                .foregroundStyle(Color.white)
                             
-                            DispatchQueue.main.async {
-                                if abs(offsetY - lastOffsetY) > 120 && lastOffsetY < 400 {
-                                    withAnimation {
-                                        isShowHorizontalScroll = offsetY > lastOffsetY
-                                    }
-                                    lastOffsetY = offsetY
-                                }
-                            }
-                            
-                            return Color.clear
-                                .preference(
-                                    key: ScrollPreferenceKey.self,
-                                    value: offsetY
-                                )
-                        }
-                        .frame(height: 0)
-                        
-                        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), alignment: .leading) {
-                            ForEach(getTimeGroupedStories(), id: \.title) { group in
-                                Section(header: HStack {
-                                    Text(group.title)
-                                        .font(.caption2)
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(Color.gray)
-                                    Spacer()
-                                }) {
-                                    ForEach(group.stories) { story in
-                                        StoryView(story: story)
+                            GeometryReader { proxy in
+                                let offsetY = proxy.frame(in: .global).origin.y
+                                
+                                DispatchQueue.main.async {
+                                    if abs(offsetY - lastOffsetY) > 120 && lastOffsetY < 400 {
+                                        withAnimation {
+                                            isShowHorizontalScroll = offsetY > lastOffsetY
+                                        }
+                                        lastOffsetY = offsetY
                                     }
                                 }
+                                
+                                return Color.clear
+                                    .preference(
+                                        key: ScrollPreferenceKey.self,
+                                        value: offsetY
+                                    )
+                            }
+                            .frame(height: 0)
+                            
+                            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), alignment: .leading, spacing: 5) {
+                                ForEach(getTimeGroupedStories(), id: \.title) { group in
+                                    Section(header: HStack {
+                                        Text(group.title)
+                                            .font(.caption2)
+                                            .fontWeight(.bold)
+                                            .foregroundStyle(Color.gray)
+                                        Spacer()
+                                    }
+                                        .padding(.top, 20)
+                                    ) {
+                                        ForEach(group.stories) { story in
+                                            StoryView(story: story)
+                                        }
+                                    }
+                                }
                             }
                         }
+                        .padding(.horizontal, 20)
+                        .onPreferenceChange(ScrollPreferenceKey.self, perform: { value in
+                            self.offsetY = value
+                        })
+                        .zIndex(1)
+                    } else {
+                        VStack(alignment: .center) {
+                            Spacer()  // 위쪽 Spacer
+                            Image(systemName: "doc.text.fill")
+                                .font(.system(size: 30))
+                                .foregroundStyle(Color.gray)
+                                .padding(.bottom, 10)
+                            Text("현재 올라온 게시물이 없습니다.")
+                                .font(.subheadline)
+                                .fontWeight(.bold)
+                                .foregroundStyle(Color.gray)
+                            Spacer()  // 아래쪽 Spacer
+                        }
+                        .frame(maxHeight: .infinity)  // 화면 중앙에 오도록 설정
                     }
-                    .onPreferenceChange(ScrollPreferenceKey.self, perform: { value in
-                        self.offsetY = value
-                    })
-                    .zIndex(1)
                 }
             }
             .onAppear {
@@ -149,8 +181,8 @@ struct AlbumView: View {
             isLoading = false
         }
     }
-
-
+    
+    
     func getTimeGroupedStories() -> [(title: String, stories: [Story])] {
         let timeGroups: [(String, (Story) -> Bool)] = [
             ("오늘", { $0.isWithin(hours: 24) }),  // 오늘: 24시간 이내
@@ -169,7 +201,7 @@ struct AlbumView: View {
         
         return timeGroups.compactMap { group in
             let filteredStories = albumstore.storys.filter { story in
-                story.userId == albumstore.filterUserID && group.1(story)
+                return story.userId == albumstore.filterUserID && group.1(story)
             }
             
             return filteredStories.isEmpty ? nil : (group.0, filteredStories)
@@ -184,10 +216,10 @@ struct StoryView: View {
         VStack(alignment: .leading) {
             Image("Album")
                 .resizable()
-                .aspectRatio(contentMode: .fit)
+            //.aspectRatio(contentMode: .fill)
                 .cornerRadius(15)
-                .frame(width: 120, height: 160)
-            Text(story.content)
+                .frame(maxWidth: 120, maxHeight: 160)
+            //Text(story.content)
         }
     }
 }
