@@ -9,7 +9,7 @@ struct UnderlineModifier: ViewModifier {
         content
             .background(
                 Rectangle()
-                    .fill(Color.red)
+                    .fill(.accent)
                     .frame(width: frames[selectedIndex].width, height: 3)
                     .cornerRadius(12)
                     .offset(x: frames[selectedIndex].minX - frames[0].minX), alignment: .bottomLeading

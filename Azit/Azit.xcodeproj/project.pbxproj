@@ -64,6 +64,7 @@
 		CE3A16E22CD85A5B0045DB52 /* MessageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A16E12CD85A5B0045DB52 /* MessageDetailView.swift */; };
 		CE89D79E2CDA8D1600DC73A8 /* EmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = CE89D79D2CDA8D1600DC73A8 /* EmojiPicker */; };
 		CEDFC2CE2CE1C814008C215A /* FriendSegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDFC2CD2CE1C814008C215A /* FriendSegmentView.swift */; };
+		CEDFC2EE2CE2EAB0008C215A /* AlbumStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDFC2ED2CE2EAB0008C215A /* AlbumStore.swift */; };
 		EA3F965E2CD8B19C009904C0 /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA3F965D2CD8B19C009904C0 /* ProfileDetailView.swift */; };
 		EAB079722CDDAED700293C62 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB079712CDDAED700293C62 /* SplashView.swift */; };
 		EAD18AE52CD6719600AF3013 /* LoginSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD18AE42CD6719600AF3013 /* LoginSubView.swift */; };
@@ -140,6 +141,7 @@
 		CE374EAC2CD79F6300601AA7 /* ChatListStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListStore.swift; sourceTree = "<group>"; };
 		CE3A16E12CD85A5B0045DB52 /* MessageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailView.swift; sourceTree = "<group>"; };
 		CEDFC2CD2CE1C814008C215A /* FriendSegmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendSegmentView.swift; sourceTree = "<group>"; };
+		CEDFC2ED2CE2EAB0008C215A /* AlbumStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumStore.swift; sourceTree = "<group>"; };
 		EA3F965D2CD8B19C009904C0 /* ProfileDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailView.swift; sourceTree = "<group>"; };
 		EAB079712CDDAED700293C62 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		EAD18AE42CD6719600AF3013 /* LoginSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSubView.swift; sourceTree = "<group>"; };
@@ -282,8 +284,9 @@
 		8EAFEFAF2CD452A600136348 /* Stores */ = {
 			isa = PBXGroup;
 			children = (
-				CE374EAC2CD79F6300601AA7 /* ChatListStore.swift */,
+				CEDFC2ED2CE2EAB0008C215A /* AlbumStore.swift */,
 				CE062B9D2CD8DB8100CB5D4A /* ChatDetailViewStore.swift */,
+				CE374EAC2CD79F6300601AA7 /* ChatListStore.swift */,
 				8EAFF00E2CD4A31300136348 /* StoryStore.swift */,
 				EAF840732CD9B56200F23839 /* UserInfoStore.swift */,
 			);
@@ -556,6 +559,7 @@
 				8BDA11D52CDA769C004242DB /* EmojiPickerView.swift in Sources */,
 				EAB079722CDDAED700293C62 /* SplashView.swift in Sources */,
 				EAF93B8E2CD4A50700116035 /* AuthView.swift in Sources */,
+				CEDFC2EE2CE2EAB0008C215A /* AlbumStore.swift in Sources */,
 				EAF93B8F2CD4A50700116035 /* SignupView.swift in Sources */,
 				8EAFEFB82CD45CCE00136348 /* ChatRoom.swift in Sources */,
 				8E9402612CDAE99E0005C2BB /* MapView.swift in Sources */,

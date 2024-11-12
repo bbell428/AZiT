@@ -17,14 +17,13 @@ struct ScrollPreferenceKey: PreferenceKey {
 
 struct AlbumView: View {
     @EnvironmentObject var userInfoStore: UserInfoStore
-    @State private var showHorizontalScroll = true
+    @Environment(\.dismiss) var dismiss
     @State private var offsetY: CGFloat = .zero
     @State private var lastOffsetY: CGFloat = .zero // 마지막 스크롤 위치 저장
-    @Environment(\.dismiss) var dismiss
     @State private var items = Array(0..<10)
-    @State private var isLoading = false
-    
+    @State private var isShowHorizontalScroll = true
     @State var selectedIndex: Int = 0
+    @State private var isLoading = false
     @State var isOpenCalendar: Bool = false
     
     var body: some View {
@@ -66,11 +65,11 @@ struct AlbumView: View {
                     .frame(height: 70)
                     .background(Color.white)
                     
-                    if showHorizontalScroll {
+                    if isShowHorizontalScroll {
                         FriendSegmentView(selectedIndex: $selectedIndex, titles: userInfoStore.friendInfos)
                             .zIndex(2)
                             .transition(.move(edge: .top).combined(with: .opacity)) // 애니메이션 효과
-                            .animation(.easeInOut(duration: 0.3), value: showHorizontalScroll)
+                            .animation(.easeInOut(duration: 0.3), value: isShowHorizontalScroll)
                             .padding(.top, 60)
                             .background(Color.white)
                     }
@@ -88,7 +87,7 @@ struct AlbumView: View {
                                     // 현재 스크롤 위치와 마지막 위치의 차이가 50 이상일 때만 showHorizontalScroll을 업데이트
                                     if abs(offsetY - lastOffsetY) > 120 && lastOffsetY < 400 {
                                         withAnimation {
-                                            showHorizontalScroll = offsetY > lastOffsetY
+                                            isShowHorizontalScroll = offsetY > lastOffsetY
                                         }
                                         lastOffsetY = offsetY // 마지막 위치 업데이트
                                     }
