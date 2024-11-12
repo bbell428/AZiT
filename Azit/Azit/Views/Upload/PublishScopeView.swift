@@ -11,6 +11,8 @@ struct PublishScopeView: View {
     @EnvironmentObject var storyStore: StoryStore
     @EnvironmentObject var storyDraft: StoryDraft
     @EnvironmentObject var authManager: AuthManager
+    @EnvironmentObject var userInfoStore: UserInfoStore
+    
     var friend1: UserInfo = .init(id: "1", email: "",nickname: "Hong", profileImageName: "😋",previousState: "",friends: [], latitude: 0.0, longitude: 0.0)
     var friend2: UserInfo = .init(id: "2", email: "",nickname: "Hong", profileImageName: "🩵",previousState: "",friends: [], latitude: 0.0, longitude: 0.0)
     var friend3: UserInfo = .init(id: "3", email: "",nickname: "Hong", profileImageName: "🤩",previousState: "",friends: [], latitude: 0.0, longitude: 0.0)
@@ -45,30 +47,40 @@ struct PublishScopeView: View {
             }
             .padding(10)
             
-            ForEach(friends) { friend in
-                Button (action: {
-                    isSelected.toggle()
-                }) {
-                    HStack {
-                        ZStack {
-                            Circle()
-                                .frame(width: 50, height: 50)
-                                .foregroundStyle(.subColor4)
-                            Text(friend.profileImageName)
-                                .font(.title2)
-                        }
-                        Text(friend.nickname)
-                            .font(.title2)
-                        Spacer()
-                        if isSelected {
-                            Image(systemName: "checkmark")
-                                .foregroundStyle(.accent)
-                        }
-                    }
-                }
-                .padding(10)
+//            if let friends = userInfoStore.userInfo?.friends {
+//                ForEach(friends, id: \.self) { friend in
+//                    Button (action: {
+//                        isSelected.toggle()
+//                    }) {
+//                        HStack {
+//                            ZStack {
+//                                Circle()
+//                                    .frame(width: 50, height: 50)
+//                                    .foregroundStyle(.subColor4)
+//                                Text(userInfoStore.friendInfo[friend]?.profileImageName ?? "")
+//                                    .font(.title2)
+//                            }
+//                            Text(friend.nickname)
+//                                .font(.title2)
+//                            Spacer()
+//                            if isSelected {
+//                                Image(systemName: "checkmark")
+//                                    .foregroundStyle(.accent)
+//                            }
+//                        }
+//                    }
+//                    .padding(10)
+//                }
+//            } else {
+//                Text("No friends available")
+//            }
+//            .listStyle(PlainListStyle())
+        }
+        .onAppear {
+            Task {
+                await userInfoStore.loadUserInfo(userID: authManager.userID)
+                userInfoStore.loadFriendsInfo(friendsIDs: userInfoStore.userInfo?.friends ?? [])
             }
-            .listStyle(PlainListStyle())
         }
     }
 }

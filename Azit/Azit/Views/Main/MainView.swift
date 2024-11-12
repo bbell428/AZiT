@@ -15,6 +15,8 @@ struct MainView: View {
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var storyStore: StoryStore
     @EnvironmentObject var storyDraft: StoryDraft
+//    @StateObject private var locationManager = LocationManager()
+    @EnvironmentObject var locationManager: LocationManager
     
     @State var isdisplayEmojiPicker: Bool = false
     //    @State private var navigateToRoot = false
@@ -45,6 +47,9 @@ struct MainView: View {
                         .zIndex(2)
                     EmojiView(isdisplayEmojiPicker: $isdisplayEmojiPicker)
                         .zIndex(3)
+//                        .onAppear {
+//                            fetchAddress()
+//                        }
                 }
             }
         }
@@ -52,6 +57,16 @@ struct MainView: View {
             Task {
                 await userInfoStore.loadUserInfo(userID: authManager.userID)
             }
+        }
+    }
+    
+    private func fetchAddress() {
+        if let location = locationManager.currentLocation {
+            reverseGeocode(location: location) { addr in
+                storyDraft.address = addr ?? ""
+            }
+        } else {
+            print("위치를 가져올 수 없습니다.")
         }
     }
 }

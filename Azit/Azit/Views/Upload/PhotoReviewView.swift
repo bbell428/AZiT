@@ -19,6 +19,9 @@ struct PhotoReviewView: View {
     var image: UIImage?
     @State private var showUploadView = false
     @State var isdisplayEmojiPicker: Bool = false
+//    @StateObject private var locationManager = LocationManager()
+//    @State private var address: String?
+    
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -58,7 +61,11 @@ struct PhotoReviewView: View {
                             .padding()
                             Spacer()
                             VStack(alignment: .trailing) {
-                                Text("\(storyDraft.latitude)")
+//                                if let address = address {
+                                Text(storyDraft.address)
+                                        .font(.subheadline)
+                                        .padding()
+//                                }
                                 // 공개 범위 text
                                 
                                 Button (action: {
@@ -85,22 +92,7 @@ struct PhotoReviewView: View {
                 // save 버튼
                 Button(action: {
 //                    savePhoto()
-                    let newStory = Story(
-                        userId: authManager.userID,
-                        date: Date(),
-                        latitude: storyDraft.latitude,
-                        longitude: storyDraft.longitude,
-                        emoji: storyDraft.emoji,
-                        content: storyDraft.content,
-                        publishedTargets: []
-                    )
-                    
-                    Task {
-                        await storyStore.addStory(newStory)
-                    }
-                    showUploadView = true
-                    firstNaviLinkActive = false
-                    isMainDisplay = false
+                    shareStory()
                     
                 }) {
                     RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
@@ -136,5 +128,25 @@ struct PhotoReviewView: View {
     func savePhoto() {
         guard let image = image else { return }
         UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+    }
+    
+    private func shareStory() {
+        // 스토리 객체 생성
+        let newStory = Story(
+            userId: authManager.userID,
+            date: Date(),
+            latitude: storyDraft.latitude,
+            longitude: storyDraft.longitude,
+            address: storyDraft.address,
+            emoji: storyDraft.emoji,
+            content: storyDraft.content,
+            publishedTargets: []
+        )
+        Task {
+            await storyStore.addStory(newStory)
+        }
+        showUploadView = true
+        firstNaviLinkActive = false
+        isMainDisplay = false
     }
 }
