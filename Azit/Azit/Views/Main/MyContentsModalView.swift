@@ -14,55 +14,99 @@ struct MyContentsModalView: View {
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var storyStore: StoryStore
     
+    @Binding var isDisplayEmojiPicker: Bool
+    
     @State var story: Story?
+    @State var friends: [UserInfo] = []
     @State private var scale: CGFloat = 0.1
     @State private var userInfo: UserInfo? = nil
+    @State private var isPresentedLikedSheet: Bool = false
+    
     
     var body: some View {
-        VStack(alignment: .center, spacing: 15) {
-            if userInfo != nil {
-                ContentsModalTopView(selectedUserInfo: userInfo!)
+        ZStack {
+            VStack(alignment: .center, spacing: 15) {
+                if userInfo != nil {
+                    ContentsModalTopView(selectedUserInfo: userInfo!)
+                    
+                    StoryContentsView(story: $story)
+                }
                 
-                StoryContentsView(story: $story)
-            }
-            
-            HStack {
-                Button(action: {
-                    // isPresentedLikedSheet
-                }) {
-                    Image(systemName: "heart.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .foregroundStyle(.accent)
+                HStack {
+                    Button {
+                        isPresentedLikedSheet = true
+                    } label: {
+                        Image(systemName: "person.2.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundStyle(.accent)
+                            .frame(width: 30)
+                            .fontWeight(.light)
+                    }
+                    
+                    Spacer()
+                    
+                    Button {
+                        isDisplayEmojiPicker = true
+                    } label: {
+                        Image(systemName: "plus.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundStyle(.accent)
+                            .frame(width: 30)
+                            .fontWeight(.light)
+                    }
+                    
+                    Spacer()
+                    Spacer()
                         .frame(width: 30)
-                        .fontWeight(.light)
                 }
             }
+            .padding()
+            .background(.subColor4)
+            .cornerRadius(8)
+            .scaleEffect(scale)
+            .onAppear {
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    scale = 1.0
+                }
+            }
+            .onDisappear {
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    scale = 0.1
+                }
+            }
+            .frame(width: (screenBounds?.width ?? 0) - 32)
+            .sheet(isPresented: $isPresentedLikedSheet) {
+                LikesSheetView(friends: $friends)
+            }
+            
+            // + 버튼 클릭했을 시
+            if isDisplayEmojiPicker {
+                Color.black.opacity(0.4)
+                    .edgesIgnoringSafeArea(.all)
+                    .onTapGesture {
+                        isDisplayEmojiPicker = false
+                    }
+                    .zIndex(2)
+                EmojiView(isDisplayEmojiPicker: $isDisplayEmojiPicker)
+                    .zIndex(3)
+            }
         }
-        .padding()
-        .background(.subColor4)
-        .cornerRadius(8)
-        .scaleEffect(scale)
         .onAppear {
+            // 친구들 이름 목록 배열화
             Task {
                 // 사용자 본인의 정보 받아오기
                 await userInfoStore.loadUserInfo(userID: authManager.userID)
                 // 사용자 본인의 정보 변수에 저장
                 userInfo = userInfoStore.userInfo
                 // 사용자 본인의 story
-                try await story = storyStore.loadRecentStoryById(id: userInfoStore.userInfo?.id ?? "")
-            }
-            withAnimation(.easeInOut(duration: 0.3)) {
-                scale = 1.0
-            }
-            
-        }
-        .onDisappear {
-            withAnimation(.easeInOut(duration: 0.3)) {
-                scale = 0.1
+                story = try await storyStore.loadRecentStoryById(id: userInfoStore.userInfo?.id ?? "")
+                // 친구 ID 가져오기
+                let friendIDs: [String] = story?.likes ?? []
+                // 친구 ID로 UserInfo 불러오기
+                friends = try await userInfoStore.loadUsersInfoByEmail(userID: friendIDs)
             }
         }
-        .frame(width: (screenBounds?.width ?? 0) - 32)
     }
 }
-

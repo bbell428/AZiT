@@ -53,7 +53,7 @@ struct ModalIdentificationView: View {
                         isMyModalPresented = false
                     }
                     .zIndex(2)
-                MyContentsModalView()
+                MyContentsModalView(isDisplayEmojiPicker: $isDisplayEmojiPicker)
                     .zIndex(3)
             }
         }

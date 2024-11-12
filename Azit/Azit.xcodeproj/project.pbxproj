@@ -30,6 +30,7 @@
 		8E71EF792CE2ECAE00BA8F33 /* StoryContentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E71EF782CE2ECAE00BA8F33 /* StoryContentsView.swift */; };
 		8E71EF7B2CE2EE8D00BA8F33 /* ContentsModalTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E71EF7A2CE2EE8D00BA8F33 /* ContentsModalTopView.swift */; };
 		8E71EF7D2CE2F59000BA8F33 /* ModalIdentificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E71EF7C2CE2F59000BA8F33 /* ModalIdentificationView.swift */; };
+		8E71EFE72CE348CA00BA8F33 /* LikesSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E71EFE62CE348CA00BA8F33 /* LikesSheetView.swift */; };
 		8E9402612CDAE99E0005C2BB /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9402602CDAE99E0005C2BB /* MapView.swift */; };
 		8EAFEFA92CD4528E00136348 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EAFEFA32CD4528E00136348 /* Preview Assets.xcassets */; };
 		8EAFEFAB2CD4528E00136348 /* AzitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFEFA62CD4528E00136348 /* AzitApp.swift */; };
@@ -124,6 +125,7 @@
 		8E71EF782CE2ECAE00BA8F33 /* StoryContentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryContentsView.swift; sourceTree = "<group>"; };
 		8E71EF7A2CE2EE8D00BA8F33 /* ContentsModalTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsModalTopView.swift; sourceTree = "<group>"; };
 		8E71EF7C2CE2F59000BA8F33 /* ModalIdentificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalIdentificationView.swift; sourceTree = "<group>"; };
+		8E71EFE62CE348CA00BA8F33 /* LikesSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesSheetView.swift; sourceTree = "<group>"; };
 		8E9402602CDAE99E0005C2BB /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		8EAFEF762CD4524500136348 /* Azit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Azit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EAFEF862CD4524600136348 /* AzitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -332,6 +334,7 @@
 				8E71EF742CE2E33100BA8F33 /* MyContentEmojiView.swift */,
 				8EC52DD52CE19C8300DC8190 /* FriendsContentEmojiView.swift */,
 				8EC52DD92CE1DA3A00DC8190 /* MyContentsModalView.swift */,
+				8E71EFE62CE348CA00BA8F33 /* LikesSheetView.swift */,
 				8E538EE22CD844A50094ABD1 /* FriendsContentsModalView.swift */,
 				8E71EF7A2CE2EE8D00BA8F33 /* ContentsModalTopView.swift */,
 				8E71EF782CE2ECAE00BA8F33 /* StoryContentsView.swift */,
@@ -609,6 +612,7 @@
 				EAF840742CD9B56200F23839 /* UserInfoStore.swift in Sources */,
 				EAF8BB1B2CDB368F00B67AAF /* EditProfileView.swift in Sources */,
 				8E71EF7D2CE2F59000BA8F33 /* ModalIdentificationView.swift in Sources */,
+				8E71EFE72CE348CA00BA8F33 /* LikesSheetView.swift in Sources */,
 				8EAFF01A2CD4A37900136348 /* LoginView.swift in Sources */,
 				8E71EF792CE2ECAE00BA8F33 /* StoryContentsView.swift in Sources */,
 				EAF840B32CD9FA0E00F23839 /* MyPageView.swift in Sources */,
