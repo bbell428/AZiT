@@ -1,5 +1,5 @@
 //
-//  ContentEmojiView.swift
+//  MainContentEmojiView.swift
 //  Azit
 //
 //  Created by Hyunwoo Shin on 11/11/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentEmojiView: View {
+struct MainContentEmojiView: View {
     @EnvironmentObject var storyStore: StoryStore
     @Binding var userInfo: UserInfo
     @Binding var rotation: Double
@@ -19,7 +19,6 @@ struct ContentEmojiView: View {
     var interpolationRatio: CGFloat
     @State var randomAngleOffset: Double
     @State private var isPassed24Hours: Bool = false
-    var num = 0
     
     var body: some View {
         let majorAxis = startEllipse.width / 2 * (1 - interpolationRatio) + endEllipse.width / 2 * interpolationRatio

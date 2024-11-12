@@ -23,22 +23,26 @@ struct MainView: View {
     @State var selectedEmoji: String = ""
     @State private var message: String = ""
     @State private var userInfo: UserInfo = UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0)
-    @State private var story: Story = Story(userId: "", date: Date.now)
     
     var body: some View {
         NavigationStack() {
             ZStack {
+                // 메인 화면일 때 타원 뷰
                 if isMainExposed {
                     RotationView(isMyModalPresented: $isMyModalPresented, isFriendsModalPresented: $isFriendsModalPresented, isdisplayEmojiPicker: $isdisplayEmojiPicker, isPassed24Hours: $isPassed24Hours)
                         .frame(width: 300, height: 300)
                         .zIndex(isMyModalPresented
                                 || isFriendsModalPresented
-                                || isdisplayEmojiPicker ? 2 : 1)
+                                || isdisplayEmojiPicker ? 2 : 1) // 모디파이어 따로 빼기
+                // 맵 화면일 때 맵 뷰
                 } else {
-                    MapView()
-                        .zIndex(1)
+                    MapView(isMyModalPresented: $isMyModalPresented, isFriendsModalPresented: $isFriendsModalPresented, isdisplayEmojiPicker: $isdisplayEmojiPicker, isPassed24Hours: $isPassed24Hours)
+                        .zIndex(isMyModalPresented
+                                || isFriendsModalPresented
+                                || isdisplayEmojiPicker ? 2 : 1)
                 }
                 
+                // 메인 화면의 메뉴들
                 MainTopView(isMainExposed: $isMainExposed)
                     .zIndex(1)
             }
@@ -50,8 +54,6 @@ struct MainView: View {
                 if let userInfo = userInfoStore.userInfo {
                     self.userInfo = userInfo
                 }
-                
-                story = try await storyStore.loadRecentStoryById(id: userInfoStore.userInfo?.id ?? "")
             }
         }
     }

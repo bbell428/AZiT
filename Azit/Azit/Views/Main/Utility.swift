@@ -49,4 +49,12 @@ struct Utility {
         let hoursDifference = Calendar.current.dateComponents([.hour], from: date, to: Date()).hour ?? 0
         return hoursDifference >= 24
     }
+    
+    static func sortUsersByDistance(from user: UserInfo, users: [UserInfo]) -> [UserInfo] {
+        return users.sorted { (user1, user2) -> Bool in
+            let distance1 = Utility.haversineDistance(lat1: user.latitude, lon1: user.longitude, lat2: user1.latitude, lon2: user1.longitude)
+            let distance2 = Utility.haversineDistance(lat1: user.latitude, lon1: user.longitude, lat2: user2.latitude, lon2: user2.longitude)
+            return distance1 < distance2
+        }
+    }
 }
