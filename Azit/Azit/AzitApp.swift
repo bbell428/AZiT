@@ -42,6 +42,12 @@ struct AzitApp: App {
                 .environmentObject(chatDetailViewStore)
                 .environmentObject(StoryDraft())
                 .environmentObject(LocationManager())
+                .onOpenURL { url in
+                    if url.scheme == "azit", let userID = URLComponents(url: url, resolvingAgainstBaseURL: false)?.host {
+                        authManager.deepUserID = userID
+                        print("QR 코드로부터 받은 User ID:", userID)
+                    }
+                }
         }
         
     }

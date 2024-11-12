@@ -48,6 +48,8 @@ class AuthManager: ObservableObject {
     @Published var user: User?
     @Published var userID: String = ""
     
+    @Published var deepUserID: String = "" // QR로 받아온 친구 UID값
+    
     
     init() {
         authenticationState = .splash
