@@ -87,7 +87,7 @@ struct MyContentsModalView: View {
         .scaleEffect(scale)
         .onAppear {
             Task {
-                try await story = storyStore.loadStorysByIds(ids: [selectedUserInfo.id])[0]
+                try await story = storyStore.loadRecentStoryById(id: selectedUserInfo.id)
             }
             withAnimation(.easeInOut(duration: 0.3)) {
                 scale = 1.0
