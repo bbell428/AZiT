@@ -32,8 +32,6 @@ struct AzitApp: App {
     @StateObject private var chatListStore = ChatListStore()
     @StateObject private var chatDetailViewStore = ChatDetailViewStore()
     
-    @Environment(\.openURL) var openURL
-    
     var body: some Scene {
         WindowGroup {
             AuthView()
@@ -44,16 +42,7 @@ struct AzitApp: App {
                 .environmentObject(chatDetailViewStore)
                 .environmentObject(StoryDraft())
                 .environmentObject(LocationManager())
-                .onOpenURL { url in
-                    handleDeepLink(url: url)
-                }
         }
         
-    }
-    func handleDeepLink(url: URL) {
-        // URL에서 필요한 정보 추출
-        let data = url.host ?? ""
-        print("딥 링크로 받은 데이터: \(data)")
-        // 필요한 로직 처리
     }
 }
