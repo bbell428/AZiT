@@ -99,6 +99,7 @@ struct FriendSegmentView: View {
 }
 
 private struct SegmentedControlButtonView: View {
+    @EnvironmentObject var albumstore: AlbumStore
     @Binding private var selectedIndex: Int
     @Binding private var frames: [CGRect]
     @Binding private var backgroundFrame: CGRect
@@ -123,6 +124,7 @@ private struct SegmentedControlButtonView: View {
             ForEach(titles.indices, id: \.self) { index in
                 Button {
                     selectedIndex = index
+                    albumstore.filterUserID = titles[index].id
                     print("\(titles[index].nickname)의 id : \(titles[index].id)")
                 } label: {
                     VStack(alignment: .center) {

@@ -13,7 +13,6 @@ import SwiftUICore
 import FirebaseStorage
 
 class StoryStore: ObservableObject {
-    @Published var storys: [Story] = []
     @Published var createdStory: Story?
     
     func addStory(_ story: Story) async {
@@ -38,39 +37,6 @@ class StoryStore: ObservableObject {
         } catch {
             print("Error writing story: \(error)")
         }
-    }
-    
-    @MainActor
-    func loadStorysByIds(ids: [String]) async throws -> [Story] {
-        let db = Firestore.firestore()
-        
-        do {
-            let querySnapshot = try await db.collection("Story")
-                .whereField("userId", in: ids).getDocuments()
-            
-            var stories: [Story] = []
-            
-            for document in querySnapshot.documents {
-                do {
-                    let story = try await Story(document: document)
-                    
-                    stories.append(story)
-                    
-                } catch {
-                    print("loadStories error: \(error.localizedDescription)")
-                    
-                    return []
-                }
-            }
-            
-            self.storys = stories.sorted { $0.date > $1.date }
-        } catch {
-            print("loadStories error: \(error.localizedDescription)")
-            
-            return []
-        }
-        
-        return storys
     }
     
     @MainActor

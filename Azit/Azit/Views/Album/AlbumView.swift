@@ -16,6 +16,7 @@ struct ScrollPreferenceKey: PreferenceKey {
 }
 
 struct AlbumView: View {
+    @EnvironmentObject var albumstore: AlbumStore
     @EnvironmentObject var userInfoStore: UserInfoStore
     @Environment(\.dismiss) var dismiss
     @State private var offsetY: CGFloat = .zero
@@ -75,82 +76,54 @@ struct AlbumView: View {
                     }
                     
                     ScrollView {
-                        VStack(alignment: .leading) {
-                            Rectangle()
-                                .frame(height: 160)
-                                .foregroundStyle(Color.white)
-                            
-                            GeometryReader { proxy in
-                                let offsetY = proxy.frame(in: .global).origin.y
-                                
-                                DispatchQueue.main.async {
-                                    // 현재 스크롤 위치와 마지막 위치의 차이가 50 이상일 때만 showHorizontalScroll을 업데이트
-                                    if abs(offsetY - lastOffsetY) > 120 && lastOffsetY < 400 {
-                                        withAnimation {
-                                            isShowHorizontalScroll = offsetY > lastOffsetY
-                                        }
-                                        lastOffsetY = offsetY // 마지막 위치 업데이트
-                                    }
-                                }
-                                
-                                return Color.clear
-                                    .preference(
-                                        key: ScrollPreferenceKey.self,
-                                        value: offsetY
-                                    )
-                            }
-                            .frame(height: 0)
-                            
-                            Text("1시간 전")
-                                .font(.caption2)
-                                .fontWeight(.bold)
-                                .foregroundStyle(Color.gray)
-                            
-                            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3)) {
-                                ForEach(0..<1) { _ in
-                                    VStack(alignment: .leading) {
-                                        Image("Album")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .cornerRadius(15)
-                                            .frame(width: 120, height: 180)
-                                    }
-                                }
-                            }
-                        }
-                        .padding(16)
+                        Rectangle()
+                            .frame(height: 180)
+                            .foregroundStyle(Color.white)
                         
-                        VStack(alignment: .leading) {
-                            Text("2시간 전")
-                                .font(.caption2)
-                                .fontWeight(.bold)
-                                .foregroundStyle(Color.gray)
+                        GeometryReader { proxy in
+                            let offsetY = proxy.frame(in: .global).origin.y
                             
-                            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3)) {
-                                ForEach(items.indices, id: \.self) { index in
-                                    VStack(alignment: .leading) {
-                                        Image("Album")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .cornerRadius(15)
-                                            .frame(width: 120, height: 180)
+                            DispatchQueue.main.async {
+                                // 현재 스크롤 위치와 마지막 위치의 차이가 50 이상일 때만 showHorizontalScroll을 업데이트
+                                if abs(offsetY - lastOffsetY) > 120 && lastOffsetY < 400 {
+                                    withAnimation {
+                                        isShowHorizontalScroll = offsetY > lastOffsetY
                                     }
-                                    .onAppear {
-                                        if index == items.count - 1 {
-                                            Task {
-                                                loadMoreItems()
-                                            }
-                                        }
-                                    }
+                                    lastOffsetY = offsetY // 마지막 위치 업데이트
+                                }
+                            }
+                            
+                            return Color.clear
+                                .preference(
+                                    key: ScrollPreferenceKey.self,
+                                    value: offsetY
+                                )
+                        }
+                        .frame(height: 0)
+                        
+                        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3)) {
+                            ForEach(albumstore.storys.filter { $0.userId == albumstore.filterUserID }) { story in
+                                VStack(alignment: .leading) {
+                                    Image("Album")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .cornerRadius(15)
+                                        .frame(width: 120, height: 180)
+                                    Text(story.content)
                                 }
                             }
                         }
-                        .padding(16)
                     }
                     .onPreferenceChange(ScrollPreferenceKey.self, perform: { value in
                         self.offsetY = value
                     })
                     .zIndex(1)
+                }
+            }
+            .onAppear {
+                Task {
+                    // 친구 게시물 가져오기
+                    await albumstore.loadStorysByIds(ids: userInfoStore.userInfo?.friends ?? [])
                 }
             }
             .navigationBarBackButtonHidden(true)
