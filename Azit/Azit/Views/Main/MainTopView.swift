@@ -17,7 +17,7 @@ struct MainTopView: View {
             ZStack {
                 if isMainExposed == false {
                     Rectangle()
-                        .fill(Utility.createLinearGradient(colors: [Color.clear, Color.white]))
+                        .fill(Utility.createLinearGradient(colors: [Color.white, Color.clear]))
                 }
                 
                 HStack() {
