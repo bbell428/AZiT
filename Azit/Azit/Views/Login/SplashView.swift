@@ -11,21 +11,16 @@ import GoogleSignIn
 
 struct SplashView: View {
     @EnvironmentObject private var authManager: AuthManager
-    @EnvironmentObject private var userInfoStore: UserInfoStore
-    @State private var isReadyToNavigate: Bool = false
-
+    
     var body: some View {
-        VStack {
-            if isReadyToNavigate {
-                AuthView()
-            } else {
-                ProgressView("Loading...")
-            }
+        ZStack {
+            Image("SplashImage")
+                .resizable()
+                .scaledToFill()
+                .ignoresSafeArea() // 화면 전체를 차지하도록 설정
         }
         .onAppear {
-            Task {
-                isReadyToNavigate = true
-            }
+            authManager.registerAuthStateHandler()
         }
     }
 }
