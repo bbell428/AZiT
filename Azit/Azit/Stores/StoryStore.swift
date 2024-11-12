@@ -13,7 +13,7 @@ import SwiftUICore
 import FirebaseStorage
 
 class StoryStore: ObservableObject {
-    @Published var stories: [Story] = []
+    @Published var storys: [Story] = []
     @Published var createdStory: Story?
     
     func addStory(_ story: Story) async {
@@ -63,14 +63,14 @@ class StoryStore: ObservableObject {
                 }
             }
             
-            self.stories = stories.sorted { $0.date > $1.date }
+            self.storys = stories.sorted { $0.date > $1.date }
         } catch {
             print("loadStories error: \(error.localizedDescription)")
             
             return []
         }
         
-        return stories
+        return storys
     }
     
     @MainActor
