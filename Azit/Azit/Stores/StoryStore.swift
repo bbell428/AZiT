@@ -63,7 +63,7 @@ class StoryStore: ObservableObject {
                 }
             }
             
-            self.stories = stories
+            self.stories = stories.sorted { $0.date > $1.date }
         } catch {
             print("loadStories error: \(error.localizedDescription)")
             
@@ -71,6 +71,29 @@ class StoryStore: ObservableObject {
         }
         
         return stories
+    }
+    
+    @MainActor
+    func loadRecentStoryById(id: String) async throws -> Story {
+        let db = Firestore.firestore()
+        
+        do {
+            let querySnapshot = try await db.collection("Story")
+                .whereField("userId", isEqualTo: id)
+                .order(by: "date", descending: true)
+                .limit(to: 1)
+                .getDocuments()
+            
+            if let document = querySnapshot.documents.first {
+                return try await Story(document: document)
+            } else {
+                throw NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Story not found"])
+            }
+            
+        } catch {
+            print("loadStories error: \(error.localizedDescription)")
+            throw error
+        }
     }
 }
 

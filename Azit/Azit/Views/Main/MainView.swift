@@ -9,7 +9,9 @@ import SwiftUI
 
 struct MainView: View {
     @State private var isMainExposed: Bool = true
-    @State private var isModalPresented: Bool = false
+    @State private var isMyModalPresented: Bool = false
+    @State private var isFriendsModalPresented: Bool = false
+    @State private var isPassed24Hours: Bool = false
     
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var authManager: AuthManager
@@ -20,37 +22,38 @@ struct MainView: View {
     //    @State private var navigateToRoot = false
     @State var selectedEmoji: String = ""
     @State private var message: String = ""
+    @State private var userInfo: UserInfo = UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0)
     
     var body: some View {
         NavigationStack() {
             ZStack {
+                // 메인 화면일 때 타원 뷰
                 if isMainExposed {
-                    RotationView(isModalPresented: $isModalPresented, isdisplayEmojiPicker: $isdisplayEmojiPicker)
+                    RotationView(isMyModalPresented: $isMyModalPresented, isFriendsModalPresented: $isFriendsModalPresented, isdisplayEmojiPicker: $isdisplayEmojiPicker, isPassed24Hours: $isPassed24Hours)
                         .frame(width: 300, height: 300)
-                        .zIndex(isModalPresented ? 2 : 1)
+                        .zIndex(isMyModalPresented
+                                || isFriendsModalPresented
+                                || isdisplayEmojiPicker ? 2 : 1) // 모디파이어 따로 빼기
+                // 맵 화면일 때 맵 뷰
                 } else {
-                    MapView()
-                        .zIndex(1)
+                    MapView(isMyModalPresented: $isMyModalPresented, isFriendsModalPresented: $isFriendsModalPresented, isdisplayEmojiPicker: $isdisplayEmojiPicker, isPassed24Hours: $isPassed24Hours)
+                        .zIndex(isMyModalPresented
+                                || isFriendsModalPresented
+                                || isdisplayEmojiPicker ? 2 : 1)
                 }
                 
-                MainTopView(isModalPresented: $isModalPresented, isMainExposed: $isMainExposed)
+                // 메인 화면의 메뉴들
+                MainTopView(isMainExposed: $isMainExposed)
                     .zIndex(1)
-                
-                if isdisplayEmojiPicker {
-                    Color.black.opacity(0.4)
-                        .edgesIgnoringSafeArea(.all)
-                        .onTapGesture {
-                            isdisplayEmojiPicker = false // 배경 터치 시 닫기
-                        }
-                        .zIndex(2)
-                    EmojiView(isdisplayEmojiPicker: $isdisplayEmojiPicker)
-                        .zIndex(3)
-                }
             }
         }
         .onAppear {
             Task {
                 await userInfoStore.loadUserInfo(userID: authManager.userID)
+                
+                if let userInfo = userInfoStore.userInfo {
+                    self.userInfo = userInfo
+                }
             }
         }
     }
@@ -58,7 +61,6 @@ struct MainView: View {
 
 struct MainTopView: View {
     let screenBounds = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds
-    @Binding var isModalPresented: Bool
     @Binding var isMainExposed: Bool
     
     var body: some View {
@@ -155,14 +157,5 @@ struct MainTopView: View {
     }
 }
 
-#Preview {
-    //    AuthView()
-    //        .environmentObject(AuthManager())
-    //        .environmentObject(UserInfoStore())
-    //        .environmentObject(ChatListStore())
-    //        .environmentObject(ChatDetailViewStore())
-    MainView()
-        .environmentObject(AuthManager())
-        .environmentObject(UserInfoStore())
-        .environmentObject(StoryDraft())
-}
+//#Preview {
+//}
