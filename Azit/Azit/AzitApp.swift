@@ -41,6 +41,7 @@ struct AzitApp: App {
                 .environmentObject(StoryStore())
                 .environmentObject(chatDetailViewStore)
                 .environmentObject(StoryDraft())
+                .environmentObject(LocationManager())
         }
         
     }

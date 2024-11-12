@@ -17,6 +17,8 @@ struct MainView: View {
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var storyStore: StoryStore
     @EnvironmentObject var storyDraft: StoryDraft
+//    @StateObject private var locationManager = LocationManager()
+    @EnvironmentObject var locationManager: LocationManager
     
     @State var isdisplayEmojiPicker: Bool = false
     //    @State private var navigateToRoot = false
@@ -45,6 +47,20 @@ struct MainView: View {
                 // 메인 화면의 메뉴들
                 MainTopView(isMainExposed: $isMainExposed)
                     .zIndex(1)
+                
+                if isdisplayEmojiPicker {
+                    Color.black.opacity(0.4)
+                        .edgesIgnoringSafeArea(.all)
+                        .onTapGesture {
+                            isdisplayEmojiPicker = false // 배경 터치 시 닫기
+                        }
+                        .zIndex(2)
+                    EmojiView(isdisplayEmojiPicker: $isdisplayEmojiPicker)
+                        .zIndex(3)
+//                        .onAppear {
+//                            fetchAddress()
+//                        }
+                }
             }
         }
         .onAppear {
@@ -55,6 +71,16 @@ struct MainView: View {
                     self.userInfo = userInfo
                 }
             }
+        }
+    }
+    
+    private func fetchAddress() {
+        if let location = locationManager.currentLocation {
+            reverseGeocode(location: location) { addr in
+                storyDraft.address = addr ?? ""
+            }
+        } else {
+            print("위치를 가져올 수 없습니다.")
         }
     }
 }

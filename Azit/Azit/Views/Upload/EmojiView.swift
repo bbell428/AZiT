@@ -13,37 +13,32 @@ struct EmojiView : View {
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var storyDraft: StoryDraft
     @Binding var isdisplayEmojiPicker: Bool // MainView에서 전달받은 바인딩 변수
+//    @StateObject private var locationManager = LocationManager()
+    @EnvironmentObject var locationManager: LocationManager
     
-//    @Binding var navigateToRoot: Bool
-    
-    // 작성될 때의 경도와 위도 값 받기 > 위치 변환하려면 api 받아야 하나
-//    @State var currentLatitude: Double = 0
-//    @State var currentLongitude: Double = 0
-//    @Binding var message: String
-//    @Binding var selectedEmoji: String
     @State var publishedTargets: [String] = []
-    
     @State var isShowingsheet: Bool = false
     @State var isPicture:Bool = false
+    @State var firstNaviLinkActive = false
+    
     var isShareEnabled: Bool {
         return storyDraft.emoji.isEmpty || storyDraft.content.isEmpty
     }
-    
-    @State var firstNaviLinkActive = false
     
     var body : some View{
         VStack {
             NavigationStack {
                 HStack {
+                    // 위치
                     HStack {
                         Image(systemName: "location.fill")
                             .foregroundStyle(Color.accentColor)
-                        
-                        // 위치 데이터
-                        Text("경기도 고양시")
+                        Text(storyDraft.address)
                             .font(.caption2)
                     }
                     Spacer()
+                    
+                    // 공개 범위
                     Button(action: {
                         isShowingsheet.toggle()
                     }) {
@@ -56,12 +51,11 @@ struct EmojiView : View {
                         }
                     }
                 }
-                .padding(.horizontal)
+                .padding([.horizontal, .bottom])
                 
                 // 이모지피커 뷰 - 서치 바와 리스트
                 EmojiPickerView(selectedEmoji: $storyDraft.emoji, searchEnabled: false,  selectedColor: Color.accent)
                     .background(Color.subColor4)
-
                 
             }.frame(width: UIScreen.main.bounds.width*0.9, height: UIScreen.main.bounds.height * 1.1 / 3)
                 .padding(.bottom)
@@ -88,7 +82,7 @@ struct EmojiView : View {
                         .foregroundColor(Color.white)
                     )
             }
-            .padding(.bottom, 20)
+            .padding(.bottom, 10)
             
             // 공유 버튼
             Button (action:{
@@ -97,11 +91,11 @@ struct EmojiView : View {
                     date: Date(),
                     latitude: storyDraft.latitude,
                     longitude: storyDraft.longitude,
+                    address: storyDraft.address,
                     emoji: storyDraft.emoji,
                     content: storyDraft.content,
                     publishedTargets: []
                 )
-                
                 Task {
                     await storyStore.addStory(newStory)
                 }
@@ -119,19 +113,23 @@ struct EmojiView : View {
                     )
             }
             .disabled(isShareEnabled)
+            
+            
         }
+        .padding()
         .frame(width: 365, height: 550) // 팝업창 크기
         .background(
             RoundedRectangle(cornerRadius: 15)
                 .fill(Color.subColor4)
                 .stroke(Color.accentColor, lineWidth: 0.5)
                 .shadow(radius: 10)
-            
         )
-        .padding()
         .sheet(isPresented: $isShowingsheet) {
             PublishScopeView()
                 .presentationDetents([.medium])
+        }
+        .onReceive(locationManager.$currentLocation) { _ in
+            fetchAddress()
         }
     }
     
@@ -139,6 +137,19 @@ struct EmojiView : View {
     func resetStory() {
         storyDraft.content = ""
         storyDraft.emoji = ""
+    }
+    
+    // 현 위치
+    private func fetchAddress() {
+        if let location = locationManager.currentLocation {
+            reverseGeocode(location: location) { addr in
+                            DispatchQueue.main.async {
+                                storyDraft.address = addr ?? ""
+                            }
+                        }
+        } else {
+            print("위치를 가져올 수 없습니다.")
+        }
     }
     
     //    func getEmojiList()->[[Int]] {
