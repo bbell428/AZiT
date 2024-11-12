@@ -9,67 +9,22 @@ import SwiftUI
 
 struct FriendsContentsModalView: View {
     let screenBounds = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds
-    @State var story: Story?
-    @StateObject var storyStore: StoryStore = StoryStore()
-    @Binding var isModalPresented: Bool
+    
+    @EnvironmentObject var storyStore: StoryStore
+    
     @Binding var message: String
     @Binding var selectedUserInfo: UserInfo
+    
+    @State var story: Story?
     @State private var isLiked: Bool = false
     @State private var scale: CGFloat = 0.1
     
     var body: some View {
         VStack(alignment: .center, spacing: 15) {
-            HStack(spacing: 5) {
-                Text(selectedUserInfo.previousState)
-                
-                Text(selectedUserInfo.nickname)
-                    .font(.caption)
-                
-                Spacer()
-                
-                Image(systemName: "location")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 15, height: 15)
-                    .foregroundStyle(.accent)
-                
-                Text("경상북도 경산시")
-                    .font(.caption)
-            }
+            ContentsModalTopView(selectedUserInfo: selectedUserInfo)
             
-            if story?.image ?? "" != "" {
-                HStack() {
-                    Text(story?.content ?? "")
-                    
-                    Spacer()
-                }
-                
-                Image("asdf")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                    .onTapGesture { }
-            } else {
-                if story?.emoji ?? "" != "" {
-                    if story?.content ?? "" != "" {
-                        HStack() {
-                            SpeechBubbleView(text: story?.content ?? "")
-                        }
-                        .padding(.bottom, -10)
-                    }
-                    
-                    Text(story?.emoji ?? "")
-                        .font(.system(size: 100))
-                } else {
-                    if story?.content ?? "" != "" {
-                        HStack() {
-                            Text(story?.content ?? "")
-                            Spacer()
-                        }
-                    }
-                }
-            }
-            
+            StoryContentsView(story: $story)
+                        
             HStack {
                 TextField("message", text: $message, prompt: Text("친구에게 메세지 보내기")
                     .font(.caption))
@@ -103,6 +58,7 @@ struct FriendsContentsModalView: View {
         .scaleEffect(scale)
         .onAppear {
             Task {
+                // 선택 된 친구의 story
                 try await story = storyStore.loadRecentStoryById(id: selectedUserInfo.id)
             }
             withAnimation(.easeInOut(duration: 0.3)) {

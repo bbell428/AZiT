@@ -16,6 +16,7 @@ class StoryStore: ObservableObject {
     @Published var stories: [Story] = []
     @Published var createdStory: Story?
     
+    // MARK: - 게시물 추가
     func addStory(_ story: Story) async {
         do {
             let db = Firestore.firestore()
@@ -40,6 +41,7 @@ class StoryStore: ObservableObject {
         }
     }
     
+    // MARK: - User ID들로 게시물들 받아오기
     @MainActor
     func loadStorysByIds(ids: [String]) async throws -> [Story] {
         let db = Firestore.firestore()
@@ -73,6 +75,7 @@ class StoryStore: ObservableObject {
         return stories
     }
     
+    // MARK: - User ID로 최근 게시물 받아오기
     @MainActor
     func loadRecentStoryById(id: String) async throws -> Story {
         let db = Firestore.firestore()

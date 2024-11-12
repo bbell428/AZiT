@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct Utility {
+    // MARK: - Gradient
     static func createGradient(index: Int, width: CGFloat, height: CGFloat) -> RadialGradient {
         let colors: [Color] = [.subColor4, .subColor3, .subColor2, .subColor1]
         let startColor: Color = colors[index]
@@ -20,7 +21,7 @@ struct Utility {
         )
     }
     
-    static func createCircleGradient(colors: [Color]) -> LinearGradient {
+    static func createLinearGradient(colors: [Color]) -> LinearGradient {
         return LinearGradient(
             gradient: Gradient(colors: colors),
             startPoint: .top,
@@ -28,6 +29,8 @@ struct Utility {
         )
     }
     
+    
+    // MARK: - 위도 경도 기반 거리 계산
     static func haversineDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double) -> Double {
         let r = 6371.0 // 지구의 반지름 (킬로미터)
 
@@ -45,11 +48,13 @@ struct Utility {
         return r * c // 거리 (킬로미터)
     }
     
+    // MARK: - 24시간 지남 여부 판별
     static func hasPassed24Hours(from date: Date) -> Bool {
         let hoursDifference = Calendar.current.dateComponents([.hour], from: date, to: Date()).hour ?? 0
         return hoursDifference >= 24
     }
     
+    // MARK: - 거리에 따른 유저 정렬
     static func sortUsersByDistance(from user: UserInfo, users: [UserInfo]) -> [UserInfo] {
         return users.sorted { (user1, user2) -> Bool in
             let distance1 = Utility.haversineDistance(lat1: user.latitude, lon1: user.longitude, lat2: user1.latitude, lon2: user1.longitude)

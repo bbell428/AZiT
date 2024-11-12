@@ -12,7 +12,7 @@ struct EmojiView : View {
     @EnvironmentObject var storyStore: StoryStore
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var storyDraft: StoryDraft
-    @Binding var isdisplayEmojiPicker: Bool // MainView에서 전달받은 바인딩 변수
+    @Binding var isDisplayEmojiPicker: Bool // MainView에서 전달받은 바인딩 변수
 //    @StateObject private var locationManager = LocationManager()
     @EnvironmentObject var locationManager: LocationManager
     
@@ -72,7 +72,7 @@ struct EmojiView : View {
                 .padding(.bottom)
             
             // 카메라 촬영 버튼
-            NavigationLink(destination: TakePhotoView(firstNaviLinkActive: $firstNaviLinkActive, isMainDisplay: $isdisplayEmojiPicker), isActive: $firstNaviLinkActive) {
+            NavigationLink(destination: TakePhotoView(firstNaviLinkActive: $firstNaviLinkActive, isMainDisplay: $isDisplayEmojiPicker), isActive: $firstNaviLinkActive) {
                 RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
                     .background(RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
                         .fill(Color.accentColor))
@@ -100,7 +100,7 @@ struct EmojiView : View {
                     await storyStore.addStory(newStory)
                 }
                 resetStory()
-                isdisplayEmojiPicker = false
+                isDisplayEmojiPicker = false
             }) {
                 RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
                     .stroke(Color.accentColor, lineWidth: 0.5)
