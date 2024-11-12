@@ -47,6 +47,7 @@ struct MainTopView: View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 30)
+                                .foregroundStyle(Utility.createLinearGradient(colors: [.accent, .gradation1]))
                         }
                         
                         NavigationLink {
@@ -56,6 +57,7 @@ struct MainTopView: View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 30)
+                                .foregroundStyle(Utility.createLinearGradient(colors: [.accent, .gradation1]))
                         }
                         
                         NavigationLink {
@@ -65,6 +67,7 @@ struct MainTopView: View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 30)
+                                .foregroundStyle(Utility.createLinearGradient(colors: [.accent, .gradation1]))
                         }
                     }
                     .frame(width: 150, height: 50)
@@ -89,13 +92,15 @@ struct MainTopView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 30)
+                        .foregroundStyle(Utility.createLinearGradient(colors: [.accent, .gradation1]))
                 }
                 .frame(width: 60, height: 60)
                 .background(Color.white)
                 .clipShape(RoundedRectangle(cornerRadius: 15))
                 .overlay(
                     RoundedRectangle(cornerRadius: 15)
-                        .stroke(.accent, lineWidth: 2)
+                        .stroke(Utility.createLinearGradient(colors: [.accent, .gradation1]), lineWidth: 2)
+                        
                 )
             }
             .padding()            
