@@ -12,10 +12,10 @@ struct EmojiView : View {
     @EnvironmentObject var storyStore: StoryStore
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var storyDraft: StoryDraft
-    @Binding var isdisplayEmojiPicker: Bool // MainView에서 전달받은 바인딩 변수
-//    @StateObject private var locationManager = LocationManager()
+    @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var locationManager: LocationManager
     
+    @Binding var isdisplayEmojiPicker: Bool // MainView에서 전달받은 바인딩 변수
     @State var publishedTargets: [String] = []
     @State var isShowingsheet: Bool = false
     @State var isPicture:Bool = false
@@ -101,6 +101,10 @@ struct EmojiView : View {
                 }
                 resetStory()
                 isdisplayEmojiPicker = false
+                if let location = locationManager.currentLocation {
+                    userInfoStore.userInfo?.latitude = location.coordinate.latitude
+                    userInfoStore.userInfo?.longitude = location.coordinate.longitude
+                }
             }) {
                 RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
                     .stroke(Color.accentColor, lineWidth: 0.5)
@@ -128,9 +132,6 @@ struct EmojiView : View {
             PublishScopeView()
                 .presentationDetents([.medium])
         }
-        .onReceive(locationManager.$currentLocation) { _ in
-            fetchAddress()
-        }
     }
     
     // 저장 후 초기화 함수
@@ -138,20 +139,6 @@ struct EmojiView : View {
         storyDraft.content = ""
         storyDraft.emoji = ""
     }
-    
-    // 현 위치
-    private func fetchAddress() {
-        if let location = locationManager.currentLocation {
-            reverseGeocode(location: location) { addr in
-                            DispatchQueue.main.async {
-                                storyDraft.address = addr ?? ""
-                            }
-                        }
-        } else {
-            print("위치를 가져올 수 없습니다.")
-        }
-    }
-    
     //    func getEmojiList()->[[Int]] {
     //        var emojis : [[Int]] = []
     //        for i in stride(from: 0x1F601, to: 0x1F64F, by: 4){

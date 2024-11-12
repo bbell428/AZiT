@@ -36,6 +36,7 @@ struct MainView: View {
                         .zIndex(isMyModalPresented
                                 || isFriendsModalPresented
                                 || isdisplayEmojiPicker ? 2 : 1) // 모디파이어 따로 빼기
+                    
                 // 맵 화면일 때 맵 뷰
                 } else {
                     MapView(isMyModalPresented: $isMyModalPresented, isFriendsModalPresented: $isFriendsModalPresented, isdisplayEmojiPicker: $isdisplayEmojiPicker, isPassed24Hours: $isPassed24Hours)
@@ -55,11 +56,16 @@ struct MainView: View {
                             isdisplayEmojiPicker = false // 배경 터치 시 닫기
                         }
                         .zIndex(2)
+                    
                     EmojiView(isdisplayEmojiPicker: $isdisplayEmojiPicker)
                         .zIndex(3)
-//                        .onAppear {
-//                            fetchAddress()
-//                        }
+                        .onAppear {
+                            if let location = locationManager.currentLocation {
+                                fetchAddress()
+                            } else {
+                                print("위치 정보가 아직 준비되지 않았습니다.")
+                            }
+                        }
                 }
             }
         }
@@ -72,6 +78,12 @@ struct MainView: View {
                 }
             }
         }
+//        .onReceive(locationManager.$currentLocation) { location in
+//            if let location = location {
+//                userInfoStore.userInfo?.latitude = location.coordinate.latitude
+//                userInfoStore.userInfo?.longitude = location.coordinate.longitude
+//            }
+//        }
     }
     
     private func fetchAddress() {
