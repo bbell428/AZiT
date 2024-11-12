@@ -16,6 +16,7 @@ struct ScrollPreferenceKey: PreferenceKey {
 }
 
 struct AlbumView: View {
+    @EnvironmentObject var userInfoStore: UserInfoStore
     @State private var showHorizontalScroll = true
     @State private var offsetY: CGFloat = .zero
     @State private var lastOffsetY: CGFloat = .zero // 마지막 스크롤 위치 저장
@@ -23,80 +24,61 @@ struct AlbumView: View {
     @State private var items = Array(0..<10)
     @State private var isLoading = false
     
+    @State var selectedIndex: Int = 0
+    @State var isOpenCalendar: Bool = false
+    
     var body: some View {
         NavigationStack {
             VStack {
-                ZStack(alignment: .topTrailing) {
+                ZStack(alignment: .topLeading) {
                     HStack {
                         Button {
                             dismiss()
                         } label: {
                             Image(systemName: "chevron.left")
+                                .font(.system(size: 25))
                                 .frame(maxWidth: .infinity, alignment: .leading)
                         }
                         .padding(.horizontal, 30)
                         
+                        Color.clear
+                            .frame(maxWidth: .infinity)
+                        
                         // 가운데 텍스트 영역
-                        Text("Album : \(lastOffsetY)")
+                        Text("Album")
                             .font(.title3)
                             .fontWeight(.bold)
                             .frame(maxWidth: .infinity, alignment: .center)
                         
                         Color.clear
                             .frame(maxWidth: .infinity)
+                        
+                        Button {
+                            isOpenCalendar = true
+                        } label: {
+                            Image(systemName: "calendar")
+                                .font(.system(size: 25))
+                        }
+                        .padding(.horizontal, 30)
+                        
                     }
                     .zIndex(3)
                     .frame(height: 70)
                     .background(Color.white)
                     
-                    //                    HStack {
-                    //                        Spacer()
-                    //
-                    //                        Button {
-                    //                            // 날짜 선택
-                    //                        } label: {
-                    //                            Image(systemName: "line.3.horizontal.decrease")
-                    //                        }
-                    //                        .frame(width: 50, height: 30)
-                    //                        .background(.subColor4)
-                    //                        .cornerRadius(15)
-                    //                        .padding(EdgeInsets(top: 30, leading: 0, bottom: 0, trailing: 16))
-                    //                    }
-                    
-                    
                     if showHorizontalScroll {
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 6) {
-                                ForEach(0..<10) { _ in
-                                    Button {
-                                        // 사용자 상태 클릭 시,
-                                    } label: {
-                                        ZStack(alignment: .center) {
-                                            Circle()
-                                                .fill(.subColor4)
-                                                .frame(width: 70, height: 70)
-                                            
-                                            Text("🤣")
-                                                .font(.largeTitle)
-                                        }
-                                        .frame(alignment: .leading)
-                                        .padding([.leading, .bottom], 10)
-                                    }
-                                }
-                            }
-                            .frame(height: 100)
-                        }
-                        .zIndex(2)
-                        .transition(.move(edge: .top).combined(with: .opacity)) // 애니메이션 효과
-                        .animation(.easeInOut(duration: 0.3), value: showHorizontalScroll)
-                        .padding(.top, 70)
-                        .background(Color.white)
+                        FriendSegmentView(selectedIndex: $selectedIndex, titles: userInfoStore.friendInfos)
+                            .zIndex(2)
+                            .transition(.move(edge: .top).combined(with: .opacity)) // 애니메이션 효과
+                            .animation(.easeInOut(duration: 0.3), value: showHorizontalScroll)
+                            .padding(.top, 60)
+                            .background(Color.white)
                     }
                     
                     ScrollView {
                         VStack(alignment: .leading) {
                             Rectangle()
-                                .frame(height: 150)
+                                .frame(height: 160)
                                 .foregroundStyle(Color.white)
                             
                             GeometryReader { proxy in
@@ -121,7 +103,7 @@ struct AlbumView: View {
                             .frame(height: 0)
                             
                             Text("1시간 전")
-                                .font(.subheadline)
+                                .font(.caption2)
                                 .fontWeight(.bold)
                                 .foregroundStyle(Color.gray)
                             
@@ -141,7 +123,7 @@ struct AlbumView: View {
                         
                         VStack(alignment: .leading) {
                             Text("2시간 전")
-                                .font(.subheadline)
+                                .font(.caption2)
                                 .fontWeight(.bold)
                                 .foregroundStyle(Color.gray)
                             
