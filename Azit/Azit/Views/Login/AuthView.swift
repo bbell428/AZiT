@@ -22,7 +22,7 @@ struct AuthView: View {
             case .unauthenticated, .authenticating:
                 LoginView()
             case .authenticated:
-                MainView()
+                QRCodeView()
                     .environmentObject(authManager)
                     .environmentObject(userInfoStore)
             case .profileExist:

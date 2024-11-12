@@ -64,6 +64,7 @@
 		CE89D79E2CDA8D1600DC73A8 /* EmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = CE89D79D2CDA8D1600DC73A8 /* EmojiPicker */; };
 		CEDFC2CE2CE1C814008C215A /* FriendSegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDFC2CD2CE1C814008C215A /* FriendSegmentView.swift */; };
 		EA3137182CE31B3F00AA4685 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EA3137172CE31B3F00AA4685 /* GoogleService-Info.plist */; };
+		EA3137212CE3322000AA4685 /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA3137202CE3322000AA4685 /* QRCodeView.swift */; };
 		EA3F965E2CD8B19C009904C0 /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA3F965D2CD8B19C009904C0 /* ProfileDetailView.swift */; };
 		EAB079722CDDAED700293C62 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB079712CDDAED700293C62 /* SplashView.swift */; };
 		EACABF212CE30E760042340D /* AuthApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = EACABF202CE30E760042340D /* AuthApple.swift */; };
@@ -142,6 +143,7 @@
 		CEDFC2CD2CE1C814008C215A /* FriendSegmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendSegmentView.swift; sourceTree = "<group>"; };
 		EA3137172CE31B3F00AA4685 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		EA31371F2CE331AA00AA4685 /* Azit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Azit.entitlements; sourceTree = "<group>"; };
+		EA3137202CE3322000AA4685 /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
 		EA3F965D2CD8B19C009904C0 /* ProfileDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailView.swift; sourceTree = "<group>"; };
 		EAB079712CDDAED700293C62 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		EACABF202CE30E760042340D /* AuthApple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthApple.swift; sourceTree = "<group>"; };
@@ -383,11 +385,20 @@
 			path = Album;
 			sourceTree = "<group>";
 		};
+		EA3137222CE337A600AA4685 /* QRCode */ = {
+			isa = PBXGroup;
+			children = (
+				EA3137202CE3322000AA4685 /* QRCodeView.swift */,
+			);
+			path = QRCode;
+			sourceTree = "<group>";
+		};
 		EAF840B12CD9F9C100F23839 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
 				EAF840B22CD9FA0E00F23839 /* MyPageView.swift */,
 				EAF8BB1A2CDB368F00B67AAF /* EditProfileView.swift */,
+				EA3137222CE337A600AA4685 /* QRCode */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -562,6 +573,7 @@
 				EAB079722CDDAED700293C62 /* SplashView.swift in Sources */,
 				EAF93B8E2CD4A50700116035 /* AuthView.swift in Sources */,
 				EAF93B8F2CD4A50700116035 /* SignupView.swift in Sources */,
+				EA3137212CE3322000AA4685 /* QRCodeView.swift in Sources */,
 				8EAFEFB82CD45CCE00136348 /* ChatRoom.swift in Sources */,
 				8E9402612CDAE99E0005C2BB /* MapView.swift in Sources */,
 				8BD71F862CD8C4DF0030693B /* EmojiUploadTest.swift in Sources */,
