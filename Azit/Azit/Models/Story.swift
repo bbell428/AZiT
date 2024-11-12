@@ -26,6 +26,11 @@ struct Story: Codable, Equatable, Identifiable {
     var publishedTargets: [String] = [] // 공개 대상 (유저 uid)
     var readUsers: [String] = [] // 게시글을 읽은 사람 (유저 uid)
     
+    var isRecent: Bool {
+            let twoDaysAgo = Calendar.current.date(byAdding: .day, value: -2, to: Date())!
+            return date > twoDaysAgo
+        }
+    
     init(id: String = UUID().uuidString, userId: String, likes: [String] = [], date: Date, latitude: Double = 0.0, longitude: Double = 0.0, address: String = "", emoji: String = "", image: String = "", content: String = "", publishedTargets: [String] = [], readUsers: [String] = []) {
         self.id = id
         self.userId = userId

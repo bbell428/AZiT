@@ -8,6 +8,29 @@
 import SwiftUI
 import UIKit
 
+extension Story {
+    func isWithin(minutes: Int) -> Bool {
+        guard let diff = Calendar.current.dateComponents([.minute], from: self.date, to: Date()).minute else {
+            return false
+        }
+        return diff < minutes
+    }
+    
+    func isWithin(hours: Int) -> Bool {
+        guard let diff = Calendar.current.dateComponents([.hour], from: self.date, to: Date()).hour else {
+            return false
+        }
+        return diff < hours
+    }
+    
+    func isWithin(days: Int) -> Bool {
+        guard let diff = Calendar.current.dateComponents([.day], from: self.date, to: Date()).day else {
+            return false
+        }
+        return diff < days
+    }
+}
+
 struct ScrollPreferenceKey: PreferenceKey {
     static var defaultValue: CGFloat = .zero
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
@@ -101,18 +124,102 @@ struct AlbumView: View {
                         }
                         .frame(height: 0)
                         
-                        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3)) {
-                            ForEach(albumstore.storys.filter { $0.userId == albumstore.filterUserID }) { story in
-                                VStack(alignment: .leading) {
-                                    Image("Album")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .cornerRadius(15)
-                                        .frame(width: 120, height: 180)
-                                    Text(story.content)
-                                }
+                        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), alignment: .leading) {
+                            if albumstore.storys.contains(where: { $0.userId == albumstore.filterUserID && $0.isWithin(minutes: 1) }) {
+                                Section(header: HStack { Text("1분 전").font(.caption2)
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(Color.gray)
+                                    Spacer() }) {
+                                        ForEach(albumstore.storys.filter { $0.userId == albumstore.filterUserID && $0.isWithin(minutes: 1) }) { story in
+                                            StoryView(story: story)
+                                        }
+                                    }
+                            }
+                            
+                            if albumstore.storys.contains(where: { $0.userId == albumstore.filterUserID && $0.isWithin(minutes: 5) && !$0.isWithin(minutes: 1) }) {
+                                Section(header: HStack { Text("5분 전").font(.caption2)
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(Color.gray)
+                                    Spacer() }) {
+                                        ForEach(albumstore.storys.filter { $0.userId == albumstore.filterUserID && $0.isWithin(minutes: 5) && !$0.isWithin(minutes: 1) }) { story in
+                                            StoryView(story: story)
+                                        }
+                                    }
+                            }
+                            
+                            if albumstore.storys.contains(where: { $0.userId == albumstore.filterUserID && $0.isWithin(minutes: 10) && !$0.isWithin(minutes: 5) }) {
+                                Section(header: HStack { Text("10분 전").font(.caption2)
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(Color.gray)
+                                    Spacer() }) {
+                                        ForEach(albumstore.storys.filter { $0.userId == albumstore.filterUserID && $0.isWithin(minutes: 10) && !$0.isWithin(minutes: 5) }) { story in
+                                            StoryView(story: story)
+                                        }
+                                    }
+                            }
+                            
+                            if albumstore.storys.contains(where: { $0.userId == albumstore.filterUserID && $0.isWithin(minutes: 30) && !$0.isWithin(minutes: 10) }) {
+                                Section(header: HStack { Text("30분 전").font(.caption2)
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(Color.gray)
+                                    Spacer() }) {
+                                        ForEach(albumstore.storys.filter { $0.userId == albumstore.filterUserID && $0.isWithin(minutes: 30) && !$0.isWithin(minutes: 10) }) { story in
+                                            StoryView(story: story)
+                                        }
+                                    }
+                            }
+                            
+                            if albumstore.storys.contains(where: { $0.userId == albumstore.filterUserID && $0.isWithin(hours: 1) && !$0.isWithin(minutes: 30) }) {
+                                Section(header: HStack { Text("1시간 전").font(.caption2)
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(Color.gray)
+                                    Spacer() }) {
+                                        ForEach(albumstore.storys.filter { $0.userId == albumstore.filterUserID && $0.isWithin(hours: 1) && !$0.isWithin(minutes: 30) }) { story in
+                                            StoryView(story: story)
+                                        }
+                                    }
+                            }
+                            
+                            if albumstore.storys.contains(where: { $0.userId == albumstore.filterUserID && $0.isWithin(hours: 3) && !$0.isWithin(hours: 1) }) {
+                                Section(header: HStack { Text("3시간 전").font(.caption2)
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(Color.gray)
+                                    Spacer() }) {
+                                        ForEach(albumstore.storys.filter { $0.userId == albumstore.filterUserID && $0.isWithin(hours: 3) && !$0.isWithin(hours: 1) }) { story in
+                                            StoryView(story: story)
+                                        }
+                                    }
+                            }
+                            
+                            if albumstore.storys.contains(where: { $0.userId == albumstore.filterUserID && $0.isWithin(days: 1) && !$0.isWithin(hours: 3) }) {
+                                Section(header: HStack { Text("1일 전").font(.caption2)
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(Color.gray)
+                                    Spacer() }) {
+                                        ForEach(albumstore.storys.filter { $0.userId == albumstore.filterUserID && $0.isWithin(days: 1) && !$0.isWithin(hours: 3) }) { story in
+                                            StoryView(story: story)
+                                        }
+                                    }
+                            }
+                            
+                            if albumstore.storys.contains(where: {
+                                $0.userId == albumstore.filterUserID &&
+                                !$0.isWithin(days: 1)
+                            }) {
+                                Section(header: HStack { Text("이전 날짜").font(.caption2)
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(Color.gray)
+                                    Spacer() }) {
+                                        ForEach(albumstore.storys.filter {
+                                            $0.userId == albumstore.filterUserID &&
+                                            !$0.isWithin(days: 1)
+                                        }) { story in
+                                            StoryView(story: story)
+                                        }
+                                    }
                             }
                         }
+                        
                     }
                     .onPreferenceChange(ScrollPreferenceKey.self, perform: { value in
                         self.offsetY = value
@@ -136,6 +243,21 @@ struct AlbumView: View {
             let newItems = Array(items.count..<(items.count + 10))
             items.append(contentsOf: newItems)
             isLoading = false
+        }
+    }
+}
+
+struct StoryView: View {
+    let story: Story
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            Image("Album")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .cornerRadius(15)
+                .frame(width: 120, height: 180)
+            Text(story.content)
         }
     }
 }

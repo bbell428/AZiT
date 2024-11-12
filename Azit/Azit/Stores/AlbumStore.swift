@@ -22,40 +22,31 @@ class AlbumStore: ObservableObject {
             print("친구가 없습니다")
             return
         }
-        
+
         let db = Firestore.firestore()
-        
-        // 기존 storys의 id 목록을 추출하여 중복 체크에 사용
-        let existingStoryIds = Set(storys.map { $0.id })
         
         do {
             let querySnapshot = try await db.collection("Story")
                 .whereField("userId", in: ids).getDocuments()
             
-            var newStories: [Story] = []
+            var stories: [Story] = []
             
             for document in querySnapshot.documents {
                 do {
                     let story = try await Story(document: document)
-                    
-                    // 중복된 id가 아니라면 추가
-                    if !existingStoryIds.contains(story.id) {
-                        newStories.append(story)
-                    }
-                    
+                    stories.append(story)
                 } catch {
                     print("loadStories error: \(error.localizedDescription)")
                 }
             }
             
-            // 새로 추가된 storys만 결합 및 정렬
-            self.storys.append(contentsOf: newStories)
-            self.storys.sort { $0.date > $1.date }
+            self.storys = stories.sorted { $0.userId > $1.userId }
+            print("친구 게시물 : \(storys)")
             
+            filterUserID = self.storys.first?.userId ?? ""
+            print("첫번째 친구 : \(filterUserID)")
         } catch {
             print("loadStories error: \(error.localizedDescription)")
         }
-        
-        print("친구 게시물 : \(storys)")
     }
 }
