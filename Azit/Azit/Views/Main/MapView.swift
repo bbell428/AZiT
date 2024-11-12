@@ -85,11 +85,11 @@ struct MapView: View {
                         do {
                             let tempStory = try await storyStore.loadRecentStoryById(id: friend)
                             
-                            if tempStory.id != "" {
+                            if tempStory.id != "" && (tempStory.publishedTargets.contains(userInfoStore.userInfo?.id ?? "") || tempStory.publishedTargets.isEmpty) {
                                 try await tempUsers.append(userInfoStore.loadUsersInfoByEmail(userID: [friend])[0])
                             }
                         } catch { }
-                    }                    
+                    }
                     
                     // 친구들을 users 배열에 추가
                     users += tempUsers
