@@ -70,7 +70,7 @@ struct MyPageView: View {
                     HStack {
                         Text("친구 리스트")
                             .font(.headline)
-                        Text("5")
+                        Text("\(friends.count)")
                             .font(.headline)
                             .padding(.leading, 6)
                     }
