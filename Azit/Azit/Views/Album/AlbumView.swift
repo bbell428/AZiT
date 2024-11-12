@@ -9,25 +9,13 @@ import SwiftUI
 import UIKit
 
 extension Story {
-    func isWithin(minutes: Int) -> Bool {
-        guard let diff = Calendar.current.dateComponents([.minute], from: self.date, to: Date()).minute else {
-            return false
-        }
-        return diff < minutes
-    }
-    
     func isWithin(hours: Int) -> Bool {
-        guard let diff = Calendar.current.dateComponents([.hour], from: self.date, to: Date()).hour else {
-            return false
-        }
-        return diff < hours
-    }
-    
-    func isWithin(days: Int) -> Bool {
-        guard let diff = Calendar.current.dateComponents([.day], from: self.date, to: Date()).day else {
-            return false
-        }
-        return diff < days
+        let now = Date()
+        let calendar = Calendar.current
+        
+        // 게시물 생성 시간이 현재 시간과 얼마나 차이가 나는지 계산
+        let diffInHours = calendar.dateComponents([.hour], from: self.date, to: now).hour ?? 0
+        return diffInHours < hours
     }
 }
 
@@ -43,7 +31,7 @@ struct AlbumView: View {
     @EnvironmentObject var userInfoStore: UserInfoStore
     @Environment(\.dismiss) var dismiss
     @State private var offsetY: CGFloat = .zero
-    @State private var lastOffsetY: CGFloat = .zero // 마지막 스크롤 위치 저장
+    @State private var lastOffsetY: CGFloat = .zero
     @State private var items = Array(0..<10)
     @State private var isShowHorizontalScroll = true
     @State var selectedIndex: Int = 0
@@ -67,7 +55,6 @@ struct AlbumView: View {
                         Color.clear
                             .frame(maxWidth: .infinity)
                         
-                        // 가운데 텍스트 영역
                         Text("Album")
                             .font(.title3)
                             .fontWeight(.bold)
@@ -92,7 +79,7 @@ struct AlbumView: View {
                     if isShowHorizontalScroll {
                         FriendSegmentView(selectedIndex: $selectedIndex, titles: userInfoStore.friendInfos)
                             .zIndex(2)
-                            .transition(.move(edge: .top).combined(with: .opacity)) // 애니메이션 효과
+                            .transition(.move(edge: .top).combined(with: .opacity))
                             .animation(.easeInOut(duration: 0.3), value: isShowHorizontalScroll)
                             .padding(.top, 60)
                             .background(Color.white)
@@ -107,12 +94,11 @@ struct AlbumView: View {
                             let offsetY = proxy.frame(in: .global).origin.y
                             
                             DispatchQueue.main.async {
-                                // 현재 스크롤 위치와 마지막 위치의 차이가 50 이상일 때만 showHorizontalScroll을 업데이트
                                 if abs(offsetY - lastOffsetY) > 120 && lastOffsetY < 400 {
                                     withAnimation {
                                         isShowHorizontalScroll = offsetY > lastOffsetY
                                     }
-                                    lastOffsetY = offsetY // 마지막 위치 업데이트
+                                    lastOffsetY = offsetY
                                 }
                             }
                             
@@ -125,101 +111,20 @@ struct AlbumView: View {
                         .frame(height: 0)
                         
                         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), alignment: .leading) {
-                            if albumstore.storys.contains(where: { $0.userId == albumstore.filterUserID && $0.isWithin(minutes: 1) }) {
-                                Section(header: HStack { Text("1분 전").font(.caption2)
+                            ForEach(getTimeGroupedStories(), id: \.title) { group in
+                                Section(header: HStack {
+                                    Text(group.title)
+                                        .font(.caption2)
                                         .fontWeight(.bold)
                                         .foregroundStyle(Color.gray)
-                                    Spacer() }) {
-                                        ForEach(albumstore.storys.filter { $0.userId == albumstore.filterUserID && $0.isWithin(minutes: 1) }) { story in
-                                            StoryView(story: story)
-                                        }
+                                    Spacer()
+                                }) {
+                                    ForEach(group.stories) { story in
+                                        StoryView(story: story)
                                     }
-                            }
-                            
-                            if albumstore.storys.contains(where: { $0.userId == albumstore.filterUserID && $0.isWithin(minutes: 5) && !$0.isWithin(minutes: 1) }) {
-                                Section(header: HStack { Text("5분 전").font(.caption2)
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(Color.gray)
-                                    Spacer() }) {
-                                        ForEach(albumstore.storys.filter { $0.userId == albumstore.filterUserID && $0.isWithin(minutes: 5) && !$0.isWithin(minutes: 1) }) { story in
-                                            StoryView(story: story)
-                                        }
-                                    }
-                            }
-                            
-                            if albumstore.storys.contains(where: { $0.userId == albumstore.filterUserID && $0.isWithin(minutes: 10) && !$0.isWithin(minutes: 5) }) {
-                                Section(header: HStack { Text("10분 전").font(.caption2)
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(Color.gray)
-                                    Spacer() }) {
-                                        ForEach(albumstore.storys.filter { $0.userId == albumstore.filterUserID && $0.isWithin(minutes: 10) && !$0.isWithin(minutes: 5) }) { story in
-                                            StoryView(story: story)
-                                        }
-                                    }
-                            }
-                            
-                            if albumstore.storys.contains(where: { $0.userId == albumstore.filterUserID && $0.isWithin(minutes: 30) && !$0.isWithin(minutes: 10) }) {
-                                Section(header: HStack { Text("30분 전").font(.caption2)
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(Color.gray)
-                                    Spacer() }) {
-                                        ForEach(albumstore.storys.filter { $0.userId == albumstore.filterUserID && $0.isWithin(minutes: 30) && !$0.isWithin(minutes: 10) }) { story in
-                                            StoryView(story: story)
-                                        }
-                                    }
-                            }
-                            
-                            if albumstore.storys.contains(where: { $0.userId == albumstore.filterUserID && $0.isWithin(hours: 1) && !$0.isWithin(minutes: 30) }) {
-                                Section(header: HStack { Text("1시간 전").font(.caption2)
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(Color.gray)
-                                    Spacer() }) {
-                                        ForEach(albumstore.storys.filter { $0.userId == albumstore.filterUserID && $0.isWithin(hours: 1) && !$0.isWithin(minutes: 30) }) { story in
-                                            StoryView(story: story)
-                                        }
-                                    }
-                            }
-                            
-                            if albumstore.storys.contains(where: { $0.userId == albumstore.filterUserID && $0.isWithin(hours: 3) && !$0.isWithin(hours: 1) }) {
-                                Section(header: HStack { Text("3시간 전").font(.caption2)
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(Color.gray)
-                                    Spacer() }) {
-                                        ForEach(albumstore.storys.filter { $0.userId == albumstore.filterUserID && $0.isWithin(hours: 3) && !$0.isWithin(hours: 1) }) { story in
-                                            StoryView(story: story)
-                                        }
-                                    }
-                            }
-                            
-                            if albumstore.storys.contains(where: { $0.userId == albumstore.filterUserID && $0.isWithin(days: 1) && !$0.isWithin(hours: 3) }) {
-                                Section(header: HStack { Text("1일 전").font(.caption2)
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(Color.gray)
-                                    Spacer() }) {
-                                        ForEach(albumstore.storys.filter { $0.userId == albumstore.filterUserID && $0.isWithin(days: 1) && !$0.isWithin(hours: 3) }) { story in
-                                            StoryView(story: story)
-                                        }
-                                    }
-                            }
-                            
-                            if albumstore.storys.contains(where: {
-                                $0.userId == albumstore.filterUserID &&
-                                !$0.isWithin(days: 1)
-                            }) {
-                                Section(header: HStack { Text("이전 날짜").font(.caption2)
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(Color.gray)
-                                    Spacer() }) {
-                                        ForEach(albumstore.storys.filter {
-                                            $0.userId == albumstore.filterUserID &&
-                                            !$0.isWithin(days: 1)
-                                        }) { story in
-                                            StoryView(story: story)
-                                        }
-                                    }
+                                }
                             }
                         }
-                        
                     }
                     .onPreferenceChange(ScrollPreferenceKey.self, perform: { value in
                         self.offsetY = value
@@ -229,7 +134,6 @@ struct AlbumView: View {
             }
             .onAppear {
                 Task {
-                    // 친구 게시물 가져오기
                     await albumstore.loadStorysByIds(ids: userInfoStore.userInfo?.friends ?? [])
                 }
             }
@@ -243,6 +147,32 @@ struct AlbumView: View {
             let newItems = Array(items.count..<(items.count + 10))
             items.append(contentsOf: newItems)
             isLoading = false
+        }
+    }
+
+
+    func getTimeGroupedStories() -> [(title: String, stories: [Story])] {
+        let timeGroups: [(String, (Story) -> Bool)] = [
+            ("오늘", { $0.isWithin(hours: 24) }),  // 오늘: 24시간 이내
+            ("1일 전", { $0.isWithin(hours: 48) && !$0.isWithin(hours: 24) }),  // 1일 전: 24~48시간 이내
+            ("2일 전", { $0.isWithin(hours: 72) && !$0.isWithin(hours: 48) }),  // 2일 전: 48~72시간 이내
+            ("3일 전", { $0.isWithin(hours: 96) && !$0.isWithin(hours: 72) }),  // 3일 전: 72~96시간 이내
+            ("4일 전", { $0.isWithin(hours: 120) && !$0.isWithin(hours: 96) }),  // 4일 전: 96~120시간 이내
+            ("5일 전", { $0.isWithin(hours: 144) && !$0.isWithin(hours: 120) }),  // 5일 전: 120~144시간 이내
+            ("6일 전", { $0.isWithin(hours: 168) && !$0.isWithin(hours: 144) }),  // 6일 전: 144~168시간 이내
+            ("1주일 전", { $0.isWithin(hours: 336) && !$0.isWithin(hours: 168) }),  // 1주일 전: 168~336시간 이내
+            ("2주일 전", { $0.isWithin(hours: 672) && !$0.isWithin(hours: 336) }),  // 2주일 전: 336~672시간 이내
+            ("3주일 전", { $0.isWithin(hours: 1008) && !$0.isWithin(hours: 672) }),  // 3주일 전: 672~1008시간 이내
+            ("4주일 전", { $0.isWithin(hours: 1344) && !$0.isWithin(hours: 1008) }),  // 4주일 전: 1008~1344시간 이내
+            ("그 외", { !$0.isWithin(hours: 1344) })  // 4주 이상: 1344시간 이상
+        ]
+        
+        return timeGroups.compactMap { group in
+            let filteredStories = albumstore.storys.filter { story in
+                story.userId == albumstore.filterUserID && group.1(story)
+            }
+            
+            return filteredStories.isEmpty ? nil : (group.0, filteredStories)
         }
     }
 }
