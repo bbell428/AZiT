@@ -21,22 +21,35 @@ struct FriendsContentsModalView: View {
     
     var body: some View {
         VStack(alignment: .center, spacing: 15) {
-            ContentsModalTopView(selectedUserInfo: selectedUserInfo)
+            ContentsModalTopView(story: $story, selectedUserInfo: selectedUserInfo)
             
             StoryContentsView(story: $story)
                         
             HStack {
-                TextField("message", text: $message, prompt: Text("친구에게 메세지 보내기")
-                    .font(.caption))
-                .padding(3)
-                .padding(.leading, 10)
-                .frame(height: 30)
-                .background(.white)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(.accent, lineWidth: 1)
-                )
+                ZStack(alignment: .trailing) {
+                    TextField("message", text: $message, prompt: Text("친구에게 메세지 보내기")
+                        .font(.caption))
+                    .padding(3)
+                    .padding(.leading, 10)
+                    .frame(height: 30)
+                    .background(.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(.accent, lineWidth: 1)
+                    )
+                    
+                    if !message.isEmpty {
+                        Button {
+                            
+                        } label: {
+                            Image(systemName: "paperplane.fill")
+                        }
+                        .foregroundStyle(.accent)
+                        .padding(.trailing, 10)
+                    }
+                }
+                
                 
                 Spacer()
                 

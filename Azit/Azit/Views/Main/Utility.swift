@@ -62,4 +62,27 @@ struct Utility {
             return distance1 < distance2
         }
     }
+    
+    // MARK: - 작성 일 시간 계산
+    static func timeAgoSinceDate(_ date: Date) -> String {
+        let calendar = Calendar.current
+        let now = Date()
+        let components = calendar.dateComponents([.year, .month, .weekOfYear, .day, .hour, .minute], from: date, to: now)
+        
+        if let year = components.year, year > 0 {
+            return "\(year)년 전"
+        } else if let month = components.month, month > 0 {
+            return "\(month)달 전"
+        } else if let week = components.weekOfYear, week > 0 {
+            return "\(week)주 전"
+        } else if let day = components.day, day > 0 {
+            return "\(day)일 전"
+        } else if let hour = components.hour, hour > 0 {
+            return "\(hour)시간 전"
+        } else if let minute = components.minute, minute > 0 {
+            return "\(minute)분 전"
+        } else {
+            return "방금 전"
+        }
+    }
 }

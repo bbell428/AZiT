@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ContentsModalTopView: View {
+    @Binding var story: Story?
+    
     var selectedUserInfo: UserInfo
     
     var body: some View {
@@ -16,6 +18,10 @@ struct ContentsModalTopView: View {
             
             Text(selectedUserInfo.nickname)
                 .font(.caption)
+            
+            Text(Utility.timeAgoSinceDate(story?.date ?? Date.now))
+                .font(.caption)
+                .foregroundStyle(.gray)
             
             Spacer()
             

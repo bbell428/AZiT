@@ -27,7 +27,7 @@ struct MyContentsModalView: View {
         ZStack {
             VStack(alignment: .center, spacing: 15) {
                 if userInfo != nil {
-                    ContentsModalTopView(selectedUserInfo: userInfo!)
+                    ContentsModalTopView(story: $story, selectedUserInfo: userInfo!)
                     
                     StoryContentsView(story: $story)
                 }
@@ -36,12 +36,18 @@ struct MyContentsModalView: View {
                     Button {
                         isPresentedLikedSheet = true
                     } label: {
-                        Image(systemName: "person.2.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .foregroundStyle(.accent)
-                            .frame(width: 30)
-                            .fontWeight(.light)
+                        VStack {
+                            Image(systemName: "person.2.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .foregroundStyle(.accent)
+                                .frame(width: 30)
+                                .fontWeight(.light)
+                            
+                        Text("Likes")
+                            .font(.caption)
+                            .foregroundStyle(.gray)
+                        }
                     }
                     
                     Spacer()
@@ -54,7 +60,7 @@ struct MyContentsModalView: View {
                             .aspectRatio(contentMode: .fit)
                             .foregroundStyle(.accent)
                             .frame(width: 30)
-                            .fontWeight(.light)
+                            .fontWeight(.light)                        
                     }
                     
                     Spacer()
