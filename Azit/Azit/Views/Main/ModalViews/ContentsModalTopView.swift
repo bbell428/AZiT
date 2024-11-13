@@ -31,7 +31,7 @@ struct ContentsModalTopView: View {
                 .frame(width: 15, height: 15)
                 .foregroundStyle(.accent)
             
-            Text(story?.address)
+            Text(story?.address ?? "")
                 .font(.caption)
         }
     }
