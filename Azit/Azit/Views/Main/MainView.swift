@@ -76,15 +76,6 @@ struct MainView: View {
                 }
             }
         }
-        .onAppear {
-            Task {
-                await userInfoStore.loadUserInfo(userID: authManager.userID)
-                
-                if let userInfo = userInfoStore.userInfo {
-                    self.userInfo = userInfo
-                }
-            }
-        }
     }
     
     private func fetchAddress() {

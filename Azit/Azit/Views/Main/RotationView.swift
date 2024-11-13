@@ -56,15 +56,15 @@ struct RotationView: View {
                         
                         let interpolationRatio: CGFloat = numberOfCircles > 1 ? CGFloat(index) / CGFloat(numberOfCircles - 1) : 0
                         
-                        MainContentEmojiView(userInfo: $sortedUsers[index], 
-                                             rotation: $rotation, 
-                                             isFriendsModalPresented: $isFriendsModalPresented, 
-                                             selectedIndex: $selectedIndex, 
-                                             index: index, 
-                                             startEllipse: startEllipse,
-                                             endEllipse: endEllipse, 
-                                             interpolationRatio: interpolationRatio, 
-                                             randomAngleOffset: randomAngleOffset)
+                        FriendsContentEmojiView(userInfo: $sortedUsers[index],
+                                                rotation: $rotation,
+                                                isFriendsModalPresented: $isFriendsModalPresented,
+                                                selectedIndex: $selectedIndex,
+                                                randomAngleOffset: randomAngleOffset,
+                                                index: index,
+                                                startEllipse: startEllipse,
+                                                endEllipse: endEllipse,
+                                                interpolationRatio: interpolationRatio)
                     }
                 }
             }

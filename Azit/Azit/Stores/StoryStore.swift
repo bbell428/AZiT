@@ -40,40 +40,6 @@ class StoryStore: ObservableObject {
         }
     }
     
-    // MARK: - User ID들로 게시물들 받아오기
-    @MainActor
-    func loadStorysByIds(ids: [String]) async throws -> [Story] {
-        let db = Firestore.firestore()
-        
-        do {
-            let querySnapshot = try await db.collection("Story")
-                .whereField("userId", in: ids).getDocuments()
-            
-            var stories: [Story] = []
-            
-            for document in querySnapshot.documents {
-                do {
-                    let story = try await Story(document: document)
-                    
-                    stories.append(story)
-                    
-                } catch {
-                    print("loadStories error: \(error.localizedDescription)")
-                    
-                    return []
-                }
-            }
-            
-            self.stories = stories.sorted { $0.date > $1.date }
-        } catch {
-            print("loadStories error: \(error.localizedDescription)")
-            
-            return []
-        }
-        
-        return stories
-    }
-    
     // MARK: - User ID로 최근 게시물 받아오기
     @MainActor
     func loadRecentStoryById(id: String) async throws -> Story {
