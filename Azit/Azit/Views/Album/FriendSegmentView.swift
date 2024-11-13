@@ -12,7 +12,7 @@ struct UnderlineModifier: ViewModifier {
                     .fill(.accent)
                     .frame(width: frames[selectedIndex].width, height: 3)
                     .cornerRadius(12)
-                    .offset(x: frames[selectedIndex].minX - frames[0].minX), alignment: .bottomLeading
+                    .offset(x: (frames[selectedIndex].minX+20) - frames[0].minX), alignment: .bottomLeading
             )
             .animation(.default)
     }
@@ -116,6 +116,10 @@ private struct SegmentedControlButtonView: View {
     
     var body: some View {
         HStack(spacing: 0) {
+            Rectangle()
+                .frame(width: 20, height: 1)
+                .foregroundStyle(Color.white)
+            
             ForEach(titles.indices, id: \.self) { index in
                 Button {
                     selectedIndex = index

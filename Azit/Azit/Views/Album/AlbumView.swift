@@ -80,7 +80,7 @@ struct AlbumView: View {
                         ZStack(alignment: .bottomLeading) {
                             FriendSegmentView(selectedIndex: $selectedIndex, titles: userInfoStore.friendInfos)
                                 .animation(.easeInOut(duration: 0.3), value: isShowHorizontalScroll)
-                                .padding(.leading, 20)
+                                //.padding(.leading, 20)
                             //.background(Color.white)
                                 .zIndex(3)
                             
@@ -185,7 +185,7 @@ struct AlbumView: View {
     
     func getTimeGroupedStories() -> [(title: String, stories: [Story])] {
         let timeGroups: [(String, (Story) -> Bool)] = [
-            ("오늘", { $0.isWithin(hours: 24) }),  // 오늘: 24시간 이내
+            ("최근", { $0.isWithin(hours: 24) }),  // 오늘: 24시간 이내
             ("1일 전", { $0.isWithin(hours: 48) && !$0.isWithin(hours: 24) }),  // 1일 전: 24~48시간 이내
             ("2일 전", { $0.isWithin(hours: 72) && !$0.isWithin(hours: 48) }),  // 2일 전: 48~72시간 이내
             ("3일 전", { $0.isWithin(hours: 96) && !$0.isWithin(hours: 72) }),  // 3일 전: 72~96시간 이내
