@@ -23,9 +23,10 @@ struct MessageView: View {
                             dismiss()
                         } label: {
                             Image(systemName: "chevron.left")
+                                .font(.system(size: 25))
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.leading, 30) // 우측 여백 추가
                         }
+                        .padding(.horizontal, 30)
 
                         // 가운데 텍스트 영역
                         Text("Messages")

@@ -8,6 +8,17 @@
 import SwiftUI
 import UIKit
 
+extension Story {
+    func isWithin(hours: Int) -> Bool {
+        let now = Date()
+        let calendar = Calendar.current
+        
+        // 게시물 생성 시간이 현재 시간과 얼마나 차이가 나는지 계산
+        let diffInHours = calendar.dateComponents([.hour], from: self.date, to: now).hour ?? 0
+        return diffInHours < hours
+    }
+}
+
 struct ScrollPreferenceKey: PreferenceKey {
     static var defaultValue: CGFloat = .zero
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
@@ -16,21 +27,22 @@ struct ScrollPreferenceKey: PreferenceKey {
 }
 
 struct AlbumView: View {
+    @EnvironmentObject var albumstore: AlbumStore
     @EnvironmentObject var userInfoStore: UserInfoStore
-    @State private var showHorizontalScroll = true
-    @State private var offsetY: CGFloat = .zero
-    @State private var lastOffsetY: CGFloat = .zero // 마지막 스크롤 위치 저장
     @Environment(\.dismiss) var dismiss
+    @State private var offsetY: CGFloat = .zero
+    @State private var lastOffsetY: CGFloat = .zero
     @State private var items = Array(0..<10)
-    @State private var isLoading = false
-    
+    @State private var isShowHorizontalScroll = true
     @State var selectedIndex: Int = 0
+    @State private var isLoading = false
     @State var isOpenCalendar: Bool = false
+    @State private var selectedDate: Date = Date()
     
     var body: some View {
         NavigationStack {
             VStack {
-                ZStack(alignment: .topLeading) {
+                ZStack(alignment: .top) {
                     HStack {
                         Button {
                             dismiss()
@@ -39,12 +51,11 @@ struct AlbumView: View {
                                 .font(.system(size: 25))
                                 .frame(maxWidth: .infinity, alignment: .leading)
                         }
-                        .padding(.horizontal, 30)
+                        .padding(.horizontal, 20)
                         
                         Color.clear
                             .frame(maxWidth: .infinity)
                         
-                        // 가운데 텍스트 영역
                         Text("Album")
                             .font(.title3)
                             .fontWeight(.bold)
@@ -54,29 +65,42 @@ struct AlbumView: View {
                             .frame(maxWidth: .infinity)
                         
                         Button {
-                            isOpenCalendar = true
+                            
                         } label: {
                             Image(systemName: "calendar")
                                 .font(.system(size: 25))
                         }
-                        .padding(.horizontal, 30)
+                        .padding(.horizontal, 20)
                         
                     }
-                    .zIndex(3)
+                    .zIndex(4)
                     .frame(height: 70)
                     .background(Color.white)
                     
-                    if showHorizontalScroll {
-                        FriendSegmentView(selectedIndex: $selectedIndex, titles: userInfoStore.friendInfos)
+                    if isShowHorizontalScroll {
+                        ZStack(alignment: .bottomLeading) {
+                            FriendSegmentView(selectedIndex: $selectedIndex, titles: userInfoStore.friendInfos)
+                                .animation(.easeInOut(duration: 0.3), value: isShowHorizontalScroll)
+                            //.padding(.leading, 20)
+                            //.background(Color.white)
+                                .zIndex(3)
+                            
+                            VStack {
+                                Rectangle()
+                                    .fill(.subColor2)
+                                    .frame(height: 1, alignment: .bottomLeading)
+                                    .padding(.bottom, 1)
+                            }
                             .zIndex(2)
-                            .transition(.move(edge: .top).combined(with: .opacity)) // 애니메이션 효과
-                            .animation(.easeInOut(duration: 0.3), value: showHorizontalScroll)
-                            .padding(.top, 60)
-                            .background(Color.white)
+                        }
+                        .background(Color.white)
+                        .padding(.top, 70)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                        .zIndex(3)
                     }
                     
-                    ScrollView {
-                        VStack(alignment: .leading) {
+                    if albumstore.storys.contains(where: { $0.userId == albumstore.filterUserID }) {
+                        ScrollView {
                             Rectangle()
                                 .frame(height: 160)
                                 .foregroundStyle(Color.white)
@@ -85,12 +109,11 @@ struct AlbumView: View {
                                 let offsetY = proxy.frame(in: .global).origin.y
                                 
                                 DispatchQueue.main.async {
-                                    // 현재 스크롤 위치와 마지막 위치의 차이가 50 이상일 때만 showHorizontalScroll을 업데이트
                                     if abs(offsetY - lastOffsetY) > 120 && lastOffsetY < 400 {
                                         withAnimation {
-                                            showHorizontalScroll = offsetY > lastOffsetY
+                                            isShowHorizontalScroll = offsetY > lastOffsetY
                                         }
-                                        lastOffsetY = offsetY // 마지막 위치 업데이트
+                                        lastOffsetY = offsetY
                                     }
                                 }
                                 
@@ -102,56 +125,49 @@ struct AlbumView: View {
                             }
                             .frame(height: 0)
                             
-                            Text("1시간 전")
-                                .font(.caption2)
-                                .fontWeight(.bold)
-                                .foregroundStyle(Color.gray)
-                            
-                            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3)) {
-                                ForEach(0..<1) { _ in
-                                    VStack(alignment: .leading) {
-                                        Image("Album")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .cornerRadius(15)
-                                            .frame(width: 120, height: 180)
+                            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), alignment: .leading, spacing: 5) {
+                                ForEach(getTimeGroupedStories(), id: \.title) { group in
+                                    Section(header: HStack {
+                                        Text(group.title)
+                                            .font(.caption2)
+                                            .fontWeight(.bold)
+                                            .foregroundStyle(Color.gray)
+                                        Spacer()
                                     }
-                                }
-                            }
-                        }
-                        .padding(16)
-                        
-                        VStack(alignment: .leading) {
-                            Text("2시간 전")
-                                .font(.caption2)
-                                .fontWeight(.bold)
-                                .foregroundStyle(Color.gray)
-                            
-                            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3)) {
-                                ForEach(items.indices, id: \.self) { index in
-                                    VStack(alignment: .leading) {
-                                        Image("Album")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .cornerRadius(15)
-                                            .frame(width: 120, height: 180)
-                                    }
-                                    .onAppear {
-                                        if index == items.count - 1 {
-                                            Task {
-                                                loadMoreItems()
-                                            }
+                                        .padding(.top, 20)
+                                    ) {
+                                        ForEach(group.stories) { story in
+                                            StoryView(story: story)
                                         }
                                     }
                                 }
                             }
                         }
-                        .padding(16)
+                        .padding(.horizontal, 20)
+                        .onPreferenceChange(ScrollPreferenceKey.self, perform: { value in
+                            self.offsetY = value
+                        })
+                        .zIndex(1)
+                    } else {
+                        VStack(alignment: .center) {
+                            Spacer()  // 위쪽 Spacer
+                            Image(systemName: "doc.text.fill")
+                                .font(.system(size: 30))
+                                .foregroundStyle(Color.gray)
+                                .padding(.bottom, 10)
+                            Text("현재 올라온 게시물이 없습니다.")
+                                .font(.subheadline)
+                                .fontWeight(.bold)
+                                .foregroundStyle(Color.gray)
+                            Spacer()  // 아래쪽 Spacer
+                        }
+                        .frame(maxHeight: .infinity)  // 화면 중앙에 오도록 설정
                     }
-                    .onPreferenceChange(ScrollPreferenceKey.self, perform: { value in
-                        self.offsetY = value
-                    })
-                    .zIndex(1)
+                }
+            }
+            .onAppear {
+                Task {
+                    await albumstore.loadStorysByIds(ids: userInfoStore.userInfo?.friends ?? [])
                 }
             }
             .navigationBarBackButtonHidden(true)
@@ -164,6 +180,47 @@ struct AlbumView: View {
             let newItems = Array(items.count..<(items.count + 10))
             items.append(contentsOf: newItems)
             isLoading = false
+        }
+    }
+    
+    
+    func getTimeGroupedStories() -> [(title: String, stories: [Story])] {
+        let timeGroups: [(String, (Story) -> Bool)] = [
+            ("최근", { $0.isWithin(hours: 24) }),  // 오늘: 24시간 이내
+            ("1일 전", { $0.isWithin(hours: 48) && !$0.isWithin(hours: 24) }),  // 1일 전: 24~48시간 이내
+            ("2일 전", { $0.isWithin(hours: 72) && !$0.isWithin(hours: 48) }),  // 2일 전: 48~72시간 이내
+            ("3일 전", { $0.isWithin(hours: 96) && !$0.isWithin(hours: 72) }),  // 3일 전: 72~96시간 이내
+            ("4일 전", { $0.isWithin(hours: 120) && !$0.isWithin(hours: 96) }),  // 4일 전: 96~120시간 이내
+            ("5일 전", { $0.isWithin(hours: 144) && !$0.isWithin(hours: 120) }),  // 5일 전: 120~144시간 이내
+            ("6일 전", { $0.isWithin(hours: 168) && !$0.isWithin(hours: 144) }),  // 6일 전: 144~168시간 이내
+            ("1주일 전", { $0.isWithin(hours: 336) && !$0.isWithin(hours: 168) }),  // 1주일 전: 168~336시간 이내
+            ("2주일 전", { $0.isWithin(hours: 672) && !$0.isWithin(hours: 336) }),  // 2주일 전: 336~672시간 이내
+            ("3주일 전", { $0.isWithin(hours: 1008) && !$0.isWithin(hours: 672) }),  // 3주일 전: 672~1008시간 이내
+            ("4주일 전", { $0.isWithin(hours: 1344) && !$0.isWithin(hours: 1008) }),  // 4주일 전: 1008~1344시간 이내
+            ("그 외", { !$0.isWithin(hours: 1344) })  // 4주 이상: 1344시간 이상
+        ]
+        
+        return timeGroups.compactMap { group in
+            let filteredStories = albumstore.storys.filter { story in
+                return story.userId == albumstore.filterUserID && group.1(story)
+            }
+            
+            return filteredStories.isEmpty ? nil : (group.0, filteredStories)
+        }
+    }
+}
+
+struct StoryView: View {
+    let story: Story
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            Image("Album")
+                .resizable()
+            //.aspectRatio(contentMode: .fill)
+                .cornerRadius(15)
+                .frame(maxWidth: 120, maxHeight: 160)
+            //Text(story.content)
         }
     }
 }

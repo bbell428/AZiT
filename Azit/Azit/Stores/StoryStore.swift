@@ -13,7 +13,6 @@ import SwiftUICore
 import FirebaseStorage
 
 class StoryStore: ObservableObject {
-    @Published var stories: [Story] = []
     @Published var createdStory: Story?
     
     // MARK: - 게시물 추가

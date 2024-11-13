@@ -20,7 +20,7 @@ struct EditStoryView : View {
 //    @Binding var message: String
 //    @Binding var selectedEmoji: String
     @State var publishedTargets: [String] = []
-    @Binding var isdisplayEmojiPicker: Bool
+    @Binding var isDisplayEmojiPicker: Bool
     
     @State var isShowingsheet: Bool = false
     @State var isPicture:Bool = false
@@ -29,7 +29,7 @@ struct EditStoryView : View {
     }
     
     var body : some View{
-        VStack {
+        VStack() {
             NavigationStack {
                 HStack {
                     HStack {
@@ -72,11 +72,11 @@ struct EditStoryView : View {
                         .stroke(Color.subColor1, lineWidth: 0.5)
                         .background(Color.white.clipShape(RoundedRectangle(cornerRadius: 10)))
                 )
-                .padding(.bottom)
+                .padding(.bottom, 10)
             
             // 수정 완료 버튼
             Button (action:{
-                isdisplayEmojiPicker = false
+                isDisplayEmojiPicker = false
             }) {
                 RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
                     .stroke(Color.accentColor, lineWidth: 0.5)
@@ -84,12 +84,12 @@ struct EditStoryView : View {
                         .fill(Color.white))
                     .frame(width: 340, height: 40)
                     .overlay(Text("수정 완료")
-                        .padding()
+                        .padding(.bottom, 10)
                         .foregroundColor(Color.accentColor)
                     )
             }
         }
-        .frame(width: 365, height: 550) // 팝업창 크기
+        .frame(width: 365, height: 480) // 팝업창 크기
         .background(
             RoundedRectangle(cornerRadius: 15)
                 .fill(Color.subColor4)

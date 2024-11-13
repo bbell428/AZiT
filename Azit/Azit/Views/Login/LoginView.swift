@@ -6,10 +6,15 @@
 //
 
 import SwiftUI
+import CryptoKit
+import AuthenticationServices
+import FirebaseAuth
 
 struct LoginView: View {
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject private var userInfoStore: UserInfoStore
+    @StateObject private var authApple = AuthApple()
+    
     @Environment(\.dismiss) var dismiss
     @FocusState private var focus: FocusableField?
     
@@ -137,15 +142,13 @@ struct LoginView: View {
                         SignInButton(imageName: "GoogleLogo", backColor: .white) {
                             signInWithGoogle()
                         }
-                        SignInButton(imageName: "AppleLogo", backColor: .black) {
-                            // Apple 로그인 액션
-                        }
+                        AppleSignInButton(imageName: "AppleLogo", backColor: .black)
                     }
                 }
-                .contentShape(Rectangle())  // 빈 영역 터치 가능
-                .onTapGesture {             // 빈 영역 터치시 함수 호출 -> 키보드 내려감
-                    self.endTextEditing()
-                }
+//                .contentShape(Rectangle())  // 빈 영역 터치 가능
+//                .onTapGesture {             // 빈 영역 터치시 함수 호출 -> 키보드 내려감
+//                    self.endTextEditing()
+//                }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .padding(.horizontal, 20)
                 .padding(.vertical, 20)

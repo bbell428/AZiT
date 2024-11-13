@@ -31,6 +31,7 @@ struct AzitApp: App {
     @StateObject private var userInfoStore  = UserInfoStore()
     @StateObject private var chatListStore = ChatListStore()
     @StateObject private var chatDetailViewStore = ChatDetailViewStore()
+    @StateObject private var albumStore = AlbumStore()
     
     var body: some Scene {
         WindowGroup {
@@ -42,6 +43,13 @@ struct AzitApp: App {
                 .environmentObject(chatDetailViewStore)
                 .environmentObject(StoryDraft())
                 .environmentObject(LocationManager())
+                .environmentObject(albumStore)
+                .onOpenURL { url in
+                    if url.scheme == "azit", let userID = URLComponents(url: url, resolvingAgainstBaseURL: false)?.host {
+                        authManager.deepUserID = userID
+                        print("QR 코드로부터 받은 User ID:", userID)
+                    }
+                }
         }
         
     }

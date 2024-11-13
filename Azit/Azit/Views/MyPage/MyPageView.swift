@@ -93,8 +93,8 @@ struct MyPageView: View {
                         
                         Spacer()
                         
-                        Button {
-                            // 초대하기 액션
+                        NavigationLink {
+                            QRCodeView()
                         } label: {
                             Text("초대하기")
                                 .font(.caption)

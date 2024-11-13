@@ -9,16 +9,11 @@ struct UnderlineModifier: ViewModifier {
         content
             .background(
                 Rectangle()
-                    .fill(Color.red)
+                    .fill(.accent)
                     .frame(width: frames[selectedIndex].width, height: 3)
                     .cornerRadius(12)
-                    .offset(x: frames[selectedIndex].minX - frames[0].minX), alignment: .bottomLeading
+                    .offset(x: (frames[selectedIndex].minX+20) - frames[0].minX), alignment: .bottomLeading
             )
-        //            .background(
-        //                Rectangle()
-        //                    .fill(Color.gray)
-        //                    .frame(height: 1), alignment: .bottomLeading
-        //            )
             .animation(.default)
     }
 }
@@ -52,8 +47,15 @@ struct FriendSegmentView: View {
     var body: some View {
         VStack {
             if isScrollable {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    SegmentedControlButtonView(selectedIndex: $selectedIndex, frames: $frames, backgroundFrame: $backgroundFrame, isScrollable: $isScrollable, checkIsScrollable: checkIsScrollable, titles: titles)
+                ScrollViewReader { proxy in
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        SegmentedControlButtonView(selectedIndex: $selectedIndex, frames: $frames, backgroundFrame: $backgroundFrame, isScrollable: $isScrollable, checkIsScrollable: checkIsScrollable, titles: titles)
+                            .onChange(of: selectedIndex) { newIndex, _ in
+                                withAnimation() {
+                                    proxy.scrollTo(newIndex, anchor: .center)
+                                }
+                            }
+                    }
                 }
             } else {
                 SegmentedControlButtonView(selectedIndex: $selectedIndex, frames: $frames, backgroundFrame: $backgroundFrame, isScrollable: $isScrollable, checkIsScrollable: checkIsScrollable, titles: titles)
@@ -99,6 +101,7 @@ struct FriendSegmentView: View {
 }
 
 private struct SegmentedControlButtonView: View {
+    @EnvironmentObject var albumstore: AlbumStore
     @Binding private var selectedIndex: Int
     @Binding private var frames: [CGRect]
     @Binding private var backgroundFrame: CGRect
@@ -120,9 +123,14 @@ private struct SegmentedControlButtonView: View {
     
     var body: some View {
         HStack(spacing: 0) {
+            Rectangle()
+                .frame(width: 20, height: 1)
+                .foregroundStyle(Color.white)
+            
             ForEach(titles.indices, id: \.self) { index in
                 Button {
                     selectedIndex = index
+                    albumstore.filterUserID = titles[index].id
                     print("\(titles[index].nickname)의 id : \(titles[index].id)")
                 } label: {
                     VStack(alignment: .center) {
@@ -141,6 +149,7 @@ private struct SegmentedControlButtonView: View {
                                 .font(.caption2)
                                 .foregroundStyle(selectedIndex == index ? .black : .gray)
                         }
+                        .padding(.bottom, 5)
                     }
                 }
                 .buttonStyle(CustomSegmentButtonStyle())
@@ -170,7 +179,7 @@ private struct CustomSegmentButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration
             .label
-            .padding(EdgeInsets(top: 14, leading: 10, bottom: 14, trailing: 10))
+            .padding(5)
             .background(configuration.isPressed ? Color(red: 0.808, green: 0.831, blue: 0.855, opacity: 0.5): Color.clear)
     }
 }
