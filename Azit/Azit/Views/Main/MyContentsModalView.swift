@@ -9,97 +9,110 @@ import SwiftUI
 
 struct MyContentsModalView: View {
     let screenBounds = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds
+    
+    @EnvironmentObject var authManager: AuthManager
+    @EnvironmentObject var userInfoStore: UserInfoStore
+    @EnvironmentObject var storyStore: StoryStore
+    
+    @Binding var isDisplayEmojiPicker: Bool
+    
     @State var story: Story?
-    @StateObject var storyStore: StoryStore = StoryStore()
-    @Binding var isMyModalPresented: Bool
+    @State var friends: [UserInfo] = []
     @State private var scale: CGFloat = 0.1
-    var selectedUserInfo: UserInfo
+    @State private var userInfo: UserInfo? = nil
+    @State private var isPresentedLikedSheet: Bool = false
+    
     
     var body: some View {
-        VStack(alignment: .center, spacing: 15) {
-            HStack(spacing: 5) {
-                Text(selectedUserInfo.previousState)
+        ZStack {
+            VStack(alignment: .center, spacing: 15) {
+                if userInfo != nil {
+                    ContentsModalTopView(story: $story, selectedUserInfo: userInfo!)
+                    
+                    StoryContentsView(story: $story)
+                }
                 
-                Text(selectedUserInfo.nickname)
-                    .font(.caption)
-                
-                Spacer()
-                
-                Image(systemName: "location")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 15, height: 15)
-                    .foregroundStyle(.accent)
-                
-                Text("경상북도 경산시")
-                    .font(.caption)
-            }
-            
-            if story?.image ?? "" != "" {
-                HStack() {
-                    Text(story?.content ?? "")
+                HStack {
+                    Button {
+                        isPresentedLikedSheet = true
+                    } label: {
+                        VStack {
+                            Image(systemName: "person.2.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .foregroundStyle(.accent)
+                                .frame(width: 30)
+                                .fontWeight(.light)
+                            
+                        Text("Likes")
+                            .font(.caption)
+                            .foregroundStyle(.gray)
+                        }
+                    }
                     
                     Spacer()
-                }
-                
-                Image("asdf")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                    .onTapGesture { }
-            } else {
-                if story?.emoji ?? "" != "" {
-                    if story?.content ?? "" != "" {
-                        HStack() {
-                            SpeechBubbleView(text: story?.content ?? "")
-                        }
-                        .padding(.bottom, -10)
+                    
+                    Button {
+                        isDisplayEmojiPicker = true
+                    } label: {
+                        Image(systemName: "plus.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundStyle(.accent)
+                            .frame(width: 30)
+                            .fontWeight(.light)                        
                     }
                     
-                    Text(story?.emoji ?? "")
-                        .font(.system(size: 100))
-                } else {
-                    if story?.content ?? "" != "" {
-                        HStack() {
-                            Text(story?.content ?? "")
-                            Spacer()
-                        }
-                    }
-                }
-            }
-            
-            HStack {
-                Button(action: {
-                    // isPresentedLikedSheet
-                }) {
-                    Image(systemName: "heart.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .foregroundStyle(.accent)
+                    Spacer()
+                    Spacer()
                         .frame(width: 30)
-                        .fontWeight(.light)
                 }
             }
-        }
-        .padding()
-        .background(.subColor4)
-        .cornerRadius(8)
-        .scaleEffect(scale)
-        .onAppear {
-            Task {
-                try await story = storyStore.loadRecentStoryById(id: selectedUserInfo.id)
+            .padding()
+            .background(.subColor4)
+            .cornerRadius(8)
+            .scaleEffect(scale)
+            .onAppear {
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    scale = 1.0
+                }
             }
-            withAnimation(.easeInOut(duration: 0.3)) {
-                scale = 1.0
+            .onDisappear {
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    scale = 0.1
+                }
+            }
+            .frame(width: (screenBounds?.width ?? 0) - 32)
+            .sheet(isPresented: $isPresentedLikedSheet) {
+                LikesSheetView(friends: $friends)
             }
             
-        }
-        .onDisappear {
-            withAnimation(.easeInOut(duration: 0.3)) {
-                scale = 0.1
+            // + 버튼 클릭했을 시
+            if isDisplayEmojiPicker {
+                Color.black.opacity(0.4)
+                    .edgesIgnoringSafeArea(.all)
+                    .onTapGesture {
+                        isDisplayEmojiPicker = false
+                    }
+                    .zIndex(2)
+                EmojiView(isDisplayEmojiPicker: $isDisplayEmojiPicker)
+                    .zIndex(3)
             }
         }
-        .frame(width: (screenBounds?.width ?? 0) - 32)
+        .onAppear {
+            // 친구들 이름 목록 배열화
+            Task {
+                // 사용자 본인의 정보 받아오기
+                await userInfoStore.loadUserInfo(userID: authManager.userID)
+                // 사용자 본인의 정보 변수에 저장
+                userInfo = userInfoStore.userInfo
+                // 사용자 본인의 story
+                story = try await storyStore.loadRecentStoryById(id: userInfoStore.userInfo?.id ?? "")
+                // 친구 ID 가져오기
+                let friendIDs: [String] = story?.likes ?? []
+                // 친구 ID로 UserInfo 불러오기
+                friends = try await userInfoStore.loadUsersInfoByEmail(userID: friendIDs)
+            }
+        }
     }
 }
-

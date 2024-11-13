@@ -12,15 +12,17 @@ struct MapView: View {
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var storyStore: StoryStore
+    
+    @Binding var isMyModalPresented: Bool
+    @Binding var isFriendsModalPresented: Bool
+    @Binding var isDisplayEmojiPicker: Bool
+    @Binding var isPassed24Hours: Bool
+    
     @State private var region = MKCoordinateRegion()
     @State var users: [UserInfo] = []
     @State var selectedEmoji: Emoji?
     @State private var selectedIndex: Int = 0
     @State private var message: String = ""
-    @Binding var isMyModalPresented: Bool
-    @Binding var isFriendsModalPresented: Bool
-    @Binding var isDisplayEmojiPicker: Bool
-    @Binding var isPassed24Hours: Bool
     
     var body: some View {
         ZStack {
@@ -37,11 +39,14 @@ struct MapView: View {
                             ZStack {
                                 MyContentEmojiView(isPassed24Hours: $isPassed24Hours, previousState: userInfoStore.userInfo?.previousState ?? "")
                                     .zIndex(3)
-                            }
-                            
+                            }                            
                         }
                     } else {
-                        MapContentEmojiView(user: $user, region: region, isFriendsModalPresented: $isFriendsModalPresented, selectedIndex: $selectedIndex, index: users.firstIndex(where: { $0.id == user.id }) ?? 0)
+                        MapContentEmojiView(user: $user,
+                                            isFriendsModalPresented: $isFriendsModalPresented,
+                                            selectedIndex: $selectedIndex,
+                                            region: region,
+                                            index: users.firstIndex(where: { $0.id == user.id }) ?? 0)
                             .onTapGesture {
                                 if let index = users.firstIndex(where: { $0.id == user.id }) {
                                     selectedIndex = index
@@ -52,60 +57,48 @@ struct MapView: View {
                 }
             }
             
-            if isFriendsModalPresented {
-                Color.black.opacity(0.2)
-                    .ignoresSafeArea()
-                    .onTapGesture {
-                        isFriendsModalPresented = false
-                    }
-                    .zIndex(2)
-                
-                if !users.isEmpty {
-                    FriendsContentsModalView(isModalPresented: $isFriendsModalPresented, message: $message, selectedUserInfo: $users[selectedIndex])
-                        .zIndex(3)
-                }
-            }
-            
-            if isPassed24Hours {
-                if isDisplayEmojiPicker {
-                    Color.black.opacity(0.4)
-                        .edgesIgnoringSafeArea(.all)
-                        .onTapGesture {
-                            isDisplayEmojiPicker = false
-                        }
-                        .zIndex(2)
-                    EmojiView(isDisplayEmojiPicker: $isDisplayEmojiPicker)
-                        .zIndex(3)
-                }
-            } else {
-                if isMyModalPresented {
-                    Color.black.opacity(0.4)
-                        .edgesIgnoringSafeArea(.all)
-                        .onTapGesture {
-                            isMyModalPresented = false
-                        }
-                        .zIndex(2)
-                    MyContentsModalView(isMyModalPresented: $isMyModalPresented, selectedUserInfo: userInfoStore.userInfo!)
-                        .zIndex(3)
-                }
-            }
+            // Modal 분기
+            ModalIdentificationView(isMyModalPresented: $isMyModalPresented,
+                                    isFriendsModalPresented: $isFriendsModalPresented,
+                                    isDisplayEmojiPicker: $isDisplayEmojiPicker,
+                                    isPassed24Hours: $isPassed24Hours,
+                                    users: $users,
+                                    message: $message,
+                                    selectedIndex: $selectedIndex)
         }
         .ignoresSafeArea()
         .onAppear {
             Task {
                 if users.isEmpty {
+                    // 사용자 본인의 정보 받아오기
                     await userInfoStore.loadUserInfo(userID: authManager.userID)
+                    // 사용자 본인의 친구 받아오기
                     userInfoStore.loadFriendsInfo(friendsIDs: userInfoStore.userInfo?.friends ?? [])
-                    
+                    // 사용자 본인의 정보 users 배열에 넣기, 본인의 위칙를 기반으로 Circle을 표시하기 위함
                     if let user = userInfoStore.userInfo {
                         users.append(user)
                     }
                     
-                    users += try await userInfoStore.loadUsersInfoByEmail(userID: userInfoStore.userInfo?.friends ?? [])
+                    var tempUsers: [UserInfo] = []
+                    // 스토리가 있는 친구들 분류
+                    for friend in userInfoStore.userInfo?.friends ?? [] {
+                        do {
+                            let tempStory = try await storyStore.loadRecentStoryById(id: friend)
+                            
+                            if tempStory.id != "" && (tempStory.publishedTargets.contains(userInfoStore.userInfo?.id ?? "") || tempStory.publishedTargets.isEmpty) {
+                                try await tempUsers.append(userInfoStore.loadUsersInfoByEmail(userID: [friend])[0])
+                            }
+                        } catch { }
+                    }
                     
+                    // 친구들을 users 배열에 추가
+                    users += tempUsers
+                    
+                    // 사용자 본인의 위도, 경도 값을 변수에 저장
                     let userLat = userInfoStore.userInfo?.latitude ?? 0
                     let userLng = userInfoStore.userInfo?.longitude ?? 0
                     
+                    // Map에서의 기본 위치와 확대, 축소 수준 설정
                     region = MKCoordinateRegion(
                         center: CLLocationCoordinate2D(
                             latitude: userLat,
@@ -113,64 +106,11 @@ struct MapView: View {
                         ),
                         span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
                     )
-                    
+                    // 사용자 본인의 story
                     let story = try await storyStore.loadRecentStoryById(id: userInfoStore.userInfo?.id ?? "")
-                    
+                    // 24시간이 지났는 지 판별
                     isPassed24Hours = Utility.hasPassed24Hours(from: story.date)
                 }
-            }
-        }
-    }
-}
-
-struct MapContentEmojiView: View {
-    @EnvironmentObject var storyStore: StoryStore
-    @Binding var user: UserInfo
-    var region: MKCoordinateRegion
-    @Binding var isFriendsModalPresented: Bool
-    @Binding var selectedIndex: Int
-    @State var isPassed24Hours: Bool = false
-    var index: Int
-    
-    var body: some View {
-        VStack {
-            Text(user.nickname)
-                .font(.caption)
-                .foregroundStyle(.black)
-                .padding(.top, max(-40, min(-20, -40 * (1.0 / (region.span.latitudeDelta * 12.5)))))
-            
-            Button {
-                isFriendsModalPresented = true
-                selectedIndex = index
-            } label: {
-                ZStack {
-                    Circle()
-                        .fill(RadialGradient(gradient: Gradient(colors: [Color.black.opacity(0.4), Color.black.opacity(0)]),
-                                             center: .center,
-                                             startRadius: 0,
-                                             endRadius: 20))
-                    
-                    Circle()
-                        .fill(.white.opacity(0.7))
-                        .overlay(
-                            ZStack {
-                                Circle()
-                                    .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createCircleGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 3)
-                                Text(user.previousState)
-                                    .font(.system(size: 45))
-                            }
-                        )
-                        .offset(x: 0, y: -30)
-                        .frame(width: 60, height: 60)
-                }
-            }
-            .scaleEffect(max(0.5, min(1.0, 1.0 / (region.span.latitudeDelta * 12.5))))
-        }
-        .onAppear {
-            Task {
-                let story = try await storyStore.loadRecentStoryById(id: user.id)
-                
-                isPassed24Hours = Utility.hasPassed24Hours(from: story.date)
             }
         }
     }

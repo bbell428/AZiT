@@ -9,30 +9,30 @@ import SwiftUI
 import EmojiPicker
 
 struct RotationView: View {
-    @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var authManager: AuthManager
+    @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var storyStore: StoryStore
     
-    @State private var selectedIndex: Int = 0
-    @State private var message: String = ""
-    @State private var scale: CGFloat = 1.0
-    @State private var previousScale: CGFloat = 1.0
-    @State private var numberOfCircles: Int = 0
+    @Binding var isMyModalPresented: Bool // 사용자 자신의 모달 컨트롤
+    @Binding var isFriendsModalPresented: Bool // 친구의 모달 컨트롤
+    @Binding var isDisplayEmojiPicker: Bool  // 사용자 자신의 게시글 작성 모달 컨트롤
+    @Binding var isPassed24Hours: Bool // 사용자 자신의 게시글 작성 후 24시간에 대한 판별 여부
+    
     @State private var rotation: Double = 270.0
-    @State var sortedUsers: [UserInfo] = []
+    @State private var sortedUsers: [UserInfo] = [] // 거리 순 친구 정렬
+    @State private var selectedIndex: Int = 0 // 선택 된 친구 스토리
+    @State private var message: String = "" // 친구에게 보낼 메세지
+    @State private var scale: CGFloat = 1.0 // 확대, 축소를 위한 스케일
+    @State private var previousScale: CGFloat = 1.0 // 이전 스케일을 보존
+    @State private var friendsStories: [Story] = [] // 친구들의 story
+    @State private var numberOfCircles: Int = 0 // 친구 story 개수
     @State private var isShowAlert = false // QR로 앱 -> 알림 띄움 (친구추가)
     @State private var isShowYes = false // QR로 인해 친구추가 알림에서 Yes를 누를 경우
-    
-    @State var selectedEmoji: Emoji?
-    
-    @Binding var isMyModalPresented: Bool
-    @Binding var isFriendsModalPresented: Bool
-    @Binding var isDisplayEmojiPicker: Bool
-    @Binding var isPassed24Hours: Bool
-    
+  
     var body: some View {
         ZStack {
             ZStack {
+                // 사용자 본인의 Circle Button
                 Button {
                     if isPassed24Hours {
                         isDisplayEmojiPicker = true
@@ -44,19 +44,10 @@ struct RotationView: View {
                 }
                 .zIndex(1)
                 .offset(y: 250)
+                // 타원 생성
+                EllipsesView()
                 
-                ForEach(0..<4, id: \.self) { index in
-                    Ellipse()
-                        .fill(Utility.createGradient(index: index, width: CGFloat(1260 - index * 293), height: CGFloat(1008 - CGFloat(index * 234))))
-                        .frame(width: CGFloat(1260 - index * 293), height: CGFloat(1008 - CGFloat(index * 234)))
-                        .overlay(
-                            Ellipse()
-                                .stroke(Color(UIColor.systemGray3), lineWidth: 1)
-                        )
-                        .offset(y: 250)
-                        .zIndex(0)
-                }
-                
+                // 친구들의 스토리 Circle
                 if numberOfCircles > 0 {
                     ForEach(0..<numberOfCircles, id: \.self) { index in
                         let startEllipse = Constants.ellipses[3]
@@ -65,16 +56,27 @@ struct RotationView: View {
                         
                         let interpolationRatio: CGFloat = numberOfCircles > 1 ? CGFloat(index) / CGFloat(numberOfCircles - 1) : 0
                         
-                        MainContentEmojiView(userInfo: $sortedUsers[index], rotation: $rotation, isFriendsModalPresented: $isFriendsModalPresented, selectedIndex: $selectedIndex, index: index, startEllipse: startEllipse, endEllipse: endEllipse, interpolationRatio: interpolationRatio, randomAngleOffset: randomAngleOffset)
+                        MainContentEmojiView(userInfo: $sortedUsers[index], 
+                                             rotation: $rotation, 
+                                             isFriendsModalPresented: $isFriendsModalPresented, 
+                                             selectedIndex: $selectedIndex, 
+                                             index: index, 
+                                             startEllipse: startEllipse,
+                                             endEllipse: endEllipse, 
+                                             interpolationRatio: interpolationRatio, 
+                                             randomAngleOffset: randomAngleOffset)
                     }
                 }
             }
+            // 타원 위의 Circle들 각도 설정
             .gesture(
                 DragGesture()
                     .onChanged { value in
-                        rotation += Double(value.translation.width) * 0.01
+                        // 속도 설정 부
+                        rotation += Double(value.translation.width) * 0.02
                     }
             )
+            // 뷰의 크기 확대, 축소
             .gesture(
                 MagnificationGesture()
                     .onChanged { value in
@@ -91,56 +93,41 @@ struct RotationView: View {
             .scaleEffect(scale)
             .padding()
             
-            if isFriendsModalPresented {
-                Color.black.opacity(0.2)
-                    .ignoresSafeArea()
-                    .onTapGesture {
-                        isFriendsModalPresented = false
-                    }
-                    .zIndex(2)
-                
-                FriendsContentsModalView(isModalPresented: $isFriendsModalPresented, message: $message, selectedUserInfo: $sortedUsers[selectedIndex])
-                    .zIndex(3)
-            }
-            
-            if isPassed24Hours {
-                if isDisplayEmojiPicker {
-                    Color.black.opacity(0.4)
-                        .edgesIgnoringSafeArea(.all)
-                        .onTapGesture {
-                            isDisplayEmojiPicker = false
-                        }
-                        .zIndex(2)
-                    EmojiView(isDisplayEmojiPicker: $isDisplayEmojiPicker)
-                        .zIndex(3)
-                }
-            } else {
-                if isMyModalPresented {
-                    Color.black.opacity(0.4)
-                        .edgesIgnoringSafeArea(.all)
-                        .onTapGesture {
-                            isMyModalPresented = false
-                        }
-                        .zIndex(2)
-                    MyContentsModalView(isMyModalPresented: $isMyModalPresented, selectedUserInfo: userInfoStore.userInfo!)
-                        .zIndex(3)
-                }
-            }
+            // Modal 분기
+            ModalIdentificationView(isMyModalPresented: $isMyModalPresented,
+                                    isFriendsModalPresented: $isFriendsModalPresented,
+                                    isDisplayEmojiPicker: $isDisplayEmojiPicker,
+                                    isPassed24Hours: $isPassed24Hours,
+                                    users: $sortedUsers,
+                                    message: $message,
+                                    selectedIndex: $selectedIndex)
         }
         .onAppear {
             Task {
-                if !authManager.deepUserID.isEmpty {
-                    isShowAlert = true
-                }
-                
+                // 사용자 본인의 정보 받아오기
                 await userInfoStore.loadUserInfo(userID: authManager.userID)
+                // 사용자 본인의 친구 받아오기
                 userInfoStore.loadFriendsInfo(friendsIDs: userInfoStore.userInfo?.friends ?? [])
                 
-                sortedUsers = try await Utility.sortUsersByDistance(from: userInfoStore.userInfo!, users: userInfoStore.loadUsersInfoByEmail(userID: userInfoStore.userInfo?.friends ?? []))
-                numberOfCircles = userInfoStore.userInfo?.friends.count ?? 0 // 친구가 아니라 친구의 게시글이 numberOfCircle이 되어야 함
+                var tempUsers: [UserInfo] = []
+                // 스토리가 있는 친구들에서 공개가 되어있는지에 대한 분류
+                for friend in userInfoStore.userInfo?.friends ?? [] {
+                    do {
+                        let tempStory = try await storyStore.loadRecentStoryById(id: friend)
+                        
+                        if tempStory.id != "" && (tempStory.publishedTargets.contains(userInfoStore.userInfo?.id ?? "") || tempStory.publishedTargets.isEmpty) {
+                            try await tempUsers.append(userInfoStore.loadUsersInfoByEmail(userID: [friend])[0])
+                        }
+                    } catch { }
+                }
                 
+                // 사용자 본인의 친구들을 거리를 바탕으로 정렬
+                sortedUsers = Utility.sortUsersByDistance(from: userInfoStore.userInfo!, users: tempUsers)
+                // 친구들의 최근 story 개수
+                numberOfCircles = sortedUsers.count
+                // 사용자 본인의 최근 story 불러오기
                 let story = try await storyStore.loadRecentStoryById(id: userInfoStore.userInfo?.id ?? "")
-                
+                // 24시간이 지났는 지 판별
                 isPassed24Hours = Utility.hasPassed24Hours(from: story.date)
             }
         }
@@ -180,39 +167,3 @@ struct RotationView: View {
         }
     }
 }
-
-struct MyContentEmojiView: View {
-    @Binding var isPassed24Hours: Bool
-    var previousState: String = ""
-    
-    var body: some View {
-        ZStack {
-            Circle()
-                .fill(.clear)
-                .frame(width: 100, height: 100)
-                .overlay(
-                    ZStack {
-                        Circle()
-                            .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createCircleGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 3)
-                        
-                        Text(previousState)
-                            .font(.system(size: 80))
-                    }
-                )
-            if isPassed24Hours {
-                Circle()
-                    .fill(.white)
-                    .frame(width: 25, height: 25)
-                    .overlay(
-                        Text("+")
-                            .fontWeight(.black)
-                    )
-                    .offset(y: 50)
-            }
-        }
-    }
-}
-
-//#Preview {
-//    RotationView(isModalPresented: .constant(false), isdisplayEmojiPicker: .constant(false), isPassed24Hour: .constant(false))
-//}

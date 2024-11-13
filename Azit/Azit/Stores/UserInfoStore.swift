@@ -146,16 +146,7 @@ class UserInfoStore: ObservableObject {
         
         for document in querySnapshot.documents {
             let data = document.data()
-            let userInfo = UserInfo(
-                id: data["id"] as? String ?? "",
-                email: document.documentID,
-                nickname: data["nickname"] as? String ?? "",
-                profileImageName: data["profileImageName"] as? String ?? "",
-                previousState: data["previousState"] as? String ?? "",
-                friends: data["friends"] as? [String] ?? [],
-                latitude: data["latitude"] as? Double ?? 0.0,
-                longitude: data["longitude"] as? Double ?? 0.0
-            )
+            let userInfo = try await UserInfo(document: document)
             usersInfo.append(userInfo)
         }
         
@@ -222,4 +213,34 @@ class UserInfoStore: ObservableObject {
         }
     }
     
+    // MARK: - 사용자 ID 값으로 사용자 이름 불러오기
+    @MainActor
+    func getUserNameById(id: String) async throws -> String {
+        let db = Firestore.firestore()
+        
+        var user: UserInfo = UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0)
+        
+        do {
+            let querySnapshot = try await db.collection("User")
+                .whereField("id", isEqualTo: id).getDocuments()
+            
+            for document in querySnapshot.documents {
+                do {
+                    user = try await UserInfo(document: document)
+                                        
+                } catch {
+                    print("Init User after loadUser error: \(error.localizedDescription)")
+                    
+                    return ""
+                }
+            }
+            
+        } catch {
+            print("loadUser error: \(error.localizedDescription)")
+            
+            return ""
+        }
+        
+        return user.nickname
+    }
 }

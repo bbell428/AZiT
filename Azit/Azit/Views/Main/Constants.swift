@@ -8,6 +8,7 @@
 import Foundation
 
 struct Constants {
+    // MARK: - 각도 정보
     static let angles: [(Double, Double)] = [
         (0, 60),
         (-60, 0),
@@ -60,6 +61,8 @@ struct Constants {
         (1440, 1500),
         (-1500, -1440)
     ]
+    
+    // MARK: - 타원 크기
     static let ellipses: [(width: CGFloat, height: CGFloat)] = [
         (1260, 1008), (967, 774), (674, 540), (285, 225)
     ]

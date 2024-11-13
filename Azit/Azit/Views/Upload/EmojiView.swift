@@ -9,13 +9,14 @@ import SwiftUI
 //import EmojiPicker
 
 struct EmojiView : View {
-    @EnvironmentObject var storyStore: StoryStore
     @EnvironmentObject var authManager: AuthManager
-    @EnvironmentObject var storyDraft: StoryDraft
     @EnvironmentObject var userInfoStore: UserInfoStore
+    @EnvironmentObject var storyStore: StoryStore
+    @EnvironmentObject var storyDraft: StoryDraft
     @EnvironmentObject var locationManager: LocationManager
     
     @Binding var isDisplayEmojiPicker: Bool // MainView에서 전달받은 바인딩 변수
+  
     @State var publishedTargets: [String] = []
     @State var isShowingsheet: Bool = false
     @State var isPicture:Bool = false
@@ -31,8 +32,7 @@ struct EmojiView : View {
     
     var body : some View{
         VStack {
-            NavigationStack {
-                
+            NavigationStack {                
                 // 상단 바
                 HStack {
                     // 위치
