@@ -13,25 +13,27 @@ struct RotationView: View {
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var storyStore: StoryStore
     
-    @State private var rotation: Double = 270.0
-    @Binding var isMyModalPresented: Bool
-    @Binding var isFriendsModalPresented: Bool
-    @Binding var isdisplayEmojiPicker: Bool
-    @Binding var isPassed24Hours: Bool
-    @State var selectedEmoji: Emoji?
-    @State var sortedUsers: [UserInfo] = []
     @State private var selectedIndex: Int = 0
     @State private var message: String = ""
     @State private var scale: CGFloat = 1.0
     @State private var previousScale: CGFloat = 1.0
     @State private var numberOfCircles: Int = 0
-
+    @State private var rotation: Double = 270.0
+    @State var sortedUsers: [UserInfo] = []
+    
+    @State var selectedEmoji: Emoji?
+    
+    @Binding var isMyModalPresented: Bool
+    @Binding var isFriendsModalPresented: Bool
+    @Binding var isDisplayEmojiPicker: Bool
+    @Binding var isPassed24Hours: Bool
+    
     var body: some View {
         ZStack {
             ZStack {
                 Button {
                     if isPassed24Hours {
-                        isdisplayEmojiPicker = true
+                        isDisplayEmojiPicker = true
                     } else {
                         isMyModalPresented = true
                     }
@@ -40,7 +42,7 @@ struct RotationView: View {
                 }
                 .zIndex(1)
                 .offset(y: 250)
-            
+                
                 ForEach(0..<4, id: \.self) { index in
                     Ellipse()
                         .fill(Utility.createGradient(index: index, width: CGFloat(1260 - index * 293), height: CGFloat(1008 - CGFloat(index * 234))))
@@ -58,9 +60,9 @@ struct RotationView: View {
                         let startEllipse = Constants.ellipses[3]
                         let endEllipse = Constants.ellipses[0]
                         let randomAngleOffset = Double.random(in: Constants.angles[index % 6].0..<Constants.angles[index % 6].1)
-
+                        
                         let interpolationRatio: CGFloat = numberOfCircles > 1 ? CGFloat(index) / CGFloat(numberOfCircles - 1) : 0
-
+                        
                         MainContentEmojiView(userInfo: $sortedUsers[index], rotation: $rotation, isFriendsModalPresented: $isFriendsModalPresented, selectedIndex: $selectedIndex, index: index, startEllipse: startEllipse, endEllipse: endEllipse, interpolationRatio: interpolationRatio, randomAngleOffset: randomAngleOffset)
                     }
                 }
@@ -100,14 +102,14 @@ struct RotationView: View {
             }
             
             if isPassed24Hours {
-                if isdisplayEmojiPicker {
+                if isDisplayEmojiPicker {
                     Color.black.opacity(0.4)
                         .edgesIgnoringSafeArea(.all)
                         .onTapGesture {
-                            isdisplayEmojiPicker = false
+                            isDisplayEmojiPicker = false
                         }
                         .zIndex(2)
-                    EmojiView(isdisplayEmojiPicker: $isdisplayEmojiPicker)
+                    EmojiView(isDisplayEmojiPicker: $isDisplayEmojiPicker)
                         .zIndex(3)
                 }
             } else {

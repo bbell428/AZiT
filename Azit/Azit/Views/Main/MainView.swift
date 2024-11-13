@@ -20,7 +20,7 @@ struct MainView: View {
 //    @StateObject private var locationManager = LocationManager()
     @EnvironmentObject var locationManager: LocationManager
     
-    @State var isdisplayEmojiPicker: Bool = false
+    @State var isDisplayEmojiPicker: Bool = false
     //    @State private var navigateToRoot = false
     @State var selectedEmoji: String = ""
     @State private var message: String = ""
@@ -35,33 +35,33 @@ struct MainView: View {
             ZStack {
                 // 메인 화면일 때 타원 뷰
                 if isMainExposed {
-                    RotationView(isMyModalPresented: $isMyModalPresented, isFriendsModalPresented: $isFriendsModalPresented, isdisplayEmojiPicker: $isdisplayEmojiPicker, isPassed24Hours: $isPassed24Hours)
+                    RotationView(isMyModalPresented: $isMyModalPresented, isFriendsModalPresented: $isFriendsModalPresented, isDisplayEmojiPicker: $isDisplayEmojiPicker, isPassed24Hours: $isPassed24Hours)
                         .frame(width: 300, height: 300)
                         .zIndex(isMyModalPresented
                                 || isFriendsModalPresented
-                                || isdisplayEmojiPicker ? 2 : 1) // 모디파이어 따로 빼기
+                                || isDisplayEmojiPicker ? 2 : 1) // 모디파이어 따로 빼기
                     
                 // 맵 화면일 때 맵 뷰
                 } else {
-                    MapView(isMyModalPresented: $isMyModalPresented, isFriendsModalPresented: $isFriendsModalPresented, isdisplayEmojiPicker: $isdisplayEmojiPicker, isPassed24Hours: $isPassed24Hours)
+                    MapView(isMyModalPresented: $isMyModalPresented, isFriendsModalPresented: $isFriendsModalPresented, isDisplayEmojiPicker: $isDisplayEmojiPicker, isPassed24Hours: $isPassed24Hours)
                         .zIndex(isMyModalPresented
                                 || isFriendsModalPresented
-                                || isdisplayEmojiPicker ? 2 : 1)
+                                || isDisplayEmojiPicker ? 2 : 1)
                 }
                 
                 // 메인 화면의 메뉴들
                 MainTopView(isMainExposed: $isMainExposed)
                     .zIndex(1)
                 
-                if isdisplayEmojiPicker {
+                if isDisplayEmojiPicker {
                     Color.black.opacity(0.4)
                         .edgesIgnoringSafeArea(.all)
                         .onTapGesture {
-                            isdisplayEmojiPicker = false // 배경 터치 시 닫기
+                            isDisplayEmojiPicker = false // 배경 터치 시 닫기
                         }
                         .zIndex(2)
                     
-                    EmojiView(isdisplayEmojiPicker: $isdisplayEmojiPicker)
+                    EmojiView(isDisplayEmojiPicker: $isDisplayEmojiPicker)
                         .scaleEffect(scale)
                         .onAppear {
                             if let location = locationManager.currentLocation {
