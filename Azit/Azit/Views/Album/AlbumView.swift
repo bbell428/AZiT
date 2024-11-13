@@ -38,6 +38,12 @@ struct AlbumView: View {
     @State private var isLoading = false
     @State var isOpenCalendar: Bool = false
     @State private var selectedDate: Date = Date()
+    @State var isFriendsContentModalPresented: Bool = false
+    @State var message: String = ""
+    
+    @State var selectedAlbum: Story?
+    
+    @State var userInfo: UserInfo = UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0)
     
     var body: some View {
         NavigationStack {
@@ -76,6 +82,19 @@ struct AlbumView: View {
                     .zIndex(4)
                     .frame(height: 70)
                     .background(Color.white)
+                    
+                    if isFriendsContentModalPresented {
+                            Color.black.opacity(0.4)
+                                .ignoresSafeArea()
+                                .onTapGesture {
+                                    isFriendsContentModalPresented = false
+                                }
+                                .zIndex(6)
+                            
+                            FriendsContentsModalView(message: $message, selectedUserInfo: $userInfo, story: selectedAlbum)
+                                .zIndex(7)
+                                .frame(maxHeight: .infinity, alignment: .center)
+                    }
                     
                     if isShowHorizontalScroll {
                         ZStack(alignment: .bottomLeading) {
@@ -137,7 +156,19 @@ struct AlbumView: View {
                                         .padding(.top, 20)
                                     ) {
                                         ForEach(group.stories) { story in
-                                            StoryView(story: story)
+                                            VStack(alignment: .leading) {
+                                                Button {
+                                                    selectedAlbum = story
+                                                    isFriendsContentModalPresented = true
+                                                } label: {
+                                                    Image("Album")
+                                                        .resizable()
+                                                    //.aspectRatio(contentMode: .fill)
+                                                        .cornerRadius(15)
+                                                        .frame(maxWidth: 120, maxHeight: 160)
+                                                    //Text(story.content)
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -206,21 +237,6 @@ struct AlbumView: View {
             }
             
             return filteredStories.isEmpty ? nil : (group.0, filteredStories)
-        }
-    }
-}
-
-struct StoryView: View {
-    let story: Story
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            Image("Album")
-                .resizable()
-            //.aspectRatio(contentMode: .fill)
-                .cornerRadius(15)
-                .frame(maxWidth: 120, maxHeight: 160)
-            //Text(story.content)
         }
     }
 }
