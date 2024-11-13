@@ -12,14 +12,18 @@ struct EmojiView : View {
     @EnvironmentObject var storyStore: StoryStore
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var storyDraft: StoryDraft
-    @Binding var isdisplayEmojiPicker: Bool // MainView에서 전달받은 바인딩 변수
-//    @StateObject private var locationManager = LocationManager()
+    @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var locationManager: LocationManager
     
+    @Binding var isdisplayEmojiPicker: Bool // MainView에서 전달받은 바인딩 변수
     @State var publishedTargets: [String] = []
     @State var isShowingsheet: Bool = false
     @State var isPicture:Bool = false
     @State var firstNaviLinkActive = false
+    @State private var isLimitExceeded: Bool = false
+    private let characterLimit = 20
+    // FocusState 변수를 선언하여 TextEditor의 포커스 상태를 추적
+    @FocusState private var isTextEditorFocused: Bool
     
     var isShareEnabled: Bool {
         return storyDraft.emoji.isEmpty || storyDraft.content.isEmpty
@@ -28,6 +32,8 @@ struct EmojiView : View {
     var body : some View{
         VStack {
             NavigationStack {
+                
+                // 상단 바
                 HStack {
                     // 위치
                     HStack {
@@ -44,11 +50,16 @@ struct EmojiView : View {
                     }) {
                         HStack {
                             Image(systemName: "person")
-                            Text("전체 공개")
-                                .font(.caption2)
+                            if storyDraft.publishedTargets.isEmpty {
+                                Text("ALL")
+                            } else if storyDraft.publishedTargets.count == 1 {
+                                Text("\(storyDraft.publishedTargets[0])")
+                            } else {
+                                Text("\(storyDraft.publishedTargets[0]) 외 \(storyDraft.publishedTargets.count)명")
+                            }
                             Text(">")
-                                .font(.caption2)
                         }
+                        .font(.caption2)
                     }
                 }
                 .padding([.horizontal, .bottom])
@@ -69,7 +80,22 @@ struct EmojiView : View {
                         .stroke(Color.subColor1, lineWidth: 0.5)
                         .background(Color.white.clipShape(RoundedRectangle(cornerRadius: 10)))
                 )
-                .padding(.bottom)
+                .padding(.bottom, 5)
+                .onChange(of: storyDraft.content) { newValue in
+                    if newValue.count >= characterLimit {
+                        storyDraft.content = String(newValue.prefix(characterLimit))
+                        isLimitExceeded = true
+                    } else {
+                        isLimitExceeded = false
+                    }
+                }
+            
+            if isLimitExceeded {
+                Text("최대 20자까지 입력할 수 있습니다.")
+                    .font(.caption2)
+                    .foregroundColor(.red)
+//                    .padding(.vertical, 2)
+            }
             
             // 카메라 촬영 버튼
             NavigationLink(destination: TakePhotoView(firstNaviLinkActive: $firstNaviLinkActive, isMainDisplay: $isdisplayEmojiPicker), isActive: $firstNaviLinkActive) {
@@ -101,6 +127,12 @@ struct EmojiView : View {
                 }
                 resetStory()
                 isdisplayEmojiPicker = false
+                
+                // 유저의 위경도 값 저장
+                if let location = locationManager.currentLocation {
+                    userInfoStore.userInfo?.latitude = location.coordinate.latitude
+                    userInfoStore.userInfo?.longitude = location.coordinate.longitude
+                }
             }) {
                 RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
                     .stroke(Color.accentColor, lineWidth: 0.5)
@@ -128,8 +160,20 @@ struct EmojiView : View {
             PublishScopeView()
                 .presentationDetents([.medium])
         }
-        .onReceive(locationManager.$currentLocation) { _ in
-            fetchAddress()
+        .toolbar {
+            // 키보드 위에 '완료' 버튼 추가
+            ToolbarItemGroup(placement: .keyboard) {
+                HStack {
+                    Spacer() // 왼쪽 공간을 확보하여 버튼을 오른쪽으로 이동
+                    Button("완료") {
+                        isTextEditorFocused = false // 키보드 숨기기
+                    }
+                }
+            }
+        }
+        .contentShape(Rectangle()) // 전체 뷰가 터치 가능하도록 설정
+        .onTapGesture {
+            isTextEditorFocused = false // 다른 곳을 클릭하면 포커스 해제
         }
     }
     
@@ -138,20 +182,6 @@ struct EmojiView : View {
         storyDraft.content = ""
         storyDraft.emoji = ""
     }
-    
-    // 현 위치
-    private func fetchAddress() {
-        if let location = locationManager.currentLocation {
-            reverseGeocode(location: location) { addr in
-                            DispatchQueue.main.async {
-                                storyDraft.address = addr ?? ""
-                            }
-                        }
-        } else {
-            print("위치를 가져올 수 없습니다.")
-        }
-    }
-    
     //    func getEmojiList()->[[Int]] {
     //        var emojis : [[Int]] = []
     //        for i in stride(from: 0x1F601, to: 0x1F64F, by: 4){

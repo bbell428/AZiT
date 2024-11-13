@@ -26,6 +26,10 @@ struct MainView: View {
     @State private var message: String = ""
     @State private var userInfo: UserInfo = UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0)
     
+    // EmojiView 애니메이션
+    @State private var scale: CGFloat = 0.1
+    let screenBounds = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds
+    
     var body: some View {
         NavigationStack() {
             ZStack {
@@ -36,6 +40,7 @@ struct MainView: View {
                         .zIndex(isMyModalPresented
                                 || isFriendsModalPresented
                                 || isdisplayEmojiPicker ? 2 : 1) // 모디파이어 따로 빼기
+                    
                 // 맵 화면일 때 맵 뷰
                 } else {
                     MapView(isMyModalPresented: $isMyModalPresented, isFriendsModalPresented: $isFriendsModalPresented, isdisplayEmojiPicker: $isdisplayEmojiPicker, isPassed24Hours: $isPassed24Hours)
@@ -55,11 +60,27 @@ struct MainView: View {
                             isdisplayEmojiPicker = false // 배경 터치 시 닫기
                         }
                         .zIndex(2)
+                    
                     EmojiView(isdisplayEmojiPicker: $isdisplayEmojiPicker)
+                        .scaleEffect(scale)
+                        .onAppear {
+                            if let location = locationManager.currentLocation {
+                                fetchAddress()
+                            } else {
+                                print("위치 정보가 아직 준비되지 않았습니다.")
+                            }
+                            
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                scale = 1.0
+                            }
+                        }
+                        .onDisappear {
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                scale = 0.1
+                            }
+                        }
                         .zIndex(3)
-//                        .onAppear {
-//                            fetchAddress()
-//                        }
+//                        .frame(width: (screenBounds?.width ?? 0) - 50)
                 }
             }
         }
