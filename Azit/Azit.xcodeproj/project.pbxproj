@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8B0679F12CE20C3100ABD942 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0679F02CE20C2D00ABD942 /* LocationManager.swift */; };
 		8B0679F32CE2376600ABD942 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B0679F22CE2376600ABD942 /* CoreLocation.framework */; };
+		8B067A032CE45A6200ABD942 /* PhotoImageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B067A022CE45A5C00ABD942 /* PhotoImageStore.swift */; };
 		8B3FE8AE2CD9E23E000A4519 /* EmojiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3FE8AD2CD9E239000A4519 /* EmojiView.swift */; };
 		8BA5D4A22CDAFC7900B03843 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA5D4A12CDAFC7500B03843 /* SearchView.swift */; };
 		8BA5D4B42CDD3A7400B03843 /* EditStoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA5D4B32CDD3A6D00B03843 /* EditStoryView.swift */; };
@@ -96,6 +97,7 @@
 /* Begin PBXFileReference section */
 		8B0679F02CE20C2D00ABD942 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		8B0679F22CE2376600ABD942 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		8B067A022CE45A5C00ABD942 /* PhotoImageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoImageStore.swift; sourceTree = "<group>"; };
 		8B3FE8AD2CD9E239000A4519 /* EmojiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiView.swift; sourceTree = "<group>"; };
 		8BA5D4A12CDAFC7500B03843 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		8BA5D4B32CDD3A6D00B03843 /* EditStoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStoryView.swift; sourceTree = "<group>"; };
@@ -361,6 +363,7 @@
 				8B3FE8AD2CD9E239000A4519 /* EmojiView.swift */,
 				8BD71F832CD89AE90030693B /* PhotoPicker.swift */,
 				8BD71F872CD8C62B0030693B /* PhotoReviewView.swift */,
+				8B067A022CE45A5C00ABD942 /* PhotoImageStore.swift */,
 				8BCB839F2CDA2A3300C49011 /* PublishScopeView.swift */,
 				8BA5D4A12CDAFC7500B03843 /* SearchView.swift */,
 				8BD71F7D2CD4BB1A0030693B /* TakePhotoView.swift */,
@@ -569,6 +572,7 @@
 				8EAFEFAC2CD4528E00136348 /* MainView.swift in Sources */,
 				8BA5D4B42CDD3A7400B03843 /* EditStoryView.swift in Sources */,
 				EA3F965E2CD8B19C009904C0 /* ProfileDetailView.swift in Sources */,
+				8B067A032CE45A6200ABD942 /* PhotoImageStore.swift in Sources */,
 				8E538EEB2CD85AB40094ABD1 /* AddContentsView.swift in Sources */,
 				8EAFF0132CD4A33600136348 /* MessageView.swift in Sources */,
 				8EAFF0112CD4A32F00136348 /* UploadView.swift in Sources */,

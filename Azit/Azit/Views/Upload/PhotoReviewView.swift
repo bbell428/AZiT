@@ -39,7 +39,7 @@ struct PhotoReviewView: View {
                         .resizable()
                     //                    .scaledToFill()
                         .aspectRatio(3/4, contentMode: .fit)
-                        .frame(width: 330, height: 440)
+                        .frame(width: 360, height: 480)
                 } else {
                     Text("No Image Captured")
                 }
@@ -47,43 +47,56 @@ struct PhotoReviewView: View {
                 Spacer()
                 
                 // 임시저장된 스토리 불러오기
-                RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
+                RoundedRectangle(cornerSize: CGSize(width: 15.0, height: 15.0))
                     .stroke(Color.accentColor, lineWidth: 1)
                     .background(RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
-                        .fill(Color.white))
-                    .frame(width: 330, height: 80)
+                        .fill(Color.subColor4))
+                    .frame(width: 360, height: 110)
                     .overlay(
                         HStack {
                             VStack(alignment: .leading) {
-                                Text(storyDraft.emoji)
-                                Text(storyDraft.content)
-                            }
-                            .padding()
-                            Spacer()
-                            VStack(alignment: .trailing) {
-//                                if let address = address {
-                                Text(storyDraft.address)
-                                        .font(.subheadline)
-                                        .padding()
-//                                }
-                                // 공개 범위 text
-                                
-                                Button (action: {
-                                    isdisplayEmojiPicker = true
-                                }) {
-                                    RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
-                                        .stroke(Color.accentColor, lineWidth: 1)
-                                        .background(RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
-                                            .fill(Color.white))
-                                        .frame(width: 50, height: 40)
-                                        .overlay(
-                                            Text("편집")
-                                                .font(.caption)
-                                        )
+                                HStack{
+                                    Text(storyDraft.emoji)
+                                    Text(storyDraft.content)
                                 }
+                                .padding([.leading, .bottom], 5)
+                                HStack {
+                                    Image(systemName: "location.fill")
+                                        .foregroundStyle(Color.accentColor)
+                                    Text(storyDraft.address)
+                                }
+                                .padding([.leading, .bottom], 5)
+                                HStack {
+                                    Image(systemName: "person.fill")
+                                        .foregroundStyle(Color.accentColor)
+                                    
+                                    if storyDraft.publishedTargets.isEmpty {
+                                        Text("ALL")
+                                    } else if storyDraft.publishedTargets.count == 1 {
+                                        Text("\(storyDraft.publishedTargets[0])")
+                                    } else {
+                                        Text("\(storyDraft.publishedTargets[0]) 외 \(storyDraft.publishedTargets.count)명")
+                                    }
+                                }
+                                .padding([.leading, .bottom], 5)
+                            }
+                            Spacer()
+                            
+                            Button (action: {
+                                isdisplayEmojiPicker = true
+                            }) {
+                                RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
+                                    .background(RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
+                                        .fill(Color.accentColor))
+                                    .frame(width: 50, height: 40)
+                                    .overlay(
+                                        Text("편집")
+                                            .foregroundStyle(Color.white)
+                                            .font(.caption)
+                                    )
                             }
                         }
-                            .font(.headline)
+                            .font(.subheadline)
                             .bold()
                             .padding()
                             .foregroundColor(Color.accentColor)
@@ -93,13 +106,12 @@ struct PhotoReviewView: View {
                 Button(action: {
 //                    savePhoto()
                     shareStory()
-                    
                 }) {
-                    RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
+                    RoundedRectangle(cornerSize: CGSize(width: 15.0, height: 15.0))
                         .stroke(Color.accentColor, lineWidth: 1)
                         .background(RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
                             .fill(Color.white))
-                        .frame(width: 330, height: 40)
+                        .frame(width: 360, height: 40)
                         .overlay(Text("Share")
                             .font(.headline)
                             .bold()
@@ -116,7 +128,6 @@ struct PhotoReviewView: View {
                         .onTapGesture {
                             isdisplayEmojiPicker = false // 배경 터치 시 닫기
                         }
-                    
                     EditStoryView(isdisplayEmojiPicker: $isdisplayEmojiPicker)
                 }
             }
@@ -127,6 +138,7 @@ struct PhotoReviewView: View {
     // firebase storage에 저장
     func savePhoto() {
         guard let image = image else { return }
+        // 찐 앨범에 저장
         UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
     }
     

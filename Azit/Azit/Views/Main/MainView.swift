@@ -26,6 +26,10 @@ struct MainView: View {
     @State private var message: String = ""
     @State private var userInfo: UserInfo = UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0)
     
+    // EmojiView 애니메이션
+    @State private var scale: CGFloat = 0.1
+    let screenBounds = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds
+    
     var body: some View {
         NavigationStack() {
             ZStack {
@@ -58,14 +62,25 @@ struct MainView: View {
                         .zIndex(2)
                     
                     EmojiView(isdisplayEmojiPicker: $isdisplayEmojiPicker)
-                        .zIndex(3)
+                        .scaleEffect(scale)
                         .onAppear {
                             if let location = locationManager.currentLocation {
                                 fetchAddress()
                             } else {
                                 print("위치 정보가 아직 준비되지 않았습니다.")
                             }
+                            
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                scale = 1.0
+                            }
                         }
+                        .onDisappear {
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                scale = 0.1
+                            }
+                        }
+                        .zIndex(3)
+//                        .frame(width: (screenBounds?.width ?? 0) - 50)
                 }
             }
         }
@@ -78,12 +93,6 @@ struct MainView: View {
                 }
             }
         }
-//        .onReceive(locationManager.$currentLocation) { location in
-//            if let location = location {
-//                userInfoStore.userInfo?.latitude = location.coordinate.latitude
-//                userInfoStore.userInfo?.longitude = location.coordinate.longitude
-//            }
-//        }
     }
     
     private func fetchAddress() {
