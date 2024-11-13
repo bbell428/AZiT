@@ -31,7 +31,7 @@ struct ContentsModalTopView: View {
                 .frame(width: 15, height: 15)
                 .foregroundStyle(.accent)
             
-            Text("경상북도 경산시")
+            Text(story?.address ?? "")
                 .font(.caption)
         }
     }
