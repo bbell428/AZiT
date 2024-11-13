@@ -32,33 +32,70 @@ class QR: ObservableObject {
 
 struct QRCodeView: View {
     @EnvironmentObject var authManager: AuthManager
+    @EnvironmentObject var userInfoStore: UserInfoStore
     @StateObject private var viewModel = QR()
     
     var body: some View {
-        VStack {
-            viewModel.qrCode
+        ZStack {
+            Image("QRBackground")
                 .resizable()
-                .interpolation(.none)
-                .scaledToFit()
-                .frame(width: 200, height: 200)
-                .padding()
-                .onAppear {
-                    // 딥 링크 URL 생성
-                    let deepLinkURL = "azit://\(authManager.userID)"
-                    viewModel.dataString = deepLinkURL
+                .scaledToFill()
+                .ignoresSafeArea()
+                .opacity(0.95)
+            
+            VStack {
+                viewModel.qrCode
+                    .resizable()
+                    .interpolation(.none)
+                    .scaledToFit()
+                    .frame(width: 200, height: 200)
+                    .padding()
+                    .onAppear {
+                        // 딥 링크 URL 생성
+                        let deepLinkURL = "azit://\(authManager.userID)"
+                        viewModel.dataString = deepLinkURL
+                    }
+                
+                Divider()
+                    .background(Color.gradation2)
+                    .padding(.top, 20)
+                
+                VStack(alignment: .center) {
+                    HStack(spacing: 5) {
+                        Text(userInfoStore.userInfo?.nickname ?? "")
+                            .bold()
+                        Text("의 AZiT")
+                    }
+                    
+                    Text("초대장")
                 }
-            
-            Text("이 QR 코드를 스캔하면 AZiT 앱이 열립니다.")
-                .padding()
-            
-            
-//            if let url = URL(string: viewModel.dataString) {
-//                Link("Open AZiT App", destination: url)
-//                    .padding()
-//            }
+                .font(.title2)
+                .padding(.top, 15)
+                
+                ZStack {
+                    Circle()
+                        .fill(Color.accentColor)
+                        .frame(width: 45, height: 45)
+                    Image(systemName: "square.and.arrow.up")
+                        .foregroundStyle(Color.white)
+                        .bold()
+                        .padding(.bottom, 5)
+                }
+                
+            }
+            .frame(maxWidth: 200, maxHeight: .infinity)
         }
+        .frame(width: 350, height: 450)
+//        .transition(.scale) // 애니메이션 효과
+
     }
 }
 #Preview {
     QRCodeView()
 }
+
+
+//            if let url = URL(string: viewModel.dataString) {
+//                Link("Open AZiT App", destination: url)
+//                    .padding()
+//            }
