@@ -18,13 +18,12 @@
 		8BD71F802CD89A8C0030693B /* CameraPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F7F2CD89A860030693B /* CameraPreview.swift */; };
 		8BD71F822CD89AC20030693B /* CameraService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F812CD89ABD0030693B /* CameraService.swift */; };
 		8BD71F842CD89AEA0030693B /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F832CD89AE90030693B /* PhotoPicker.swift */; };
-		8BD71F862CD8C4DF0030693B /* EmojiUploadTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F852CD8C4D90030693B /* EmojiUploadTest.swift */; };
 		8BD71F882CD8C6300030693B /* PhotoReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F872CD8C62B0030693B /* PhotoReviewView.swift */; };
 		8BDA11D52CDA769C004242DB /* EmojiPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDA11D42CDA7696004242DB /* EmojiPickerView.swift */; };
 		8E538EE12CD844700094ABD1 /* RotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E538EE02CD844700094ABD1 /* RotationView.swift */; };
 		8E538EE32CD844A50094ABD1 /* FriendsContentsModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E538EE22CD844A50094ABD1 /* FriendsContentsModalView.swift */; };
-		8E538EEB2CD85AB40094ABD1 /* AddContentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E538EEA2CD85AB40094ABD1 /* AddContentsView.swift */; };
 		8E645D552CE4784F00F43836 /* MyContentEmojiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E645D542CE4784F00F43836 /* MyContentEmojiView.swift */; };
+		8E645D592CE47C0700F43836 /* AzitExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E645D582CE47C0700F43836 /* AzitExtension.swift */; };
 		8E71EF0D2CE2DF0D00BA8F33 /* MainTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E71EF0C2CE2DF0D00BA8F33 /* MainTopView.swift */; };
 		8E71EF732CE2E27500BA8F33 /* MapContentEmojiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E71EF722CE2E27500BA8F33 /* MapContentEmojiView.swift */; };
 		8E71EF772CE2E46200BA8F33 /* EllipsesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E71EF762CE2E46200BA8F33 /* EllipsesView.swift */; };
@@ -54,7 +53,6 @@
 		8EAFEFD32CD45F5A00136348 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 8EAFEFD22CD45F5A00136348 /* FirebaseFunctions */; };
 		8EAFEFD52CD45F5A00136348 /* FirebaseFunctionsCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 8EAFEFD42CD45F5A00136348 /* FirebaseFunctionsCombine-Community */; };
 		8EAFF00F2CD4A31300136348 /* StoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFF00E2CD4A31300136348 /* StoryStore.swift */; };
-		8EAFF0112CD4A32F00136348 /* UploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFF0102CD4A32F00136348 /* UploadView.swift */; };
 		8EAFF0132CD4A33600136348 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFF0122CD4A33600136348 /* MessageView.swift */; };
 		8EAFF0152CD4A33E00136348 /* AlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFF0142CD4A33E00136348 /* AlbumView.swift */; };
 		8EAFF0182CD4A36B00136348 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFF0172CD4A36B00136348 /* AuthManager.swift */; };
@@ -118,13 +116,12 @@
 		8BD71F7F2CD89A860030693B /* CameraPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreview.swift; sourceTree = "<group>"; };
 		8BD71F812CD89ABD0030693B /* CameraService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraService.swift; sourceTree = "<group>"; };
 		8BD71F832CD89AE90030693B /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
-		8BD71F852CD8C4D90030693B /* EmojiUploadTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiUploadTest.swift; sourceTree = "<group>"; };
 		8BD71F872CD8C62B0030693B /* PhotoReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoReviewView.swift; sourceTree = "<group>"; };
 		8BDA11D42CDA7696004242DB /* EmojiPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiPickerView.swift; sourceTree = "<group>"; };
 		8E538EE02CD844700094ABD1 /* RotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotationView.swift; sourceTree = "<group>"; };
 		8E538EE22CD844A50094ABD1 /* FriendsContentsModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsContentsModalView.swift; sourceTree = "<group>"; };
-		8E538EEA2CD85AB40094ABD1 /* AddContentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContentsView.swift; sourceTree = "<group>"; };
 		8E645D542CE4784F00F43836 /* MyContentEmojiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyContentEmojiView.swift; sourceTree = "<group>"; };
+		8E645D582CE47C0700F43836 /* AzitExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzitExtension.swift; sourceTree = "<group>"; };
 		8E71EF0C2CE2DF0D00BA8F33 /* MainTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTopView.swift; sourceTree = "<group>"; };
 		8E71EF722CE2E27500BA8F33 /* MapContentEmojiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapContentEmojiView.swift; sourceTree = "<group>"; };
 		8E71EF762CE2E46200BA8F33 /* EllipsesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EllipsesView.swift; sourceTree = "<group>"; };
@@ -144,7 +141,6 @@
 		8EAFEFB52CD45CB100136348 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		8EAFEFB72CD45CCE00136348 /* ChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoom.swift; sourceTree = "<group>"; };
 		8EAFF00E2CD4A31300136348 /* StoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryStore.swift; sourceTree = "<group>"; };
-		8EAFF0102CD4A32F00136348 /* UploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadView.swift; sourceTree = "<group>"; };
 		8EAFF0122CD4A33600136348 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		8EAFF0142CD4A33E00136348 /* AlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumView.swift; sourceTree = "<group>"; };
 		8EAFF0172CD4A36B00136348 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
@@ -236,6 +232,95 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8E645D562CE47BDA00F43836 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				8EC52DD72CE1C93C00DC8190 /* Utility.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		8E645D572CE47BE900F43836 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				8E645D582CE47C0700F43836 /* AzitExtension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		8E645D5A2CE47C1200F43836 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				8EC52DDB2CE1E81D00DC8190 /* Constants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		8E645D5B2CE484AC00F43836 /* PhotoUpload */ = {
+			isa = PBXGroup;
+			children = (
+				8BD71F7D2CD4BB1A0030693B /* TakePhotoView.swift */,
+				8BD71F7F2CD89A860030693B /* CameraPreview.swift */,
+				8BD71F832CD89AE90030693B /* PhotoPicker.swift */,
+				8BD71F872CD8C62B0030693B /* PhotoReviewView.swift */,
+			);
+			path = PhotoUpload;
+			sourceTree = "<group>";
+		};
+		8E645D5D2CE484DF00F43836 /* EmojiUpload */ = {
+			isa = PBXGroup;
+			children = (
+				8BA5D4B32CDD3A6D00B03843 /* EditStoryView.swift */,
+				8BDA11D42CDA7696004242DB /* EmojiPickerView.swift */,
+				8B3FE8AD2CD9E239000A4519 /* EmojiView.swift */,
+				8BCB839F2CDA2A3300C49011 /* PublishScopeView.swift */,
+				8BA5D4A12CDAFC7500B03843 /* SearchView.swift */,
+			);
+			path = EmojiUpload;
+			sourceTree = "<group>";
+		};
+		8E645D5F2CE4859900F43836 /* EmojiViews */ = {
+			isa = PBXGroup;
+			children = (
+				8E645D542CE4784F00F43836 /* MyContentEmojiView.swift */,
+				8EC52DD52CE19C8300DC8190 /* FriendsContentEmojiView.swift */,
+			);
+			path = EmojiViews;
+			sourceTree = "<group>";
+		};
+		8E645D602CE485A900F43836 /* ModalViews */ = {
+			isa = PBXGroup;
+			children = (
+				8EC52DD92CE1DA3A00DC8190 /* MyContentsModalView.swift */,
+				8E538EE22CD844A50094ABD1 /* FriendsContentsModalView.swift */,
+				8E71EF7C2CE2F59000BA8F33 /* ModalIdentificationView.swift */,
+				8E71EFE62CE348CA00BA8F33 /* LikesSheetView.swift */,
+				8E71EF7A2CE2EE8D00BA8F33 /* ContentsModalTopView.swift */,
+				8E71EF782CE2ECAE00BA8F33 /* StoryContentsView.swift */,
+			);
+			path = ModalViews;
+			sourceTree = "<group>";
+		};
+		8E645D612CE485D500F43836 /* MapViews */ = {
+			isa = PBXGroup;
+			children = (
+				8E9402602CDAE99E0005C2BB /* MapView.swift */,
+				8E71EF722CE2E27500BA8F33 /* MapContentEmojiView.swift */,
+			);
+			path = MapViews;
+			sourceTree = "<group>";
+		};
+		8E645D622CE485E400F43836 /* MainViews */ = {
+			isa = PBXGroup;
+			children = (
+				8EAFEFA72CD4528E00136348 /* MainView.swift */,
+				8E71EF0C2CE2DF0D00BA8F33 /* MainTopView.swift */,
+				8E538EE02CD844700094ABD1 /* RotationView.swift */,
+				8E71EF762CE2E46200BA8F33 /* EllipsesView.swift */,
+			);
+			path = MainViews;
+			sourceTree = "<group>";
+		};
 		8EAFEF6D2CD4524500136348 = {
 			isa = PBXGroup;
 			children = (
@@ -268,6 +353,9 @@
 		8EAFEFA82CD4528E00136348 /* Azit */ = {
 			isa = PBXGroup;
 			children = (
+				8E645D5A2CE47C1200F43836 /* Constants */,
+				8E645D572CE47BE900F43836 /* Extension */,
+				8E645D562CE47BDA00F43836 /* Utility */,
 				8EC52DC12CE18FB900DC8190 /* Assets.xcassets */,
 				8EAFEFEB2CD47A0700136348 /* Auth */,
 				EA31371F2CE331AA00AA4685 /* Azit.entitlements */,
@@ -314,6 +402,9 @@
 				CE374EAC2CD79F6300601AA7 /* ChatListStore.swift */,
 				8EAFF00E2CD4A31300136348 /* StoryStore.swift */,
 				EAF840732CD9B56200F23839 /* UserInfoStore.swift */,
+				8BD71F812CD89ABD0030693B /* CameraService.swift */,
+				8B067A022CE45A5C00ABD942 /* PhotoImageStore.swift */,
+				8B0679F02CE20C2D00ABD942 /* LocationManager.swift */,
 			);
 			path = Stores;
 			sourceTree = "<group>";
@@ -340,23 +431,10 @@
 		8EAFEFFD2CD4A03200136348 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				8EAFEFA72CD4528E00136348 /* MainView.swift */,
-				8E71EF0C2CE2DF0D00BA8F33 /* MainTopView.swift */,
-				8E538EE02CD844700094ABD1 /* RotationView.swift */,
-				8E71EF762CE2E46200BA8F33 /* EllipsesView.swift */,
-				8E645D542CE4784F00F43836 /* MyContentEmojiView.swift */,
-				8EC52DD52CE19C8300DC8190 /* FriendsContentEmojiView.swift */,
-				8EC52DD92CE1DA3A00DC8190 /* MyContentsModalView.swift */,
-				8E538EE22CD844A50094ABD1 /* FriendsContentsModalView.swift */,
-				8E71EFE62CE348CA00BA8F33 /* LikesSheetView.swift */,
-				8E71EF7A2CE2EE8D00BA8F33 /* ContentsModalTopView.swift */,
-				8E71EF782CE2ECAE00BA8F33 /* StoryContentsView.swift */,
-				8E9402602CDAE99E0005C2BB /* MapView.swift */,
-				8E71EF722CE2E27500BA8F33 /* MapContentEmojiView.swift */,
-				8E71EF7C2CE2F59000BA8F33 /* ModalIdentificationView.swift */,
-				8EC52DD72CE1C93C00DC8190 /* Utility.swift */,
-				8EC52DDB2CE1E81D00DC8190 /* Constants.swift */,
-				8E538EEA2CD85AB40094ABD1 /* AddContentsView.swift */,
+				8E645D622CE485E400F43836 /* MainViews */,
+				8E645D5F2CE4859900F43836 /* EmojiViews */,
+				8E645D602CE485A900F43836 /* ModalViews */,
+				8E645D612CE485D500F43836 /* MapViews */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -389,20 +467,8 @@
 		8EAFF0002CD4A04900136348 /* Upload */ = {
 			isa = PBXGroup;
 			children = (
-				8B0679F02CE20C2D00ABD942 /* LocationManager.swift */,
-				8BD71F7F2CD89A860030693B /* CameraPreview.swift */,
-				8BD71F812CD89ABD0030693B /* CameraService.swift */,
-				8BA5D4B32CDD3A6D00B03843 /* EditStoryView.swift */,
-				8BDA11D42CDA7696004242DB /* EmojiPickerView.swift */,
-				8BD71F852CD8C4D90030693B /* EmojiUploadTest.swift */,
-				8B3FE8AD2CD9E239000A4519 /* EmojiView.swift */,
-				8BD71F832CD89AE90030693B /* PhotoPicker.swift */,
-				8BD71F872CD8C62B0030693B /* PhotoReviewView.swift */,
-				8B067A022CE45A5C00ABD942 /* PhotoImageStore.swift */,
-				8BCB839F2CDA2A3300C49011 /* PublishScopeView.swift */,
-				8BA5D4A12CDAFC7500B03843 /* SearchView.swift */,
-				8BD71F7D2CD4BB1A0030693B /* TakePhotoView.swift */,
-				8EAFF0102CD4A32F00136348 /* UploadView.swift */,
+				8E645D5D2CE484DF00F43836 /* EmojiUpload */,
+				8E645D5B2CE484AC00F43836 /* PhotoUpload */,
 			);
 			path = Upload;
 			sourceTree = "<group>";
@@ -610,7 +676,6 @@
 				8EAFEFB82CD45CCE00136348 /* ChatRoom.swift in Sources */,
 				8E9402612CDAE99E0005C2BB /* MapView.swift in Sources */,
 				8E71EF7B2CE2EE8D00BA8F33 /* ContentsModalTopView.swift in Sources */,
-				8BD71F862CD8C4DF0030693B /* EmojiUploadTest.swift in Sources */,
 				8EAFEFAB2CD4528E00136348 /* AzitApp.swift in Sources */,
 				8BD71F882CD8C6300030693B /* PhotoReviewView.swift in Sources */,
 				8BD71F822CD89AC20030693B /* CameraService.swift in Sources */,
@@ -622,9 +687,7 @@
 				8BA5D4B42CDD3A7400B03843 /* EditStoryView.swift in Sources */,
 				EA3F965E2CD8B19C009904C0 /* (null) in Sources */,
 				8B067A032CE45A6200ABD942 /* PhotoImageStore.swift in Sources */,
-				8E538EEB2CD85AB40094ABD1 /* AddContentsView.swift in Sources */,
 				8EAFF0132CD4A33600136348 /* MessageView.swift in Sources */,
-				8EAFF0112CD4A32F00136348 /* UploadView.swift in Sources */,
 				CEDFC2CE2CE1C814008C215A /* FriendSegmentView.swift in Sources */,
 				CE374EAD2CD79F6300601AA7 /* ChatListStore.swift in Sources */,
 				8EC52DDA2CE1DA3A00DC8190 /* MyContentsModalView.swift in Sources */,
@@ -635,6 +698,7 @@
 				CE062BAC2CD91E2B00CB5D4A /* PostMessageView.swift in Sources */,
 				CE062B9E2CD8DB8100CB5D4A /* ChatDetailViewStore.swift in Sources */,
 				CE062BB02CD91EEE00CB5D4A /* ChatRoomListView.swift in Sources */,
+				8E645D592CE47C0700F43836 /* AzitExtension.swift in Sources */,
 				8E71EF0D2CE2DF0D00BA8F33 /* MainTopView.swift in Sources */,
 				EAF840742CD9B56200F23839 /* UserInfoStore.swift in Sources */,
 				EAF8BB1B2CDB368F00B67AAF /* EditProfileView.swift in Sources */,
