@@ -50,6 +50,12 @@ struct QRCodeView: View {
             
             Text("이 QR 코드를 스캔하면 AZiT 앱이 열립니다.")
                 .padding()
+            
+            
+//            if let url = URL(string: viewModel.dataString) {
+//                Link("Open AZiT App", destination: url)
+//                    .padding()
+//            }
         }
     }
 }

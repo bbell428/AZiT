@@ -25,7 +25,10 @@ struct RotationView: View {
     @State private var scale: CGFloat = 1.0
     @State private var previousScale: CGFloat = 1.0
     @State private var numberOfCircles: Int = 0
-
+    
+    @State private var isShowAlert = false // QR로 앱 -> 알림 띄움 (친구추가)
+    @State private var isShowYes = false // QR로 인해 친구추가 알림에서 Yes를 누를 경우
+    
     var body: some View {
         ZStack {
             ZStack {
@@ -40,7 +43,7 @@ struct RotationView: View {
                 }
                 .zIndex(1)
                 .offset(y: 250)
-            
+                
                 ForEach(0..<4, id: \.self) { index in
                     Ellipse()
                         .fill(Utility.createGradient(index: index, width: CGFloat(1260 - index * 293), height: CGFloat(1008 - CGFloat(index * 234))))
@@ -58,9 +61,9 @@ struct RotationView: View {
                         let startEllipse = Constants.ellipses[3]
                         let endEllipse = Constants.ellipses[0]
                         let randomAngleOffset = Double.random(in: Constants.angles[index % 6].0..<Constants.angles[index % 6].1)
-
+                        
                         let interpolationRatio: CGFloat = numberOfCircles > 1 ? CGFloat(index) / CGFloat(numberOfCircles - 1) : 0
-
+                        
                         MainContentEmojiView(userInfo: $sortedUsers[index], rotation: $rotation, isFriendsModalPresented: $isFriendsModalPresented, selectedIndex: $selectedIndex, index: index, startEllipse: startEllipse, endEllipse: endEllipse, interpolationRatio: interpolationRatio, randomAngleOffset: randomAngleOffset)
                     }
                 }
@@ -125,6 +128,12 @@ struct RotationView: View {
         }
         .onAppear {
             Task {
+                if !authManager.deepUserID.isEmpty {
+                    isShowAlert = true
+                }
+                
+                guard !isShowYes else { return }
+                
                 await userInfoStore.loadUserInfo(userID: authManager.userID)
                 userInfoStore.loadFriendsInfo(friendsIDs: userInfoStore.userInfo?.friends ?? [])
                 
@@ -134,6 +143,40 @@ struct RotationView: View {
                 let story = try await storyStore.loadRecentStoryById(id: userInfoStore.userInfo?.id ?? "")
                 
                 isPassed24Hours = Utility.hasPassed24Hours(from: story.date)
+            }
+        }
+        .alert(isPresented: $isShowAlert) {
+            Alert(
+                title: Text("친구 추가"),
+                message: Text("친구를 추가하겠습니까?"),
+                primaryButton: .default(Text("Yes"), action: {
+                    userInfoStore.addFriend(receivedUID: authManager.deepUserID, currentUserUID: authManager.userID)
+                    authManager.deepUserID = ""
+                    isShowYes = true
+                }),
+                secondaryButton: .cancel(Text("No"), action: {
+                    authManager.deepUserID = "" // No 선택 시 deepUserID를 초기화하여 알림이 반복되지 않도록 함
+                })
+            )
+        }
+        .onChange(of: authManager.deepUserID) {
+            Task {
+                if !authManager.deepUserID.isEmpty {
+                    isShowAlert = true
+                }
+                
+                guard isShowYes else { return }
+                
+                await userInfoStore.loadUserInfo(userID: authManager.userID)
+                userInfoStore.loadFriendsInfo(friendsIDs: userInfoStore.userInfo?.friends ?? [])
+                
+                sortedUsers = try await Utility.sortUsersByDistance(from: userInfoStore.userInfo!, users: userInfoStore.loadUsersInfoByEmail(userID: userInfoStore.userInfo?.friends ?? []))
+                numberOfCircles = userInfoStore.userInfo?.friends.count ?? 0 // 친구가 아니라 친구의 게시글이 numberOfCircle이 되어야 함
+                
+                let story = try await storyStore.loadRecentStoryById(id: userInfoStore.userInfo?.id ?? "")
+                
+                isPassed24Hours = Utility.hasPassed24Hours(from: story.date)
+                
             }
         }
     }
