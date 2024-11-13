@@ -132,8 +132,6 @@ struct RotationView: View {
                     isShowAlert = true
                 }
                 
-                guard !isShowYes else { return }
-                
                 await userInfoStore.loadUserInfo(userID: authManager.userID)
                 userInfoStore.loadFriendsInfo(friendsIDs: userInfoStore.userInfo?.friends ?? [])
                 
