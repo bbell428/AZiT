@@ -18,11 +18,10 @@ struct RotationView: View {
     @State private var scale: CGFloat = 1.0
     @State private var previousScale: CGFloat = 1.0
     @State private var numberOfCircles: Int = 0
-    
-    @State private var isShowAlert = false // QR로 앱 -> 알림 띄움 (친구추가)
-    @State private var isShowYes = false // QR로 인해 친구추가 알림에서 Yes를 누를 경우
     @State private var rotation: Double = 270.0
     @State var sortedUsers: [UserInfo] = []
+    @State private var isShowAlert = false // QR로 앱 -> 알림 띄움 (친구추가)
+    @State private var isShowYes = false // QR로 인해 친구추가 알림에서 Yes를 누를 경우
     
     @State var selectedEmoji: Emoji?
     
