@@ -37,6 +37,7 @@ struct AlbumView: View {
     @State var selectedIndex: Int = 0
     @State private var isLoading = false
     @State var isOpenCalendar: Bool = false
+    @State private var selectedDate: Date = Date()
     
     var body: some View {
         NavigationStack {
@@ -64,7 +65,7 @@ struct AlbumView: View {
                             .frame(maxWidth: .infinity)
                         
                         Button {
-                            isOpenCalendar = true
+                            
                         } label: {
                             Image(systemName: "calendar")
                                 .font(.system(size: 25))
@@ -80,7 +81,7 @@ struct AlbumView: View {
                         ZStack(alignment: .bottomLeading) {
                             FriendSegmentView(selectedIndex: $selectedIndex, titles: userInfoStore.friendInfos)
                                 .animation(.easeInOut(duration: 0.3), value: isShowHorizontalScroll)
-                                //.padding(.leading, 20)
+                            //.padding(.leading, 20)
                             //.background(Color.white)
                                 .zIndex(3)
                             

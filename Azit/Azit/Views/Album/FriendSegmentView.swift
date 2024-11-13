@@ -47,8 +47,15 @@ struct FriendSegmentView: View {
     var body: some View {
         VStack {
             if isScrollable {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    SegmentedControlButtonView(selectedIndex: $selectedIndex, frames: $frames, backgroundFrame: $backgroundFrame, isScrollable: $isScrollable, checkIsScrollable: checkIsScrollable, titles: titles)
+                ScrollViewReader { proxy in
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        SegmentedControlButtonView(selectedIndex: $selectedIndex, frames: $frames, backgroundFrame: $backgroundFrame, isScrollable: $isScrollable, checkIsScrollable: checkIsScrollable, titles: titles)
+                            .onChange(of: selectedIndex) { newIndex, _ in
+                                withAnimation() {
+                                    proxy.scrollTo(newIndex, anchor: .center)
+                                }
+                            }
+                    }
                 }
             } else {
                 SegmentedControlButtonView(selectedIndex: $selectedIndex, frames: $frames, backgroundFrame: $backgroundFrame, isScrollable: $isScrollable, checkIsScrollable: checkIsScrollable, titles: titles)
@@ -142,6 +149,7 @@ private struct SegmentedControlButtonView: View {
                                 .font(.caption2)
                                 .foregroundStyle(selectedIndex == index ? .black : .gray)
                         }
+                        .padding(.bottom, 5)
                     }
                 }
                 .buttonStyle(CustomSegmentButtonStyle())
