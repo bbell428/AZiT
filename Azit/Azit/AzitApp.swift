@@ -44,6 +44,7 @@ struct AzitApp: App {
                 .environmentObject(StoryDraft())
                 .environmentObject(LocationManager())
                 .environmentObject(albumStore)
+                .environmentObject(CameraService())
                 .onOpenURL { url in
                     if url.scheme == "azit", let userID = URLComponents(url: url, resolvingAgainstBaseURL: false)?.host {
                         authManager.deepUserID = userID

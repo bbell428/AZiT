@@ -10,6 +10,7 @@ import AVFoundation
 import PhotosUI
 
 struct PhotoReviewView: View {
+    @EnvironmentObject var cameraService: CameraService
     @EnvironmentObject var storyStore: StoryStore
     @EnvironmentObject var storyDraft: StoryDraft
     @EnvironmentObject var authManager: AuthManager
@@ -19,8 +20,6 @@ struct PhotoReviewView: View {
     var image: UIImage?
     @State private var showUploadView = false
     @State var isDisplayEmojiPicker: Bool = false
-//    @StateObject private var locationManager = LocationManager()
-//    @State private var address: String?
     
     @Environment(\.dismiss) var dismiss
     
@@ -34,7 +33,7 @@ struct PhotoReviewView: View {
                     .cornerRadius(6)
                     .padding()
                 
-                if let image = image {
+                if let image = cameraService.capturedImage {
                     Image(uiImage: image)
                         .resizable()
                     //                    .scaledToFill()

@@ -9,7 +9,7 @@ import AVFoundation
 import PhotosUI
 
 struct TakePhotoView: View {
-    @StateObject var cameraService = CameraService()
+    @EnvironmentObject var cameraService : CameraService
     @State private var isPhotoTaken = false
     @State private var isGalleryPresented = false
     @Binding var firstNaviLinkActive: Bool
@@ -42,9 +42,10 @@ struct TakePhotoView: View {
                 .padding([.leading, .bottom])
                 .sheet(isPresented: $isGalleryPresented) {
                     // 사진 가져와서 capturedImage에 담아야 함.
-                    PhotoPicker(image: $cameraService.capturedImage) // 갤러리 뷰 표시
+                    PhotoPicker(image: $cameraService.capturedImage)
                         .onChange(of: cameraService.capturedImage){
                             self.isPhotoTaken = true
+                            print("HI")
                         }
                 }
                 
@@ -87,13 +88,6 @@ struct TakePhotoView: View {
             
         }
         .navigationBarTitle("사진 촬영", displayMode: .inline)
-        .onChange(of: cameraService.capturedImage) { image in
-            Task {
-                if image != nil {
-                    self.isPhotoTaken = true
-                }
-            }
-        }
     }
 }
 
