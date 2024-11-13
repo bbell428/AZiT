@@ -37,7 +37,10 @@ struct MapView: View {
                             }
                         } label: {
                             ZStack {
-                                MyContentEmojiView(isPassed24Hours: $isPassed24Hours, previousState: userInfoStore.userInfo?.previousState ?? "")
+                                MyContentEmojiView(isPassed24Hours: $isPassed24Hours,
+                                                   previousState: userInfoStore.userInfo?.previousState ?? "",
+                                                   width: 50,
+                                                   height: 50)
                                     .zIndex(3)
                             }                            
                         }

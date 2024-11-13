@@ -40,7 +40,10 @@ struct RotationView: View {
                         isMyModalPresented = true
                     }
                 } label: {
-                    MyContentEmojiView(isPassed24Hours: $isPassed24Hours, previousState: userInfoStore.userInfo?.previousState ?? "")
+                    MyContentEmojiView(isPassed24Hours: $isPassed24Hours,
+                                       previousState: userInfoStore.userInfo?.previousState ?? "",
+                                       width: 100,
+                                       height: 100)
                 }
                 .zIndex(1)
                 .offset(y: 250)
