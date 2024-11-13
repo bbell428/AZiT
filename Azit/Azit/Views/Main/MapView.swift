@@ -19,7 +19,7 @@ struct MapView: View {
     @State private var message: String = ""
     @Binding var isMyModalPresented: Bool
     @Binding var isFriendsModalPresented: Bool
-    @Binding var isdisplayEmojiPicker: Bool
+    @Binding var isDisplayEmojiPicker: Bool
     @Binding var isPassed24Hours: Bool
     
     var body: some View {
@@ -29,7 +29,7 @@ struct MapView: View {
                     if user.id == userInfoStore.userInfo?.id {
                         Button {
                             if isPassed24Hours {
-                                isdisplayEmojiPicker = true
+                                isDisplayEmojiPicker = true
                             } else {
                                 isMyModalPresented = true
                             }
@@ -67,14 +67,14 @@ struct MapView: View {
             }
             
             if isPassed24Hours {
-                if isdisplayEmojiPicker {
+                if isDisplayEmojiPicker {
                     Color.black.opacity(0.4)
                         .edgesIgnoringSafeArea(.all)
                         .onTapGesture {
-                            isdisplayEmojiPicker = false
+                            isDisplayEmojiPicker = false
                         }
                         .zIndex(2)
-                    EmojiView(isdisplayEmojiPicker: $isdisplayEmojiPicker)
+                    EmojiView(isDisplayEmojiPicker: $isDisplayEmojiPicker)
                         .zIndex(3)
                 }
             } else {

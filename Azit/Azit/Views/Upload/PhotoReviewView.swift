@@ -18,7 +18,7 @@ struct PhotoReviewView: View {
     
     var image: UIImage?
     @State private var showUploadView = false
-    @State var isdisplayEmojiPicker: Bool = false
+    @State var isDisplayEmojiPicker: Bool = false
 //    @StateObject private var locationManager = LocationManager()
 //    @State private var address: String?
     
@@ -83,7 +83,7 @@ struct PhotoReviewView: View {
                             Spacer()
                             
                             Button (action: {
-                                isdisplayEmojiPicker = true
+                                isDisplayEmojiPicker = true
                             }) {
                                 RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
                                     .background(RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
@@ -121,14 +121,14 @@ struct PhotoReviewView: View {
                 }
                 .padding(.bottom, 20)
             }
-            if isdisplayEmojiPicker {
+            if isDisplayEmojiPicker {
                 ZStack {
                     Color.black.opacity(0.4)
                         .edgesIgnoringSafeArea(.all)
                         .onTapGesture {
-                            isdisplayEmojiPicker = false // 배경 터치 시 닫기
+                            isDisplayEmojiPicker = false // 배경 터치 시 닫기
                         }
-                    EditStoryView(isdisplayEmojiPicker: $isdisplayEmojiPicker)
+                    EditStoryView(isDisplayEmojiPicker: $isDisplayEmojiPicker)
                 }
             }
         }

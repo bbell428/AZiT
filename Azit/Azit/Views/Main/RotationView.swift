@@ -13,13 +13,6 @@ struct RotationView: View {
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var storyStore: StoryStore
     
-    @State private var rotation: Double = 270.0
-    @Binding var isMyModalPresented: Bool
-    @Binding var isFriendsModalPresented: Bool
-    @Binding var isdisplayEmojiPicker: Bool
-    @Binding var isPassed24Hours: Bool
-    @State var selectedEmoji: Emoji?
-    @State var sortedUsers: [UserInfo] = []
     @State private var selectedIndex: Int = 0
     @State private var message: String = ""
     @State private var scale: CGFloat = 1.0
@@ -28,13 +21,22 @@ struct RotationView: View {
     
     @State private var isShowAlert = false // QR로 앱 -> 알림 띄움 (친구추가)
     @State private var isShowYes = false // QR로 인해 친구추가 알림에서 Yes를 누를 경우
+    @State private var rotation: Double = 270.0
+    @State var sortedUsers: [UserInfo] = []
+    
+    @State var selectedEmoji: Emoji?
+    
+    @Binding var isMyModalPresented: Bool
+    @Binding var isFriendsModalPresented: Bool
+    @Binding var isDisplayEmojiPicker: Bool
+    @Binding var isPassed24Hours: Bool
     
     var body: some View {
         ZStack {
             ZStack {
                 Button {
                     if isPassed24Hours {
-                        isdisplayEmojiPicker = true
+                        isDisplayEmojiPicker = true
                     } else {
                         isMyModalPresented = true
                     }
@@ -103,14 +105,14 @@ struct RotationView: View {
             }
             
             if isPassed24Hours {
-                if isdisplayEmojiPicker {
+                if isDisplayEmojiPicker {
                     Color.black.opacity(0.4)
                         .edgesIgnoringSafeArea(.all)
                         .onTapGesture {
-                            isdisplayEmojiPicker = false
+                            isDisplayEmojiPicker = false
                         }
                         .zIndex(2)
-                    EmojiView(isdisplayEmojiPicker: $isdisplayEmojiPicker)
+                    EmojiView(isDisplayEmojiPicker: $isDisplayEmojiPicker)
                         .zIndex(3)
                 }
             } else {

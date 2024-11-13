@@ -20,7 +20,7 @@ struct EditStoryView : View {
 //    @Binding var message: String
 //    @Binding var selectedEmoji: String
     @State var publishedTargets: [String] = []
-    @Binding var isdisplayEmojiPicker: Bool
+    @Binding var isDisplayEmojiPicker: Bool
     
     @State var isShowingsheet: Bool = false
     @State var isPicture:Bool = false
@@ -76,7 +76,7 @@ struct EditStoryView : View {
             
             // 수정 완료 버튼
             Button (action:{
-                isdisplayEmojiPicker = false
+                isDisplayEmojiPicker = false
             }) {
                 RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
                     .stroke(Color.accentColor, lineWidth: 0.5)
