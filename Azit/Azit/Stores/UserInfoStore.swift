@@ -188,5 +188,38 @@ class UserInfoStore: ObservableObject {
             throw error
         }
     }
+
+    //MARK: 친구 추가 (QR받은 UID, 현재 내 UID)
+    func addFriend(receivedUID: String, currentUserUID: String) {
+        let db = Firestore.firestore()
+        
+        // 현재 UID
+        let currentUserRef = db.collection("User").document(currentUserUID)
+        
+        // 받아온 UID
+        let receivedUserRef = db.collection("User").document(receivedUID)
+        
+        // 나의 친구배열에 받아온 uid 추가
+        currentUserRef.updateData([
+            "friends": FieldValue.arrayUnion([receivedUID])
+        ]) { error in
+            if let error = error {
+                print("\(error)")
+            } else {
+                print("나의 친구배열에 친구 추가 성공")
+            }
+        }
+        
+        // 친구배열에 나의 uid 추가
+        receivedUserRef.updateData([
+            "friends": FieldValue.arrayUnion([currentUserUID])
+        ]) { error in
+            if let error = error {
+                print("\(error)")
+            } else {
+                print("친구배열에 나를 추가 성공")
+            }
+        }
+    }
     
 }

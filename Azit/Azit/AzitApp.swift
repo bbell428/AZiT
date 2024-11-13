@@ -44,6 +44,12 @@ struct AzitApp: App {
                 .environmentObject(StoryDraft())
                 .environmentObject(LocationManager())
                 .environmentObject(albumStore)
+                .onOpenURL { url in
+                    if url.scheme == "azit", let userID = URLComponents(url: url, resolvingAgainstBaseURL: false)?.host {
+                        authManager.deepUserID = userID
+                        print("QR 코드로부터 받은 User ID:", userID)
+                    }
+                }
         }
         
     }

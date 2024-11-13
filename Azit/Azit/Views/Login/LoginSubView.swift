@@ -5,8 +5,10 @@
 //  Created by 김종혁 on 11/2/24.
 //
 
-import Foundation
 import SwiftUI
+import CryptoKit
+import AuthenticationServices
+import FirebaseAuth
 
 enum FocusableField: Hashable {
     case email
@@ -210,6 +212,43 @@ struct SignInButton: View {
             RoundedRectangle(cornerRadius: 8)
                 .stroke(Color.gray, lineWidth: 1)
         )
+    }
+}
+
+struct AppleSignInButton: View {
+    @EnvironmentObject var authManager: AuthManager
+    @StateObject private var authApple = AuthApple()
+    
+    var imageName: String
+    var backColor: Color
+    
+    var body: some View {
+        Image("\(imageName)")
+            .resizable()
+            .frame(width: 24, height: 24)
+            .padding(10)
+            .background(backColor)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+            .overlay(
+                SignInWithAppleButton(
+                    .signIn,
+                    onRequest: { request in
+                        authApple.prepareRequest(request)
+                    },
+                    onCompletion: { result in
+                        authApple.handleAuthorization(result) {
+                            Task {
+                                if authApple.isSignedIn {
+                                    authManager.email = authApple.userEmail ?? ""
+                                }
+                            }
+                        }
+                    }
+                )
+                .clipShape(Circle())
+                .contentShape(Circle())
+                .blendMode(.overlay)
+            )
     }
 }
 

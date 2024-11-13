@@ -12,6 +12,16 @@
 				<string>com.googleusercontent.apps.324396532549-5csucbdbn986kgchdo3ifrob8iqsaqs1</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>education.techit.Azit</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>azit</string>
+			</array>
+		</dict>
 	</array>
 </dict>
 </plist>
