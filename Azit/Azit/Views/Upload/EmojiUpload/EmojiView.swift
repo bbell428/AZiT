@@ -27,7 +27,7 @@ struct EmojiView : View {
     @FocusState private var isTextEditorFocused: Bool
     
     var isShareEnabled: Bool {
-        return storyDraft.emoji.isEmpty || storyDraft.content.isEmpty
+        return storyDraft.emoji.isEmpty && storyDraft.content.isEmpty
     }
     
     var body : some View{
@@ -111,40 +111,43 @@ struct EmojiView : View {
             .padding(.bottom, 10)
             
             // 공유 버튼
-            Button (action:{
-                let newStory = Story(
-                    userId: authManager.userID,
-                    date: Date(),
-                    latitude: storyDraft.latitude,
-                    longitude: storyDraft.longitude,
-                    address: storyDraft.address,
-                    emoji: storyDraft.emoji,
-                    content: storyDraft.content,
-                    publishedTargets: []
-                )
-                Task {
-                    await storyStore.addStory(newStory)
-                }
-                resetStory()
-                isDisplayEmojiPicker = false
-                
-                // 유저의 위경도 값 저장
-                if let location = locationManager.currentLocation {
-                    userInfoStore.userInfo?.latitude = location.coordinate.latitude
-                    userInfoStore.userInfo?.longitude = location.coordinate.longitude
-                }
-            }) {
-                RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
-                    .stroke(Color.accentColor, lineWidth: 0.5)
-                    .background(RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
-                        .fill(Color.white))
-                    .frame(width: 340, height: 40)
-                    .overlay(Text("Share")
-                        .padding()
-                        .foregroundColor(Color.accentColor)
+            if !isShareEnabled {
+                // 공유 버튼
+                Button (action:{
+                    let newStory = Story(
+                        userId: authManager.userID,
+                        date: Date(),
+                        latitude: storyDraft.latitude,
+                        longitude: storyDraft.longitude,
+                        address: storyDraft.address,
+                        emoji: storyDraft.emoji,
+                        content: storyDraft.content,
+                        publishedTargets: []
                     )
+                    Task {
+                        await storyStore.addStory(newStory)
+                    }
+                    resetStory()
+                    isDisplayEmojiPicker = false
+                    
+                    // 유저의 위경도 값 저장
+                    if let location = locationManager.currentLocation {
+                        userInfoStore.userInfo?.latitude = location.coordinate.latitude
+                        userInfoStore.userInfo?.longitude = location.coordinate.longitude
+                    }
+                }) {
+                    RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
+                        .stroke(Color.accentColor, lineWidth: 0.5)
+                        .background(RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
+                            .fill(Color.white))
+                        .frame(width: 340, height: 40)
+                        .overlay(Text("Share")
+                            .padding()
+                            .foregroundColor(Color.accentColor)
+                        )
+                }
+//                .disabled(isShareEnabled)
             }
-            .disabled(isShareEnabled)
             
             
         }
