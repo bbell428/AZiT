@@ -167,6 +167,7 @@ struct TextMessage: View {
 struct MessageSendField: View {
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var chatDetailViewStore: ChatDetailViewStore
+    @EnvironmentObject var userInfoStore: UserInfoStore
     @State var text: String = "" // 텍스트 필드
     var roomId: String
     var nickname: String
@@ -184,7 +185,7 @@ struct MessageSendField: View {
                     guard !text.isEmpty else { return }
                     Task {
                         print("메시지 전송: \(text)")
-                        chatDetailViewStore.sendMessage(text: text, myId: roomId, friendId: userId)
+                        chatDetailViewStore.sendMessage(text: text, myId: userInfoStore.userInfo?.id ?? "", friendId: userId)
                         text = "" // 메시지 전송 후 입력 필드를 비웁니다.
                     }
                 }
@@ -193,7 +194,7 @@ struct MessageSendField: View {
             Button(action: {
                 Task {
                     print("메시지 전송: \(text)")
-                    chatDetailViewStore.sendMessage(text: text, myId: roomId, friendId: userId)
+                    chatDetailViewStore.sendMessage(text: text, myId: userInfoStore.userInfo?.id ?? "", friendId: userId)
                     text = "" // 메시지 전송 후 입력 필드를 비웁니다.
                 }
             }) {

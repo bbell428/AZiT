@@ -89,7 +89,7 @@ class ChatDetailViewStore: ObservableObject {
             }
     }
     
-    // 메시지 전송
+    // MARK: - 메시지 전송
     func sendMessage(text: String, myId: String, friendId: String) {
         let newMessageId = UUID().uuidString
         do {
@@ -105,6 +105,7 @@ class ChatDetailViewStore: ObservableObject {
         }
     }
     
+    // MARK: - 대화방 ID 이름 결정
     func generateChatRoomId(userId1: String, userId2: String) -> String {
         return userId1 < userId2 ? "\(userId1)_\(userId2)" : "\(userId2)_\(userId1)"
     }

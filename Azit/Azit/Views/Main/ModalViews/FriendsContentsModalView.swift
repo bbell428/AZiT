@@ -45,6 +45,7 @@ struct FriendsContentsModalView: View {
                         Task {
                             chatDetailViewStore.sendMessage(text: message, myId: userInfoStore.userInfo?.id ?? "", friendId: story?.userId ?? "")
                             print("메시지 전송에 성공했습니다!")
+                            message = ""
                         }
                     }
                     
