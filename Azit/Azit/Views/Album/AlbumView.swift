@@ -121,7 +121,7 @@ struct AlbumView: View {
                     }
                     
                     // 선택된 친구가 storys 값에 포함되고 있을경우 (= 게시물이 있을 경우)
-                    if albumstore.storys.contains(where: { $0.userId == albumstore.filterUserID }) {
+                    if albumstore.storys.contains(where: { $0.userId == albumstore.filterUserID }) && !getTimeGroupedStories().isEmpty {
                         ScrollView {
                             Rectangle()
                                 .frame(height: 160)
@@ -146,7 +146,7 @@ struct AlbumView: View {
                                     )
                             }
                             .frame(height: 0)
-                            
+
                             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), alignment: .leading, spacing: 5) {
                                 ForEach(getTimeGroupedStories(), id: \.title) { group in
                                     Section(header: HStack {
@@ -190,7 +190,7 @@ struct AlbumView: View {
                                 .font(.system(size: 30))
                                 .foregroundStyle(Color.gray)
                                 .padding(.bottom, 10)
-                            Text("현재 올라온 게시물이 없습니다.")
+                            Text("올라온 게시물이 없습니다.")
                                 .font(.subheadline)
                                 .fontWeight(.bold)
                                 .foregroundStyle(Color.gray)
@@ -229,27 +229,52 @@ struct AlbumView: View {
     
     func getTimeGroupedStories() -> [(title: String, stories: [Story])] {
         let timeGroups: [(String, (Story) -> Bool)] = [
-            ("최근", { $0.isWithin(hours: 24) }),  // 오늘: 24시간 이내
-            ("1일 전", { $0.isWithin(hours: 48) && !$0.isWithin(hours: 24) }),  // 1일 전: 24~48시간 이내
-            ("2일 전", { $0.isWithin(hours: 72) && !$0.isWithin(hours: 48) }),  // 2일 전: 48~72시간 이내
-            ("3일 전", { $0.isWithin(hours: 96) && !$0.isWithin(hours: 72) }),  // 3일 전: 72~96시간 이내
-            ("4일 전", { $0.isWithin(hours: 120) && !$0.isWithin(hours: 96) }),  // 4일 전: 96~120시간 이내
-            ("5일 전", { $0.isWithin(hours: 144) && !$0.isWithin(hours: 120) }),  // 5일 전: 120~144시간 이내
-            ("6일 전", { $0.isWithin(hours: 168) && !$0.isWithin(hours: 144) }),  // 6일 전: 144~168시간 이내
-            ("1주일 전", { $0.isWithin(hours: 336) && !$0.isWithin(hours: 168) }),  // 1주일 전: 168~336시간 이내
-            ("2주일 전", { $0.isWithin(hours: 672) && !$0.isWithin(hours: 336) }),  // 2주일 전: 336~672시간 이내
-            ("3주일 전", { $0.isWithin(hours: 1008) && !$0.isWithin(hours: 672) }),  // 3주일 전: 672~1008시간 이내
-            ("4주일 전", { $0.isWithin(hours: 1344) && !$0.isWithin(hours: 1008) }),  // 4주일 전: 1008~1344시간 이내
-            ("그 외", { !$0.isWithin(hours: 1344) })  // 4주 이상: 1344시간 이상
+            ("최근", { $0.isWithin(hours: 24) }),
+            ("1일 전", { $0.isWithin(hours: 48) && !$0.isWithin(hours: 24) }),
+            ("2일 전", { $0.isWithin(hours: 72) && !$0.isWithin(hours: 48) }),
+            ("3일 전", { $0.isWithin(hours: 96) && !$0.isWithin(hours: 72) }),
+            ("4일 전", { $0.isWithin(hours: 120) && !$0.isWithin(hours: 96) }),
+            ("5일 전", { $0.isWithin(hours: 144) && !$0.isWithin(hours: 120) }),
+            ("6일 전", { $0.isWithin(hours: 168) && !$0.isWithin(hours: 144) }),
+            ("1주일 전", { $0.isWithin(hours: 336) && !$0.isWithin(hours: 168) }),
+            ("2주일 전", { $0.isWithin(hours: 672) && !$0.isWithin(hours: 336) }),
+            ("3주일 전", { $0.isWithin(hours: 1008) && !$0.isWithin(hours: 672) }),
+            ("4주일 전", { $0.isWithin(hours: 1344) && !$0.isWithin(hours: 1008) }),
+            ("그 외", { !$0.isWithin(hours: 1344) })
         ]
         
+        let calendar = Calendar.current
+        let isToday = calendar.isDateInToday(selectedDate)
+        let selectedDayStart = calendar.startOfDay(for: selectedDate)
+        let selectedDayEnd = calendar.date(byAdding: .day, value: 1, to: selectedDayStart) ?? selectedDayStart
+
         return timeGroups.compactMap { group in
-            let filteredStories = albumstore.storys.filter { story in
-                return story.userId == albumstore.filterUserID && group.1(story)
-            }
-                .sorted(by: { $0.date > $1.date })  // 날짜 순으로 정렬
+            let filteredStories: [Story]
             
-            return filteredStories.isEmpty ? nil : (group.0, filteredStories)
+            // 만약 날짜가 오늘이라면, 최근/1일/1주일.. 로직
+            if isToday {
+                filteredStories = albumstore.storys.filter { story in
+                    story.userId == albumstore.filterUserID && group.1(story)
+                }
+                // 만약 날짜가 오늘이 아니라면, 해당하는 날짜만 가져오기
+            } else {
+                filteredStories = albumstore.storys.filter { story in
+                    story.userId == albumstore.filterUserID &&
+                    (selectedDayStart...selectedDayEnd).contains(story.date)
+                }
+            }
+
+            let title: String
+            if isToday {
+                title = group.0
+            } else {
+                let formatter = DateFormatter()
+                formatter.locale = Locale(identifier: "ko_KR")
+                formatter.dateFormat = "YYYY년 M월 d일"
+                title = formatter.string(from: selectedDate)
+            }
+            
+            return filteredStories.isEmpty ? nil : (title, filteredStories.sorted(by: { $0.date > $1.date }))
         }
     }
 }
