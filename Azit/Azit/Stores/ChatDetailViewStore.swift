@@ -11,7 +11,7 @@ class ChatDetailViewStore: ObservableObject {
     @Published private(set) var lastMessageId: String = ""
     private var db = Firestore.firestore() // 파이어베이스
     private var listener: ListenerRegistration?
-
+    
     // 메시지 리스너 제거
     func removeChatMessagesListener() {
         listener?.remove()
@@ -88,20 +88,24 @@ class ChatDetailViewStore: ObservableObject {
                 }
             }
     }
-
+    
     // 메시지 전송
-    func sendMessage(text: String, roomId: String, userId: String) {
+    func sendMessage(text: String, myId: String, friendId: String) {
         let newMessageId = UUID().uuidString
         do {
-            let newMessage = Chat(id: newMessageId, createAt: Date(), message: text, sender: userId, readBy: [userId])
+            let newMessage = Chat(id: newMessageId, createAt: Date(), message: text, sender: myId, readBy: [myId])
             // 메시지 저장
-            try db.collection("Chat").document(roomId).collection("Messages").document(newMessageId).setData(from: newMessage)
+            try db.collection("Chat").document(generateChatRoomId(userId1: myId, userId2: friendId)).collection("Messages").document(newMessageId).setData(from: newMessage)
+            
             // 메시지 채팅방에 마지막에 올라온 내용과 시간 업데이트
-            db.collection("Chat").document(roomId)
-                .updateData(["lastMessageAt": Date(),
-                             "lastMessage": text])
+            db.collection("Chat").document(generateChatRoomId(userId1: myId, userId2: friendId))
+                .setData(["lastMessage": text, "lastMessageAt": Date(), "participants": [myId, friendId], "roomId": generateChatRoomId(userId1: myId, userId2: friendId)])
         } catch {
             print("메시지 전송하는데 실패했습니다. \(error)")
         }
+    }
+    
+    func generateChatRoomId(userId1: String, userId2: String) -> String {
+        return userId1 < userId2 ? "\(userId1)_\(userId2)" : "\(userId2)_\(userId1)"
     }
 }

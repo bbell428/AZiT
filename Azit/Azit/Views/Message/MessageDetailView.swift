@@ -53,6 +53,7 @@ struct MessageDetailView: View {
     @Environment(\.dismiss) var dismiss
     var roomId: String // 메시지방 id
     var nickname: String // 상대방 닉네임
+    var userId: String // 상대방 id
     var profileImageName: String // 상대방 프로필 아이콘
     
     var body: some View {
@@ -66,7 +67,7 @@ struct MessageDetailView: View {
                 TextMessage(profileImageName: profileImageName)
                 
                 // 메시지 입력 공간
-                MessageSendField(roomId: roomId, nickname: nickname)
+                MessageSendField(roomId: roomId, nickname: nickname, userId: userId)
                     .frame(maxHeight: 50)
                     .padding(.bottom)
             }
@@ -169,6 +170,7 @@ struct MessageSendField: View {
     @State var text: String = "" // 텍스트 필드
     var roomId: String
     var nickname: String
+    var userId: String // 상대방 id
     
     var body: some View {
         HStack {
@@ -182,7 +184,7 @@ struct MessageSendField: View {
                     guard !text.isEmpty else { return }
                     Task {
                         print("메시지 전송: \(text)")
-                        chatDetailViewStore.sendMessage(text: text, roomId: roomId, userId: authManager.userID)
+                        chatDetailViewStore.sendMessage(text: text, myId: roomId, friendId: userId)
                         text = "" // 메시지 전송 후 입력 필드를 비웁니다.
                     }
                 }
@@ -191,7 +193,7 @@ struct MessageSendField: View {
             Button(action: {
                 Task {
                     print("메시지 전송: \(text)")
-                    chatDetailViewStore.sendMessage(text: text, roomId: roomId, userId: authManager.userID)
+                    chatDetailViewStore.sendMessage(text: text, myId: roomId, friendId: userId)
                     text = "" // 메시지 전송 후 입력 필드를 비웁니다.
                 }
             }) {
@@ -207,7 +209,7 @@ struct MessageSendField: View {
     }
 }
 
-#Preview {
-    MessageDetailView(roomId: "chu_parkjunyoung", nickname: "Test", profileImageName: "🐶")
-        .environmentObject(ChatDetailViewStore())
-}
+//#Preview {
+//    MessageDetailView(roomId: "chu_parkjunyoung", nickname: "Test", profileImageName: "🐶")
+//        .environmentObject(ChatDetailViewStore())
+//}

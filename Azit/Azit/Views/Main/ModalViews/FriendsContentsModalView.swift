@@ -11,6 +11,8 @@ struct FriendsContentsModalView: View {
     let screenBounds = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds
     
     @EnvironmentObject var storyStore: StoryStore
+    @EnvironmentObject var chatDetailViewStore: ChatDetailViewStore
+    @EnvironmentObject var userInfoStore: UserInfoStore
     
     @Binding var message: String
     @Binding var selectedUserInfo: UserInfo
@@ -38,6 +40,13 @@ struct FriendsContentsModalView: View {
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(.accent, lineWidth: 1)
                     )
+                    .onSubmit {
+                        guard !message.isEmpty else { return }
+                        Task {
+                            chatDetailViewStore.sendMessage(text: message, myId: userInfoStore.userInfo?.id ?? "", friendId: story?.userId ?? "")
+                            print("메시지 전송에 성공했습니다!")
+                        }
+                    }
                     
                     if !message.isEmpty {
                         Button {
