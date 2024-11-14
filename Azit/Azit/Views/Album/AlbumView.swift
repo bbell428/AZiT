@@ -128,24 +128,21 @@ struct AlbumView: View {
                                 .foregroundStyle(Color.white)
                             
                             GeometryReader { proxy in
-                                let offsetY = proxy.frame(in: .global).origin.y
-                                
-                                DispatchQueue.main.async {
-                                    if abs(offsetY - lastOffsetY) > 120 && lastOffsetY < 400 {
-                                        withAnimation {
-                                            isShowHorizontalScroll = offsetY > lastOffsetY
-                                        }
-                                        lastOffsetY = offsetY
-                                    }
-                                }
-                                
-                                return Color.clear
+                                Color.clear
                                     .preference(
                                         key: ScrollPreferenceKey.self,
-                                        value: offsetY
+                                        value: proxy.frame(in: .global).origin.y
                                     )
                             }
                             .frame(height: 0)
+                            .onPreferenceChange(ScrollPreferenceKey.self) { value in
+                                if abs(value - lastOffsetY) > 120 && lastOffsetY < 400 {
+                                    withAnimation {
+                                        isShowHorizontalScroll = value > lastOffsetY
+                                    }
+                                    lastOffsetY = value
+                                }
+                            }
 
                             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), alignment: .leading, spacing: 5) {
                                 ForEach(getTimeGroupedStories(), id: \.title) { group in
@@ -161,16 +158,30 @@ struct AlbumView: View {
                                         ForEach(group.stories) { story in
                                             VStack(alignment: .leading) {
                                                 Button {
-                                                    
                                                     selectedAlbum = story
                                                     isFriendsContentModalPresented = true
                                                 } label: {
-                                                    Image("Album")
-                                                        .resizable()
-                                                    //.aspectRatio(contentMode: .fill)
-                                                        .cornerRadius(15)
-                                                        .frame(maxWidth: 120, maxHeight: 160)
-                                                    //Text(story.content)
+                                                    VStack {
+                                                        if !story.image.isEmpty {
+                                                            Image("Album")
+                                                                .resizable()
+                                                                .cornerRadius(15)
+                                                                .background(.subColor4.opacity(0.95))
+                                                        } else {
+                                                            VStack {
+                                                                Spacer()
+                                                                SpeechBubbleView(text: story.content)
+                                                                    .padding(.bottom, 5)
+                                                                Text(story.emoji)
+                                                                    .font(.largeTitle)
+                                                                Spacer()
+                                                            }
+                                                            .frame(maxWidth: .infinity)
+                                                            .background(.subColor4.opacity(0.95))
+                                                            .cornerRadius(15) // 추가
+                                                        }
+                                                    }
+                                                    .frame(width: 120, height: 160)
                                                 }
                                             }
                                         }
