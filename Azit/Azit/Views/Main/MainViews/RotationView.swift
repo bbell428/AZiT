@@ -28,6 +28,8 @@ struct RotationView: View {
     @State private var numberOfCircles: Int = 0 // 친구 story 개수
     @State private var isShowAlert = false // QR로 앱 -> 알림 띄움 (친구추가)
     @State private var isShowYes = false // QR로 인해 친구추가 알림에서 Yes를 누를 경우
+    @State private var isTappedWidget = false // 위젯이 클릭 되었는지 확인
+    @State private var tappedWidgetUserInfo: UserInfo = UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0)
   
     var body: some View {
         ZStack {
@@ -104,11 +106,27 @@ struct RotationView: View {
                                     users: $sortedUsers,
                                     message: $message,
                                     selectedIndex: $selectedIndex)
+            
+            
+            if isTappedWidget {
+                Color.black.opacity(0.4)
+                    .ignoresSafeArea()
+                    .onTapGesture {
+                        isFriendsModalPresented = false
+                    }
+                    .zIndex(2)
+                
+                FriendsContentsModalView(message: $message, selectedUserInfo: $tappedWidgetUserInfo)
+            }
         }
         .onAppear {
             Task {
                 // 사용자 본인의 정보 받아오기
                 await userInfoStore.loadUserInfo(userID: authManager.userID)
+                
+                let initialData = userInfoStore.userInfo
+                userInfoStore.saveToUserDefaultsFirstLaunch(data: initialData!)
+                
                 // 사용자 본인의 친구 받아오기
                 userInfoStore.loadFriendsInfo(friendsIDs: userInfoStore.userInfo?.friends ?? [])
                 

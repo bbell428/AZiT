@@ -243,4 +243,21 @@ class UserInfoStore: ObservableObject {
         
         return user.nickname
     }
+    
+    // MARK: - 첫 런치 때 유저 데이터 전달
+    func saveToUserDefaultsFirstLaunch(data: UserInfo) {
+        let userDefaults = UserDefaults(suiteName: "group.education.techit.Azit.AzitWidget")
+        let hasLaunchedKey = "hasLaunchedBefore"
+        
+        // 처음 실행되는 경우에만 저장
+        if userDefaults?.bool(forKey: hasLaunchedKey) == false {
+            if let encodedData = try? JSONEncoder().encode(data) {
+                userDefaults?.set(encodedData, forKey: "widgetData")
+                userDefaults?.set(true, forKey: hasLaunchedKey)
+                print("유저 디폴트에 유저 데이터를 저장하였습니다.")
+            }
+        } else {
+            print("이미 유저 데이터가 저장되어 있습니다.")
+        }
+    }    
 }
