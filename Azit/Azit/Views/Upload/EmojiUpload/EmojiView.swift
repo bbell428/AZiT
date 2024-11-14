@@ -22,6 +22,7 @@ struct EmojiView : View {
     @State var isPicture:Bool = false
     @State var firstNaviLinkActive = false
     @State private var isLimitExceeded: Bool = false
+    @State private var scale: CGFloat = 0.1
     private let characterLimit = 20
     // FocusState 변수를 선언하여 TextEditor의 포커스 상태를 추적
     @FocusState private var isTextEditorFocused: Bool
@@ -147,13 +148,10 @@ struct EmojiView : View {
                             .foregroundColor(Color.accentColor)
                         )
                 }
-//                .disabled(isShareEnabled)
             }
-            
-            
         }
         .padding()
-        .frame(width: 365, height: 550) // 팝업창 크기
+        .frame(width: 365, height: isShareEnabled ? 500 : 550) // 팝업창 크기
         .background(
             RoundedRectangle(cornerRadius: 15)
                 .fill(Color.subColor4)
@@ -179,12 +177,40 @@ struct EmojiView : View {
         .onTapGesture {
             isTextEditorFocused = false // 다른 곳을 클릭하면 포커스 해제
         }
+        .scaleEffect(scale)
+        .onAppear {
+            if let location = locationManager.currentLocation {
+                fetchAddress()
+            } else {
+                print("위치 정보가 아직 준비되지 않았습니다.")
+            }
+            
+            
+            withAnimation(.easeInOut(duration: 0.3)) {
+                scale = 1.0
+            }
+        }
+        .onDisappear {
+            withAnimation(.easeInOut(duration: 0.3)) {
+                scale = 0.1
+            }
+        }
     }
     
     // 저장 후 초기화 함수
     func resetStory() {
         storyDraft.content = ""
         storyDraft.emoji = ""
+    }
+    
+    private func fetchAddress() {
+        if let location = locationManager.currentLocation {
+            reverseGeocode(location: location) { addr in
+                storyDraft.address = addr ?? ""
+            }
+        } else {
+            print("위치를 가져올 수 없습니다.")
+        }
     }
     //    func getEmojiList()->[[Int]] {
     //        var emojis : [[Int]] = []

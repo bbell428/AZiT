@@ -44,47 +44,7 @@ struct MainView: View {
                 // 메인 화면의 메뉴들
                 MainTopView(isMainExposed: $isMainExposed)
                     .zIndex(1)
-                
-                if isDisplayEmojiPicker {
-                    Color.black.opacity(0.4)
-                        .edgesIgnoringSafeArea(.all)
-                        .onTapGesture {
-                            isDisplayEmojiPicker = false // 배경 터치 시 닫기
-                        }
-                        .zIndex(2)
-                    
-                    EmojiView(isDisplayEmojiPicker: $isDisplayEmojiPicker)
-                        .scaleEffect(scale)
-                        .onAppear {
-                            if let location = locationManager.currentLocation {
-                                fetchAddress()
-                            } else {
-                                print("위치 정보가 아직 준비되지 않았습니다.")
-                            }
-                            
-                            withAnimation(.easeInOut(duration: 0.3)) {
-                                scale = 1.0
-                            }
-                        }
-                        .onDisappear {
-                            withAnimation(.easeInOut(duration: 0.3)) {
-                                scale = 0.1
-                            }
-                        }
-                        .zIndex(3)
-//                        .frame(width: (screenBounds?.width ?? 0) - 50)
-                }
             }
-        }
-    }
-    
-    private func fetchAddress() {
-        if let location = locationManager.currentLocation {
-            reverseGeocode(location: location) { addr in
-                storyDraft.address = addr ?? ""
-            }
-        } else {
-            print("위치를 가져올 수 없습니다.")
         }
     }
 }
