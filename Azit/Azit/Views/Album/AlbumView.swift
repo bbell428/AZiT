@@ -39,6 +39,7 @@ struct AlbumView: View {
     @State var isFriendsContentModalPresented: Bool = false
     @State var message: String = ""
     
+    @State var isShowCalendar: Bool = false
     @State private var selectedDate: Date = Date()
     @State var selectedIndex: Int = 0
     @State var selectedAlbum: Story?
@@ -69,7 +70,7 @@ struct AlbumView: View {
                             .frame(maxWidth: .infinity)
                         
                         Button {
-                            
+                            isShowCalendar = true
                         } label: {
                             Image(systemName: "calendar")
                                 .font(.system(size: 25))
@@ -87,6 +88,7 @@ struct AlbumView: View {
                             .ignoresSafeArea()
                             .onTapGesture {
                                 isFriendsContentModalPresented = false
+                                message = ""
                             }
                             .zIndex(6)
                         
@@ -106,9 +108,9 @@ struct AlbumView: View {
                             
                             VStack {
                                 Rectangle()
-                                    .fill(.subColor2)
-                                    .frame(height: 1, alignment: .bottomLeading)
-                                    .padding(.bottom, 1)
+                                    .fill(.accent)
+                                    .frame(height: 0.2, alignment: .bottomLeading)
+                                    .padding(.bottom, 1.4)
                             }
                             .zIndex(2)
                         }
@@ -202,6 +204,15 @@ struct AlbumView: View {
                 Task {
                     await albumstore.loadStorysByIds(ids: userInfoStore.userInfo?.friends ?? [])
                 }
+            }
+            .sheet(isPresented: $isShowCalendar) {
+                DatePicker("Select Date", selection: $selectedDate, displayedComponents: [.date])
+                    .datePickerStyle(GraphicalDatePickerStyle())
+                    .environment(\.locale, Locale(identifier: "ko_KR"))
+                    .padding()
+                    .background(Color.clear)
+                    .presentationDetents([.height(400)])
+                    .presentationBackground(.subColor4.opacity(0.95))
             }
             .navigationBarBackButtonHidden(true)
         }
