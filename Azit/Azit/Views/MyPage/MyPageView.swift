@@ -17,11 +17,34 @@ struct MyPageView: View {
     @State var isQRPresented: Bool = false // QR 뷰
     
     @State var friends: [UserInfo] = []
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         ZStack {
             VStack(alignment: .center) {
-                VStack {
+                HStack {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 25))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    .padding(.horizontal, 20)
+                                        
+                    Text("My Page")
+                        .font(.title3)
+                        .fontWeight(.bold)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                    
+                    Color.clear
+                        .frame(maxWidth: .infinity)
+                    
+                }
+                .frame(height: 70)
+                .background(Color.white)
+
+                VStack(alignment: .center) {
                     //MARK: 내 프로필이미지, 닉네임
                     ZStack {
                         Circle()
@@ -64,7 +87,7 @@ struct MyPageView: View {
                     .padding(.top, -50)
                     .padding(.leading, 60)
                 }
-                .padding(.top, 30)
+                .padding(.top, -10)
                 
                 ScrollView {
                     //MARK: 친구 리스트
@@ -280,7 +303,7 @@ struct MyPageView: View {
                 friends = friendIDs.compactMap { userInfoStore.friendInfo[$0] }
             }
         }
-        
+        .navigationBarBackButtonHidden(true)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
