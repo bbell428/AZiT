@@ -15,7 +15,7 @@ struct FriendsContentsModalView: View {
     @Binding var message: String
     @Binding var selectedUserInfo: UserInfo
     
-    @State var story: Story?
+    @State var story: Story? = nil
     @State private var isLiked: Bool = false
     @State private var scale: CGFloat = 0.1
     
@@ -72,7 +72,9 @@ struct FriendsContentsModalView: View {
         .onAppear {
             Task {
                 // 선택 된 친구의 story
-                try await story = storyStore.loadRecentStoryById(id: selectedUserInfo.id)
+                if story == nil {
+                    try await story = storyStore.loadRecentStoryById(id: selectedUserInfo.id)
+                }
             }
             withAnimation(.easeInOut(duration: 0.3)) {
                 scale = 1.0

@@ -43,8 +43,6 @@ struct AlbumView: View {
     @State var selectedIndex: Int = 0
     @State var selectedAlbum: Story?
     
-    @State var userInfo: UserInfo = UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0)
-    
     var body: some View {
         NavigationStack {
             VStack {
@@ -85,16 +83,16 @@ struct AlbumView: View {
                     
                     // 게시물을 클릭했을때, 상세정보
                     if isFriendsContentModalPresented {
-                            Color.black.opacity(0.4)
-                                .ignoresSafeArea()
-                                .onTapGesture {
-                                    isFriendsContentModalPresented = false
-                                }
-                                .zIndex(6)
-                            
-                            FriendsContentsModalView(message: $message, selectedUserInfo: $userInfo, story: selectedAlbum)
-                                .zIndex(7)
-                                .frame(maxHeight: .infinity, alignment: .center)
+                        Color.black.opacity(0.4)
+                            .ignoresSafeArea()
+                            .onTapGesture {
+                                isFriendsContentModalPresented = false
+                            }
+                            .zIndex(6)
+                        
+                        FriendsContentsModalView(message: $message, selectedUserInfo: $userInfoStore.friendInfos[selectedIndex], story: selectedAlbum)
+                            .zIndex(7)
+                            .frame(maxHeight: .infinity, alignment: .center)
                     }
                     
                     // 스크롤이 내려가지 않았거나, 위로 올렸을경우 (친구 리스트)
@@ -161,6 +159,7 @@ struct AlbumView: View {
                                         ForEach(group.stories) { story in
                                             VStack(alignment: .leading) {
                                                 Button {
+                                                    
                                                     selectedAlbum = story
                                                     isFriendsContentModalPresented = true
                                                 } label: {
@@ -217,7 +216,6 @@ struct AlbumView: View {
         }
     }
     
-    
     func getTimeGroupedStories() -> [(title: String, stories: [Story])] {
         let timeGroups: [(String, (Story) -> Bool)] = [
             ("최근", { $0.isWithin(hours: 24) }),  // 오늘: 24시간 이내
@@ -238,6 +236,7 @@ struct AlbumView: View {
             let filteredStories = albumstore.storys.filter { story in
                 return story.userId == albumstore.filterUserID && group.1(story)
             }
+                .sorted(by: { $0.date > $1.date })  // 날짜 순으로 정렬
             
             return filteredStories.isEmpty ? nil : (group.0, filteredStories)
         }
