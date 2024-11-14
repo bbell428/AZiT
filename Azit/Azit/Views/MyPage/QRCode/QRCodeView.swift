@@ -9,7 +9,7 @@ import CoreImage.CIFilterBuiltins
 import Observation
 import SwiftUI
 
-// QR코드 만들면서 이미지로 생성
+// QR코드 만들면서, QR코드를 이미지로 생성하는 클래스
 class QR: ObservableObject {
     @Published var dataString = ""
     
@@ -36,7 +36,8 @@ struct QRCodeView: View {
     @EnvironmentObject var userInfoStore: UserInfoStore
     @StateObject private var viewModel = QR()
     
-    @State private var renderedImage: Image?
+    @State private var renderedImage: UIImage? // 렌더링 이미지 (이미지로 된 뷰)
+    @State private var isShareSheetPresented = false // 공유창 띄움
     
     var body: some View {
         ZStack {
@@ -58,6 +59,13 @@ struct QRCodeView: View {
                         // 딥 링크 URL 생성
                         let deepLinkURL = "azit://\(authManager.userID)"
                         viewModel.dataString = deepLinkURL
+                        
+                        // QRCodeContent의 내용 렌더링
+                        let renderer = ImageRenderer(content: QRCodeContent(QRImage: viewModel.qrCode, userID: authManager.userID, userName: userInfoStore.userInfo?.nickname ?? ""))
+                        renderer.scale = 3
+                        if let cgImage = renderer.cgImage {
+                            renderedImage = UIImage(cgImage: cgImage) // UIImage로 변환하여 저장
+                        }
                     }
                 
                 Divider()
@@ -75,35 +83,29 @@ struct QRCodeView: View {
                 }
                 .font(.title2)
                 .padding(.top, 15)
-                
-                ZStack {
-                    Circle()
-                        .fill(Color.accentColor)
-                        .frame(width: 45, height: 45)
-                    Image(systemName: "square.and.arrow.up")
-                        .foregroundStyle(Color.white)
-                        .bold()
-                        .padding(.bottom, 5)
-                }
-                .overlay {
-                    // 렌더링된 이미지가 있을 경우에만 공유 버튼 활성화
-                    if let renderedImage = renderedImage {
-                        ShareLink("", item: renderedImage, preview: SharePreview("AZiT QR Code", image: renderedImage))
-                            .blendMode(.overlay)
+
+                Button {
+                    isShareSheetPresented = true
+                } label: {
+                    ZStack {
+                        Circle()
+                            .fill(Color.accentColor)
+                            .frame(width: 45, height: 45)
+                        Image(systemName: "square.and.arrow.up")
+                            .foregroundStyle(Color.white)
+                            .bold()
+                            .padding(.bottom, 5)
                     }
                 }
+                .sheet(isPresented: $isShareSheetPresented) {
+                    QRShareSheet(shareItems: [
+                        "\(userInfoStore.userInfo?.nickname ?? "")님께서 AZiT에 초대합니다.", "azit://\(authManager.userID)", renderedImage ?? UIImage()]
+                    )
+                }
             }
-            .frame(maxWidth: 200, maxHeight: .infinity)
+            .frame(width: 200)
         }
-        .frame(width: 350, height: 450)
-        .onAppear {
-            // QRCodeContent의 내용 렌더링
-            let renderer = ImageRenderer(content: QRCodeContent(QRImage: viewModel.qrCode, userID: authManager.userID, userName: userInfoStore.userInfo?.nickname ?? ""))
-            renderer.scale = 3
-            if let image = renderer.cgImage {
-                renderedImage = Image(decorative: image, scale: 1.0)
-            }
-        }
+        .frame(maxWidth: 350, maxHeight: 450)
     }
     
 }

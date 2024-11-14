@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// 공유하기 눌렀을 때, 보여질 이미지 뷰
+// 공유하기로 보여질 이미지 뷰
 struct QRCodeContent: View {
     var QRImage: Image
     var userID: String
@@ -16,9 +16,6 @@ struct QRCodeContent: View {
     var body: some View {
         ZStack {
             Image("QRBackground")
-                .resizable()
-                .scaledToFill()
-                .ignoresSafeArea()
                 .opacity(0.95)
             
             VStack {
@@ -45,8 +42,8 @@ struct QRCodeContent: View {
                 .font(.title2)
                 .padding(.top, 15)
             }
-            .frame(maxWidth: 200, maxHeight: .infinity)
+            .frame(width: 200)
         }
-        .frame(width: 350, height: 450)
+        .frame(width: 320, height: 480)
     }
 }
