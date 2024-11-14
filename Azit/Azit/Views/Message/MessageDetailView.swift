@@ -135,22 +135,23 @@ struct TextMessage: View {
                 LazyVStack(spacing: 20) {
                     ForEach(chatDetailViewStore.chatList, id: \.id) { chat in
                         if chat.sender == authManager.userID {
-                            PostMessage(chat: chat)
+                                PostMessage(chat: chat)
                         } else {
-                            GetMessage(chat: chat, profileImageName: profileImageName)
+                                GetMessage(chat: chat, profileImageName: profileImageName)
                         }
                     }
+            
                     Rectangle()
                         .fill(Color.white)
                         .id("Bottom")
                 }
                 // 초기에 가장 하단 스크롤으로 이동
                 .onAppear {
-                    proxy.scrollTo("Bottom", anchor: .bottom)
+                        proxy.scrollTo("Bottom", anchor: .bottom)
                 }
                 // 메시지가 전송/전달 되면 하단 스크롤으로 이동
                 .onChange(of: chatDetailViewStore.lastMessageId) { id, _ in
-                    proxy.scrollTo("Bottom", anchor: .bottom)
+                        proxy.scrollTo("Bottom", anchor: .bottom)
                 }
             }
         }

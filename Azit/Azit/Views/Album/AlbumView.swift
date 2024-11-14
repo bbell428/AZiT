@@ -34,13 +34,13 @@ struct AlbumView: View {
     @State private var lastOffsetY: CGFloat = .zero
     @State private var items = Array(0..<10)
     @State private var isShowHorizontalScroll = true
-    @State var selectedIndex: Int = 0
     @State private var isLoading = false
     @State var isOpenCalendar: Bool = false
-    @State private var selectedDate: Date = Date()
     @State var isFriendsContentModalPresented: Bool = false
     @State var message: String = ""
     
+    @State private var selectedDate: Date = Date()
+    @State var selectedIndex: Int = 0
     @State var selectedAlbum: Story?
     
     @State var userInfo: UserInfo = UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0)
@@ -83,6 +83,7 @@ struct AlbumView: View {
                     .frame(height: 70)
                     .background(Color.white)
                     
+                    // 게시물을 클릭했을때, 상세정보
                     if isFriendsContentModalPresented {
                             Color.black.opacity(0.4)
                                 .ignoresSafeArea()
@@ -96,6 +97,7 @@ struct AlbumView: View {
                                 .frame(maxHeight: .infinity, alignment: .center)
                     }
                     
+                    // 스크롤이 내려가지 않았거나, 위로 올렸을경우 (친구 리스트)
                     if isShowHorizontalScroll {
                         ZStack(alignment: .bottomLeading) {
                             FriendSegmentView(selectedIndex: $selectedIndex, titles: userInfoStore.friendInfos)
@@ -118,6 +120,7 @@ struct AlbumView: View {
                         .zIndex(3)
                     }
                     
+                    // 선택된 친구가 storys 값에 포함되고 있을경우 (= 게시물이 있을 경우)
                     if albumstore.storys.contains(where: { $0.userId == albumstore.filterUserID }) {
                         ScrollView {
                             Rectangle()

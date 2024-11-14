@@ -47,7 +47,8 @@ struct GetMessage: View {
                 }
             }
             .fixedSize(horizontal: false, vertical: true) // 높이를 내용에 맞게 조절
-            .padding(.leading, 10)
+            .frame(maxWidth: 300, alignment: .leading)
+            //.padding(.leading, 10)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
