@@ -23,6 +23,17 @@ struct PublishScopeView: View {
                 if AllSelected {
                     for friendID in userInfoStore.userInfo?.friends ?? [] {
                         isSelected[friendID] = false
+                        if let friendNickname = userInfoStore.friendInfo[friendID]?.nickname {
+                            if !storyDraft.publishedTargets.contains(friendNickname) {
+                                storyDraft.publishedTargets.append(friendNickname)
+                            }
+                        } else {
+                            // 모든 친구 선택 해제
+                            for friendID in userInfoStore.userInfo?.friends ?? [] {
+                                isSelected[friendID] = false
+                            }
+                            storyDraft.publishedTargets.removeAll()
+                        }
                     }
                 }
             }) {
@@ -52,7 +63,6 @@ struct PublishScopeView: View {
 //                    Button(action: {
 //                        isSelected[friendID]?.toggle()
 //                        if isSelected[friendID] ?? true {
-//                            
 //                            storyDraft.publishedTargets.append(userInfoStore.friendInfo[friendID]?.nickname ?? "")
 //                        } else {
 //                            storyDraft.publishedTargets.remove(at: userInfoStore.friendInfo[friendID]?.nickname ?? "")

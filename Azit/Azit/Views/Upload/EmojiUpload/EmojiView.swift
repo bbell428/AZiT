@@ -130,7 +130,8 @@ struct EmojiView : View {
                     resetStory()
                     isDisplayEmojiPicker = false
                     
-                    // 유저의 위경도 값 저장
+                    // 유저의 새로운 상태, 위경도 값 저장
+                    userInfoStore.userInfo?.previousState = storyDraft.emoji
                     if let location = locationManager.currentLocation {
                         userInfoStore.userInfo?.latitude = location.coordinate.latitude
                         userInfoStore.userInfo?.longitude = location.coordinate.longitude

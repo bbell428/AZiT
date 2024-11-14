@@ -14,25 +14,40 @@ struct PhotoReviewView: View {
     @EnvironmentObject var storyStore: StoryStore
     @EnvironmentObject var storyDraft: StoryDraft
     @EnvironmentObject var authManager: AuthManager
+    @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var userInfoStore: UserInfoStore
+    @Environment(\.dismiss) var dismiss
     @Binding var firstNaviLinkActive: Bool
     @Binding var isMainDisplay: Bool // MainView에서 전달받은 바인딩 변수
-    
     var image: UIImage?
+    
     @State private var showUploadView = false
     @State var isDisplayEmojiPicker: Bool = false
-    
-    @Environment(\.dismiss) var dismiss
+    @State private var progressValue: Double = 2.0
+    let totalValue: Double = 2.0
     
     var body: some View {
         ZStack {
             VStack {
-                ProgressView(value: 2, total: 2)
-                    .progressViewStyle(LinearProgressViewStyle())
-                    .scaleEffect(x: 1, y: 3, anchor: .center)
-                    .frame(height: 10)
-                    .cornerRadius(6)
-                    .padding()
+                // 프로그래스 뷰
+                ZStack(alignment: .leading) {
+                    RoundedRectangle(cornerRadius: 15)
+                        .fill(Color.gray.opacity(0.3))
+                        .frame(width: 360, height: 15)
+                    
+                    RoundedRectangle(cornerRadius: 15)
+                        .fill(
+                            LinearGradient(
+                                gradient: Gradient(colors: [Color.accentColor, Color.gradation1]),
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .frame(width: 360 * (progressValue / totalValue), height: 15)
+                }
+                .padding()
                 
+                // 스토리 이미지
                 if let image = cameraService.capturedImage {
                     Image(uiImage: image)
                         .resizable()
@@ -156,6 +171,14 @@ struct PhotoReviewView: View {
         Task {
             await storyStore.addStory(newStory)
         }
+        
+        // 유저의 새로운 상태, 위경도 값 저장
+        userInfoStore.userInfo?.previousState = storyDraft.emoji
+        if let location = locationManager.currentLocation {
+            userInfoStore.userInfo?.latitude = location.coordinate.latitude
+            userInfoStore.userInfo?.longitude = location.coordinate.longitude
+        }
+        
         showUploadView = true
         firstNaviLinkActive = false
         isMainDisplay = false
