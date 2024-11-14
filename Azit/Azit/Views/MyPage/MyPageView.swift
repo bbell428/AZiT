@@ -10,6 +10,7 @@ import SwiftUI
 struct MyPageView: View {
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var authManager: AuthManager
+    @Environment(\.dismiss) var dismiss
     
     @State var isShowEmoji = false
     @State var isPresented: Bool = false
@@ -17,7 +18,8 @@ struct MyPageView: View {
     @State var isQRPresented: Bool = false // QR 뷰
     
     @State var friends: [UserInfo] = []
-    @Environment(\.dismiss) var dismiss
+    
+    @State private var scale: CGFloat = 0.1
     
     var body: some View {
         ZStack {
@@ -291,7 +293,17 @@ struct MyPageView: View {
                     }
                 
                 QRCodeView()
-                    .animation(.easeInOut, value: isQRPresented)
+                    .scaleEffect(scale)
+                    .onAppear {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            scale = 1.0
+                        }
+                    }
+                    .onDisappear {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            scale = 0.1
+                        }
+                    }
             }
         }
         .onAppear {

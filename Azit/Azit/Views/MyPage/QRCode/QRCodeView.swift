@@ -86,16 +86,9 @@ struct QRCodeView: View {
             .frame(maxWidth: 200, maxHeight: .infinity)
         }
         .frame(width: 350, height: 450)
-//        .transition(.scale) // 애니메이션 효과
 
     }
 }
 #Preview {
     QRCodeView()
 }
-
-
-//            if let url = URL(string: viewModel.dataString) {
-//                Link("Open AZiT App", destination: url)
-//                    .padding()
-//            }
