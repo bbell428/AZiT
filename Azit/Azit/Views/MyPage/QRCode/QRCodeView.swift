@@ -99,8 +99,10 @@ struct QRCodeView: View {
                 }
                 .sheet(isPresented: $isShareSheetPresented) {
                     QRShareSheet(shareItems: [
-                        "\(userInfoStore.userInfo?.nickname ?? "")님께서 AZiT에 초대합니다.", "azit://\(authManager.userID)", renderedImage ?? UIImage()]
-                    )
+                        "\(userInfoStore.userInfo?.nickname ?? "")님께서 AZiT에 초대합니다.",
+                        "azit://\(authManager.userID)",
+                        renderedImage ?? UIImage()
+                    ])
                 }
             }
             .frame(width: 200)

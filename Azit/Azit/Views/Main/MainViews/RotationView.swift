@@ -156,11 +156,21 @@ struct RotationView: View {
                 await userInfoStore.loadUserInfo(userID: authManager.userID)
                 userInfoStore.loadFriendsInfo(friendsIDs: userInfoStore.userInfo?.friends ?? [])
                 
-                sortedUsers = try await Utility.sortUsersByDistance(from: userInfoStore.userInfo!, users: userInfoStore.loadUsersInfoByEmail(userID: userInfoStore.userInfo?.friends ?? []))
-                numberOfCircles = userInfoStore.userInfo?.friends.count ?? 0 // 친구가 아니라 친구의 게시글이 numberOfCircle이 되어야 함
+                var tempUsers: [UserInfo] = []
                 
+                for friend in userInfoStore.userInfo?.friends ?? [] {
+                    do {
+                        let tempStory = try await storyStore.loadRecentStoryById(id: friend)
+                        
+                        if tempStory.id != "" && (tempStory.publishedTargets.contains(userInfoStore.userInfo?.id ?? "") || tempStory.publishedTargets.isEmpty) {
+                            try await tempUsers.append(userInfoStore.loadUsersInfoByEmail(userID: [friend])[0])
+                        }
+                    } catch { }
+                }
+                 
+                sortedUsers = Utility.sortUsersByDistance(from: userInfoStore.userInfo!, users: tempUsers)
+                numberOfCircles = sortedUsers.count
                 let story = try await storyStore.loadRecentStoryById(id: userInfoStore.userInfo?.id ?? "")
-                
                 isPassed24Hours = Utility.hasPassed24Hours(from: story.date)
                 
             }

@@ -8,6 +8,7 @@
 import SwiftUI
 import UIKit
 
+// 공유할 수 있는 공유 시트
 struct QRShareSheet: UIViewControllerRepresentable {
     var shareItems: [Any]
     
