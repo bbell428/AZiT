@@ -76,8 +76,11 @@ struct AlbumScrollView : View {
                                                     .font(.largeTitle)
                                                 Spacer()
                                             }
+                                            .background(
+                                                Image("storyBackImage")
+                                            )
                                             .frame(maxWidth: .infinity)
-                                            .background(.subColor4.opacity(0.95))
+                                            //.background(.subColor4.opacity(0.95))
                                             .cornerRadius(15) // 추가
                                         }
                                     }
