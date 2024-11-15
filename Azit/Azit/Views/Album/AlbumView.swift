@@ -86,28 +86,45 @@ struct AlbumView: View {
                         .zIndex(3)
                     }
                     
-                    // 선택된 친구가 storys 값에 포함되고 있을경우 (= 스토리가 있을 경우)
-                    if albumstore.storys.contains(where: { $0.userId == albumstore.filterUserID }) && !albumstore.getTimeGroupedStories().isEmpty {
-                        AlbumScrollView(lastOffsetY: $lastOffsetY, isShowHorizontalScroll: $isShowHorizontalScroll, isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedAlbum: $selectedAlbum)
-                        .padding(.horizontal, 20)
-                        .onPreferenceChange(ScrollPreferenceKey.self, perform: { value in
-                            self.offsetY = value
-                        })
-                        .zIndex(1)
-                    } else {
+                    // 만약 친구가 없으면,
+                    if userInfoStore.friendInfos.isEmpty {
                         VStack(alignment: .center) {
                             Spacer()  // 위쪽 Spacer
-                            Image(systemName: "doc.text.fill")
+                            Image(systemName: "photo.badge.plus.fill")
                                 .font(.system(size: 30))
                                 .foregroundStyle(Color.gray)
                                 .padding(.bottom, 10)
-                            Text("올라온 게시물이 없습니다.")
+                            Text("친구를 초대해서 공유 앨범을 시작해보세요!")
                                 .font(.subheadline)
                                 .fontWeight(.bold)
                                 .foregroundStyle(Color.gray)
                             Spacer()  // 아래쪽 Spacer
                         }
                         .frame(maxHeight: .infinity)  // 화면 중앙에 오도록 설정
+                    } else {
+                        // 선택된 친구가 storys 값에 포함되고 있을경우 (= 스토리가 있을 경우)
+                        if albumstore.storys.contains(where: { $0.userId == albumstore.filterUserID }) && !albumstore.getTimeGroupedStories().isEmpty {
+                            AlbumScrollView(lastOffsetY: $lastOffsetY, isShowHorizontalScroll: $isShowHorizontalScroll, isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedAlbum: $selectedAlbum)
+                            .padding(.horizontal, 20)
+                            .onPreferenceChange(ScrollPreferenceKey.self, perform: { value in
+                                self.offsetY = value
+                            })
+                            .zIndex(1)
+                        } else {
+                            VStack(alignment: .center) {
+                                Spacer()  // 위쪽 Spacer
+                                Image(systemName: "doc.text.fill")
+                                    .font(.system(size: 30))
+                                    .foregroundStyle(Color.gray)
+                                    .padding(.bottom, 10)
+                                Text("올라온 게시물이 없습니다.")
+                                    .font(.subheadline)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(Color.gray)
+                                Spacer()  // 아래쪽 Spacer
+                            }
+                            .frame(maxHeight: .infinity)  // 화면 중앙에 오도록 설정
+                        }
                     }
                 }
             }

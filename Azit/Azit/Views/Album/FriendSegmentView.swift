@@ -41,7 +41,7 @@ struct FriendSegmentView: View {
     init(selectedIndex: Binding<Int>, titles: [UserInfo]) {
         self._selectedIndex = selectedIndex
         self.titles = titles
-        frames = Array<CGRect>(repeating: .zero, count: titles.count)
+        frames = titles.isEmpty ? [CGRect(x: 0, y: 0, width: 100, height: 50)] : Array<CGRect>(repeating: .zero, count: titles.count)  // 기본값 설정
     }
     
     var body: some View {

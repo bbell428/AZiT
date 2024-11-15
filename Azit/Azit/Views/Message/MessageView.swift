@@ -39,10 +39,26 @@ struct MessageView: View {
                     }
                         .frame(height: 70)
                     
-                    ChatRoomListView() // 메시지 목록
-                        .refreshable {
-                            // 메시지 새로 고침 로직
+                    if chatListStore.chatRoomList.isEmpty {
+                        VStack(alignment: .center) {
+                            Spacer()  // 위쪽 Spacer
+                            Image(systemName: "ellipsis.message.fill")
+                                .font(.system(size: 30))
+                                .foregroundStyle(Color.gray)
+                                .padding(.bottom, 10)
+                            Text("친구 스토리에 답장을 하면 채팅방이 생성됩니다.")
+                                .font(.subheadline)
+                                .fontWeight(.bold)
+                                .foregroundStyle(Color.gray)
+                            Spacer()  // 아래쪽 Spacer
                         }
+                        .frame(maxHeight: .infinity)  // 화면 중앙에 오도록 설정
+                    } else {
+                        ChatRoomListView() // 메시지 목록
+                            .refreshable {
+                                // 메시지 새로 고침 로직
+                            }
+                    }
             }
         }
         .navigationBarBackButtonHidden(true)
