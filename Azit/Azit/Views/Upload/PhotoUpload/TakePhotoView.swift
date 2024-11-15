@@ -28,7 +28,7 @@ struct TakePhotoView: View {
                 RoundedRectangle(cornerRadius: 15)
                     .fill(
                         LinearGradient(
-                            gradient: Gradient(colors: [Color.accentColor, Color.gradation1]),
+                            gradient: Gradient(colors: [Color.accentColor, Color.gradation12]),
                             startPoint: .leading,
                             endPoint: .trailing
                         )

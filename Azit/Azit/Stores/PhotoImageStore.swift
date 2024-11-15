@@ -17,10 +17,10 @@ class PhotoImageStore: ObservableObject {
     // 스토리지에 이미지 파일
     func UploadImage(image: UIImage ,imageName: String) {
         let uploadRef = Storage.storage().reference(withPath: "img/\(imageName)")
-        guard let imageData = image.jpegData(compressionQuality: 0.75) else { return }
+        guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
         let uploadMetaData = StorageMetadata.init()
         uploadMetaData.contentType = "image/jpeg"
-        
+
         uploadRef.putData(imageData, metadata: uploadMetaData) { (downloadMetaData, error) in
             if let error = error {
                 print("Error! \(error.localizedDescription)")

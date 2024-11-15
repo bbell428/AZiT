@@ -38,7 +38,7 @@ struct PhotoReviewView: View {
                     RoundedRectangle(cornerRadius: 15)
                         .fill(
                             LinearGradient(
-                                gradient: Gradient(colors: [Color.accentColor, Color.gradation1]),
+                                gradient: Gradient(colors: [Color.gradation12, Color.gradation1]),
                                 startPoint: .leading,
                                 endPoint: .trailing
                             )

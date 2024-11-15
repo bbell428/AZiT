@@ -148,6 +148,7 @@ struct EmojiView : View {
                             .foregroundColor(Color.accentColor)
                         )
                 }
+                //MARK: - 디테일 사항
             }
         }
         .padding()
@@ -162,17 +163,17 @@ struct EmojiView : View {
             PublishScopeView()
                 .presentationDetents([.medium])
         }
-        .toolbar {
-            // 키보드 위에 '완료' 버튼 추가
-            ToolbarItemGroup(placement: .keyboard) {
-                HStack {
-                    Spacer() // 왼쪽 공간을 확보하여 버튼을 오른쪽으로 이동
-                    Button("완료") {
-                        isTextEditorFocused = false // 키보드 숨기기
-                    }
-                }
-            }
-        }
+//        .toolbar {
+//            // 키보드 위에 '완료' 버튼 추가
+//            ToolbarItemGroup(placement: .keyboard) {
+//                HStack {
+//                    Spacer() // 왼쪽 공간을 확보하여 버튼을 오른쪽으로 이동
+//                    Button("완료") {
+//                        isTextEditorFocused = false // 키보드 숨기기
+//                    }
+//                }
+//            }
+//        }
         .contentShape(Rectangle()) // 전체 뷰가 터치 가능하도록 설정
         .onTapGesture {
             isTextEditorFocused = false // 다른 곳을 클릭하면 포커스 해제

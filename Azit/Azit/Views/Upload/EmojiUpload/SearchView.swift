@@ -34,7 +34,7 @@ struct SearchView: View {
                                 .foregroundStyle(.accent)
                                 .padding(.leading, 10)
                             TextField("이모지 검색", text: $search)
-                                .focused($focusField, equals: .search)
+//                                .focused($focusField, equals: .search)
                                 .autocorrectionDisabled()
                                 .onChange(of: search) { value in
                                     if !value.isEmpty {
@@ -54,6 +54,9 @@ struct SearchView: View {
             }
         }
         .toolbarTitleDisplayMode(.automatic)
+//        .onTapGesture {
+//            isSearchFieldFocused = false // 다른 곳을 클릭하면 포커스 해제
+//        }
         //            .toolbar {
         //                ToolbarItemGroup(placement: .keyboard) {
         //                    Spacer() // 왼쪽 공간을 확보하여 버튼을 오른쪽으로 이동
