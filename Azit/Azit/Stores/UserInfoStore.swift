@@ -243,4 +243,52 @@ class UserInfoStore: ObservableObject {
         
         return user.nickname
     }
+    
+    // MARK: - 사용자 ID로 UserInfo 가져오기
+    func getUserInfoById(uid: String) async throws -> UserInfo? {
+        let db = Firestore.firestore()
+        
+        do {
+            let document = try await db.collection("User").document(uid).getDocument()
+            
+            guard let docData = document.data() else {
+                print("No user data found for uid: \(uid)")
+                return nil
+            }
+            
+            let id = docData["id"] as? String ?? ""
+            let email = docData["email"] as? String ?? ""
+            let nickname = docData["nickname"] as? String ?? ""
+            let profileImageName = docData["profileImageName"] as? String ?? ""
+            let previousState = docData["previousState"] as? String ?? ""
+            let friends = docData["friends"] as? [String] ?? []
+            let latitude = docData["latitude"] as? Double ?? 0.0
+            let longitude = docData["longitude"] as? Double ?? 0.0
+            
+            let userInfo = UserInfo(
+                id: id,
+                email: email,
+                nickname: nickname,
+                profileImageName: profileImageName,
+                previousState: previousState,
+                friends: friends,
+                latitude: latitude,
+                longitude: longitude
+            )
+            
+            return userInfo
+        } catch {
+            print("Error fetching user info by uid: \(error)")
+            return nil
+        }
+    }
+    
+    // MARK: - 친구 목록에 특정 UID가 있는지 확인
+    func isFriend(uid: String) -> Bool {
+        guard let currentUserFriends = self.userInfo?.friends else {
+            return false
+        }
+        
+        return currentUserFriends.contains(uid)
+    }
 }
