@@ -11,28 +11,44 @@ import FirebaseCore
 import FirebaseFirestore
 
 struct Provider: TimelineProvider {
-    func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), userInfo: loadUserInfo() )
+    func placeholder(in context: Context) -> AzitWidgetEntry {
+        AzitWidgetEntry(date: Date(), recentStory: nil)
     }
-
-    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), userInfo: loadUserInfo() )
+    
+    func getSnapshot(in context: Context, completion: @escaping (AzitWidgetEntry) -> Void) {
+        let currentDate = Date.now
+        
+        // 유저 디폴트에서 스토리 데이터 불러오기
+        let recentStory = loadStory()
+        
+        // 위젯에 표시할 데이터 항목을 생성합니다.
+        let entry = AzitWidgetEntry(date: currentDate, recentStory: recentStory)
+        
         completion(entry)
+        
     }
-
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        var entries: [SimpleEntry] = []
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, userInfo: loadUserInfo() )
-            entries.append(entry)
-        }
-
-        let timeline = Timeline(entries: entries, policy: .atEnd)
+    
+    func getTimeline(in context: Context, completion: @escaping (Timeline<AzitWidgetEntry>) -> Void) {
+        // 현재 시간을 가져옵니다.
+        let currentDate = Date.now
+        
+        // 유저 디폴트에서 스토리 데이터 불러오기
+        let recentStory = loadStory()
+        
+        // 15분 후의 시간을 계산합니다.
+        let nextRefreshDate = Calendar.current.date(byAdding: .minute, value: 15, to: currentDate)!
+        
+        // 위젯에 표시할 데이터 항목을 생성합니다.
+        let entry = AzitWidgetEntry(date: currentDate, recentStory: recentStory)
+        
+        // 15분마다 리프레시되는 타임라인을 생성합니다.
+        let timeline = Timeline(entries: [entry], policy: .after(nextRefreshDate))
+        
+        // 타임라인을 완료 핸들러로 전달합니다.
         completion(timeline)
+        
+        // 타임라인이 갱신된 후 위젯 리프레시
+        WidgetCenter.shared.reloadAllTimelines()
     }
     
     func loadUserInfo() -> UserInfo {
@@ -44,41 +60,52 @@ struct Provider: TimelineProvider {
         return UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0)
     }
     
-//    func relevances() async -> WidgetRelevances<Void> {
-//        // Generate a list containing the contexts this widget is relevant in.
-//    }
+    func loadStory() -> Story {
+        let userDefaults = UserDefaults(suiteName: "group.education.techit.Azit.AzitWidget")
+        if let data = userDefaults?.data(forKey: "recentStory"),
+           let recentStory = try? JSONDecoder().decode(Story.self, from: data) {
+            return recentStory
+        }
+        return Story(userId: "", date: Date())
+    }
+    
+    // 데이터 불러오기 함수 (Firestore에서 비동기적으로 데이터를 불러옴)
+    func fetchData(userInfo: UserInfo, albumStore: AlbumStore, completion: @escaping ([Story]) -> Void) {
+        // Firestore 또는 다른 소스에서 데이터를 비동기적으로 불러오는 코드
+        
+        Task {
+            await albumStore.loadStorysByIds(ids: userInfo.friends)
+        }
+    }
+    
+    //    func relevances() async -> WidgetRelevances<Void> {
+    //        // Generate a list containing the contexts this widget is relevant in.
+    //    }
 }
 
-struct SimpleEntry: TimelineEntry {
+struct AzitWidgetEntry: TimelineEntry {
     let date: Date
-    let userInfo: UserInfo
+    let recentStory: Story?
 }
 
 struct AzitWidgetEntryView : View {
-    @StateObject var userInfoStore: UserInfoStore = UserInfoStore()
-    @StateObject var albumStore: AlbumStore = AlbumStore()
+    @StateObject var albumStore = AlbumStore()
     
     @State var recentStory: Story?
     
-    var entry: Provider.Entry
+    @State var entry: Provider.Entry
 
     var body: some View {
         VStack {
-            Text("Time:")
-            Text(entry.userInfo.nickname)
+//            Text("Time:")
+//            Text(entry.userInfo.nickname)
             
             Text("emoji")
             Text(recentStory?.emoji ?? "")
         }
         .onAppear {
-            Task {
-                await userInfoStore.loadUserInfo(userID: entry.userInfo.id)
-                await albumStore.loadStorysByIds(ids: userInfoStore.userInfo?.friends ?? [])
-                
-                recentStory = albumStore.storys.sorted { $0.date > $1.date }.first
-                
-                print("***********\(recentStory?.id ?? "")***********")
-            }
+            // 위젯 내에서 albumStore로 데이터를 로드
+            recentStory = entry.recentStory
         }
     }
 }
@@ -105,6 +132,5 @@ struct AzitWidget: Widget {
 #Preview(as: .systemSmall) {
     AzitWidget()
 } timeline: {
-    SimpleEntry(date: .now, userInfo: UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0) )
-    SimpleEntry(date: .now, userInfo: UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0) )
+    AzitWidgetEntry(date: .now, recentStory: nil)
 }

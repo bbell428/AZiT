@@ -259,5 +259,5 @@ class UserInfoStore: ObservableObject {
         } else {
             print("이미 유저 데이터가 저장되어 있습니다.")
         }
-    }    
+    }
 }

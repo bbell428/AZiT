@@ -63,6 +63,45 @@ class StoryStore: ObservableObject {
             throw error
         }
     }
+    
+    // MARK: - 사용자 본인의 ID를 가지고 친구들의 story중 가장 최신글 1개를 가져오기
+    @MainActor
+    func loadFriendsRecentStoryByIds(ids: [String]) async throws -> Story {
+        let db = Firestore.firestore()
+        
+        do {
+            let querySnapshot = try await db.collection("Story")
+                .whereField("userId", in: ids)
+                .order(by: "date", descending: true)
+                .limit(to: 1)
+                .getDocuments()
+            
+            if let document = querySnapshot.documents.first {
+                return try await Story(document: document)
+            } else {
+                throw NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Story not found"])
+            }
+            
+        } catch {
+            print("loadStories error: \(error.localizedDescription)")
+            throw error
+        }
+    }
+    
+    // MARK: - story 데이터 UserDefault에 전달
+    func updateSharedUserDefaults(recentStory: Story) {
+        if let sharedDefaults = UserDefaults(suiteName: "group.education.techit.Azit.AzitWidget") {
+            // Story 객체를 Data로 변환
+            do {
+                let encoder = JSONEncoder()
+                let encodedStory = try encoder.encode(recentStory)
+                sharedDefaults.set(encodedStory, forKey: "recentStory")
+                print("유저 디폴트에 스토리 데이터를 저장하였습니다.")
+            } catch {
+                print("스토리 인코딩 실패: \(error)")
+            }
+        }
+    }
 }
 
 // 메인 뷰에서 작성된 story 임시 저장 class

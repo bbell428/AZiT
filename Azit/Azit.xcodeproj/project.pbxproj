@@ -160,6 +160,7 @@
 		8BD71F832CD89AE90030693B /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		8BD71F872CD8C62B0030693B /* PhotoReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoReviewView.swift; sourceTree = "<group>"; };
 		8BDA11D42CDA7696004242DB /* EmojiPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiPickerView.swift; sourceTree = "<group>"; };
+		8E42C9FA2CE6E5270006CAA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E538EE02CD844700094ABD1 /* RotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotationView.swift; sourceTree = "<group>"; };
 		8E538EE22CD844A50094ABD1 /* FriendsContentsModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsContentsModalView.swift; sourceTree = "<group>"; };
 		8E645D542CE4784F00F43836 /* MyContentEmojiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyContentEmojiView.swift; sourceTree = "<group>"; };
@@ -441,6 +442,7 @@
 		8EAFEFA82CD4528E00136348 /* Azit */ = {
 			isa = PBXGroup;
 			children = (
+				8E42C9FA2CE6E5270006CAA5 /* Info.plist */,
 				8E645D5A2CE47C1200F43836 /* Constants */,
 				8E645D572CE47BE900F43836 /* Extension */,
 				8E645D562CE47BDA00F43836 /* Utility */,
