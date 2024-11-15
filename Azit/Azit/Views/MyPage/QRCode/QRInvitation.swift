@@ -45,7 +45,7 @@ struct QRInvitation: View {
                             .bold()
                         if otherFriend?.id == authManager.userID {
                             Text("님")
-                        } else if userInfoStore.isFriend(uid: authManager.deepUserID) {
+                        } else if userInfoStore.isFriend(id: authManager.deepUserID) {
                             Text("님은")
                         } else {
                             Text("님을")
@@ -54,7 +54,7 @@ struct QRInvitation: View {
                                  
                     if otherFriend?.id == authManager.userID {
                         Text("본인을 추가 할 수 없습니다.")
-                    } else if userInfoStore.isFriend(uid: authManager.deepUserID) {
+                    } else if userInfoStore.isFriend(id: authManager.deepUserID) {
                         Text("이미 친구입니다.")
                     } else {
                         Text("친구 추가하시겠습니까?")
@@ -66,11 +66,11 @@ struct QRInvitation: View {
                 Divider()
                     .background(Color.accentColor)
                 
-                if !userInfoStore.isFriend(uid: authManager.deepUserID) && otherFriend?.id != authManager.userID {
+                if !userInfoStore.isFriend(id: authManager.deepUserID) && otherFriend?.id != authManager.userID {
                     HStack(spacing: 65) {
                         Button {
                             // yes
-                            userInfoStore.addFriend(receivedUID: authManager.deepUserID, currentUserUID: authManager.userID)
+                            userInfoStore.addFriend(receivedID: authManager.deepUserID, currentUserID: authManager.userID)
                             authManager.deepUserID = ""
                             isShowYes = true
                             isShowInvaitaion.toggle()
@@ -118,7 +118,7 @@ struct QRInvitation: View {
         .frame(maxWidth: 350, maxHeight: 450)
         .onAppear {
             Task {
-                otherFriend = try await userInfoStore.getUserInfoById(uid: authManager.deepUserID) ?? UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0)
+                otherFriend = try await userInfoStore.getUserInfoById(id: authManager.deepUserID) ?? UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0)
             }
         }
     }

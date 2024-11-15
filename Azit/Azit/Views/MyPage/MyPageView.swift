@@ -12,10 +12,11 @@ struct MyPageView: View {
     @EnvironmentObject var authManager: AuthManager
     @Environment(\.dismiss) var dismiss
     
-    @State var isShowEmoji = false
-    @State var isPresented: Bool = false
+    @State var isPresented: Bool = false // 편집 뷰 띄움
     @State var showAllFriends = false // 친구 목록 더 보기
     @State var isQRPresented: Bool = false // QR 뷰
+    @State var isEditFriend: Bool = false // 친구 편집 뷰
+    @State var friendID: String = ""      // 친구 id 담을 곳
     
     @State var friends: [UserInfo] = []
     
@@ -33,7 +34,7 @@ struct MyPageView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
                     .padding(.horizontal, 20)
-                                        
+                    
                     Text("My Page")
                         .font(.title3)
                         .fontWeight(.bold)
@@ -45,7 +46,7 @@ struct MyPageView: View {
                 }
                 .frame(height: 70)
                 .background(Color.white)
-
+                
                 VStack(alignment: .center) {
                     //MARK: 내 프로필이미지, 닉네임
                     ZStack {
@@ -156,18 +157,37 @@ struct MyPageView: View {
                                     Spacer()
                                     
                                     Button {
-                                        //
+                                        isEditFriend.toggle()
+                                        friendID = friend.id
                                     } label: {
                                         Image(systemName: "line.horizontal.3")
                                             .foregroundColor(.gray)
                                             .padding(.trailing, 20)
                                             .font(.title3)
                                     }
+                                    .overlay {
+                                        if isEditFriend && friendID == friend.id {
+                                            EditFriend(friendID: friendID, isEditFriend: $isEditFriend)
+                                                .scaleEffect(scale)
+                                                .onAppear {
+                                                    withAnimation(.easeInOut(duration: 0.3)) {
+                                                        scale = 1.0
+                                                    }
+                                                }
+                                                .onDisappear {
+                                                    withAnimation(.easeInOut(duration: 0.3)) {
+                                                        scale = 0.1
+                                                    }
+                                                }
+                                                .padding(.leading, -40)
+                                        }
+                                    }
                                 }
                                 .padding(.vertical, 1)
                                 
                                 Divider()
                             }
+                            
                             if friends.count > 3 {
                                 Button {
                                     withAnimation { // 애니메이션을 추가, 자연스러운 느낌쓰
@@ -286,6 +306,9 @@ struct MyPageView: View {
                 .frame(maxWidth: .infinity)
             }
             .frame(width: 370)
+            .onTapGesture {
+                isEditFriend = false // 아무 곳 터치 시, 친구 뷰 안보이게
+            }
             
             if isQRPresented {
                 Color.black.opacity(0.3)
@@ -309,7 +332,7 @@ struct MyPageView: View {
             }
         }
         .onAppear {
-            Task {                
+            Task {
                 // 친구 uid 긁어옴
                 let friendIDs = userInfoStore.userInfo?.friends ?? []
                 
