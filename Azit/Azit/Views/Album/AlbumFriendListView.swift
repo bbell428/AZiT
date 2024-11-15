@@ -18,7 +18,6 @@ struct AlbumFriendListView: View {
     var body: some View {
         ZStack(alignment: .bottomLeading) {
             FriendSegmentView(selectedIndex: $selectedIndex, titles: userInfoStore.friendInfos)
-                .animation(.easeInOut(duration: 0.3), value: isShowHorizontalScroll)
             //.padding(.leading, 20)
             //.background(Color.white)
                 .zIndex(3)
@@ -31,5 +30,7 @@ struct AlbumFriendListView: View {
             }
             .zIndex(2)
         }
+        .animation(.easeInOut(duration: 0.3), value: isShowHorizontalScroll)
+        .transition(.move(edge: .top).combined(with: .opacity))
     }
 }

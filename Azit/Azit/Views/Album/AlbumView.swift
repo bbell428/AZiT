@@ -83,7 +83,6 @@ struct AlbumView: View {
                                                 $isShowHorizontalScroll, selectedIndex: $selectedIndex)
                         .background(Color.white)
                         .padding(.top, 70)
-                        .transition(.move(edge: .top).combined(with: .opacity))
                         .zIndex(3)
                     }
                     
