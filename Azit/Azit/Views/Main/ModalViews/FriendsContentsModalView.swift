@@ -43,7 +43,7 @@ struct FriendsContentsModalView: View {
                     .onSubmit {
                         guard !message.isEmpty else { return }
                         Task {
-                            chatDetailViewStore.sendMessage(text: message, myId: userInfoStore.userInfo?.id ?? "", friendId: story?.userId ?? "")
+                            chatDetailViewStore.sendMessage(text: message, myId: userInfoStore.userInfo?.id ?? "", friendId: story?.userId ?? "", storyId: story?.id ?? "")
                             print("메시지 전송에 성공했습니다!")
                             message = ""
                         }

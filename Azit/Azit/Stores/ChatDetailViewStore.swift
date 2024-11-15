@@ -90,10 +90,10 @@ class ChatDetailViewStore: ObservableObject {
     }
     
     // MARK: - 메시지 전송
-    func sendMessage(text: String, myId: String, friendId: String) {
+    func sendMessage(text: String, myId: String, friendId: String, storyId: String = "") {
         let newMessageId = UUID().uuidString
         do {
-            let newMessage = Chat(id: newMessageId, createAt: Date(), message: text, sender: myId, readBy: [myId])
+            let newMessage = Chat(id: newMessageId, createAt: Date(), message: text, sender: myId, readBy: [myId], storyId: storyId)
             // 메시지 저장
             try db.collection("Chat").document(generateChatRoomId(userId1: myId, userId2: friendId)).collection("Messages").document(newMessageId).setData(from: newMessage)
             
