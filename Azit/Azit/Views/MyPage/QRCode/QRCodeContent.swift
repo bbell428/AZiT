@@ -3,11 +3,11 @@
 //  Azit
 //
 //  Created by 김종혁 on 11/14/24.
-//
+
+//MARK: 공유하기로 보여질 이미지 뷰
 
 import SwiftUI
 
-// 공유하기로 보여질 이미지 뷰
 struct QRCodeContent: View {
     var QRImage: Image
     var userID: String

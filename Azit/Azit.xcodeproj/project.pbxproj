@@ -77,6 +77,7 @@
 		EA3F965E2CD8B19C009904C0 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		EAAABB662CE5E25F0003C250 /* QRCodeContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAABB652CE5E25F0003C250 /* QRCodeContent.swift */; };
 		EAAABB6E2CE5ECD30003C250 /* QRShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAABB6D2CE5ECD30003C250 /* QRShareSheet.swift */; };
+		EAAABB762CE6D0CA0003C250 /* QRInvitation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAABB752CE6D0CA0003C250 /* QRInvitation.swift */; };
 		EAB079722CDDAED700293C62 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB079712CDDAED700293C62 /* SplashView.swift */; };
 		EACABF212CE30E760042340D /* AuthApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = EACABF202CE30E760042340D /* AuthApple.swift */; };
 		EAD18AE52CD6719600AF3013 /* LoginSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD18AE42CD6719600AF3013 /* LoginSubView.swift */; };
@@ -166,6 +167,7 @@
 		EA3137202CE3322000AA4685 /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
 		EAAABB652CE5E25F0003C250 /* QRCodeContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeContent.swift; sourceTree = "<group>"; };
 		EAAABB6D2CE5ECD30003C250 /* QRShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRShareSheet.swift; sourceTree = "<group>"; };
+		EAAABB752CE6D0CA0003C250 /* QRInvitation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRInvitation.swift; sourceTree = "<group>"; };
 		EAB079712CDDAED700293C62 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		EACABF202CE30E760042340D /* AuthApple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthApple.swift; sourceTree = "<group>"; };
 		EAD18AE42CD6719600AF3013 /* LoginSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSubView.swift; sourceTree = "<group>"; };
@@ -492,6 +494,7 @@
 				EA3137202CE3322000AA4685 /* QRCodeView.swift */,
 				EAAABB652CE5E25F0003C250 /* QRCodeContent.swift */,
 				EAAABB6D2CE5ECD30003C250 /* QRShareSheet.swift */,
+				EAAABB752CE6D0CA0003C250 /* QRInvitation.swift */,
 			);
 			path = QRCode;
 			sourceTree = "<group>";
@@ -677,6 +680,7 @@
 				EAF93B8E2CD4A50700116035 /* AuthView.swift in Sources */,
 				CEDFC2EE2CE2EAB0008C215A /* AlbumStore.swift in Sources */,
 				EAF93B8F2CD4A50700116035 /* SignupView.swift in Sources */,
+				EAAABB762CE6D0CA0003C250 /* QRInvitation.swift in Sources */,
 				8E645D552CE4784F00F43836 /* MyContentEmojiView.swift in Sources */,
 				EA3137212CE3322000AA4685 /* QRCodeView.swift in Sources */,
 				8EAFEFB82CD45CCE00136348 /* ChatRoom.swift in Sources */,

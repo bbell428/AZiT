@@ -3,7 +3,8 @@
 //  Azit
 //
 //  Created by 김종혁 on 11/12/24.
-//
+
+//MARK: 마이페이지 -> 초대하기 눌렀을 때 보여줄 뷰
 
 import CoreImage.CIFilterBuiltins
 import Observation

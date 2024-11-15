@@ -3,12 +3,12 @@
 //  Azit
 //
 //  Created by 김종혁 on 11/14/24.
-//
+
+//MARK: 다른 곳에 공유할 수 있는 시트를 보여줌
 
 import SwiftUI
 import UIKit
 
-// 공유할 수 있는 공유 시트
 struct QRShareSheet: UIViewControllerRepresentable {
     var shareItems: [Any]
     
