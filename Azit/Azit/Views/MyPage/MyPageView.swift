@@ -67,7 +67,7 @@ struct MyPageView: View {
                             Text("편집")
                                 .font(.caption)
                                 .padding(.horizontal, 13)
-                                .padding(.vertical, 4)
+                                .padding(.vertical, 6)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 20)
                                         .stroke(Color.accentColor, lineWidth: 1)
@@ -285,6 +285,8 @@ struct MyPageView: View {
                 .padding(.top, -10)
                 .frame(maxWidth: .infinity)
             }
+            .frame(width: 370)
+            
             if isQRPresented {
                 Color.black.opacity(0.3)
                     .edgesIgnoringSafeArea(.all)
