@@ -92,7 +92,7 @@ struct MyPageView: View {
                 }
                 .padding(.top, -10)
                 
-                ScrollView {
+                ScrollView(.vertical, showsIndicators: false) {
                     //MARK: 친구 리스트
                     VStack(alignment: .leading) {
                         HStack {
