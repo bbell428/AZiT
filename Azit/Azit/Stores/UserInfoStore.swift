@@ -31,7 +31,8 @@ class UserInfoStore: ObservableObject {
                 "previousState": user.previousState,
                 "friends": user.friends,
                 "latitude": user.latitude,
-                "longitude": user.longitude
+                "longitude": user.longitude,
+                "blockedFriends": user.blockedFriends
             ])
             
             print("Document successfully written!")
@@ -53,7 +54,8 @@ class UserInfoStore: ObservableObject {
                 "previousState": user.previousState,
                 "friends": user.friends,
                 "latitude": user.latitude,
-                "longitude": user.longitude
+                "longitude": user.longitude,
+                "blockedFriends": user.blockedFriends
             ], merge: true) // 기존 데이터에 덮어쓰기
             print("Document successfully updated!")
         } catch {
@@ -79,6 +81,7 @@ class UserInfoStore: ObservableObject {
             let friends: [String] = docData["friends"] as? [String] ?? []
             let latitude: Double = docData["latitude"] as? Double ?? 0.0
             let longitude: Double = docData["longitude"] as? Double ?? 0.0
+            let blockedFriends: [String] = docData["blockedFriends"] as? [String] ?? []
             
             // `userInfoStore` 업데이트
             self.userInfo = UserInfo(
@@ -89,7 +92,8 @@ class UserInfoStore: ObservableObject {
                 previousState: previousState,
                 friends: friends,
                 latitude: latitude,
-                longitude: longitude
+                longitude: longitude,
+                blockedFriends: blockedFriends
             )
             
             print("userinfo: \(String(describing: self.userInfo))")
@@ -218,7 +222,7 @@ class UserInfoStore: ObservableObject {
     func getUserNameById(id: String) async throws -> String {
         let db = Firestore.firestore()
         
-        var user: UserInfo = UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0)
+        var user: UserInfo = UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0, blockedFriends: [])
         
         do {
             let querySnapshot = try await db.collection("User")
@@ -273,7 +277,8 @@ class UserInfoStore: ObservableObject {
                 previousState: previousState,
                 friends: friends,
                 latitude: latitude,
-                longitude: longitude
+                longitude: longitude,
+                blockedFriends: []
             )
             
             return userInfo

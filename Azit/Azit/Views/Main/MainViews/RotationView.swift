@@ -134,8 +134,6 @@ struct RotationView: View {
                 
                 // 사용자 본인의 정보 받아오기
                 await userInfoStore.loadUserInfo(userID: authManager.userID)
-                // 사용자 본인의 친구 받아오기
-                userInfoStore.loadFriendsInfo(friendsIDs: userInfoStore.userInfo?.friends ?? [])
                 
                 var tempUsers: [UserInfo] = []
                 // 스토리가 있는 친구들에서 공개가 되어있는지에 대한 분류

@@ -118,7 +118,7 @@ struct QRInvitation: View {
         .frame(maxWidth: 350, maxHeight: 450)
         .onAppear {
             Task {
-                otherFriend = try await userInfoStore.getUserInfoById(id: authManager.deepUserID) ?? UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0)
+                otherFriend = try await userInfoStore.getUserInfoById(id: authManager.deepUserID) ?? UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0, blockedFriends: [])
             }
         }
     }

@@ -153,7 +153,9 @@ struct EditProfileView: View {
                             previousState: emojiPrevious,
                             friends: userInfoStore.userInfo?.friends ?? [""],
                             latitude: userInfoStore.userInfo?.latitude ?? 0.0,
-                            longitude: userInfoStore.userInfo?.longitude ?? 0.0))
+                            longitude: userInfoStore.userInfo?.longitude ?? 0.0,
+                            blockedFriends: [])
+                        )
                         
                         emojiPrevious = emoji
                         
