@@ -61,10 +61,7 @@ struct AlbumScrollView : View {
                                     VStack {
                                         // 스토리에 사진이 포함,
                                         if !story.image.isEmpty {
-                                            Image("Album")
-                                                .resizable()
-                                                .cornerRadius(15)
-                                                .background(.subColor4.opacity(0.95))
+                                            AlbumStoryImageView(imageStoreID: story.image)
                                         } else {
                                             // 스토리에 이모지 & 텍스트만 존재
                                             VStack {
