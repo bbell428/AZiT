@@ -31,15 +31,16 @@ struct QRCodeContent: View {
                     .padding(.top, 20)
                 
                 VStack(alignment: .center) {
-                    HStack(spacing: 5) {
+                    HStack(spacing: 0) {
                         Text(userName)
                             .bold()
-                        Text("의 AZiT")
+                        Text("의")
                     }
+                    .font(.title2)
                     
-                    Text("초대장")
+                    Text("AZiT 초대장")
+                        .font(.title3)
                 }
-                .font(.title2)
                 .padding(.top, 15)
             }
             .frame(width: 200)
