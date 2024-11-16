@@ -333,6 +333,7 @@ struct MyPageView: View {
         .onAppear {
             Task {
                 await userInfoStore.loadUserInfo(userID: authManager.userID)
+                userInfoStore.friendInfos = try await userInfoStore.loadUsersInfoByEmail(userID: userInfoStore.userInfo?.friends ?? [])
             }
         }
         .navigationBarBackButtonHidden(true)

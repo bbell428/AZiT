@@ -35,6 +35,7 @@ struct EditFriend: View {
                         Task {
                             userInfoStore.removeFriend(friendID: friendID, currentUserID: authManager.userID)
                             await userInfoStore.loadUserInfo(userID: authManager.userID)
+                            userInfoStore.friendInfos = try await userInfoStore.loadUsersInfoByEmail(userID: userInfoStore.userInfo?.friends ?? [])
                         }
                         isEditFriend = false
                     }
@@ -77,6 +78,7 @@ struct EditFriend: View {
                             
                             userInfoStore.removeFriend(friendID: friendID, currentUserID: authManager.userID)
                             await userInfoStore.loadUserInfo(userID: authManager.userID)
+                            userInfoStore.friendInfos = try await userInfoStore.loadUsersInfoByEmail(userID: userInfoStore.userInfo?.friends ?? [])
                         }
                         isEditFriend = false
                     }
