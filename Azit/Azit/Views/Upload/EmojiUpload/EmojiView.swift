@@ -16,6 +16,7 @@ struct EmojiView : View {
     @EnvironmentObject var locationManager: LocationManager
     
     @Binding var isDisplayEmojiPicker: Bool // MainView에서 전달받은 바인딩 변수
+    @Binding var isMyModalPresented: Bool
   
     @State var publishedTargets: [String] = []
     @State var isShowingsheet: Bool = false
@@ -111,6 +112,8 @@ struct EmojiView : View {
             if !isShareEnabled {
                 // 공유 버튼
                 Button (action:{
+                    isMyModalPresented = false
+                    
                     let newStory = Story(
                         userId: authManager.userID,
                         date: Date(),

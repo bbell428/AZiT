@@ -41,7 +41,7 @@ struct ModalIdentificationView: View {
                         isDisplayEmojiPicker = false
                     }
                     .zIndex(2)
-                EmojiView(isDisplayEmojiPicker: $isDisplayEmojiPicker)
+                EmojiView(isDisplayEmojiPicker: $isDisplayEmojiPicker, isMyModalPresented: $isMyModalPresented)
                     .zIndex(3)
             }
         // story 작성 후 24시간이 지나지 않았을 때
@@ -53,7 +53,7 @@ struct ModalIdentificationView: View {
                         isMyModalPresented = false
                     }
                     .zIndex(2)
-                MyContentsModalView(isDisplayEmojiPicker: $isDisplayEmojiPicker)
+                MyContentsModalView(isDisplayEmojiPicker: $isDisplayEmojiPicker, isMyModalPresented: $isMyModalPresented)
                     .zIndex(3)
             }
         }
