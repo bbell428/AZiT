@@ -22,12 +22,13 @@ struct EmojiView : View {
     @State var isPicture:Bool = false
     @State var firstNaviLinkActive = false
     @State private var isLimitExceeded: Bool = false
+    @State private var scale: CGFloat = 0.1
     private let characterLimit = 20
     // FocusState 변수를 선언하여 TextEditor의 포커스 상태를 추적
     @FocusState private var isTextEditorFocused: Bool
     
     var isShareEnabled: Bool {
-        return storyDraft.emoji.isEmpty || storyDraft.content.isEmpty
+        return storyDraft.emoji.isEmpty && storyDraft.content.isEmpty
     }
     
     var body : some View{
@@ -111,45 +112,47 @@ struct EmojiView : View {
             .padding(.bottom, 10)
             
             // 공유 버튼
-            Button (action:{
-                let newStory = Story(
-                    userId: authManager.userID,
-                    date: Date(),
-                    latitude: storyDraft.latitude,
-                    longitude: storyDraft.longitude,
-                    address: storyDraft.address,
-                    emoji: storyDraft.emoji,
-                    content: storyDraft.content,
-                    publishedTargets: []
-                )
-                Task {
-                    await storyStore.addStory(newStory)
-                }
-                resetStory()
-                isDisplayEmojiPicker = false
-                
-                // 유저의 위경도 값 저장
-                if let location = locationManager.currentLocation {
-                    userInfoStore.userInfo?.latitude = location.coordinate.latitude
-                    userInfoStore.userInfo?.longitude = location.coordinate.longitude
-                }
-            }) {
-                RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
-                    .stroke(Color.accentColor, lineWidth: 0.5)
-                    .background(RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
-                        .fill(Color.white))
-                    .frame(width: 340, height: 40)
-                    .overlay(Text("Share")
-                        .padding()
-                        .foregroundColor(Color.accentColor)
+            if !isShareEnabled {
+                // 공유 버튼
+                Button (action:{
+                    let newStory = Story(
+                        userId: authManager.userID,
+                        date: Date(),
+                        latitude: storyDraft.latitude,
+                        longitude: storyDraft.longitude,
+                        address: storyDraft.address,
+                        emoji: storyDraft.emoji,
+                        content: storyDraft.content,
+                        publishedTargets: []
                     )
+                    Task {
+                        await storyStore.addStory(newStory)
+                    }
+                    resetStory()
+                    isDisplayEmojiPicker = false
+                    
+                    // 유저의 새로운 상태, 위경도 값 저장
+                    userInfoStore.userInfo?.previousState = storyDraft.emoji
+                    if let location = locationManager.currentLocation {
+                        userInfoStore.userInfo?.latitude = location.coordinate.latitude
+                        userInfoStore.userInfo?.longitude = location.coordinate.longitude
+                    }
+                }) {
+                    RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
+                        .stroke(Color.accentColor, lineWidth: 0.5)
+                        .background(RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
+                            .fill(Color.white))
+                        .frame(width: 340, height: 40)
+                        .overlay(Text("Share")
+                            .padding()
+                            .foregroundColor(Color.accentColor)
+                        )
+                }
+                //MARK: - 디테일 사항
             }
-            .disabled(isShareEnabled)
-            
-            
         }
         .padding()
-        .frame(width: 365, height: 550) // 팝업창 크기
+        .frame(width: 365, height: isShareEnabled ? 500 : 550) // 팝업창 크기
         .background(
             RoundedRectangle(cornerRadius: 15)
                 .fill(Color.subColor4)
@@ -160,20 +163,38 @@ struct EmojiView : View {
             PublishScopeView()
                 .presentationDetents([.medium])
         }
-        .toolbar {
-            // 키보드 위에 '완료' 버튼 추가
-            ToolbarItemGroup(placement: .keyboard) {
-                HStack {
-                    Spacer() // 왼쪽 공간을 확보하여 버튼을 오른쪽으로 이동
-                    Button("완료") {
-                        isTextEditorFocused = false // 키보드 숨기기
-                    }
-                }
-            }
-        }
+//        .toolbar {
+//            // 키보드 위에 '완료' 버튼 추가
+//            ToolbarItemGroup(placement: .keyboard) {
+//                HStack {
+//                    Spacer() // 왼쪽 공간을 확보하여 버튼을 오른쪽으로 이동
+//                    Button("완료") {
+//                        isTextEditorFocused = false // 키보드 숨기기
+//                    }
+//                }
+//            }
+//        }
         .contentShape(Rectangle()) // 전체 뷰가 터치 가능하도록 설정
         .onTapGesture {
             isTextEditorFocused = false // 다른 곳을 클릭하면 포커스 해제
+        }
+        .scaleEffect(scale)
+        .onAppear {
+            if let location = locationManager.currentLocation {
+                fetchAddress()
+            } else {
+                print("위치 정보가 아직 준비되지 않았습니다.")
+            }
+            
+            
+            withAnimation(.easeInOut(duration: 0.3)) {
+                scale = 1.0
+            }
+        }
+        .onDisappear {
+            withAnimation(.easeInOut(duration: 0.3)) {
+                scale = 0.1
+            }
         }
     }
     
@@ -181,6 +202,16 @@ struct EmojiView : View {
     func resetStory() {
         storyDraft.content = ""
         storyDraft.emoji = ""
+    }
+    
+    private func fetchAddress() {
+        if let location = locationManager.currentLocation {
+            reverseGeocode(location: location) { addr in
+                storyDraft.address = addr ?? ""
+            }
+        } else {
+            print("위치를 가져올 수 없습니다.")
+        }
     }
     //    func getEmojiList()->[[Int]] {
     //        var emojis : [[Int]] = []

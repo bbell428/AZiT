@@ -10,8 +10,6 @@ import Foundation
 import Smile
 
 public struct EmojiPickerView: View {
-
-    // binding 사용
     @Binding public var selectedEmoji: String
 
     @State private var search: String = ""

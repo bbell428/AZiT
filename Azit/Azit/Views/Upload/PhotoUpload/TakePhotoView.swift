@@ -9,56 +9,72 @@ import AVFoundation
 import PhotosUI
 
 struct TakePhotoView: View {
-    @StateObject var cameraService = CameraService()
+    @EnvironmentObject var cameraService : CameraService
     @State private var isPhotoTaken = false
     @State private var isGalleryPresented = false
     @Binding var firstNaviLinkActive: Bool
     @Binding var isMainDisplay: Bool // MainView에서 전달받은 바인딩 변수
+    @State private var progressValue: Double = 1.0
+    let totalValue: Double = 2.0
     
     var body: some View {
         VStack {
-            ProgressView(value: 1, total: 2)
-                .progressViewStyle(LinearProgressViewStyle())
-                .scaleEffect(x: 1, y: 3, anchor: .center)
-                .frame(height: 10)
-                .cornerRadius(6)
-                .padding()
+            // 프로그래스 뷰
+            ZStack(alignment: .leading) {
+                RoundedRectangle(cornerRadius: 15)
+                    .fill(Color.gray.opacity(0.3))
+                    .frame(width: 360, height: 15)
+                
+                RoundedRectangle(cornerRadius: 15)
+                    .fill(
+                        LinearGradient(
+                            gradient: Gradient(colors: [Color.accentColor, Color.gradation12]),
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    .frame(width: 360 * (progressValue / totalValue), height: 15)
+            }
+            .padding()
             
+            // 카메라 프리뷰
             CameraPreview(session: cameraService.session)
                 .onAppear { cameraService.startSession() }
                 .onDisappear { cameraService.stopSession() }
                 .aspectRatio(3/4, contentMode: .fit)
-            
             Spacer()
             
+            // 갤러리 버튼 + 촬영 버튼
             HStack {
+                // 갤러리 버튼
                 Button(action: {
                     isGalleryPresented = true
                 }) {
                     Image(systemName: "photo")
-                        .font(.largeTitle)
+                        .font(.title)
                         .foregroundColor(.accentColor)
                 }
-                .padding([.leading, .bottom])
+                .padding(.bottom)
+                .padding(.leading, 35)
                 .sheet(isPresented: $isGalleryPresented) {
-                    // 사진 가져와서 capturedImage에 담아야 함.
-                    PhotoPicker(image: $cameraService.capturedImage) // 갤러리 뷰 표시
+                    PhotoPicker(image: $cameraService.capturedImage)
                         .onChange(of: cameraService.capturedImage){
                             self.isPhotoTaken = true
                         }
                 }
-                
                 Spacer()
                 
+                // 촬영 버튼
                 Button(action: {
                     cameraService.capturePhoto()
                 }) {
                     Circle()
-                        .fill(Color.white)
-                        .frame(width: 50, height: 50)
+                        .foregroundStyle(Utility.createLinearGradient(colors: [.accent, .gradation1]))
+                        .frame(width: 55, height: 55)
                         .overlay(
                             Circle()
-                                .stroke(Color.accentColor, lineWidth: 6)
+                                .fill(Color.white)
+                                .frame(width: 45, height: 45)
                         )
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -69,16 +85,17 @@ struct TakePhotoView: View {
                     }
                 }
                 Spacer()
-                    Button(action: {}) {
-                        Image(systemName: "photo")
-                            .font(.largeTitle)
-                            .foregroundColor(.clear)
-                    }
-                    .padding([.trailing, .bottom])
+                Button(action: {}) {
+                    Image(systemName: "photo")
+                        .font(.largeTitle)
+                        .foregroundColor(.clear)
+                }
+                .padding([.trailing, .bottom], 35)
             }
             .frame(maxWidth: .infinity, alignment: .center)
             .padding(.bottom)
             
+            // PhotoReviewView 전환
             NavigationLink(
                 destination: PhotoReviewView(firstNaviLinkActive: $firstNaviLinkActive,isMainDisplay: $isMainDisplay , image: cameraService.capturedImage),
                 isActive: $isPhotoTaken,
@@ -87,13 +104,6 @@ struct TakePhotoView: View {
             
         }
         .navigationBarTitle("사진 촬영", displayMode: .inline)
-        .onChange(of: cameraService.capturedImage) { image in
-            Task {
-                if image != nil {
-                    self.isPhotoTaken = true
-                }
-            }
-        }
     }
 }
 

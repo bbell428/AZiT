@@ -93,6 +93,10 @@ struct AzitApp: App {
     @StateObject private var chatListStore = ChatListStore()
     @StateObject private var chatDetailViewStore = ChatDetailViewStore()
     @StateObject private var albumStore = AlbumStore()
+    @StateObject private var storyStore = StoryStore()
+    @StateObject private var storyDraft = StoryDraft()
+    @StateObject private var locationManager = LocationManager()
+    @StateObject private var cameraService = CameraService()
     
     @State private var timer: Timer?
         
@@ -104,9 +108,10 @@ struct AzitApp: App {
                 .environmentObject(chatListStore)
                 .environmentObject(storyStore)
                 .environmentObject(chatDetailViewStore)
-                .environmentObject(StoryDraft())
-                .environmentObject(LocationManager())
+                .environmentObject(storyDraft)
+                .environmentObject(locationManager)
                 .environmentObject(albumStore)
+                .environmentObject(cameraService)
                 .onOpenURL { url in
                     if url.scheme == "azit", let userID = URLComponents(url: url, resolvingAgainstBaseURL: false)?.host {
                         authManager.deepUserID = userID
