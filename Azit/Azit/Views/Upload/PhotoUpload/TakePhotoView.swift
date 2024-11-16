@@ -10,7 +10,7 @@ import PhotosUI
 
 struct TakePhotoView: View {
     @EnvironmentObject var cameraService : CameraService
-    @State private var isPhotoTaken = false
+    @State var isPhotoTaken = false
     @State private var isGalleryPresented = false
     @Binding var firstNaviLinkActive: Bool
     @Binding var isMainDisplay: Bool // MainView에서 전달받은 바인딩 변수
@@ -97,11 +97,14 @@ struct TakePhotoView: View {
             
             // PhotoReviewView 전환
             NavigationLink(
-                destination: PhotoReviewView(firstNaviLinkActive: $firstNaviLinkActive,isMainDisplay: $isMainDisplay , image: cameraService.capturedImage),
+                destination: PhotoReviewView(firstNaviLinkActive: $firstNaviLinkActive,isMainDisplay: $isMainDisplay , isPhotoTaken: $isPhotoTaken, image: cameraService.capturedImage),
                 isActive: $isPhotoTaken,
                 label: { EmptyView() }
             )
             
+        }
+        .onAppear {
+            cameraService.capturedImage = nil
         }
         .navigationBarTitle("사진 촬영", displayMode: .inline)
     }

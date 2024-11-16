@@ -14,9 +14,6 @@ enum field {
 struct SearchView: View {
     @Binding var search: String
     @Binding var searchEnabled: Bool
-    @FocusState var focusField: field?
-    @FocusState private var isSearchFieldFocused: Bool
-    // 검색 결과
     @State private var searchResults: [Emoji] = []
     
     var body: some View {
@@ -54,17 +51,6 @@ struct SearchView: View {
             }
         }
         .toolbarTitleDisplayMode(.automatic)
-//        .onTapGesture {
-//            isSearchFieldFocused = false // 다른 곳을 클릭하면 포커스 해제
-//        }
-        //            .toolbar {
-        //                ToolbarItemGroup(placement: .keyboard) {
-        //                    Spacer() // 왼쪽 공간을 확보하여 버튼을 오른쪽으로 이동
-        //                    Button("완료") {
-        //                        isSearchFieldFocused = false // 키보드 숨기기
-        //                    }
-        //                }
-        //            }
     }
 }
 
