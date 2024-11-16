@@ -208,7 +208,7 @@ struct PhotoReviewView: View {
     }
     
     func resetStory() {
-//        storyDraft.id = ""
+        storyDraft.id = UUID().uuidString
 //        storyDraft.userId = ""
         storyDraft.likes = []
         storyDraft.latitude = 0.0

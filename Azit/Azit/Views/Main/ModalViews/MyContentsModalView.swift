@@ -16,6 +16,7 @@ struct MyContentsModalView: View {
     
     @Binding var isDisplayEmojiPicker: Bool
     
+    
     @State var story: Story?
     @State var friends: [UserInfo] = []
     @State private var scale: CGFloat = 0.1
