@@ -57,7 +57,7 @@ struct Provider: TimelineProvider {
            let widgetData = try? JSONDecoder().decode(UserInfo.self, from: data) {
             return widgetData
         }
-        return UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0)
+        return UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0, blockedFriends: [])
     }
     
     func loadStory() -> Story {
