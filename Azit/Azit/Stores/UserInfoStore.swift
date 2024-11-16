@@ -17,6 +17,7 @@ class UserInfoStore: ObservableObject {
     @Published var userInfo: UserInfo? = nil
     @Published var friendInfo: [String: UserInfo] = [:] // UID를 키로 사용하는 딕셔너리 형태
     @Published var friendInfos: [UserInfo] = []
+    @Published var blockedFriends: [UserInfo] = []
     
     // MARK: - 사용자 정보 Firestore에 추가
     func addUserInfo(_ user: UserInfo) async {
@@ -373,6 +374,23 @@ class UserInfoStore: ObservableObject {
                 return
             }
             print("친구목록에 나 자신을 삭제함")
+        }
+    }
+    
+    // MARK: - 차단 목록에서 특정 ID 삭제
+    func removeBlockedFriend(friendID: String, currentUserID: String) {
+        let db = Firestore.firestore()
+        
+        // 현재 사용자의 차단 목록에서 id 제거
+        let currentUserRef = db.collection("User").document(currentUserID)
+        currentUserRef.updateData([
+            "blockedFriends": FieldValue.arrayRemove([friendID])
+        ]) { error in
+            if let error = error {
+                print("나의 친구 목록에 유저 없움: \(error)")
+                return
+            }
+            print("차단목록에 친구 삭제 완료")
         }
     }
 }

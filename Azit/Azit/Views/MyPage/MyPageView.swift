@@ -165,7 +165,7 @@ struct MyPageView: View {
                                     }
                                     .overlay {
                                         if isEditFriend && friendID == friend.id {
-                                            EditFriend(friendID: friendID, isEditFriend: $isEditFriend)
+                                            EditFriend(friendID: friendID, friendNickname: friend.nickname, isEditFriend: $isEditFriend)
                                                 .scaleEffect(scale)
                                                 .onAppear {
                                                     withAnimation(.easeInOut(duration: 0.3)) {
@@ -328,13 +328,6 @@ struct MyPageView: View {
                             scale = 0.1
                         }
                     }
-            }
-        }
-        .onChange(of: isEditFriend) {
-            Task {
-                if isEditFriend == false {
-                    await userInfoStore.loadUserInfo(userID: authManager.userID)
-                }
             }
         }
         .navigationBarBackButtonHidden(true)

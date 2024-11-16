@@ -12,7 +12,7 @@ struct BlockedFriendView: View {
     @EnvironmentObject var authManager: AuthManager
     @Environment(\.dismiss) var dismiss
     
-    @State var blockedFriends: [UserInfo] = []
+    @State var isBlocked: Bool = false
     
     var body: some View {
         VStack(alignment: .center) {
@@ -45,7 +45,7 @@ struct BlockedFriendView: View {
                     HStack {
                         Text("차단 친구 리스트")
                             .font(.headline)
-                        Text("\(blockedFriends.count)")
+                        Text("\(userInfoStore.blockedFriends.count)")
                             .font(.headline)
                             .padding(.leading, 6)
                     }
@@ -54,7 +54,7 @@ struct BlockedFriendView: View {
                     
                     VStack(alignment: .center) {
                         //MARK: 친구 목록
-                        ForEach(blockedFriends, id: \.id) { blockedFriends in
+                        ForEach(userInfoStore.blockedFriends, id: \.id) { blockedFriends in
                             HStack {
                                 ZStack {
                                     Circle()
@@ -69,22 +69,53 @@ struct BlockedFriendView: View {
                                     .foregroundStyle(Color.gray)
                                 
                                 Spacer()
+                                
+                                Button {
+                                    isBlocked.toggle()
+                                } label: {
+                                    Text("차단해제")
+                                        .font(.caption)
+                                        .bold()
+                                        .padding(.horizontal, 13)
+                                        .padding(.vertical, 6)
+                                        .background(Color.accentColor)
+                                        .foregroundColor(.white)
+                                        .cornerRadius(10)
                                 }
-                            Divider()
                             }
-                            .padding(.vertical, 1)
+                            Divider()
+                                .alert("\(blockedFriends.nickname)", isPresented: $isBlocked, actions: {
+                                    Button("예") {
+                                        Task {
+                                            userInfoStore.removeBlockedFriend(friendID: blockedFriends.id, currentUserID: authManager.userID)
+                                            
+                                            await userInfoStore.loadUserInfo(userID: authManager.userID)
+                                            
+                                            userInfoStore.blockedFriends = try await userInfoStore.loadUsersInfoByEmail(userID: userInfoStore.userInfo?.blockedFriends ?? [])
+                                        }
+                                    }
+                                    
+                                    Button("아니요", role: .cancel) {}
+                                }, message: {
+                                    Text("선택한 친구의 차단을 해제합니다.")
+                                })
                         }
+                        .padding(.vertical, 1)
                     }
                 }
-                .padding(.horizontal)
-                .padding(.bottom, 50)
+            }
+            .padding(.horizontal)
+            .padding(.bottom, 50)
         }
         .navigationBarBackButtonHidden(true)
         .onAppear {
             Task {
-                blockedFriends = try await userInfoStore.loadUsersInfoByEmail(userID: userInfoStore.userInfo?.blockedFriends ?? [])
+                await userInfoStore.loadUserInfo(userID: authManager.userID)
+                
+                userInfoStore.blockedFriends = try await userInfoStore.loadUsersInfoByEmail(userID: userInfoStore.userInfo?.blockedFriends ?? [])
             }
         }
+        
     }
 }
 
