@@ -19,7 +19,7 @@ struct AlbumScrollView : View {
     @Binding var selectedAlbum: Story?
     
     var body: some View {
-        ScrollView {
+        ScrollView(.vertical, showsIndicators: false) {
             Rectangle()
                 .frame(height: 160)
                 .foregroundStyle(Color.white)
@@ -81,7 +81,8 @@ struct AlbumScrollView : View {
                                             .cornerRadius(15) // 추가
                                         }
                                     }
-                                    .frame(width: 120, height: 160)
+                                    .padding(.horizontal, 2.5)
+                                    .frame(width: 115, height: 155)
                                 }
                             }
                         }
