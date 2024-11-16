@@ -129,7 +129,9 @@ struct EmojiView : View {
                     Task {
                         await storyStore.addStory(newStory)
                         // 유저의 새로운 상태, 위경도 값 저장
-                        userInfoStore.userInfo?.previousState = storyDraft.emoji
+                        if !(storyDraft.emoji == "") {
+                            userInfoStore.userInfo?.previousState = storyDraft.emoji
+                        }
                         print("변경된 이모지 : \(storyDraft.emoji)")
                         await userInfoStore.updateUserInfo(userInfoStore.userInfo!)
                         resetStory()

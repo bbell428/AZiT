@@ -185,7 +185,9 @@ struct PhotoReviewView: View {
         Task {
             await storyStore.addStory(newStory)
             // 유저의 새로운 상태, 위경도 값 저장
-            userInfoStore.userInfo?.previousState = storyDraft.emoji
+            if !(storyDraft.emoji == "") {
+                userInfoStore.userInfo?.previousState = storyDraft.emoji
+            }
             
             if let image = self.image {
                 photoImageStore.UploadImage(image: image, imageName: newStory.image)
