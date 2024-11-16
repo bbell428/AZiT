@@ -16,6 +16,7 @@ struct PhotoReviewView: View {
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var locationManager: LocationManager
     @EnvironmentObject var userInfoStore: UserInfoStore
+    @EnvironmentObject private var photoImageStore: PhotoImageStore
     @Environment(\.dismiss) var dismiss
     @Binding var firstNaviLinkActive: Bool
     @Binding var isMainDisplay: Bool // MainView에서 전달받은 바인딩 변수
@@ -159,28 +160,54 @@ struct PhotoReviewView: View {
     private func shareStory() {
         // 스토리 객체 생성
         let newStory = Story(
+            id: storyDraft.id,
             userId: authManager.userID,
             date: Date(),
             latitude: storyDraft.latitude,
             longitude: storyDraft.longitude,
             address: storyDraft.address,
             emoji: storyDraft.emoji,
+            image: storyDraft.id,
             content: storyDraft.content,
             publishedTargets: []
         )
-        Task {
-            await storyStore.addStory(newStory)
-        }
-        
+        isDisplayEmojiPicker = false
         // 유저의 새로운 상태, 위경도 값 저장
-        userInfoStore.userInfo?.previousState = storyDraft.emoji
         if let location = locationManager.currentLocation {
             userInfoStore.userInfo?.latitude = location.coordinate.latitude
             userInfoStore.userInfo?.longitude = location.coordinate.longitude
         }
         
+        Task {
+            await storyStore.addStory(newStory)
+            // 유저의 새로운 상태, 위경도 값 저장
+            userInfoStore.userInfo?.previousState = storyDraft.emoji
+            
+            if let image = self.image {
+                photoImageStore.UploadImage(image: image, imageName: newStory.image)
+            }
+            await userInfoStore.updateUserInfo(userInfoStore.userInfo!)
+            resetStory()
+        }
         showUploadView = true
         firstNaviLinkActive = false
         isMainDisplay = false
+        
+//        cameraService.capturedImage = nil
+    }
+    
+    func resetStory() {
+//        storyDraft.id = ""
+//        storyDraft.userId = ""
+        storyDraft.likes = []
+        storyDraft.latitude = 0.0
+        storyDraft.longitude = 0.0
+        storyDraft.address = ""
+        storyDraft.emoji = ""
+        storyDraft.image = ""
+        storyDraft.content = ""
+        storyDraft.publishedTargets = []
+        storyDraft.readUsers = []
+        
     }
 }

@@ -16,7 +16,7 @@ class PhotoImageStore: ObservableObject {
     
     // 스토리지에 이미지 파일
     func UploadImage(image: UIImage ,imageName: String) {
-        let uploadRef = Storage.storage().reference(withPath: "img/\(imageName)")
+        let uploadRef = Storage.storage().reference(withPath: "image/\(imageName)")
         guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
         let uploadMetaData = StorageMetadata.init()
         uploadMetaData.contentType = "image/jpeg"
@@ -30,6 +30,7 @@ class PhotoImageStore: ObservableObject {
         }
     }
     
+    // 스토리지에서 이미지 가져옴
     func loadImage(imageName: String, completion: @escaping (UIImage?) -> Void) {
         if let cachedImage = imageCache.object(forKey: imageName as NSString) {
             completion(cachedImage)
@@ -37,7 +38,7 @@ class PhotoImageStore: ObservableObject {
         }
         
         let storagRef = Storage.storage().reference(withPath: "img/\(imageName)")
-        storagRef.getData(maxSize: 4 * 1024 * 1024) { (data, error) in
+        storagRef.getData(maxSize: 4 * 256 * 256) { (data, error) in
             if let error = error {
                 print("에러 발생: \(error.localizedDescription)")
                 completion(nil) // 에러 발생 시 nil 반환

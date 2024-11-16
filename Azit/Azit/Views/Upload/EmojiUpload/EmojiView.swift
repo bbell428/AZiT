@@ -24,9 +24,6 @@ struct EmojiView : View {
     @State private var isLimitExceeded: Bool = false
     @State private var scale: CGFloat = 0.1
     private let characterLimit = 20
-    // FocusState 변수를 선언하여 TextEditor의 포커스 상태를 추적
-    @FocusState private var isTextEditorFocused: Bool
-    
     var isShareEnabled: Bool {
         return storyDraft.emoji.isEmpty && storyDraft.content.isEmpty
     }
@@ -95,7 +92,6 @@ struct EmojiView : View {
                 Text("최대 20자까지 입력할 수 있습니다.")
                     .font(.caption2)
                     .foregroundColor(.red)
-//                    .padding(.vertical, 2)
             }
             
             // 카메라 촬영 버튼
@@ -125,6 +121,11 @@ struct EmojiView : View {
                         content: storyDraft.content,
                         publishedTargets: []
                     )
+                    isDisplayEmojiPicker = false
+                    if let location = locationManager.currentLocation {
+                        userInfoStore.userInfo?.latitude = location.coordinate.latitude
+                        userInfoStore.userInfo?.longitude = location.coordinate.longitude
+                    }
                     Task {
                         await storyStore.addStory(newStory)
                         // 유저의 새로운 상태, 위경도 값 저장
@@ -132,12 +133,6 @@ struct EmojiView : View {
                         print("변경된 이모지 : \(storyDraft.emoji)")
                         await userInfoStore.updateUserInfo(userInfoStore.userInfo!)
                         resetStory()
-                    }
-                    isDisplayEmojiPicker = false
-                    
-                    if let location = locationManager.currentLocation {
-                        userInfoStore.userInfo?.latitude = location.coordinate.latitude
-                        userInfoStore.userInfo?.longitude = location.coordinate.longitude
                     }
                 }) {
                     RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
@@ -165,21 +160,10 @@ struct EmojiView : View {
             PublishScopeView()
                 .presentationDetents([.medium])
         }
-//        .toolbar {
-//            // 키보드 위에 '완료' 버튼 추가
-//            ToolbarItemGroup(placement: .keyboard) {
-//                HStack {
-//                    Spacer() // 왼쪽 공간을 확보하여 버튼을 오른쪽으로 이동
-//                    Button("완료") {
-//                        isTextEditorFocused = false // 키보드 숨기기
-//                    }
-//                }
-//            }
-//        }
-        .contentShape(Rectangle()) // 전체 뷰가 터치 가능하도록 설정
         .onTapGesture {
-            isTextEditorFocused = false // 다른 곳을 클릭하면 포커스 해제
+            self.endTextEditing()
         }
+        .contentShape(Rectangle()) // 전체 뷰가 터치 가능하도록 설정
         .scaleEffect(scale)
         .onAppear {
             if let location = locationManager.currentLocation {
@@ -202,8 +186,17 @@ struct EmojiView : View {
     
     // 저장 후 초기화 함수
     func resetStory() {
-        storyDraft.content = ""
+//        storyDraft.id = ""
+//        storyDraft.userId = ""
+        storyDraft.likes = []
+        storyDraft.latitude = 0.0
+        storyDraft.longitude = 0.0
+        storyDraft.address = ""
         storyDraft.emoji = ""
+        storyDraft.image = ""
+        storyDraft.content = ""
+        storyDraft.publishedTargets = []
+        storyDraft.readUsers = []
     }
     
     private func fetchAddress() {
