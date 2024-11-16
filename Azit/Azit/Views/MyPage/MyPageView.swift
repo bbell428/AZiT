@@ -330,6 +330,11 @@ struct MyPageView: View {
                     }
             }
         }
+        .onAppear {
+            Task {
+                await userInfoStore.loadUserInfo(userID: authManager.userID)
+            }
+        }
         .navigationBarBackButtonHidden(true)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
