@@ -107,6 +107,7 @@ struct BlockedFriendView: View {
             .padding(.horizontal)
             .padding(.bottom, 50)
         }
+        .frame(width: 370)
         .navigationBarBackButtonHidden(true)
         .onAppear {
             Task {
