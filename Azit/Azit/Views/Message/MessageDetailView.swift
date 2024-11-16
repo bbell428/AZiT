@@ -85,7 +85,7 @@ struct MessageDetailView: View {
                             .zIndex(1)
                         
                         // 채팅방 메시지 내용
-                        TextMessage(profileImageName: profileImageName, isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedAlbum: $selectedAlbum)
+                        TextMessage(profileImageName: profileImageName, isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedAlbum: $selectedAlbum, nickname: nickname)
                             .zIndex(1)
                         
                         // 메시지 입력 공간
@@ -157,15 +157,17 @@ struct TextMessage: View {
     @Binding var isFriendsContentModalPresented: Bool
     @Binding var selectedAlbum: Story?
     
+    var nickname: String
+    
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView {
                 LazyVStack(spacing: 20) {
                     ForEach(chatDetailViewStore.chatList, id: \.id) { chat in
                         if chat.sender == authManager.userID {
-                            PostMessage(chat: chat, isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedAlbum: $selectedAlbum)
+                            PostMessage(chat: chat, isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedAlbum: $selectedAlbum, nickname: nickname)
                         } else {
-                                GetMessage(chat: chat, profileImageName: profileImageName)
+                            GetMessage(chat: chat, profileImageName: profileImageName, isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedAlbum: $selectedAlbum)
                         }
                     }
             
