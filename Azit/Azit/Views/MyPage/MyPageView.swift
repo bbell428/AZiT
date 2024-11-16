@@ -18,8 +18,6 @@ struct MyPageView: View {
     @State var isEditFriend: Bool = false // 친구 편집 뷰
     @State var friendID: String = ""      // 친구 id 담을 곳
     
-    @State var friends: [UserInfo] = []
-    
     @State private var scale: CGFloat = 0.1
     
     var body: some View {
@@ -98,7 +96,7 @@ struct MyPageView: View {
                         HStack {
                             Text("친구 리스트")
                                 .font(.headline)
-                            Text("\(friends.count)")
+                            Text("\(userInfoStore.friendInfos.count)")
                                 .font(.headline)
                                 .padding(.leading, 6)
                         }
@@ -140,7 +138,7 @@ struct MyPageView: View {
                         
                         VStack(alignment: .center) {
                             //MARK: 친구 목록
-                            ForEach(showAllFriends ? friends : Array(friends.prefix(3)), id: \.id) { friend in
+                            ForEach(showAllFriends ? userInfoStore.friendInfos :  Array(userInfoStore.friendInfos.prefix(3)), id: \.id) { friend in
                                 HStack {
                                     ZStack {
                                         Circle()
@@ -188,7 +186,7 @@ struct MyPageView: View {
                                 Divider()
                             }
                             
-                            if friends.count > 3 {
+                            if userInfoStore.friendInfos.count > 3 {
                                 Button {
                                     withAnimation { // 애니메이션을 추가, 자연스러운 느낌쓰
                                         showAllFriends.toggle()
@@ -332,14 +330,11 @@ struct MyPageView: View {
                     }
             }
         }
-        .navigationBarBackButtonHidden(true)
-        .onAppear {
+        .onChange(of: isEditFriend) {
             Task {
-                // 친구 uid 긁어옴
-                let friendIDs = userInfoStore.userInfo?.friends ?? []
-                
-                // 그 친구 uid를 비교하며 순서대로 가져옴
-                friends = friendIDs.compactMap { userInfoStore.friendInfo[$0] }
+                if isEditFriend == false {
+                    await userInfoStore.loadUserInfo(userID: authManager.userID)
+                }
             }
         }
         .navigationBarBackButtonHidden(true)
