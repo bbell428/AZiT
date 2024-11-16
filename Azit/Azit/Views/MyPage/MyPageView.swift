@@ -236,8 +236,9 @@ struct MyPageView: View {
                                     .stroke(Color.gray, lineWidth: 0.5))
                             }
                             
-                            Button {
-                                // 차단 유저 목록
+                            // 차단 유저 목록
+                            NavigationLink {
+                                BlockedFriendView()
                             } label: {
                                 HStack {
                                     Text("차단 유저 목록")
