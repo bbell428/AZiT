@@ -29,22 +29,20 @@ struct Provider: TimelineProvider {
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<AzitWidgetEntry>) -> Void) {
-        // 현재 시간을 가져옵니다.
         let currentDate = Date.now
-        
         // 유저 디폴트에서 스토리 데이터 불러오기
         let recentStory = loadStory()
         
-        // 15분 후의 시간을 계산합니다.
+        // 15분 후 시간 설정
         let nextRefreshDate = Calendar.current.date(byAdding: .minute, value: 15, to: currentDate)!
         
-        // 위젯에 표시할 데이터 항목을 생성합니다.
+        // 위젯에 표시할 데이터
         let entry = AzitWidgetEntry(date: currentDate, recentStory: recentStory)
         
-        // 15분마다 리프레시되는 타임라인을 생성합니다.
+        // 15분마다 리프레시되는 타임라인 설정
         let timeline = Timeline(entries: [entry], policy: .after(nextRefreshDate))
         
-        // 타임라인을 완료 핸들러로 전달합니다.
+        // 컴플리션 핸들러로 넘기기
         completion(timeline)
         
         // 타임라인이 갱신된 후 위젯 리프레시
@@ -77,10 +75,6 @@ struct Provider: TimelineProvider {
             await albumStore.loadStorysByIds(ids: userInfo.friends)
         }
     }
-    
-    //    func relevances() async -> WidgetRelevances<Void> {
-    //        // Generate a list containing the contexts this widget is relevant in.
-    //    }
 }
 
 struct AzitWidgetEntry: TimelineEntry {
@@ -97,9 +91,6 @@ struct AzitWidgetEntryView : View {
 
     var body: some View {
         VStack {
-//            Text("Time:")
-//            Text(entry.userInfo.nickname)
-            
             Text("emoji")
             Text(recentStory?.emoji ?? "")
         }
