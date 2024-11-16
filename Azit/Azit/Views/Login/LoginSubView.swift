@@ -215,43 +215,6 @@ struct SignInButton: View {
     }
 }
 
-struct AppleSignInButton: View {
-    @EnvironmentObject var authManager: AuthManager
-    @StateObject private var authApple = AuthApple()
-    
-    var imageName: String
-    var backColor: Color
-    
-    var body: some View {
-        Image("\(imageName)")
-            .resizable()
-            .frame(width: 24, height: 24)
-            .padding(10)
-            .background(backColor)
-            .clipShape(RoundedRectangle(cornerRadius: 8))
-            .overlay(
-                SignInWithAppleButton(
-                    .signIn,
-                    onRequest: { request in
-                        authApple.prepareRequest(request)
-                    },
-                    onCompletion: { result in
-                        authApple.handleAuthorization(result) {
-                            Task {
-                                if authApple.isSignedIn {
-                                    authManager.email = authApple.userEmail ?? ""
-                                }
-                            }
-                        }
-                    }
-                )
-                .clipShape(Circle())
-                .contentShape(Circle())
-                .blendMode(.overlay)
-            )
-    }
-}
-
 //MARK: 프로필 디테일
 // 닉네임 입력 필드
 struct NicknameTextField: View {

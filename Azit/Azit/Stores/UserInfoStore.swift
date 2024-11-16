@@ -150,7 +150,7 @@ class UserInfoStore: ObservableObject {
         var usersInfo: [UserInfo] = []
         
         for document in querySnapshot.documents {
-            let data = document.data()
+            _ = document.data()
             let userInfo = try await UserInfo(document: document)
             usersInfo.append(userInfo)
         }

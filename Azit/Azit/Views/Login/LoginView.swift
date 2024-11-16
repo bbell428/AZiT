@@ -142,13 +142,15 @@ struct LoginView: View {
                         SignInButton(imageName: "GoogleLogo", backColor: .white) {
                             signInWithGoogle()
                         }
-                        AppleSignInButton(imageName: "AppleLogo", backColor: .black)
+                        SignInButton(imageName: "AppleLogo", backColor: .black) {
+                            authApple.startSignInWithAppleFlow()
+                        }
                     }
                 }
-//                .contentShape(Rectangle())  // 빈 영역 터치 가능
-//                .onTapGesture {             // 빈 영역 터치시 함수 호출 -> 키보드 내려감
-//                    self.endTextEditing()
-//                }
+                .contentShape(Rectangle())  // 빈 영역 터치 가능
+                .onTapGesture {             // 빈 영역 터치시 함수 호출 -> 키보드 내려감
+                    self.endTextEditing()
+                }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .padding(.horizontal, 20)
                 .padding(.vertical, 20)
