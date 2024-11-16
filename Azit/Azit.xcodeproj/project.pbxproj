@@ -91,6 +91,10 @@
 		CE3A16E22CD85A5B0045DB52 /* MessageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A16E12CD85A5B0045DB52 /* MessageDetailView.swift */; };
 		CE5574652CE4666600266EBD /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5574642CE4666600266EBD /* ProfileDetailView.swift */; };
 		CE5574672CE4669500266EBD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE5574662CE4669500266EBD /* GoogleService-Info.plist */; };
+		CE69CDCC2CE70C2800322E7A /* AlbumStoryImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE69CDCB2CE70C2800322E7A /* AlbumStoryImageView.swift */; };
+		CE86A3B62CE6DFE2000B59B2 /* AlbumDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE86A3B52CE6DFE2000B59B2 /* AlbumDetailView.swift */; };
+		CE86A3B82CE6E1B4000B59B2 /* AlbumFriendListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE86A3B72CE6E1B4000B59B2 /* AlbumFriendListView.swift */; };
+		CE86A3BA2CE6E4C6000B59B2 /* AlbumScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE86A3B92CE6E4C6000B59B2 /* AlbumScrollView.swift */; };
 		CE89D79E2CDA8D1600DC73A8 /* EmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = CE89D79D2CDA8D1600DC73A8 /* EmojiPicker */; };
 		CEDFC2CE2CE1C814008C215A /* FriendSegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDFC2CD2CE1C814008C215A /* FriendSegmentView.swift */; };
 		CEDFC2EE2CE2EAB0008C215A /* AlbumStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDFC2ED2CE2EAB0008C215A /* AlbumStore.swift */; };
@@ -210,6 +214,10 @@
 		CE3A16E12CD85A5B0045DB52 /* MessageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailView.swift; sourceTree = "<group>"; };
 		CE5574642CE4666600266EBD /* ProfileDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailView.swift; sourceTree = "<group>"; };
 		CE5574662CE4669500266EBD /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CE69CDCB2CE70C2800322E7A /* AlbumStoryImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumStoryImageView.swift; sourceTree = "<group>"; };
+		CE86A3B52CE6DFE2000B59B2 /* AlbumDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailView.swift; sourceTree = "<group>"; };
+		CE86A3B72CE6E1B4000B59B2 /* AlbumFriendListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumFriendListView.swift; sourceTree = "<group>"; };
+		CE86A3B92CE6E4C6000B59B2 /* AlbumScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumScrollView.swift; sourceTree = "<group>"; };
 		CEDFC2CD2CE1C814008C215A /* FriendSegmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendSegmentView.swift; sourceTree = "<group>"; };
 		CEDFC2ED2CE2EAB0008C215A /* AlbumStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumStore.swift; sourceTree = "<group>"; };
 		EA31371F2CE331AA00AA4685 /* Azit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Azit.entitlements; sourceTree = "<group>"; };
@@ -578,6 +586,10 @@
 		8EAFF0012CD4A05C00136348 /* Album */ = {
 			isa = PBXGroup;
 			children = (
+				CE86A3B52CE6DFE2000B59B2 /* AlbumDetailView.swift */,
+				CE86A3B72CE6E1B4000B59B2 /* AlbumFriendListView.swift */,
+				CE86A3B92CE6E4C6000B59B2 /* AlbumScrollView.swift */,
+				CE69CDCB2CE70C2800322E7A /* AlbumStoryImageView.swift */,
 				8EAFF0142CD4A33E00136348 /* AlbumView.swift */,
 				CEDFC2CD2CE1C814008C215A /* FriendSegmentView.swift */,
 			);
@@ -820,9 +832,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE86A3B82CE6E1B4000B59B2 /* AlbumFriendListView.swift in Sources */,
 				8BDA11D52CDA769C004242DB /* EmojiPickerView.swift in Sources */,
 				EAB079722CDDAED700293C62 /* SplashView.swift in Sources */,
 				EAF93B8E2CD4A50700116035 /* AuthView.swift in Sources */,
+				CE69CDCC2CE70C2800322E7A /* AlbumStoryImageView.swift in Sources */,
 				CEDFC2EE2CE2EAB0008C215A /* AlbumStore.swift in Sources */,
 				EAF93B8F2CD4A50700116035 /* SignupView.swift in Sources */,
 				EAAABB762CE6D0CA0003C250 /* QRInvitation.swift in Sources */,
@@ -841,12 +855,14 @@
 				8BD71F7E2CD4BB280030693B /* TakePhotoView.swift in Sources */,
 				8BD71F842CD89AEA0030693B /* PhotoPicker.swift in Sources */,
 				8EAFEFAC2CD4528E00136348 /* MainView.swift in Sources */,
+				CE86A3B62CE6DFE2000B59B2 /* AlbumDetailView.swift in Sources */,
 				8BA5D4B42CDD3A7400B03843 /* EditStoryView.swift in Sources */,
 				EA3F965E2CD8B19C009904C0 /* (null) in Sources */,
 				8B067A032CE45A6200ABD942 /* PhotoImageStore.swift in Sources */,
 				8EAFF0132CD4A33600136348 /* MessageView.swift in Sources */,
 				CEDFC2CE2CE1C814008C215A /* FriendSegmentView.swift in Sources */,
 				CE374EAD2CD79F6300601AA7 /* ChatListStore.swift in Sources */,
+				CE86A3BA2CE6E4C6000B59B2 /* AlbumScrollView.swift in Sources */,
 				8EC52DDA2CE1DA3A00DC8190 /* MyContentsModalView.swift in Sources */,
 				8EC52DD82CE1C93C00DC8190 /* Utility.swift in Sources */,
 				8EAFEFB22CD4580800136348 /* UserInfo.swift in Sources */,

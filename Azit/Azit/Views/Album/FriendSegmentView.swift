@@ -9,7 +9,7 @@ struct UnderlineModifier: ViewModifier {
         content
             .background(
                 Rectangle()
-                    .fill(.accent)
+                    .fill(.accent.opacity(0.5))
                     .frame(width: frames[selectedIndex].width, height: 3)
                     .cornerRadius(12)
                     .offset(x: (frames[selectedIndex].minX+20) - frames[0].minX), alignment: .bottomLeading
@@ -41,7 +41,7 @@ struct FriendSegmentView: View {
     init(selectedIndex: Binding<Int>, titles: [UserInfo]) {
         self._selectedIndex = selectedIndex
         self.titles = titles
-        frames = Array<CGRect>(repeating: .zero, count: titles.count)
+        frames = titles.isEmpty ? [CGRect(x: 0, y: 0, width: 100, height: 50)] : Array<CGRect>(repeating: .zero, count: titles.count)  // 기본값 설정
     }
     
     var body: some View {
@@ -136,7 +136,7 @@ private struct SegmentedControlButtonView: View {
                     VStack(alignment: .center) {
                         ZStack(alignment: .center) {
                             Circle()
-                                .fill(selectedIndex == index ? .accent : .subColor4)
+                                .fill(selectedIndex == index ? .accent.opacity(0.5) : .subColor4)
                                 .frame(width: 70, height: 70)
                             
                             Text(titles[index].profileImageName)

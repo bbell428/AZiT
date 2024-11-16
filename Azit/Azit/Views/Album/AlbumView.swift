@@ -8,16 +8,6 @@
 import SwiftUI
 import UIKit
 
-extension Story {
-    func isWithin(hours: Int) -> Bool {
-        let now = Date()
-        let calendar = Calendar.current
-        
-        // 게시물 생성 시간이 현재 시간과 얼마나 차이가 나는지 계산
-        let diffInHours = calendar.dateComponents([.hour], from: self.date, to: now).hour ?? 0
-        return diffInHours < hours
-    }
-}
 
 struct ScrollPreferenceKey: PreferenceKey {
     static var defaultValue: CGFloat = .zero
@@ -34,10 +24,14 @@ struct AlbumView: View {
     @State private var lastOffsetY: CGFloat = .zero
     @State private var items = Array(0..<10)
     @State private var isShowHorizontalScroll = true
-    @State var selectedIndex: Int = 0
     @State private var isLoading = false
     @State var isOpenCalendar: Bool = false
-    @State private var selectedDate: Date = Date()
+    @State var isFriendsContentModalPresented: Bool = false // 게시물 선택시,
+    @State var message: String = ""
+    
+    @State var isShowCalendar: Bool = false
+    @State var selectedIndex: Int = 0
+    @State var selectedAlbum: Story?
     
     var body: some View {
         NavigationStack {
@@ -65,7 +59,7 @@ struct AlbumView: View {
                             .frame(maxWidth: .infinity)
                         
                         Button {
-                            
+                            isShowCalendar = true
                         } label: {
                             Image(systemName: "calendar")
                                 .font(.system(size: 25))
@@ -77,91 +71,60 @@ struct AlbumView: View {
                     .frame(height: 70)
                     .background(Color.white)
                     
+                    // 스토리 클릭시, 상세 정보
+                    if isFriendsContentModalPresented {
+                        AlbumDetailView(isFriendsContentModalPresented: $isFriendsContentModalPresented, message: $message, selectedIndex: $selectedIndex, selectedAlbum: selectedAlbum)
+                            .zIndex(7)
+                    }
+                    
+                    // 스크롤이 내려가지 않았거나, 위로 올렸을경우 (친구 리스트)
                     if isShowHorizontalScroll {
-                        ZStack(alignment: .bottomLeading) {
-                            FriendSegmentView(selectedIndex: $selectedIndex, titles: userInfoStore.friendInfos)
-                                .animation(.easeInOut(duration: 0.3), value: isShowHorizontalScroll)
-                            //.padding(.leading, 20)
-                            //.background(Color.white)
-                                .zIndex(3)
-                            
-                            VStack {
-                                Rectangle()
-                                    .fill(.subColor2)
-                                    .frame(height: 1, alignment: .bottomLeading)
-                                    .padding(.bottom, 1)
-                            }
-                            .zIndex(2)
-                        }
+                        AlbumFriendListView(isShowHorizontalScroll:
+                                                $isShowHorizontalScroll, selectedIndex: $selectedIndex)
                         .background(Color.white)
                         .padding(.top, 70)
-                        .transition(.move(edge: .top).combined(with: .opacity))
                         .zIndex(3)
                     }
                     
-                    if albumstore.storys.contains(where: { $0.userId == albumstore.filterUserID }) {
-                        ScrollView {
-                            Rectangle()
-                                .frame(height: 160)
-                                .foregroundStyle(Color.white)
-                            
-                            GeometryReader { proxy in
-                                let offsetY = proxy.frame(in: .global).origin.y
-                                
-                                DispatchQueue.main.async {
-                                    if abs(offsetY - lastOffsetY) > 120 && lastOffsetY < 400 {
-                                        withAnimation {
-                                            isShowHorizontalScroll = offsetY > lastOffsetY
-                                        }
-                                        lastOffsetY = offsetY
-                                    }
-                                }
-                                
-                                return Color.clear
-                                    .preference(
-                                        key: ScrollPreferenceKey.self,
-                                        value: offsetY
-                                    )
-                            }
-                            .frame(height: 0)
-                            
-                            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), alignment: .leading, spacing: 5) {
-                                ForEach(getTimeGroupedStories(), id: \.title) { group in
-                                    Section(header: HStack {
-                                        Text(group.title)
-                                            .font(.caption2)
-                                            .fontWeight(.bold)
-                                            .foregroundStyle(Color.gray)
-                                        Spacer()
-                                    }
-                                        .padding(.top, 20)
-                                    ) {
-                                        ForEach(group.stories) { story in
-                                            StoryView(story: story)
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        .padding(.horizontal, 20)
-                        .onPreferenceChange(ScrollPreferenceKey.self, perform: { value in
-                            self.offsetY = value
-                        })
-                        .zIndex(1)
-                    } else {
+                    // 만약 친구가 없으면,
+                    if userInfoStore.friendInfos.isEmpty {
                         VStack(alignment: .center) {
                             Spacer()  // 위쪽 Spacer
-                            Image(systemName: "doc.text.fill")
+                            Image(systemName: "photo.badge.plus.fill")
                                 .font(.system(size: 30))
                                 .foregroundStyle(Color.gray)
                                 .padding(.bottom, 10)
-                            Text("현재 올라온 게시물이 없습니다.")
+                            Text("친구를 초대해서 공유 앨범을 시작해보세요!")
                                 .font(.subheadline)
                                 .fontWeight(.bold)
                                 .foregroundStyle(Color.gray)
                             Spacer()  // 아래쪽 Spacer
                         }
                         .frame(maxHeight: .infinity)  // 화면 중앙에 오도록 설정
+                    } else {
+                        // 선택된 친구가 storys 값에 포함되고 있을경우 (= 스토리가 있을 경우)
+                        if albumstore.storys.contains(where: { $0.userId == albumstore.filterUserID }) && !albumstore.getTimeGroupedStories().isEmpty {
+                            AlbumScrollView(lastOffsetY: $lastOffsetY, isShowHorizontalScroll: $isShowHorizontalScroll, isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedAlbum: $selectedAlbum)
+                            .padding(.horizontal, 20)
+                            .onPreferenceChange(ScrollPreferenceKey.self, perform: { value in
+                                self.offsetY = value
+                            })
+                            .zIndex(1)
+                        } else {
+                            VStack(alignment: .center) {
+                                Spacer()  // 위쪽 Spacer
+                                Image(systemName: "doc.text.fill")
+                                    .font(.system(size: 30))
+                                    .foregroundStyle(Color.gray)
+                                    .padding(.bottom, 10)
+                                Text("올라온 게시물이 없습니다.")
+                                    .font(.subheadline)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(Color.gray)
+                                Spacer()  // 아래쪽 Spacer
+                            }
+                            .frame(maxHeight: .infinity)  // 화면 중앙에 오도록 설정
+                        }
                     }
                 }
             }
@@ -169,6 +132,15 @@ struct AlbumView: View {
                 Task {
                     await albumstore.loadStorysByIds(ids: userInfoStore.userInfo?.friends ?? [])
                 }
+            }
+            .sheet(isPresented: $isShowCalendar) {
+                DatePicker("Select Date", selection: $albumstore.selectedDate, displayedComponents: [.date])
+                    .datePickerStyle(GraphicalDatePickerStyle())
+                    .environment(\.locale, Locale(identifier: "ko_KR"))
+                    .padding()
+                    .background(Color.clear)
+                    .presentationDetents([.height(400)])
+                    .presentationBackground(.subColor4.opacity(0.95))
             }
             .navigationBarBackButtonHidden(true)
         }
@@ -180,47 +152,6 @@ struct AlbumView: View {
             let newItems = Array(items.count..<(items.count + 10))
             items.append(contentsOf: newItems)
             isLoading = false
-        }
-    }
-    
-    
-    func getTimeGroupedStories() -> [(title: String, stories: [Story])] {
-        let timeGroups: [(String, (Story) -> Bool)] = [
-            ("최근", { $0.isWithin(hours: 24) }),  // 오늘: 24시간 이내
-            ("1일 전", { $0.isWithin(hours: 48) && !$0.isWithin(hours: 24) }),  // 1일 전: 24~48시간 이내
-            ("2일 전", { $0.isWithin(hours: 72) && !$0.isWithin(hours: 48) }),  // 2일 전: 48~72시간 이내
-            ("3일 전", { $0.isWithin(hours: 96) && !$0.isWithin(hours: 72) }),  // 3일 전: 72~96시간 이내
-            ("4일 전", { $0.isWithin(hours: 120) && !$0.isWithin(hours: 96) }),  // 4일 전: 96~120시간 이내
-            ("5일 전", { $0.isWithin(hours: 144) && !$0.isWithin(hours: 120) }),  // 5일 전: 120~144시간 이내
-            ("6일 전", { $0.isWithin(hours: 168) && !$0.isWithin(hours: 144) }),  // 6일 전: 144~168시간 이내
-            ("1주일 전", { $0.isWithin(hours: 336) && !$0.isWithin(hours: 168) }),  // 1주일 전: 168~336시간 이내
-            ("2주일 전", { $0.isWithin(hours: 672) && !$0.isWithin(hours: 336) }),  // 2주일 전: 336~672시간 이내
-            ("3주일 전", { $0.isWithin(hours: 1008) && !$0.isWithin(hours: 672) }),  // 3주일 전: 672~1008시간 이내
-            ("4주일 전", { $0.isWithin(hours: 1344) && !$0.isWithin(hours: 1008) }),  // 4주일 전: 1008~1344시간 이내
-            ("그 외", { !$0.isWithin(hours: 1344) })  // 4주 이상: 1344시간 이상
-        ]
-        
-        return timeGroups.compactMap { group in
-            let filteredStories = albumstore.storys.filter { story in
-                return story.userId == albumstore.filterUserID && group.1(story)
-            }
-            
-            return filteredStories.isEmpty ? nil : (group.0, filteredStories)
-        }
-    }
-}
-
-struct StoryView: View {
-    let story: Story
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            Image("Album")
-                .resizable()
-            //.aspectRatio(contentMode: .fill)
-                .cornerRadius(15)
-                .frame(maxWidth: 120, maxHeight: 160)
-            //Text(story.content)
         }
     }
 }

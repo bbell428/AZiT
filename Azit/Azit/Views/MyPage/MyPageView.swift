@@ -21,6 +21,7 @@ struct MyPageView: View {
     @State var friends: [UserInfo] = []
     
     @State private var scale: CGFloat = 0.1
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         ZStack {
@@ -331,6 +332,7 @@ struct MyPageView: View {
                     }
             }
         }
+        .navigationBarBackButtonHidden(true)
         .onAppear {
             Task {
                 // 친구 uid 긁어옴

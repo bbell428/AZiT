@@ -15,6 +15,8 @@ struct Chat: Codable, Identifiable {
     var sender: String // 보낸 사람의 uid
     var readBy: [String] // 읽은 사람 uid
     
+    var storyId: String? = "" // 게시물 공유 id
+    
     // 포맷팅된 날짜 속성
     var formattedCreateAt: String {
         let formatter = DateFormatter()

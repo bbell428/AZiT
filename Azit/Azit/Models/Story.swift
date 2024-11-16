@@ -31,6 +31,15 @@ struct Story: Codable, Equatable, Identifiable {
             return date > twoDaysAgo
         }
     
+    func isWithin(hours: Int) -> Bool {
+        let now = Date()
+        let calendar = Calendar.current
+        
+        // 게시물 생성 시간이 현재 시간과 얼마나 차이가 나는지 계산
+        let diffInHours = calendar.dateComponents([.hour], from: self.date, to: now).hour ?? 0
+        return diffInHours < hours
+    }
+    
     init(id: String = UUID().uuidString, userId: String, likes: [String] = [], date: Date, latitude: Double = 0.0, longitude: Double = 0.0, address: String = "", emoji: String = "", image: String = "", content: String = "", publishedTargets: [String] = [], readUsers: [String] = []) {
         self.id = id
         self.userId = userId

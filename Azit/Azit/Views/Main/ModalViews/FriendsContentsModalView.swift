@@ -11,11 +11,13 @@ struct FriendsContentsModalView: View {
     let screenBounds = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds
     
     @EnvironmentObject var storyStore: StoryStore
+    @EnvironmentObject var chatDetailViewStore: ChatDetailViewStore
+    @EnvironmentObject var userInfoStore: UserInfoStore
     
     @Binding var message: String
     @Binding var selectedUserInfo: UserInfo
     
-    @State var story: Story?
+    @State var story: Story? = nil
     @State private var isLiked: Bool = false
     @State private var scale: CGFloat = 0.1
     
@@ -38,6 +40,14 @@ struct FriendsContentsModalView: View {
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(.accent, lineWidth: 1)
                     )
+                    .onSubmit {
+                        guard !message.isEmpty else { return }
+                        Task {
+                            chatDetailViewStore.sendMessage(text: message, myId: userInfoStore.userInfo?.id ?? "", friendId: story?.userId ?? "", storyId: story?.id ?? "")
+                            print("메시지 전송에 성공했습니다!")
+                            message = ""
+                        }
+                    }
                     
                     if !message.isEmpty {
                         Button {
@@ -72,7 +82,9 @@ struct FriendsContentsModalView: View {
         .onAppear {
             Task {
                 // 선택 된 친구의 story
-                try await story = storyStore.loadRecentStoryById(id: selectedUserInfo.id)
+                if story == nil {
+                    try await story = storyStore.loadRecentStoryById(id: selectedUserInfo.id)
+                }
             }
             withAnimation(.easeInOut(duration: 0.3)) {
                 scale = 1.0
