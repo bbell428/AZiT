@@ -82,7 +82,7 @@ struct AlbumScrollView : View {
                                         }
                                     }
                                     .padding(.horizontal, 2.5)
-                                    .frame(width: 120, height: 160)
+                                    .frame(width: 115, height: 155)
                                 }
                             }
                         }

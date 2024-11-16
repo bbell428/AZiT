@@ -22,6 +22,7 @@ struct ChatRoomListView: View {
                            let friend = userInfoStore.friendInfo[otherParticipantID] {
                             NavigationLink {
                                 MessageDetailView(
+                                    friend: friend,
                                     roomId: chatroom.roomId,
                                     nickname: friend.nickname,
                                     userId: friend.id, profileImageName: friend.profileImageName

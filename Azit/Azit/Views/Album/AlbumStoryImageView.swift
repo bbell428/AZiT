@@ -7,14 +7,14 @@ struct AlbumStoryImageView: View {
     @State private var imageURL: URL?
     @State private var isLoading: Bool = true
     @State private var loadFailed: Bool = false
-
+    
     var body: some View {
         VStack {
             if isLoading {
                 // 이미지 로딩 중일 때 표시할 ProgressView
                 ProgressView()
                     .padding(.horizontal, 2.5)
-                    .frame(width: 120, height: 160)
+                    .frame(width: 115, height: 155)
             } else if loadFailed {
                 // 이미지 로드 실패 시 표시할 대체 뷰
                 VStack(alignment: .center) {
@@ -30,7 +30,7 @@ struct AlbumStoryImageView: View {
                     Spacer()
                 }
                 .padding(.horizontal, 2.5)
-                .frame(width: 120, height: 160)
+                .frame(width: 115, height: 155)
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(15)
             } else if let imageURL = imageURL {
@@ -40,14 +40,14 @@ struct AlbumStoryImageView: View {
                     case .empty:
                         ProgressView()
                             .padding(.horizontal, 2.5)
-                            .frame(width: 120, height: 160)
+                            .frame(width: 115, height: 155)
                     case .success(let image):
                         image
                             .resizable()
                             .cornerRadius(15)
                             .padding(.horizontal, 2.5)
                             //.background(.subColor4.opacity(0.95))
-                            .frame(width: 120, height: 160)
+                            .frame(width: 115, height: 155)
                     case .failure:
                         // 이미지 로드 실패 시 대체 이미지 표시
                         VStack(alignment: .center) {
@@ -63,7 +63,7 @@ struct AlbumStoryImageView: View {
                             Spacer()
                         }
                         .padding(.horizontal, 2.5)
-                        .frame(width: 120, height: 160)
+                        .frame(width: 115, height: 155)
                         .background(Color.gray.opacity(0.2))
                         .cornerRadius(15)
                     @unknown default:
@@ -86,7 +86,7 @@ struct AlbumStoryImageView: View {
         }
         
         let storage = Storage.storage()
-        let imageRef = storage.reference().child("Image/\(imageStoreID).jpg")
+        let imageRef = storage.reference().child("image/\(imageStoreID)")
         
         Task {
             do {
