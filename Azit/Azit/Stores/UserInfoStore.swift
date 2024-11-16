@@ -31,7 +31,8 @@ class UserInfoStore: ObservableObject {
                 "previousState": user.previousState,
                 "friends": user.friends,
                 "latitude": user.latitude,
-                "longitude": user.longitude
+                "longitude": user.longitude,
+                "blockedFriends": user.blockedFriends
             ])
             
             print("Document successfully written!")
@@ -53,7 +54,8 @@ class UserInfoStore: ObservableObject {
                 "previousState": user.previousState,
                 "friends": user.friends,
                 "latitude": user.latitude,
-                "longitude": user.longitude
+                "longitude": user.longitude,
+                "blockedFriends": user.blockedFriends
             ], merge: true) // 기존 데이터에 덮어쓰기
             print("Document successfully updated!")
         } catch {
@@ -79,6 +81,7 @@ class UserInfoStore: ObservableObject {
             let friends: [String] = docData["friends"] as? [String] ?? []
             let latitude: Double = docData["latitude"] as? Double ?? 0.0
             let longitude: Double = docData["longitude"] as? Double ?? 0.0
+            let blockedFriends: [String] = docData["blockedFriends"] as? [String] ?? []
             
             // `userInfoStore` 업데이트
             self.userInfo = UserInfo(
@@ -89,7 +92,8 @@ class UserInfoStore: ObservableObject {
                 previousState: previousState,
                 friends: friends,
                 latitude: latitude,
-                longitude: longitude
+                longitude: longitude,
+                blockedFriends: blockedFriends
             )
             
             print("userinfo: \(String(describing: self.userInfo))")
@@ -180,19 +184,19 @@ class UserInfoStore: ObservableObject {
         }
     }
 
-    //MARK: 친구 추가 (QR받은 UID, 현재 내 UID)
-    func addFriend(receivedUID: String, currentUserUID: String) {
+    //MARK: 친구 추가 (QR받은 ID, 현재 내 ID)
+    func addFriend(receivedID: String, currentUserID: String) {
         let db = Firestore.firestore()
         
-        // 현재 UID
-        let currentUserRef = db.collection("User").document(currentUserUID)
+        // 현재 ID
+        let currentUserRef = db.collection("User").document(currentUserID)
         
-        // 받아온 UID
-        let receivedUserRef = db.collection("User").document(receivedUID)
+        // 받아온 ID
+        let receivedUserRef = db.collection("User").document(receivedID)
         
-        // 나의 친구배열에 받아온 uid 추가
+        // 나의 친구배열에 받아온 id 추가
         currentUserRef.updateData([
-            "friends": FieldValue.arrayUnion([receivedUID])
+            "friends": FieldValue.arrayUnion([receivedID])
         ]) { error in
             if let error = error {
                 print("\(error)")
@@ -201,9 +205,9 @@ class UserInfoStore: ObservableObject {
             }
         }
         
-        // 친구배열에 나의 uid 추가
+        // 친구배열에 나의 id 추가
         receivedUserRef.updateData([
-            "friends": FieldValue.arrayUnion([currentUserUID])
+            "friends": FieldValue.arrayUnion([currentUserID])
         ]) { error in
             if let error = error {
                 print("\(error)")
@@ -218,7 +222,7 @@ class UserInfoStore: ObservableObject {
     func getUserNameById(id: String) async throws -> String {
         let db = Firestore.firestore()
         
-        var user: UserInfo = UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0)
+        var user: UserInfo = UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0, blockedFriends: [])
         
         do {
             let querySnapshot = try await db.collection("User")
@@ -244,6 +248,55 @@ class UserInfoStore: ObservableObject {
         return user.nickname
     }
     
+    // MARK: - 사용자 ID로 UserInfo 가져오기
+    func getUserInfoById(id: String) async throws -> UserInfo? {
+        let db = Firestore.firestore()
+        
+        do {
+            let document = try await db.collection("User").document(id).getDocument()
+            
+            guard let docData = document.data() else {
+                print("No user data found for id: \(id)")
+                return nil
+            }
+            
+            let id = docData["id"] as? String ?? ""
+            let email = docData["email"] as? String ?? ""
+            let nickname = docData["nickname"] as? String ?? ""
+            let profileImageName = docData["profileImageName"] as? String ?? ""
+            let previousState = docData["previousState"] as? String ?? ""
+            let friends = docData["friends"] as? [String] ?? []
+            let latitude = docData["latitude"] as? Double ?? 0.0
+            let longitude = docData["longitude"] as? Double ?? 0.0
+            
+            let userInfo = UserInfo(
+                id: id,
+                email: email,
+                nickname: nickname,
+                profileImageName: profileImageName,
+                previousState: previousState,
+                friends: friends,
+                latitude: latitude,
+                longitude: longitude,
+                blockedFriends: []
+            )
+            
+            return userInfo
+        } catch {
+            print("Error fetching user info by id: \(error)")
+            return nil
+        }
+    }
+    
+    // MARK: - 친구 목록에 특정 ID가 있는지 확인
+    func isFriend(id: String) -> Bool {
+        guard let currentUserFriends = self.userInfo?.friends else {
+            return false
+        }
+        
+        return currentUserFriends.contains(id)
+    }
+    
     // MARK: - 첫 런치 때 유저 데이터 전달
     func saveToUserDefaultsFirstLaunch(data: UserInfo) {
         let userDefaults = UserDefaults(suiteName: "group.education.techit.Azit.AzitWidget")
@@ -258,6 +311,35 @@ class UserInfoStore: ObservableObject {
             }
         } else {
             print("이미 유저 데이터가 저장되어 있습니다.")
+        }
+    }
+    
+    // MARK: - 친구 목록에서 특정 ID 삭제
+    func removeFriend(friendID: String, currentUserID: String) {
+        let db = Firestore.firestore()
+        
+        // 현재 사용자의 친구 목록에서 id 제거
+        let currentUserRef = db.collection("User").document(currentUserID)
+        currentUserRef.updateData([
+            "friends": FieldValue.arrayRemove([friendID])
+        ]) { error in
+            if let error = error {
+                print("나의 친구 목록에 유저 없움: \(error)")
+                return
+            }
+            print("친구목록에 친구 삭제 완료")
+        }
+        
+        // 상대방의 친구 목록에서 현재 사용자 제거
+        let friendUserRef = db.collection("User").document(friendID)
+        friendUserRef.updateData([
+            "friends": FieldValue.arrayRemove([currentUserID])
+        ]) { error in
+            if let error = error {
+                print("친구목록에 나 자신이 없움: \(error)")
+                return
+            }
+            print("친구목록에 나 자신을 삭제함")
         }
     }
 }

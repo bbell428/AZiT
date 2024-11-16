@@ -31,7 +31,8 @@ struct ProfileDetailView: View {
                 previousState: emoji,
                 friends: [],
                 latitude: 0.0,
-                longitude: 0.0
+                longitude: 0.0,
+                blockedFriends: []
             )
             await userInfoStore.addUserInfo(newUserInfo)
             authManager.authenticationState = .authenticated

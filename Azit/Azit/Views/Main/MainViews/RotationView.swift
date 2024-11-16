@@ -23,10 +23,11 @@ struct RotationView: View {
     @State private var selectedIndex: Int = 0 // 선택 된 친구 스토리
     @State private var message: String = "" // 친구에게 보낼 메세지
     @State private var scale: CGFloat = 1.0 // 확대, 축소를 위한 스케일
+    @State private var QRscale: CGFloat = 0.1 // 초대장 확대, 축소 스케일
     @State private var previousScale: CGFloat = 1.0 // 이전 스케일을 보존
     @State private var friendsStories: [Story] = [] // 친구들의 story
     @State private var numberOfCircles: Int = 0 // 친구 story 개수
-    @State private var isShowAlert = false // QR로 앱 -> 알림 띄움 (친구추가)
+    @State private var isShowInvaitaion = false // QR로 앱 -> 알림 띄움 (친구추가)
     @State private var isShowYes = false // QR로 인해 친구추가 알림에서 Yes를 누를 경우
     @State private var isTappedWidget = false // 위젯이 클릭 되었는지 확인
     @State private var tappedWidgetUserInfo: UserInfo = UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0)
@@ -118,9 +119,36 @@ struct RotationView: View {
                 
                 FriendsContentsModalView(message: $message, selectedUserInfo: $tappedWidgetUserInfo)
             }
+            
+            // 초대장을 띄어줌
+            if isShowInvaitaion {
+                Color.black.opacity(0.3)
+                    .edgesIgnoringSafeArea(.all)
+                    .onTapGesture {
+                        isShowInvaitaion.toggle()
+                        authManager.deepUserID = ""
+                    }
+                
+                QRInvitation(isShowInvaitaion: $isShowInvaitaion, isShowYes: $isShowYes)
+                    .scaleEffect(QRscale)
+                    .onAppear {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            QRscale = 1.0
+                        }
+                    }
+                    .onDisappear {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            QRscale = 0.1
+                        }
+                    }
+            }
         }
         .onAppear {
-            Task {
+            Task { // QR코드로 앱을 처음 실행했을 때, 초대장을 띄움
+                if !authManager.deepUserID.isEmpty {
+                    isShowInvaitaion = true
+                }
+                
                 // 사용자 본인의 정보 받아오기
                 await userInfoStore.loadUserInfo(userID: authManager.userID)
                 
@@ -152,24 +180,10 @@ struct RotationView: View {
                 isPassed24Hours = Utility.hasPassed24Hours(from: story.date)
             }
         }
-        .alert(isPresented: $isShowAlert) {
-            Alert(
-                title: Text("친구 추가"),
-                message: Text("친구를 추가하겠습니까?"),
-                primaryButton: .default(Text("Yes"), action: {
-                    userInfoStore.addFriend(receivedUID: authManager.deepUserID, currentUserUID: authManager.userID)
-                    authManager.deepUserID = ""
-                    isShowYes = true
-                }),
-                secondaryButton: .cancel(Text("No"), action: {
-                    authManager.deepUserID = "" // No 선택 시 deepUserID를 초기화하여 알림이 반복되지 않도록 함
-                })
-            )
-        }
         .onChange(of: authManager.deepUserID) {
             Task {
                 if !authManager.deepUserID.isEmpty {
-                    isShowAlert = true
+                    isShowInvaitaion = true
                 }
                 
                 guard isShowYes else { return }
@@ -177,11 +191,21 @@ struct RotationView: View {
                 await userInfoStore.loadUserInfo(userID: authManager.userID)
                 userInfoStore.loadFriendsInfo(friendsIDs: userInfoStore.userInfo?.friends ?? [])
                 
-                sortedUsers = try await Utility.sortUsersByDistance(from: userInfoStore.userInfo!, users: userInfoStore.loadUsersInfoByEmail(userID: userInfoStore.userInfo?.friends ?? []))
-                numberOfCircles = userInfoStore.userInfo?.friends.count ?? 0 // 친구가 아니라 친구의 게시글이 numberOfCircle이 되어야 함
+                var tempUsers: [UserInfo] = []
                 
+                for friend in userInfoStore.userInfo?.friends ?? [] {
+                    do {
+                        let tempStory = try await storyStore.loadRecentStoryById(id: friend)
+                        
+                        if tempStory.id != "" && (tempStory.publishedTargets.contains(userInfoStore.userInfo?.id ?? "") || tempStory.publishedTargets.isEmpty) {
+                            try await tempUsers.append(userInfoStore.loadUsersInfoByEmail(userID: [friend])[0])
+                        }
+                    } catch { }
+                }
+                 
+                sortedUsers = Utility.sortUsersByDistance(from: userInfoStore.userInfo!, users: tempUsers)
+                numberOfCircles = sortedUsers.count
                 let story = try await storyStore.loadRecentStoryById(id: userInfoStore.userInfo?.id ?? "")
-                
                 isPassed24Hours = Utility.hasPassed24Hours(from: story.date)
                 
             }

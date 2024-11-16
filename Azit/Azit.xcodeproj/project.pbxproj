@@ -96,6 +96,11 @@
 		CEDFC2EE2CE2EAB0008C215A /* AlbumStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDFC2ED2CE2EAB0008C215A /* AlbumStore.swift */; };
 		EA3137212CE3322000AA4685 /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA3137202CE3322000AA4685 /* QRCodeView.swift */; };
 		EA3F965E2CD8B19C009904C0 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		EAAABB662CE5E25F0003C250 /* QRCodeContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAABB652CE5E25F0003C250 /* QRCodeContent.swift */; };
+		EAAABB6E2CE5ECD30003C250 /* QRShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAABB6D2CE5ECD30003C250 /* QRShareSheet.swift */; };
+		EAAABB762CE6D0CA0003C250 /* QRInvitation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAABB752CE6D0CA0003C250 /* QRInvitation.swift */; };
+		EAAABB782CE6D2BE0003C250 /* QR.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAABB772CE6D2BE0003C250 /* QR.swift */; };
+		EAAABB7A2CE70BF40003C250 /* EditFriend.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAABB792CE70BF40003C250 /* EditFriend.swift */; };
 		EAB079722CDDAED700293C62 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB079712CDDAED700293C62 /* SplashView.swift */; };
 		EACABF212CE30E760042340D /* AuthApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = EACABF202CE30E760042340D /* AuthApple.swift */; };
 		EAD18AE52CD6719600AF3013 /* LoginSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD18AE42CD6719600AF3013 /* LoginSubView.swift */; };
@@ -209,6 +214,11 @@
 		CEDFC2ED2CE2EAB0008C215A /* AlbumStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumStore.swift; sourceTree = "<group>"; };
 		EA31371F2CE331AA00AA4685 /* Azit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Azit.entitlements; sourceTree = "<group>"; };
 		EA3137202CE3322000AA4685 /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
+		EAAABB652CE5E25F0003C250 /* QRCodeContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeContent.swift; sourceTree = "<group>"; };
+		EAAABB6D2CE5ECD30003C250 /* QRShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRShareSheet.swift; sourceTree = "<group>"; };
+		EAAABB752CE6D0CA0003C250 /* QRInvitation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRInvitation.swift; sourceTree = "<group>"; };
+		EAAABB772CE6D2BE0003C250 /* QR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QR.swift; sourceTree = "<group>"; };
+		EAAABB792CE70BF40003C250 /* EditFriend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditFriend.swift; sourceTree = "<group>"; };
 		EAB079712CDDAED700293C62 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		EACABF202CE30E760042340D /* AuthApple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthApple.swift; sourceTree = "<group>"; };
 		EAD18AE42CD6719600AF3013 /* LoginSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSubView.swift; sourceTree = "<group>"; };
@@ -577,7 +587,11 @@
 		EA3137222CE337A600AA4685 /* QRCode */ = {
 			isa = PBXGroup;
 			children = (
+				EAAABB772CE6D2BE0003C250 /* QR.swift */,
 				EA3137202CE3322000AA4685 /* QRCodeView.swift */,
+				EAAABB652CE5E25F0003C250 /* QRCodeContent.swift */,
+				EAAABB6D2CE5ECD30003C250 /* QRShareSheet.swift */,
+				EAAABB752CE6D0CA0003C250 /* QRInvitation.swift */,
 			);
 			path = QRCode;
 			sourceTree = "<group>";
@@ -587,6 +601,7 @@
 			children = (
 				EAF840B22CD9FA0E00F23839 /* MyPageView.swift */,
 				EAF8BB1A2CDB368F00B67AAF /* EditProfileView.swift */,
+				EAAABB792CE70BF40003C250 /* EditFriend.swift */,
 				EA3137222CE337A600AA4685 /* QRCode */,
 			);
 			path = MyPage;
@@ -810,9 +825,12 @@
 				EAF93B8E2CD4A50700116035 /* AuthView.swift in Sources */,
 				CEDFC2EE2CE2EAB0008C215A /* AlbumStore.swift in Sources */,
 				EAF93B8F2CD4A50700116035 /* SignupView.swift in Sources */,
+				EAAABB762CE6D0CA0003C250 /* QRInvitation.swift in Sources */,
+				EAAABB782CE6D2BE0003C250 /* QR.swift in Sources */,
 				8E645D552CE4784F00F43836 /* MyContentEmojiView.swift in Sources */,
 				EA3137212CE3322000AA4685 /* QRCodeView.swift in Sources */,
 				8EAFEFB82CD45CCE00136348 /* ChatRoom.swift in Sources */,
+				EAAABB7A2CE70BF40003C250 /* EditFriend.swift in Sources */,
 				8E9402612CDAE99E0005C2BB /* MapView.swift in Sources */,
 				8E71EF7B2CE2EE8D00BA8F33 /* ContentsModalTopView.swift in Sources */,
 				8EAFEFAB2CD4528E00136348 /* AzitApp.swift in Sources */,
@@ -853,6 +871,8 @@
 				8EAFF00F2CD4A31300136348 /* StoryStore.swift in Sources */,
 				8EAFF0182CD4A36B00136348 /* AuthManager.swift in Sources */,
 				8BD71F802CD89A8C0030693B /* CameraPreview.swift in Sources */,
+				EAAABB6E2CE5ECD30003C250 /* QRShareSheet.swift in Sources */,
+				EAAABB662CE5E25F0003C250 /* QRCodeContent.swift in Sources */,
 				EAF93B852CD4A4D600116035 /* AuthManager+Email.swift in Sources */,
 				8B0679F12CE20C3100ABD942 /* LocationManager.swift in Sources */,
 				8E538EE12CD844700094ABD1 /* RotationView.swift in Sources */,
