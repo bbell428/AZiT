@@ -19,7 +19,7 @@ struct AlbumScrollView : View {
     @Binding var selectedAlbum: Story?
     
     var body: some View {
-        ScrollView {
+        ScrollView(.vertical, showsIndicators: false) {
             Rectangle()
                 .frame(height: 160)
                 .foregroundStyle(Color.white)
