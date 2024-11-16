@@ -17,6 +17,7 @@ struct QRInvitation: View {
     
     @Binding var isShowInvaitaion: Bool // QR초대장으로 앱 실행 시 뷰 띄움 true
     @Binding var isShowYes: Bool        // 초대장에서 Yes 누르면 친구 다시 불러옴
+    @State var isBlockedByFriend: Bool = false  // 상대의 blockedFriends 배열에서 내 ID가 있는지 확인
     
     var body: some View {
         ZStack {
@@ -43,21 +44,24 @@ struct QRInvitation: View {
                     HStack(spacing: 5) {
                         Text("\(otherFriend?.nickname ?? "")")
                             .bold()
-                        if otherFriend?.id == authManager.userID {
-                            Text("님")
-                        } else if userInfoStore.isFriend(id: authManager.deepUserID) {
+                        if userInfoStore.isFriend(id: authManager.deepUserID) {
                             Text("님은")
                         } else {
                             Text("님을")
                         }
                     }
                                  
-                    if otherFriend?.id == authManager.userID {
-                        Text("본인을 추가 할 수 없습니다.")
+                    if otherFriend?.id == authManager.userID || isBlockedByFriend || userInfoStore.isBlockedFriend(id: authManager.deepUserID) {
+                        Text("친구로 추가 할 수 없습니다.")
                     } else if userInfoStore.isFriend(id: authManager.deepUserID) {
                         Text("이미 친구입니다.")
                     } else {
                         Text("친구 추가하시겠습니까?")
+                    }
+                }
+                .onAppear {
+                    Task {
+                        isBlockedByFriend = await userInfoStore.isBlockedByFriend(friendID: authManager.deepUserID, myID: authManager.userID)
                     }
                 }
                 
@@ -66,7 +70,8 @@ struct QRInvitation: View {
                 Divider()
                     .background(Color.accentColor)
                 
-                if !userInfoStore.isFriend(id: authManager.deepUserID) && otherFriend?.id != authManager.userID {
+                // 순서대로: 나의 친구배열에 친구 없어야함, 스스로 친구추가X, 상대방 차단배열에 내가 있는지, 나의 차단배열에 친구가 있는지 확인
+                if !userInfoStore.isFriend(id: authManager.deepUserID) && otherFriend?.id != authManager.userID && !isBlockedByFriend && !userInfoStore.isBlockedFriend(id: authManager.deepUserID) {
                     HStack(spacing: 65) {
                         Button {
                             // yes

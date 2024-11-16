@@ -297,6 +297,39 @@ class UserInfoStore: ObservableObject {
         return currentUserFriends.contains(id)
     }
     
+    // MARK: - 차단 목록에 특정 ID가 있는지 확인
+    func isBlockedFriend(id: String) -> Bool {
+        guard let currentUserFriends = self.userInfo?.blockedFriends else {
+            return false
+        }
+        
+        return currentUserFriends.contains(id)
+    }
+    
+    // MARK: - 상대의 blockedFriends 배열에서 내 ID가 있는지 확인
+    func isBlockedByFriend(friendID: String, myID: String) async -> Bool {
+        let db = Firestore.firestore()
+
+        do {
+            // 상대방의 사용자 문서를 가져옴
+            let document = try await db.collection("User").document(friendID).getDocument()
+            
+            guard let docData = document.data() else {
+                print("No user data found for id: \(friendID)")
+                return false
+            }
+
+            // blockedFriends 배열을 가져옴
+            let blockedFriends = docData["blockedFriends"] as? [String] ?? []
+
+            // blockedFriends 배열에 내 ID가 있는지 확인
+            return blockedFriends.contains(myID)
+        } catch {
+            print("Error checking if blocked by friend: \(error)")
+            return false
+        }
+    }
+    
     // MARK: - 첫 런치 때 유저 데이터 전달
     func saveToUserDefaultsFirstLaunch(data: UserInfo) {
         let userDefaults = UserDefaults(suiteName: "group.education.techit.Azit.AzitWidget")
