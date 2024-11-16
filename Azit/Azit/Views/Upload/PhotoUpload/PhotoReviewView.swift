@@ -20,6 +20,7 @@ struct PhotoReviewView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var firstNaviLinkActive: Bool
     @Binding var isMainDisplay: Bool // MainView에서 전달받은 바인딩 변수
+    @Binding var isPhotoTaken: Bool
     var image: UIImage?
     
     @State private var showUploadView = false
@@ -147,6 +148,9 @@ struct PhotoReviewView: View {
                 }
             }
         }
+//        .onAppear {
+//            isPhotoTaken = false
+//        }
         .navigationBarTitle("게시물 공유", displayMode: .inline)
     }
     
@@ -171,7 +175,7 @@ struct PhotoReviewView: View {
             content: storyDraft.content,
             publishedTargets: []
         )
-        isDisplayEmojiPicker = false
+//        isDisplayEmojiPicker = false
         // 유저의 새로운 상태, 위경도 값 저장
         if let location = locationManager.currentLocation {
             userInfoStore.userInfo?.latitude = location.coordinate.latitude
@@ -187,11 +191,16 @@ struct PhotoReviewView: View {
                 photoImageStore.UploadImage(image: image, imageName: newStory.image)
             }
             await userInfoStore.updateUserInfo(userInfoStore.userInfo!)
+            isDisplayEmojiPicker = false
+            showUploadView = true
+            firstNaviLinkActive = false
+            isMainDisplay = false
             resetStory()
+//            cameraService.capturedImage = nil
         }
-        showUploadView = true
-        firstNaviLinkActive = false
-        isMainDisplay = false
+//        showUploadView = true
+//        firstNaviLinkActive = false
+//        isMainDisplay = false
         
 //        cameraService.capturedImage = nil
     }
@@ -208,6 +217,6 @@ struct PhotoReviewView: View {
         storyDraft.content = ""
         storyDraft.publishedTargets = []
         storyDraft.readUsers = []
-        
+        cameraService.capturedImage = nil
     }
 }
