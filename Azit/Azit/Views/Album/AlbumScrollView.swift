@@ -81,6 +81,7 @@ struct AlbumScrollView : View {
                                             .cornerRadius(15) // 추가
                                         }
                                     }
+                                    .padding(.horizontal, 2.5)
                                     .frame(width: 120, height: 160)
                                 }
                             }

@@ -13,6 +13,7 @@ struct AlbumStoryImageView: View {
             if isLoading {
                 // 이미지 로딩 중일 때 표시할 ProgressView
                 ProgressView()
+                    .padding(.horizontal, 2.5)
                     .frame(width: 120, height: 160)
             } else if loadFailed {
                 // 이미지 로드 실패 시 표시할 대체 뷰
@@ -28,6 +29,7 @@ struct AlbumStoryImageView: View {
                         .foregroundStyle(Color.gray)
                     Spacer()
                 }
+                .padding(.horizontal, 2.5)
                 .frame(width: 120, height: 160)
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(15)
@@ -37,20 +39,33 @@ struct AlbumStoryImageView: View {
                     switch phase {
                     case .empty:
                         ProgressView()
+                            .padding(.horizontal, 2.5)
                             .frame(width: 120, height: 160)
                     case .success(let image):
                         image
                             .resizable()
                             .cornerRadius(15)
+                            .padding(.horizontal, 2.5)
                             //.background(.subColor4.opacity(0.95))
                             .frame(width: 120, height: 160)
                     case .failure:
                         // 이미지 로드 실패 시 대체 이미지 표시
-                        Image(systemName: "photo")
-                            .resizable()
-                            .frame(width: 120, height: 160)
-                            .background(Color.gray.opacity(0.2))
-                            .cornerRadius(15)
+                        VStack(alignment: .center) {
+                            Spacer()
+                            Image(systemName: "questionmark.square.dashed")
+                                .font(.system(size: 30))
+                                .foregroundStyle(Color.gray)
+                                .padding(.bottom, 10)
+                            Text("이미지 로드 실패")
+                                .font(.caption2)
+                                .fontWeight(.bold)
+                                .foregroundStyle(Color.gray)
+                            Spacer()
+                        }
+                        .padding(.horizontal, 2.5)
+                        .frame(width: 120, height: 160)
+                        .background(Color.gray.opacity(0.2))
+                        .cornerRadius(15)
                     @unknown default:
                         EmptyView()
                     }
