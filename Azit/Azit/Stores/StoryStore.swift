@@ -102,6 +102,42 @@ class StoryStore: ObservableObject {
             }
         }
     }
+    
+    func updateSharedUserDefaults(image: UIImage) {
+        guard let sharedDefaults = UserDefaults(suiteName: "group.education.techit.Azit.AzitWidget") else {
+            print("UserDefaults 접근 실패")
+            return
+        }
+
+        // 기존 데이터 제거
+        sharedDefaults.removeObject(forKey: "storyImage")
+        print("storyImage 데이터가 삭제되었습니다.")
+
+        // 리사이즈 및 압축
+        if let resizedImage = resizeImage(image: image, targetSize: CGSize(width: image.size.width * 0.5, height: image.size.height * 0.5)),
+           let compressedData = resizedImage.jpegData(compressionQuality: 0.7) {
+            sharedDefaults.set(compressedData, forKey: "storyImage")
+            print("Resized and compressed image saved successfully. Data Size: \(compressedData.count) bytes")
+        } else {
+            print("이미지 리사이즈 또는 압축 실패")
+        }
+    }
+
+    // 리사이즈 함수
+    func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(targetSize, false, 1.0)
+        image.draw(in: CGRect(origin: .zero, size: targetSize))
+        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return resizedImage
+    }
+
+    func rasterizeImage(_ image: UIImage) -> UIImage? {
+        let renderer = UIGraphicsImageRenderer(size: image.size)
+        return renderer.image { _ in
+            image.draw(in: CGRect(origin: .zero, size: image.size))
+        }
+    }
 }
 
 // 메인 뷰에서 작성된 story 임시 저장 class
@@ -121,4 +157,40 @@ class StoryDraft: ObservableObject {
     
     @Published var publishedTargets: [String] = [] // 공개 대상 (유저 uid)
     @Published var readUsers: [String] = [] // 게시글을 읽은 사람 (유저 uid)
+}
+
+
+// 추 후 컴포넌트로 빼기
+struct SpeechBubbleView: View {
+    var text: String
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(text)
+                .padding(5)
+                .padding([.leading, .trailing], 10)
+                .foregroundStyle(.white)
+        }
+        .background(
+            SpeechBubbleTail()
+                .stroke(Color.accent, lineWidth: 2)
+                .background(SpeechBubbleTail().fill(Color.accent))
+        )
+    }
+}
+
+struct SpeechBubbleTail: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        
+        path.addRoundedRect(in: rect, cornerSize: CGSize(width: 8, height: 8))
+        
+        path.move(to: CGPoint(x: rect.midX - 3, y: rect.maxY))
+        path.addLine(to: CGPoint(x: rect.midX, y: rect.maxY + 8))
+        path.addLine(to: CGPoint(x: rect.midX + 3, y: rect.maxY))
+        
+        path.closeSubpath()
+        
+        return path
+    }
 }

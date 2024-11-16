@@ -36,8 +36,8 @@ class PhotoImageStore: ObservableObject {
             return
         }
         
-        let storagRef = Storage.storage().reference(withPath: "img/\(imageName)")
-        storagRef.getData(maxSize: 4 * 1024 * 1024) { (data, error) in
+        let storagRef = Storage.storage().reference(withPath: "image/\(imageName)")
+        storagRef.getData(maxSize: 3 * 1024 * 1024) { (data, error) in
             if let error = error {
                 print("에러 발생: \(error.localizedDescription)")
                 completion(nil) // 에러 발생 시 nil 반환

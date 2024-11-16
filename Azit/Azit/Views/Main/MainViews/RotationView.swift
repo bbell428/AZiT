@@ -152,8 +152,8 @@ struct RotationView: View {
                 // 사용자 본인의 정보 받아오기
                 await userInfoStore.loadUserInfo(userID: authManager.userID)
                 
-                let initialData = userInfoStore.userInfo
-                userInfoStore.saveToUserDefaultsFirstLaunch(data: initialData!)
+//                let initialData = userInfoStore.userInfo
+//                userInfoStore.saveToUserDefaultsFirstLaunch(data: initialData!)
                 
                 // 사용자 본인의 친구 받아오기
                 userInfoStore.loadFriendsInfo(friendsIDs: userInfoStore.userInfo?.friends ?? [])

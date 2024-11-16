@@ -11,8 +11,6 @@ import BackgroundTasks
 struct MainView: View {
     let screenBounds = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds
     
-//    @Environment(\.scenePhase) private var scenePhase
-  
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var storyStore: StoryStore
@@ -49,15 +47,6 @@ struct MainView: View {
                     .zIndex(1)
             }
         }
-//        .onAppear {
-//            self.scheduler()
-//        }
-        
-//        .onChange(of: scenePhase) { _, newPhase in
-//            if newPhase == .active {
-//                cancelBackgroundTasks()
-//            }
-//        }
     }
     
     private func fetchAddress() {
@@ -69,37 +58,4 @@ struct MainView: View {
             print("위치를 가져올 수 없습니다.")
         }
     }
-    
-//    private func scheduler() {
-//        let request = BGAppRefreshTaskRequest(identifier: "education.techit.Azit.widgetRefresh")
-//        request.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60) // 15분마다 실행
-////        request.earliestBeginDate = Date(timeIntervalSinceNow: 3) // 15분마다 실행
-//        do {
-//            try BGTaskScheduler.shared.submit(request)
-//        } catch {
-//            print("scheduler error: \(error)")
-//        }
-//    }
-//    
-//    static func handleAppRefresh(task: BGAppRefreshTask) {
-//        task.expirationHandler = {
-//            task.setTaskCompleted(success: false)
-//        }
-//        
-//        Task {
-//            print("***** background test *****")
-////            await userInfoStore.loadUserInfo(userID: authManager.userID)
-////            
-////            let story: Story = try await storyStore.loadFriendsRecentStoryByIds(ids: userInfoStore.userInfo?.friends ?? [])
-////            
-////            storyStore.updateSharedUserDefaults(recentStory: story)
-//                
-//            task.setTaskCompleted(success: true)
-//        }
-//    }
-//    
-//    private func cancelBackgroundTasks() {
-//        BGTaskScheduler.shared.cancelAllTaskRequests()
-//        print("Background tasks have been canceled.")
-//    }
 }
