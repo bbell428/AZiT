@@ -89,6 +89,7 @@
 		CE062BB02CD91EEE00CB5D4A /* ChatRoomListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062BAF2CD91EE700CB5D4A /* ChatRoomListView.swift */; };
 		CE374EAD2CD79F6300601AA7 /* ChatListStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE374EAC2CD79F6300601AA7 /* ChatListStore.swift */; };
 		CE3A16E22CD85A5B0045DB52 /* MessageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A16E12CD85A5B0045DB52 /* MessageDetailView.swift */; };
+		CE446D2A2CEA506500E1BA8A /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = CE446D292CEA506500E1BA8A /* AlertToast */; };
 		CE5574652CE4666600266EBD /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5574642CE4666600266EBD /* ProfileDetailView.swift */; };
 		CE5574672CE4669500266EBD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE5574662CE4669500266EBD /* GoogleService-Info.plist */; };
 		CE69CDCC2CE70C2800322E7A /* AlbumStoryImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE69CDCB2CE70C2800322E7A /* AlbumStoryImageView.swift */; };
@@ -295,6 +296,7 @@
 				8EAFEFD52CD45F5A00136348 /* FirebaseFunctionsCombine-Community in Frameworks */,
 				8EAFEFC72CD45D8D00136348 /* FirebaseStorage in Frameworks */,
 				8EAFEFC32CD45D8D00136348 /* FirebaseFirestoreCombine-Community in Frameworks */,
+				CE446D2A2CEA506500E1BA8A /* AlertToast in Frameworks */,
 				8EAFEFBD2CD45D8D00136348 /* FirebaseAuthCombine-Community in Frameworks */,
 				8EAFEFCC2CD45DC600136348 /* GoogleSignIn in Frameworks */,
 			);
@@ -658,6 +660,7 @@
 				8EAFEFD22CD45F5A00136348 /* FirebaseFunctions */,
 				8EAFEFD42CD45F5A00136348 /* FirebaseFunctionsCombine-Community */,
 				CE89D79D2CDA8D1600DC73A8 /* EmojiPicker */,
+				CE446D292CEA506500E1BA8A /* AlertToast */,
 			);
 			productName = Azit;
 			productReference = 8EAFEF762CD4524500136348 /* Azit.app */;
@@ -782,6 +785,7 @@
 				8EAFEFB92CD45D8D00136348 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				8EAFEFCA2CD45DC600136348 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				CE89D79C2CDA8D1600DC73A8 /* XCRemoteSwiftPackageReference "EmojiPicker" */,
+				CE446D282CEA506500E1BA8A /* XCRemoteSwiftPackageReference "AlertToast" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 8EAFEF772CD4524500136348 /* Products */;
@@ -1360,6 +1364,14 @@
 				minimumVersion = 8.0.0;
 			};
 		};
+		CE446D282CEA506500E1BA8A /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/elai950/AlertToast";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.9;
+			};
+		};
 		CE89D79C2CDA8D1600DC73A8 /* XCRemoteSwiftPackageReference "EmojiPicker" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Kelvas09/EmojiPicker";
@@ -1495,6 +1507,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8EAFEFCA2CD45DC600136348 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		CE446D292CEA506500E1BA8A /* AlertToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CE446D282CEA506500E1BA8A /* XCRemoteSwiftPackageReference "AlertToast" */;
+			productName = AlertToast;
 		};
 		CE89D79D2CDA8D1600DC73A8 /* EmojiPicker */ = {
 			isa = XCSwiftPackageProductDependency;
