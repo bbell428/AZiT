@@ -36,7 +36,8 @@ struct StoryContentsView: View {
                         case .success(let image):
                             image
                                 .resizable()
-                                .aspectRatio(contentMode: .fit)
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 336, height: 448)
                                 .clipShape(RoundedRectangle(cornerRadius: 8))
                         case .failure:
                             PlaceholderView()
@@ -44,7 +45,7 @@ struct StoryContentsView: View {
                             EmptyView()
                         }
                     }
-                    .frame(maxHeight: 300)
+                    .frame(width: 336, height: 448)
                 } else if isLoadingImage {
                     ProgressView()
                         .frame(height: 200)
@@ -56,7 +57,7 @@ struct StoryContentsView: View {
                     HStack {
                         SpeechBubbleView(text: story.content)
                     }
-                    .padding(.bottom, -10)
+                    .padding(.bottom, -50)
                 }
                 Text(story.emoji)
                     .font(.system(size: 100))
