@@ -36,15 +36,7 @@ struct GetMessage: View {
             
             // 받은 메시지 내용
             HStack(alignment: .top) {
-                if shareStory != nil {
-                    Rectangle()
-                        .cornerRadius(15)
-                        .frame(width: 3, height: 120)
-                        .padding(.top, 20)
-                        .foregroundStyle(Color.gray.opacity(0.07))
-                }
-                
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 5) {
                     if let story = shareStory {
                         // Story가 존재하는 경우
                         HStack(spacing: 0) {
@@ -57,51 +49,60 @@ struct GetMessage: View {
                                 .fontWeight(.light)
                         }
                         
-                        Button {
-                            isFriendsContentModalPresented = true
-                            selectedAlbum = story
-                        } label: {
-                            VStack {
-                                if let imageURL = imageURL, !loadFailed {
-                                    // 이미지가 있으면 URL로 로드
-                                    AsyncImage(url: imageURL) { phase in
-                                        switch phase {
-                                        case .empty:
-                                            ProgressView()
-                                                .frame(width: 90, height: 120)
-                                        case .success(let image):
-                                            image
+                        HStack {
+                            Rectangle()
+                                .cornerRadius(15)
+                                .frame(width: 3, height: 120)
+                                .foregroundStyle(Color.gray.opacity(0.07))
+                            
+                            Button {
+                                isFriendsContentModalPresented = true
+                                selectedAlbum = story
+                            } label: {
+                                VStack {
+                                    if let imageURL = imageURL, !loadFailed {
+                                        // 이미지가 있으면 URL로 로드
+                                        AsyncImage(url: imageURL) { phase in
+                                            switch phase {
+                                            case .empty:
+                                                ProgressView()
+                                                    .frame(width: 90, height: 120)
+                                            case .success(let image):
+                                                image
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fill)
+                                                    .frame(width: 90, height: 120)
+                                                    .cornerRadius(15)
+                                            case .failure:
+                                                PlaceholderView() // 로드 실패 시 대체 뷰
+                                            @unknown default:
+                                                EmptyView()
+                                            }
+                                        }
+                                    } else {
+                                        // 이미지가 없을 경우 기본 콘텐츠 표시
+                                        VStack {
+                                            Spacer()
+                                            SpeechBubbleView(text: story.content)
+                                                .font(.caption)
+                                                .padding(.bottom, 5)
+                                            Text(story.emoji)
+                                                .font(.largeTitle)
+                                            Spacer()
+                                        }
+                                        .frame(width: 90, height: 120)
+                                        .background(
+                                            Image("storyBackImage")
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fill)
-                                                .frame(width: 90, height: 120)
-                                                .cornerRadius(15)
-                                        case .failure:
-                                            PlaceholderView() // 로드 실패 시 대체 뷰
-                                        @unknown default:
-                                            EmptyView()
-                                        }
+                                        )
+                                        .cornerRadius(15)
                                     }
-                                } else {
-                                    // 이미지가 없을 경우 기본 콘텐츠 표시
-                                    VStack {
-                                        Spacer()
-                                        SpeechBubbleView(text: story.content)
-                                            .font(.caption)
-                                            .padding(.bottom, 5)
-                                        Text(story.emoji)
-                                            .font(.largeTitle)
-                                        Spacer()
-                                    }
-                                    .frame(width: 90, height: 120)
-                                    .background(
-                                        Image("storyBackImage")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                    )
-                                    .cornerRadius(15)
                                 }
                             }
                         }
+                        
+                        
                     } else if isLoading {
                         Text("Loading story...")
                             .font(.caption)
