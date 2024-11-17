@@ -6,54 +6,91 @@
 //
 
 import SwiftUI
+import FirebaseStorage
 
 struct StoryContentsView: View {
-    @Binding var story: Story?
+    let story: Story
+    @State private var imageURL: URL?
+    @State private var isLoadingImage = false
+    @State private var loadFailed = false
     
     var body: some View {
-        // story에 image가 있을 때
-        if story?.image ?? "" != "" {
-            // story에 content가 있을 때
-            if story?.content ?? "" != "" {
-                HStack() {
-                    Text(story?.content ?? "")
-                    
-                    Spacer()
-                }
-            }
-            
-            VStack {
-                // UIImage로 storage에 있는 image 불러오기
-                Image(.realToBed)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                    .onTapGesture { }
-            }
-            
-        // story에 image가 없을 때
-        } else {
-            // story에 emoji가 있을 때
-            if story?.emoji ?? "" != "" {
-                // story에 content가 있을 때
-                if story?.content ?? "" != "" {
-                    HStack() {
-                        SpeechBubbleView(text: story?.content ?? "")
-                    }
-                    .padding(.bottom, -10)
-                }
-                
-                Text(story?.emoji ?? "")
-                    .font(.system(size: 100))
-            // story에 image가 없을 때
-            } else {
-                // story에 content가 있을 때
-                if story?.content ?? "" != "" {
-                    HStack() {
-                        Text(story?.content ?? "")
+        VStack {
+            // 스토리에 이미지가 있을 경우
+            if !story.image.isEmpty {
+                if !story.content.isEmpty {
+                    HStack {
+                        Text(story.content)
+                            .font(.body)
+                            .foregroundColor(.primary)
                         Spacer()
                     }
                 }
+                
+                if let imageURL = imageURL {
+                    AsyncImage(url: imageURL) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                                .frame(height: 200)
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .clipShape(RoundedRectangle(cornerRadius: 8))
+                        case .failure:
+                            PlaceholderView()
+                        @unknown default:
+                            EmptyView()
+                        }
+                    }
+                    .frame(maxHeight: 300)
+                } else if isLoadingImage {
+                    ProgressView()
+                        .frame(height: 200)
+                } else {
+                    PlaceholderView()
+                }
+            } else if !story.emoji.isEmpty {
+                if !story.content.isEmpty {
+                    HStack {
+                        SpeechBubbleView(text: story.content)
+                    }
+                    .padding(.bottom, -10)
+                }
+                Text(story.emoji)
+                    .font(.system(size: 100))
+            } else if !story.content.isEmpty {
+                HStack {
+                    Text(story.content)
+                        .font(.body)
+                        .foregroundColor(.primary)
+                    Spacer()
+                }
+            }
+        }
+        .onAppear {
+            loadStoryImage()
+        }
+    }
+    
+    private func loadStoryImage() {
+        guard !story.image.isEmpty else { return }
+        isLoadingImage = true
+        loadFailed = false
+        
+        let storage = Storage.storage()
+        let imageRef = storage.reference().child("image/\(story.image)")
+        
+        imageRef.downloadURL { url, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    print("이미지 로드 실패: \(error.localizedDescription)")
+                    loadFailed = true
+                } else {
+                    self.imageURL = url
+                }
+                isLoadingImage = false
             }
         }
     }

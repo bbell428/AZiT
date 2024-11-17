@@ -31,7 +31,7 @@ struct MyContentsModalView: View {
                 if userInfo != nil {
                     ContentsModalTopView(story: $story, selectedUserInfo: userInfo!)
                     
-                    StoryContentsView(story: $story)
+                    StoryContentsView(story: story ?? Story(userId: "", date: Date()))
                 }
                 
                 HStack {
