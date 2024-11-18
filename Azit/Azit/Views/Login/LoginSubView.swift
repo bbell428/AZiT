@@ -39,7 +39,7 @@ struct EmailTextField: View {
             .overlay(
                 RoundedRectangle(cornerRadius: 8)
                     .stroke(
-                        focus == .email ? Color.accentColor : (isErrorEmail ? Color.red : Color.black), lineWidth: 1
+                        focus == .email ? Color.accentColor : (isErrorEmail ? Color.red : Color.gray), lineWidth: 1
                     ) // 포커스에 따른 테두리 색상
                 
             )
@@ -108,7 +108,7 @@ struct SignUpEmailTextField: View {
         .overlay(
             RoundedRectangle(cornerRadius: 8)
                 .stroke(
-                    focus == .email ? Color.accentColor : (isErrorEmail ? Color.red : Color.black), lineWidth: 1
+                    focus == .email ? Color.accentColor : (isErrorEmail ? Color.red : Color.gray), lineWidth: 1
                 ) // 포커스에 따른 테두리 색상
         )
     }
@@ -153,7 +153,7 @@ struct PasswordTextField: View {
         .overlay(
             RoundedRectangle(cornerRadius: 8)
                 .stroke(
-                    focus == focusType ? Color.accentColor : (isErrorPassword ? Color.red : Color.black),
+                    focus == focusType ? Color.accentColor : (isErrorPassword ? Color.red : Color.gray),
                     lineWidth: 1
                 )
         )
@@ -239,7 +239,7 @@ struct NicknameTextField: View {
             .multilineTextAlignment(.center)
             .overlay(
                 RoundedRectangle(cornerRadius: 8)
-                    .stroke(focus == .nickname ? Color.accentColor : Color.black, lineWidth: 1) // 포커스에 따른 테두리 색상
+                    .stroke(focus == .nickname ? Color.accentColor : Color.gray, lineWidth: 1) // 포커스에 따른 테두리 색상
             )
             .onChange(of: nickname) {
                 // 특수문자와 공백을 제외한 문자열로 필터링

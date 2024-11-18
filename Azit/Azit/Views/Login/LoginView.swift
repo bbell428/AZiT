@@ -117,13 +117,12 @@ struct LoginView: View {
                             SignupView()
                         } label: {
                             Text("회원가입")
-                                .font(.footnote)
+                                .font(.callout)
                                 .fontWeight(.light)
                                 .underline()
                                 .foregroundStyle(.accent)
                         }
                     }
-                    //                    .padding(.vertical, 10)
                     .padding(.bottom, 110)
                     
                     // MARK: 간편로그인
