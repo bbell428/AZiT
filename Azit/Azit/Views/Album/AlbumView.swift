@@ -88,8 +88,15 @@ struct AlbumView: View {
                         
                         VStack(alignment: .center) {
                             Spacer()
-                            ProgressView()
-                            Text("잠시만 기다려주세요..")
+                            VStack {
+                                ProgressView()
+                                    .padding(.top, 15)
+                                Text("잠시만 기다려주세요..")
+                                    .padding(15)
+                            }
+                            .background(Color.accent)
+                            .cornerRadius(15)
+                            .frame(width: 250, height: 150)
                             Spacer()
                         }
                         .zIndex(4)
