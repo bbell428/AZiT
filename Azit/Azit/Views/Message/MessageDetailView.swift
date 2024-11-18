@@ -67,35 +67,35 @@ struct MessageDetailView: View {
             ZStack(alignment: .top) {
                 // 스토리 클릭시, 상세 정보
                 if isFriendsContentModalPresented {
-                        Color.black.opacity(0.4)
-                            .ignoresSafeArea()
-                            .onTapGesture {
-                                isFriendsContentModalPresented = false
-                                message = ""
-                            }
-                            .zIndex(2)
-                        
+                    Color.black.opacity(0.4)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            isFriendsContentModalPresented = false
+                            message = ""
+                        }
+                        .zIndex(2)
+                    
                     FriendsContentsModalView(message: $message, selectedUserInfo: $friend,isShowToast: $isShowToast, story: selectedAlbum)
-                            .zIndex(3)
-                            .frame(maxHeight: .infinity, alignment: .center)
+                        .zIndex(3)
+                        .frame(maxHeight: .infinity, alignment: .center)
                 }
                 
-                    VStack {
-                        // 채팅방 상단 (dismiss를 사용하기 위한 클로저 처리)
-                        MessageDetailTopBar(dismissAction: { dismiss() }, nickname: nickname, profileImageName: profileImageName)
-                            .frame(maxHeight: 80)
-                            .zIndex(1)
-                        
-                        // 채팅방 메시지 내용
-                        TextMessage(profileImageName: profileImageName, isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedAlbum: $selectedAlbum, nickname: nickname)
-                            .zIndex(1)
-                        
-                        // 메시지 입력 공간
-                        MessageSendField(roomId: roomId, nickname: nickname, userId: userId)
-                            .frame(maxHeight: 50)
-                            .padding(.bottom)
-                            .zIndex(1)
-                    }
+                VStack {
+                    // 채팅방 상단 (dismiss를 사용하기 위한 클로저 처리)
+                    MessageDetailTopBar(dismissAction: { dismiss() }, nickname: nickname, profileImageName: profileImageName)
+                        .frame(maxHeight: 80)
+                        .zIndex(1)
+                    
+                    // 채팅방 메시지 내용
+                    TextMessage(profileImageName: profileImageName, isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedAlbum: $selectedAlbum, nickname: nickname)
+                        .zIndex(1)
+                    
+                    // 메시지 입력 공간
+                    MessageSendField(roomId: roomId, nickname: nickname, userId: userId)
+                        .frame(maxHeight: 50)
+                        .padding(.bottom)
+                        .zIndex(1)
+                }
             }
             .navigationBarBackButtonHidden(true)
             .onAppear {
@@ -172,18 +172,18 @@ struct TextMessage: View {
                             GetMessage(chat: chat, profileImageName: profileImageName, isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedAlbum: $selectedAlbum)
                         }
                     }
-            
+                    
                     Rectangle()
                         .fill(Color.white)
                         .id("Bottom")
                 }
                 // 초기에 가장 하단 스크롤으로 이동
                 .onAppear {
-                        proxy.scrollTo("Bottom", anchor: .bottom)
+                    proxy.scrollTo("Bottom", anchor: .bottom)
                 }
                 // 메시지가 전송/전달 되면 하단 스크롤으로 이동
                 .onChange(of: chatDetailViewStore.lastMessageId) { id, _ in
-                        proxy.scrollTo("Bottom", anchor: .bottom)
+                    proxy.scrollTo("Bottom", anchor: .bottom)
                 }
             }
         }
@@ -205,39 +205,65 @@ struct MessageSendField: View {
     var userId: String // 상대방 id
     
     var body: some View {
-        HStack {
-            TextField("\(nickname)에게 보내기", text: $text)
-                .padding()
-                .background(Color(UIColor.systemGray6))
-                .cornerRadius(15)
+        ZStack(alignment: .center) {
+            Rectangle()
+                .cornerRadius(20)
+                .padding(.horizontal, 10)
+                .foregroundStyle(Color.gray.opacity(0.1))
+                .zIndex(1)
+            
+            HStack {
+                Spacer()
+                
+                Button {
+                    // 사진 추가?
+                } label: {
+                    Image(systemName: "plus.circle.fill")
+                        .font(.largeTitle)
+                        .foregroundColor(.accentColor)
+                }
+
+                TextField("\(nickname)에게 보내기", text: $text)
+                    .padding()
+                    .foregroundColor(Color.black)  // 글자 색상 추가
+                    //.background(Color.gray)  // 텍스트 필드 배경색 (원하는 색상으로 설정 가능)
+                    .cornerRadius(15)
+                    .frame(width: 250)
                 // 키보드에 있는 전송 버튼을 활용할때,
-                .onSubmit {
-                    // 메시지가 비어 있지 않을 경우에만 전송
-                    guard !text.isEmpty else { return }
+                    .onSubmit {
+                        // 메시지가 비어 있지 않을 경우에만 전송
+                        guard !text.isEmpty else { return }
+                        Task {
+                            print("메시지 전송: \(text)")
+                            chatDetailViewStore.sendMessage(text: text, myId: userInfoStore.userInfo?.id ?? "", friendId: userId)
+                            text = "" // 메시지 전송 후 입력 필드를 비웁니다.
+                        }
+                    }
+                
+                // 전송 버튼
+                Button(action: {
                     Task {
                         print("메시지 전송: \(text)")
                         chatDetailViewStore.sendMessage(text: text, myId: userInfoStore.userInfo?.id ?? "", friendId: userId)
                         text = "" // 메시지 전송 후 입력 필드를 비웁니다.
                     }
+                }) {
+                    Image(systemName: "paperplane.fill")
+                        .padding(.horizontal, 12.5)
+                        .padding(.vertical, 5)
+                        .font(.title3)
+                        .foregroundColor(.white)
+                        .background(.accent)
+                        .cornerRadius(15)
                 }
-            
-            // 전송 버튼
-            Button(action: {
-                Task {
-                    print("메시지 전송: \(text)")
-                    chatDetailViewStore.sendMessage(text: text, myId: userInfoStore.userInfo?.id ?? "", friendId: userId)
-                    text = "" // 메시지 전송 후 입력 필드를 비웁니다.
-                }
-            }) {
-                Image(systemName: "paperplane.fill")
-                    .font(.title2)
-                    .foregroundColor(.accentColor)
-                    .padding()
+                // 텍스트가 없으면 버튼 비활성화
+                .disabled(text.isEmpty)
+                
+                Spacer()
             }
-            // 텍스트가 없으면 버튼 비활성화
-            .disabled(text.isEmpty)
+            .zIndex(2)
         }
-        .padding(.horizontal)
+        //.padding(.horizontal)
     }
 }
 
