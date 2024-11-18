@@ -15,6 +15,7 @@ struct ModalIdentificationView: View {
     @Binding var users: [UserInfo]
     @Binding var message: String
     @Binding var selectedIndex: Int
+    @Binding var isShowToast: Bool
     
     var body: some View {
         // 친구의 모달이 불렸을 때
@@ -27,7 +28,7 @@ struct ModalIdentificationView: View {
                 .zIndex(2)
             
             if !users.isEmpty {
-                FriendsContentsModalView(message: $message, selectedUserInfo: $users[selectedIndex])
+                FriendsContentsModalView(message: $message, selectedUserInfo: $users[selectedIndex], isShowToast: $isShowToast)
                     .zIndex(3)
             }
         }

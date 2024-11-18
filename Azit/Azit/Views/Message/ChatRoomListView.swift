@@ -11,6 +11,7 @@ struct ChatRoomListView: View {
     @EnvironmentObject var chatListStore: ChatListStore
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var authManager: AuthManager
+    @Binding var isShowToast: Bool
     
     var body: some View {
         GeometryReader { geometry in
@@ -25,7 +26,8 @@ struct ChatRoomListView: View {
                                     friend: friend,
                                     roomId: chatroom.roomId,
                                     nickname: friend.nickname,
-                                    userId: friend.id, profileImageName: friend.profileImageName
+                                    userId: friend.id, profileImageName: friend.profileImageName,
+                                    isShowToast: $isShowToast
                                 )
                             } label: {
                                 HStack {

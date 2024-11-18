@@ -60,6 +60,8 @@ struct MessageDetailView: View {
     var userId: String // 상대방 id
     var profileImageName: String // 상대방 프로필 아이콘
     
+    @Binding var isShowToast: Bool
+    
     var body: some View {
         NavigationStack {
             ZStack(alignment: .top) {
@@ -73,7 +75,7 @@ struct MessageDetailView: View {
                             }
                             .zIndex(2)
                         
-                        FriendsContentsModalView(message: $message, selectedUserInfo: $friend, story: selectedAlbum)
+                    FriendsContentsModalView(message: $message, selectedUserInfo: $friend,isShowToast: $isShowToast, story: selectedAlbum)
                             .zIndex(3)
                             .frame(maxHeight: .infinity, alignment: .center)
                 }

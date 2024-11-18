@@ -17,12 +17,12 @@ struct FriendsContentsModalView: View {
     
     @Binding var message: String
     @Binding var selectedUserInfo: UserInfo
+    @Binding var isShowToast: Bool
     
     @State var story: Story? = nil
     @State private var isLiked: Bool = false
     @State private var scale: CGFloat = 0.1
     
-    @State private var showToast = false
     @State private var isLoadingStory = true // Story 로딩 상태
     
     var body: some View {
@@ -75,9 +75,9 @@ struct FriendsContentsModalView: View {
                 }
             }
         }
-        .toast(isPresenting: $showToast, alert: {
-            AlertToast(displayMode: .alert, type: .systemImage("envelope.open", Color.white), title: "전송 완료", style: .style(backgroundColor: .subColor1, titleColor: Color.white))
-        })
+//        .toast(isPresenting: $showToast, alert: {
+//            AlertToast(displayMode: .alert, type: .systemImage("envelope.open", Color.white), title: "전송 완료", style: .style(backgroundColor: .subColor1, titleColor: Color.white))
+//        })
         .padding()
         .background(.subColor4)
         .cornerRadius(8)
@@ -121,7 +121,7 @@ struct FriendsContentsModalView: View {
             )
             print("메시지 전송에 성공했습니다!")
             message = ""
-            showToast.toggle()
+            isShowToast.toggle()
         }
     }
 }

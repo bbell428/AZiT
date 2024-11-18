@@ -13,6 +13,7 @@ struct MessageView: View {
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var chatListStore: ChatListStore
     @Environment(\.dismiss) var dismiss
+    @Binding var isShowToast: Bool
     
     var body: some View {
         NavigationStack {
@@ -56,7 +57,7 @@ struct MessageView: View {
                             .padding(.top, 70)
                             .frame(maxHeight: .infinity)  // 화면 중앙에 오도록 설정
                         } else {
-                            ChatRoomListView() // 메시지 목록
+                            ChatRoomListView(isShowToast: $isShowToast) // 메시지 목록
                                 .padding(.top, 70)
                                 .frame(maxHeight: .infinity)
                                 .refreshable {
@@ -78,11 +79,11 @@ struct MessageView: View {
     }
 }
 
-#Preview {
-    NavigationStack {
-        MessageView()
-            .environmentObject(ChatListStore())
-            .environmentObject(AuthManager())
-            .environmentObject(UserInfoStore())
-    }
-}
+//#Preview {
+//    NavigationStack {
+//        MessageView()
+//            .environmentObject(ChatListStore())
+//            .environmentObject(AuthManager())
+//            .environmentObject(UserInfoStore())
+//    }
+//}

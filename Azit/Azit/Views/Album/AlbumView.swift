@@ -33,6 +33,8 @@ struct AlbumView: View {
     @State var selectedIndex: Int = 0
     @State var selectedAlbum: Story?
     
+    @Binding var isShowToast: Bool
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -73,7 +75,7 @@ struct AlbumView: View {
                     
                     // 스토리 클릭시, 상세 정보
                     if isFriendsContentModalPresented {
-                        AlbumDetailView(isFriendsContentModalPresented: $isFriendsContentModalPresented, message: $message, selectedIndex: $selectedIndex, selectedAlbum: selectedAlbum)
+                        AlbumDetailView(isFriendsContentModalPresented: $isFriendsContentModalPresented, message: $message, selectedIndex: $selectedIndex,isShowToast: $isShowToast, selectedAlbum: selectedAlbum)
                             .zIndex(7)
                     }
                     
@@ -156,6 +158,6 @@ struct AlbumView: View {
     }
 }
 
-#Preview {
-    AlbumView()
-}
+//#Preview {
+//    AlbumView()
+//}
