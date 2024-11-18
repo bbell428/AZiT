@@ -23,8 +23,9 @@ struct PublishScopeView: View {
     var body: some View {
         VStack() {
             Text("공개 범위")
-                .padding([.top, .bottom], 30)
-            Spacer()
+                .padding(.top, 35)
+                .padding(.bottom, 20)
+//            Spacer()
             
             
             if userInfoStore.userInfo?.friends.count == 0 {
@@ -61,8 +62,9 @@ struct PublishScopeView: View {
                             }
                             .padding()
                             Text("ALL")
-                                .font(.title3)
-                                .foregroundStyle(.accent)
+                                .font(.headline)
+                                .fontWeight(.light)
+                                .foregroundStyle(isAllSelected ? .accent : .gray)
                             Spacer()
                             
                             if isAllSelected {
@@ -106,7 +108,9 @@ struct PublishScopeView: View {
                                         }
                                         .padding()
                                         Text(userInfoStore.friendInfo[friendID]?.nickname ?? "")
-                                            .font(.title3)
+                                            .font(.headline)
+                                            .fontWeight(.light)
+                                            .foregroundStyle(isSelected ? .accent : .gray)
                                         //                                    .foregroundStyle(isSelected[friendID] ?? nil ? Color.accentColor : Color.black)
                                         Spacer()
                                         if isSelected {
@@ -125,6 +129,7 @@ struct PublishScopeView: View {
                             Text("친구를 초대해보세요!")
                         }
                         .font(.headline)
+                        .fontWeight(.light)
                         .foregroundStyle(Color.accentColor)
                     }
                 }
@@ -146,6 +151,10 @@ struct PublishScopeView: View {
                             }
                         }
                     }
+                }
+                .onDisappear() {
+                    // Draft에 담았던 거 storyStore에 저장
+//                    storyStore. = storyDraft.publishedTargets
                 }
                 
                 //            VStack(alignment: .center) {

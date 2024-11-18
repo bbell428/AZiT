@@ -163,7 +163,8 @@ struct EmojiView : View {
         )
         .sheet(isPresented: $isShowingsheet) {
             PublishScopeView()
-                .presentationDetents([.medium])
+                .presentationDetents([.medium, .large])
+            
         }
         .onTapGesture {
             self.endTextEditing()
