@@ -61,12 +61,10 @@ struct AlbumScrollView : View {
                                     VStack {
                                         // 스토리에 사진이 포함,
                                         if !story.image.isEmpty {
-                                            // AlbumStoryImageView(imageStoreID: story.image)
                                             VStack {
+                                                // 캐시 데이터로 저장된 이미지가 존재한다면,
                                                 if let cachedImage = albumstore.cacheImages[story.image] {
-                                                    Image(uiImage: cachedImage)
-                                                        .resizable()
-                                                        .aspectRatio(contentMode: .fit)
+                                                    AlbumStoryImageView(imageStoreID: story.image, image: cachedImage)
                                                 } else {
                                                     ProgressView()
                                                 }

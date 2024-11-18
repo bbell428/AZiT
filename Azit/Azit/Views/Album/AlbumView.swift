@@ -150,6 +150,7 @@ struct AlbumView: View {
             .onAppear {
                 Task {
                     await albumstore.loadStorysByIds(ids: userInfoStore.userInfo?.friends ?? [])
+                    albumstore.filterUserID = userInfoStore.friendInfos.first?.id ?? ""
                 }
             }
             .sheet(isPresented: $isShowCalendar) {

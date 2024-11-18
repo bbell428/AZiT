@@ -12,6 +12,8 @@ import FirebaseStorage
 import SwiftUI
 
 class AlbumStore: ObservableObject {
+    @EnvironmentObject var userInfoStore: UserInfoStore
+    
     @Published var storys: [Story] = []
     @Published var filterUserID: String = ""
     @Published var selectedDate: Date = Date()
@@ -42,14 +44,16 @@ class AlbumStore: ObservableObject {
                 }
             }
             
-            self.storys = stories.sorted { $0.userId > $1.userId }
+            self.storys = stories
             print("친구 게시물 : \(storys)")
             
-            filterUserID = self.storys.first?.userId ?? ""
-            print("첫번째 친구 : \(filterUserID)")
+//            if let firstStory = userInfoStore.friendInfos.first {
+//                filterUserID = firstStory.id
+//                        print("첫번째 친구 : \(filterUserID)")
+//                    }
             
             // 이미지 캐싱 시작
-            await cacheStoryImages(stories: stories)
+            await cacheStoryImages(stories: self.storys)
         } catch {
             print("loadStories error: \(error.localizedDescription)")
         }

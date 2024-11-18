@@ -99,7 +99,7 @@ class UserInfoStore: ObservableObject {
             
             print("userinfo: \(String(describing: self.userInfo))")
             
-            loadFriendsInfo(friendsIDs: userInfo?.friends ?? [])
+            //loadFriendsInfo(friendsIDs: userInfo?.friends ?? [])
         } catch {
             print("Error loading user info: \(error)")
         }
@@ -129,7 +129,7 @@ class UserInfoStore: ObservableObject {
                     }
                 }
                 
-                self.friendInfos = Array(self.friendInfo.values).sorted { $0.id > $1.id }
+                self.friendInfos = Array(self.friendInfo.values).sorted { $0.nickname > $1.nickname }
                 
                 print("친구 : \(self.friendInfo)")
             }
