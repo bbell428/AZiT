@@ -209,7 +209,7 @@ struct MessageSendField: View {
             TextField("\(nickname)에게 보내기", text: $text)
                 .padding()
                 .background(Color(UIColor.systemGray6))
-                .cornerRadius(20)
+                .cornerRadius(15)
                 // 키보드에 있는 전송 버튼을 활용할때,
                 .onSubmit {
                     // 메시지가 비어 있지 않을 경우에만 전송

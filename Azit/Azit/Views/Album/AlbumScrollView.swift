@@ -41,36 +41,41 @@ struct AlbumScrollView : View {
                 }
             }
             
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), alignment: .leading, spacing: 5) {
+            LazyVGrid(
+                columns: Array(repeating: GridItem(.fixed(110)), count: 3), // 각 셀의 고정 너비
+                alignment: .leading,
+                spacing: 10 // 셀 간의 간격
+            ) {
                 ForEach(albumstore.getTimeGroupedStories(), id: \.title) { group in
-                    Section(header: HStack {
-                        Text(group.title)
-                            .font(.caption2)
-                            .fontWeight(.bold)
-                            .foregroundStyle(Color.gray)
-                        Spacer()
-                    }
+                    Section(
+                        header: HStack {
+                            Text(group.title)
+                                .font(.caption)
+                                .padding(.horizontal, 7.5)
+                                .foregroundStyle(Color.gray)
+                            Spacer()
+                        }
                         .padding(.top, 20)
                     ) {
                         ForEach(group.stories) { story in
-                            VStack(alignment: .leading) {
+                            VStack(alignment: .center) { // 가운데 정렬
                                 Button {
                                     selectedAlbum = story
                                     isFriendsContentModalPresented = true
                                 } label: {
                                     VStack {
-                                        // 스토리에 사진이 포함,
                                         if !story.image.isEmpty {
-                                            VStack {
-                                                // 캐시 데이터로 저장된 이미지가 존재한다면,
-                                                if let cachedImage = albumstore.cacheImages[story.image] {
-                                                    AlbumStoryImageView(imageStoreID: story.image, image: cachedImage)
-                                                } else {
-                                                    ProgressView()
-                                                }
+                                            // 이미지가 있을 경우
+                                            if let cachedImage = albumstore.cacheImages[story.image] {
+                                                AlbumStoryImageView(imageStoreID: story.image, image: cachedImage)
+                                                    .frame(width: 110, height: 150)
+                                                    .cornerRadius(15)
+                                            } else {
+                                                ProgressView()
+                                                    .frame(width: 110, height: 150)
                                             }
                                         } else {
-                                            // 스토리에 이모지 & 텍스트만 존재
+                                            // 이모지와 텍스트만 표시
                                             VStack {
                                                 Spacer()
                                                 SpeechBubbleView(text: story.content)
@@ -80,18 +85,18 @@ struct AlbumScrollView : View {
                                                     .font(.largeTitle)
                                                 Spacer()
                                             }
+                                            .frame(width: 110, height: 150) // 고정된 크기
                                             .background(
                                                 Image("storyBackImage")
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fill)
                                             )
-                                            .frame(maxWidth: .infinity)
-                                            //.background(.subColor4.opacity(0.95))
-                                            .cornerRadius(15) // 추가
+                                            .cornerRadius(15)
                                         }
                                     }
-                                    .padding(.horizontal, 2.5)
-                                    .frame(width: 115, height: 155)
                                 }
                             }
+                            .padding(.horizontal, 7.5)
                         }
                     }
                 }

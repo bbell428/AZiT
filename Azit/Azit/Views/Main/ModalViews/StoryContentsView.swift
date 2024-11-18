@@ -26,7 +26,7 @@ struct StoryContentsView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 336, height: 448)
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                        .clipShape(RoundedRectangle(cornerRadius: 15))
                 } else if isLoadingImage {
                     ProgressView()
                         .frame(height: 200)

@@ -11,7 +11,7 @@ struct UnderlineModifier: ViewModifier {
                 Rectangle()
                     .fill(.accent.opacity(0.5))
                     .frame(width: frames[selectedIndex].width, height: 3)
-                    .cornerRadius(12)
+                    .cornerRadius(15)
                     .offset(x: (frames[selectedIndex].minX+20) - frames[0].minX), alignment: .bottomLeading
             )
             .animation(.default)

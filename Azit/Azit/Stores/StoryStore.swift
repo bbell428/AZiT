@@ -175,6 +175,7 @@ struct SpeechBubbleView: View {
             SpeechBubbleTail()
                 .stroke(Color.accent, lineWidth: 2)
                 .background(SpeechBubbleTail().fill(Color.accent))
+                .padding(.horizontal, 10)
         )
     }
 }

@@ -16,9 +16,8 @@ struct ChatRoomListView: View {
     var body: some View {
         GeometryReader { geometry in
             ScrollView {
-                LazyVStack(spacing: 20) {
-                    ForEach(chatListStore.chatRoomList, id: \.id) { chatroom in
-                        // authManager.userID를 제외한 첫 번째 참가자 UID 찾기
+                LazyVStack(spacing: 0) { // Divider로 구분하므로 spacing은 0으로 설정
+                    ForEach(Array(chatListStore.chatRoomList.enumerated()), id: \.element.id) { index, chatroom in
                         if let otherParticipantID = chatroom.participants.first(where: { $0 != authManager.userID }),
                            let friend = userInfoStore.friendInfo[otherParticipantID] {
                             NavigationLink {
@@ -54,28 +53,23 @@ struct ChatRoomListView: View {
                                                 .foregroundStyle(.gray)
                                         }
                                         
-                                        // 메시지 길이가 10 보다 크다면 생략표시
-                                        Text(chatroom.lastMessage.count > 10 ? "\(chatroom.lastMessage.prefix(10))..." : chatroom.lastMessage)
+                                        // 메시지 길이가 12 보다 크다면 생략표시
+                                        Text(chatroom.lastMessage.count > 12 ? "\(chatroom.lastMessage.prefix(12))..." : chatroom.lastMessage)
                                             .font(.subheadline)
                                             .fontWeight(.thin)
                                             .foregroundStyle(Color.black)
                                     }
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .padding(.leading, 20)
-                                    
-                                    //                                    ZStack(alignment: .center) {
-                                    //                                        Circle()
-                                    //                                            .fill(Color.red)
-                                    //                                            .frame(width: geometry.size.width * 0.06, height: geometry.size.width * 0.06)
-                                    //
-                                    //                                        Text("1")
-                                    //                                            .font(.subheadline)
-                                    //                                            .foregroundStyle(Color.white)
-                                    //                                    }
-                                    //                                    .frame(alignment: .trailing)
-                                    //                                    .padding(.trailing, 20)
                                 }
                                 .frame(height: geometry.size.height * 0.1)
+                            }
+                            
+                            // Divider 추가 (마지막 항목 제외)
+                            if index < chatListStore.chatRoomList.count - 1 {
+                                Divider()
+                                    .padding(.horizontal, geometry.size.width * 0.06) // 프로필 이미지 크기에 맞춰 패딩
+                                    .padding(.vertical, geometry.size.height * 0.02)
                             }
                         }
                     }
