@@ -15,7 +15,6 @@ struct EditProfileView: View {
     @State private var emojiPrevious: String = "" // 이전 이모지
     @State private var nickname: String = ""
     
-    @State private var isEditingNickname = false // 닉네임 수정
     @State var isSheetEmoji = false // 이모지 뷰
     @State var isCancelEdit = false // 수정완료 버튼
     @State var isNicknameExists = false // 중복 닉네임 확인
@@ -71,15 +70,17 @@ struct EditProfileView: View {
                     Text("이미 사용중인 닉네임입니다.")
                         .font(.caption)
                         .foregroundColor(Color.red)
-                        .fontWeight(.heavy)
+                        .multilineTextAlignment(.center)
+                } else if nickname.count < 9 {
+                    Text("8자 이하로 입력 가능합니다.")
+                        .font(.caption)
+                        .foregroundColor(Color.red)
                         .multilineTextAlignment(.center)
                 }
                 HStack {
                     TextField("", text: $nickname)
                         .font(.title2)
-                        .foregroundStyle(Color.accentColor)
                         .multilineTextAlignment(.center)
-                        .disabled(!isEditingNickname)
                         .onAppear {
                             if nickname.isEmpty {
                                 nickname = userInfoStore.userInfo?.nickname ?? ""
@@ -101,7 +102,7 @@ struct EditProfileView: View {
                             }
                             
                             // 닉네임 길이 조건에 따라 isShowNickname 설정
-                            if nickname.count > 1 && nickname.count < 9 && !hasSingleConsonantOrVowel {
+                            if nickname.count > 0 && nickname.count < 9 && !hasSingleConsonantOrVowel {
                                 Task {
                                     if await userInfoStore.isNicknameExists(nickname) { // 닉네임 중복 확인
                                         isCancelEdit = false
@@ -122,25 +123,17 @@ struct EditProfileView: View {
                         .padding(.leading, 30)
                     Spacer()
                     
-                    Button {
-                        isEditingNickname.toggle()
-                    } label: {
                         Image(systemName: "pencil")
                             .foregroundStyle(Color.accentColor)
                             .font(.headline)
-                    }
                 }
                 .frame(maxWidth: 220)
                 
                 Divider()
-                
-                Text("2~8자로 입력해주세요.")
-                    .font(.caption2)
-                    .foregroundColor(.gray)
             }
             .padding(.top, -50)
-            .padding(.vertical, 20)
-            .frame(maxWidth: 220, maxHeight: 100)
+            .padding(.vertical, 10)
+            .frame(maxWidth: 220)
             
             Button {
                 if isCancelEdit {

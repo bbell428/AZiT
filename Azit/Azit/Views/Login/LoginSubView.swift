@@ -35,9 +35,9 @@ struct EmailTextField: View {
                 focus = .password                // 다음 포커스로 비밀번호 필드로 이동
             }
             .padding()
-            .cornerRadius(8)
+            .cornerRadius(15)
             .overlay(
-                RoundedRectangle(cornerRadius: 8)
+                RoundedRectangle(cornerRadius: 15)
                     .stroke(
                         focus == .email ? Color.accentColor : (isErrorEmail ? Color.red : Color.gray), lineWidth: 1
                     ) // 포커스에 따른 테두리 색상
@@ -104,9 +104,9 @@ struct SignUpEmailTextField: View {
             }
         }
         .padding()
-        .cornerRadius(8)
+        .cornerRadius(15)
         .overlay(
-            RoundedRectangle(cornerRadius: 8)
+            RoundedRectangle(cornerRadius: 15)
                 .stroke(
                     focus == .email ? Color.accentColor : (isErrorEmail ? Color.red : Color.gray), lineWidth: 1
                 ) // 포커스에 따른 테두리 색상
@@ -149,9 +149,9 @@ struct PasswordTextField: View {
             onSubmit() // Submit 누르면 로그인 시도
         }
         .padding()
-        .cornerRadius(8)
+        .cornerRadius(15)
         .overlay(
-            RoundedRectangle(cornerRadius: 8)
+            RoundedRectangle(cornerRadius: 15)
                 .stroke(
                     focus == focusType ? Color.accentColor : (isErrorPassword ? Color.red : Color.gray),
                     lineWidth: 1
@@ -187,7 +187,7 @@ struct LoginButton: View {
         }
         .disabled(!isValid)             // isEnabled가 false일 경우 버튼 비활성화
         .buttonStyle(.borderedProminent)  // 강조된 버튼 스타일 적용
-        .cornerRadius(20)                 // 버튼 모서리를 둥글게 설정
+        .cornerRadius(15)                 // 버튼 모서리를 둥글게 설정
     }
 }
 
@@ -203,15 +203,12 @@ struct SignInButton: View {
         } label: {
             Image("\(imageName)")
                 .resizable()
-                .frame(width: 24, height: 24)
-                .padding(10)
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 44, height: 44)
         }
+        .frame(width: 44, height: 44)
         .background(backColor)
-        .clipShape(RoundedRectangle(cornerRadius: 8))
-        .overlay(
-            RoundedRectangle(cornerRadius: 8)
-                .stroke(Color.gray, lineWidth: 1)
-        )
+        .clipShape(RoundedRectangle(cornerRadius: imageName == "GoogleLogo" ? 0 : 8))
     }
 }
 
@@ -235,10 +232,10 @@ struct NicknameTextField: View {
                 //
             }
             .padding()
-            .cornerRadius(8)
+            .cornerRadius(15)
             .multilineTextAlignment(.center)
             .overlay(
-                RoundedRectangle(cornerRadius: 8)
+                RoundedRectangle(cornerRadius: 15)
                     .stroke(focus == .nickname ? Color.accentColor : Color.gray, lineWidth: 1) // 포커스에 따른 테두리 색상
             )
             .onChange(of: nickname) {
@@ -300,7 +297,7 @@ struct StartButton: View {
         }
         .disabled(!isShowNickname || !isShowEmoji)
         .buttonStyle(.borderedProminent)
-        .cornerRadius(20)
+        .cornerRadius(15)
     }
 }
 

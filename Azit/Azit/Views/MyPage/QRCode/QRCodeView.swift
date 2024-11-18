@@ -24,7 +24,6 @@ struct QRCodeView: View {
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()
-                .opacity(0.95)
             
             VStack {
                 // QR 코드 생성 후 이미지화
