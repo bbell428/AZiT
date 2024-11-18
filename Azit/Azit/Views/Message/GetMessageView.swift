@@ -40,6 +40,9 @@ struct GetMessage: View {
                                 .font(.caption2)
                                 .fontWeight(.light)
                         }
+                        .padding(5)
+                        .background(.accent.opacity(0.1))
+                        .cornerRadius(15)
                         
                         HStack {
                             Rectangle()

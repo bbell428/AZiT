@@ -35,6 +35,9 @@ struct PostMessage: View {
                                 .font(.caption2)
                                 .fontWeight(.light)
                         }
+                        .padding(5)
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(15)
                         
                         HStack {
                             Button {
