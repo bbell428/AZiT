@@ -79,6 +79,22 @@ struct AlbumView: View {
                             .zIndex(7)
                     }
                     
+                    // 이미지를 불러오는중이라면
+                    if albumstore.loadingImage {
+                        Color.gray.opacity(0.5)
+                            .ignoresSafeArea()
+                            .padding(.top, 70)
+                            .zIndex(4)
+                        
+                        VStack(alignment: .center) {
+                            Spacer()
+                            ProgressView()
+                            Text("잠시만 기다려주세요..")
+                            Spacer()
+                        }
+                        .zIndex(4)
+                    }
+                    
                     // 스크롤이 내려가지 않았거나, 위로 올렸을경우 (친구 리스트)
                     if isShowHorizontalScroll {
                         AlbumFriendListView(isShowHorizontalScroll:
@@ -107,11 +123,11 @@ struct AlbumView: View {
                         // 선택된 친구가 storys 값에 포함되고 있을경우 (= 스토리가 있을 경우)
                         if albumstore.storys.contains(where: { $0.userId == albumstore.filterUserID }) && !albumstore.getTimeGroupedStories().isEmpty {
                             AlbumScrollView(lastOffsetY: $lastOffsetY, isShowHorizontalScroll: $isShowHorizontalScroll, isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedAlbum: $selectedAlbum)
-                            .padding(.horizontal, 20)
-                            .onPreferenceChange(ScrollPreferenceKey.self, perform: { value in
-                                self.offsetY = value
-                            })
-                            .zIndex(1)
+                                .padding(.horizontal, 20)
+                                .onPreferenceChange(ScrollPreferenceKey.self, perform: { value in
+                                    self.offsetY = value
+                                })
+                                .zIndex(1)
                         } else {
                             VStack(alignment: .center) {
                                 Spacer()  // 위쪽 Spacer
@@ -128,6 +144,7 @@ struct AlbumView: View {
                             .frame(maxHeight: .infinity)  // 화면 중앙에 오도록 설정
                         }
                     }
+                    
                 }
             }
             .onAppear {
