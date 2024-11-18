@@ -17,6 +17,7 @@ struct RotationView: View {
     @Binding var isFriendsModalPresented: Bool // 친구의 모달 컨트롤
     @Binding var isDisplayEmojiPicker: Bool  // 사용자 자신의 게시글 작성 모달 컨트롤
     @Binding var isPassed24Hours: Bool // 사용자 자신의 게시글 작성 후 24시간에 대한 판별 여부
+    @Binding var isShowToast: Bool
     
     @State private var rotation: Double = 270.0
     @State private var sortedUsers: [UserInfo] = [] // 거리 순 친구 정렬
@@ -106,7 +107,8 @@ struct RotationView: View {
                                     isPassed24Hours: $isPassed24Hours,
                                     users: $sortedUsers,
                                     message: $message,
-                                    selectedIndex: $selectedIndex)
+                                    selectedIndex: $selectedIndex,
+                                    isShowToast: $isShowToast)
             
             
             if isTappedWidget {
@@ -117,7 +119,7 @@ struct RotationView: View {
                     }
                     .zIndex(2)
                 
-                FriendsContentsModalView(message: $message, selectedUserInfo: $tappedWidgetUserInfo)
+                FriendsContentsModalView(message: $message, selectedUserInfo: $tappedWidgetUserInfo, isShowToast: $isShowToast)
             }
             
             // 초대장을 띄어줌
@@ -152,8 +154,8 @@ struct RotationView: View {
                 // 사용자 본인의 정보 받아오기
                 await userInfoStore.loadUserInfo(userID: authManager.userID)
                 
-                let initialData = userInfoStore.userInfo
-                userInfoStore.saveToUserDefaultsFirstLaunch(data: initialData!)
+//                let initialData = userInfoStore.userInfo
+//                userInfoStore.saveToUserDefaultsFirstLaunch(data: initialData!)
                 
                 // 사용자 본인의 친구 받아오기
                 userInfoStore.loadFriendsInfo(friendsIDs: userInfoStore.userInfo?.friends ?? [])

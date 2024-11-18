@@ -15,6 +15,7 @@ struct AlbumDetailView: View {
     @Binding var isFriendsContentModalPresented: Bool
     @Binding var message: String
     @Binding var selectedIndex: Int
+    @Binding var isShowToast: Bool
     var selectedAlbum: Story?
     
     var body: some View {
@@ -27,7 +28,7 @@ struct AlbumDetailView: View {
                 }
                 .zIndex(1)
             
-            FriendsContentsModalView(message: $message, selectedUserInfo: $userInfoStore.friendInfos[selectedIndex], story: selectedAlbum)
+            FriendsContentsModalView(message: $message, selectedUserInfo: $userInfoStore.friendInfos[selectedIndex], isShowToast: $isShowToast, story: selectedAlbum)
                 .zIndex(2)
                 .frame(maxHeight: .infinity, alignment: .center)
         }

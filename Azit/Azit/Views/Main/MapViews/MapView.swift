@@ -17,6 +17,7 @@ struct MapView: View {
     @Binding var isFriendsModalPresented: Bool
     @Binding var isDisplayEmojiPicker: Bool
     @Binding var isPassed24Hours: Bool
+    @Binding var isShowToast: Bool
     
     @State private var region = MKCoordinateRegion()
     @State var users: [UserInfo] = []
@@ -67,7 +68,8 @@ struct MapView: View {
                                     isPassed24Hours: $isPassed24Hours,
                                     users: $users,
                                     message: $message,
-                                    selectedIndex: $selectedIndex)
+                                    selectedIndex: $selectedIndex,
+                                    isShowToast: $isShowToast)
         }
         .ignoresSafeArea()
         .onAppear {

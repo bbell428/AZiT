@@ -11,6 +11,7 @@ struct MainTopView: View {
     private let screenBounds = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds
     
     @Binding var isMainExposed: Bool // 메인 화면인지 맵 화면인지
+    @Binding var isShowToast: Bool
     
     var body: some View {
         VStack {
@@ -41,7 +42,7 @@ struct MainTopView: View {
                         //                        .disabled(isModalPresented ? true : false)
                         
                         NavigationLink {
-                            MessageView()
+                            MessageView(isShowToast: $isShowToast)
                         } label: {
                             Image(systemName: "ellipsis.message.fill")
                                 .resizable()
@@ -51,7 +52,7 @@ struct MainTopView: View {
                         }
                         
                         NavigationLink {
-                            AlbumView()
+                            AlbumView(isShowToast: $isShowToast)
                         } label: {
                             Image(systemName: "photo.stack")
                                 .resizable()

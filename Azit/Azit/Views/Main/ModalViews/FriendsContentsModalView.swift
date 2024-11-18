@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct FriendsContentsModalView: View {
     let screenBounds = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds
@@ -16,20 +17,32 @@ struct FriendsContentsModalView: View {
     
     @Binding var message: String
     @Binding var selectedUserInfo: UserInfo
+    @Binding var isShowToast: Bool
     
     @State var story: Story? = nil
     @State private var isLiked: Bool = false
     @State private var scale: CGFloat = 0.1
     
+    @State private var isLoadingStory = true // Story 로딩 상태
+    
     var body: some View {
         VStack(alignment: .center, spacing: 15) {
             ContentsModalTopView(story: $story, selectedUserInfo: selectedUserInfo)
             
-            StoryContentsView(story: $story)
-                        
+            if isLoadingStory {
+                ProgressView() // Story 로딩 중 표시
+            } else {
+                if let story = story {
+                    StoryContentsView(story: story) // 로드된 Story 전달
+                } else {
+                    Text("스토리가 없습니다.")
+                        .foregroundColor(.gray)
+                }
+            }
+            
             HStack {
                 ZStack(alignment: .trailing) {
-                    TextField("message", text: $message, prompt: Text("친구에게 메세지 보내기")
+                    TextField("message", text: $message, prompt: Text("\(selectedUserInfo.nickname)에게 메세지 보내기")
                         .font(.caption))
                     .padding(3)
                     .padding(.leading, 10)
@@ -41,55 +54,39 @@ struct FriendsContentsModalView: View {
                             .stroke(.accent, lineWidth: 1)
                     )
                     .onSubmit {
-                        guard !message.isEmpty else { return }
-                        Task {
-                            chatDetailViewStore.sendMessage(text: message, myId: userInfoStore.userInfo?.id ?? "", friendId: story?.userId ?? "", storyId: story?.id ?? "")
-                            print("메시지 전송에 성공했습니다!")
-                            message = ""
-                        }
-                    }
-                    
-                    if !message.isEmpty {
-                        Button {
-                            
-                        } label: {
-                            Image(systemName: "paperplane.fill")
-                        }
-                        .foregroundStyle(.accent)
-                        .padding(.trailing, 10)
+                        sendMessage()
                     }
                 }
-                
                 
                 Spacer()
                 
                 Button(action: {
-                    isLiked.toggle()
+                    if !message.isEmpty {
+                        sendMessage()
+                    } else {
+                        isLiked.toggle()
+                    }
                 }) {
-                    Image(systemName: isLiked ? "heart.fill" : "heart")
+                    Image(systemName: !message.isEmpty ? "paperplane.fill" : (isLiked ? "heart.fill" : "heart"))
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .foregroundStyle(.accent)
-                        .frame(width: 30)
-                        .fontWeight(.light)
+                        .frame(width: 25, height: 25)
                 }
             }
         }
+//        .toast(isPresenting: $showToast, alert: {
+//            AlertToast(displayMode: .alert, type: .systemImage("envelope.open", Color.white), title: "전송 완료", style: .style(backgroundColor: .subColor1, titleColor: Color.white))
+//        })
         .padding()
         .background(.subColor4)
         .cornerRadius(8)
         .scaleEffect(scale)
         .onAppear {
-            Task {
-                // 선택 된 친구의 story
-                if story == nil {
-                    try await story = storyStore.loadRecentStoryById(id: selectedUserInfo.id)
-                }
-            }
+            loadStory()
             withAnimation(.easeInOut(duration: 0.3)) {
                 scale = 1.0
             }
-            
         }
         .onDisappear {
             withAnimation(.easeInOut(duration: 0.3)) {
@@ -98,39 +95,33 @@ struct FriendsContentsModalView: View {
         }
         .frame(width: (screenBounds?.width ?? 0) - 32)
     }
-}
-
-// 추 후 컴포넌트로 빼기
-struct SpeechBubbleView: View {
-    var text: String
     
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text(text)
-                .padding(5)
-                .padding([.leading, .trailing], 10)
-                .foregroundStyle(.white)
+    private func loadStory() {
+        Task {
+            isLoadingStory = true
+            if story == nil {
+                do {
+                    story = try await storyStore.loadRecentStoryById(id: selectedUserInfo.id)
+                } catch {
+                    print("스토리 로드 실패: \(error.localizedDescription)")
+                }
+            }
+            isLoadingStory = false
         }
-        .background(
-            SpeechBubbleTail()
-                .stroke(Color.accent, lineWidth: 2)
-                .background(SpeechBubbleTail().fill(Color.accent))
-        )
     }
-}
-
-struct SpeechBubbleTail: Shape {
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        
-        path.addRoundedRect(in: rect, cornerSize: CGSize(width: 8, height: 8))
-        
-        path.move(to: CGPoint(x: rect.midX - 3, y: rect.maxY))
-        path.addLine(to: CGPoint(x: rect.midX, y: rect.maxY + 8))
-        path.addLine(to: CGPoint(x: rect.midX + 3, y: rect.maxY))
-        
-        path.closeSubpath()
-        
-        return path
+    
+    private func sendMessage() {
+        Task {
+            guard !message.isEmpty else { return }
+            chatDetailViewStore.sendMessage(
+                text: message,
+                myId: userInfoStore.userInfo?.id ?? "",
+                friendId: story?.userId ?? "",
+                storyId: story?.id ?? ""
+            )
+            print("메시지 전송에 성공했습니다!")
+            message = ""
+            isShowToast.toggle()
+        }
     }
 }

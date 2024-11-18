@@ -15,6 +15,7 @@ struct ModalIdentificationView: View {
     @Binding var users: [UserInfo]
     @Binding var message: String
     @Binding var selectedIndex: Int
+    @Binding var isShowToast: Bool
     
     var body: some View {
         // 친구의 모달이 불렸을 때
@@ -27,7 +28,7 @@ struct ModalIdentificationView: View {
                 .zIndex(2)
             
             if !users.isEmpty {
-                FriendsContentsModalView(message: $message, selectedUserInfo: $users[selectedIndex])
+                FriendsContentsModalView(message: $message, selectedUserInfo: $users[selectedIndex], isShowToast: $isShowToast)
                     .zIndex(3)
             }
         }
@@ -41,7 +42,7 @@ struct ModalIdentificationView: View {
                         isDisplayEmojiPicker = false
                     }
                     .zIndex(2)
-                EmojiView(isDisplayEmojiPicker: $isDisplayEmojiPicker)
+                EmojiView(isDisplayEmojiPicker: $isDisplayEmojiPicker, isMyModalPresented: $isMyModalPresented)
                     .zIndex(3)
             }
         // story 작성 후 24시간이 지나지 않았을 때
@@ -53,7 +54,7 @@ struct ModalIdentificationView: View {
                         isMyModalPresented = false
                     }
                     .zIndex(2)
-                MyContentsModalView(isDisplayEmojiPicker: $isDisplayEmojiPicker)
+                MyContentsModalView(isDisplayEmojiPicker: $isDisplayEmojiPicker, isMyModalPresented: $isMyModalPresented)
                     .zIndex(3)
             }
         }

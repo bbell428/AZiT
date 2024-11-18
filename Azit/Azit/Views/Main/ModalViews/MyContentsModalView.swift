@@ -15,24 +15,35 @@ struct MyContentsModalView: View {
     @EnvironmentObject var storyStore: StoryStore
     
     @Binding var isDisplayEmojiPicker: Bool
+    @Binding var isMyModalPresented: Bool
     
-    @State var story: Story?
-    @State var friends: [UserInfo] = []
+    @State private var story: Story?
+    @State private var friends: [UserInfo] = []
     @State private var scale: CGFloat = 0.1
-    @State private var userInfo: UserInfo? = nil
+    @State private var userInfo: UserInfo?
     @State private var isPresentedLikedSheet: Bool = false
-    
+    @State private var isLoadingStory: Bool = true // Story 로딩 상태 추가
     
     var body: some View {
         ZStack {
             VStack(alignment: .center, spacing: 15) {
-                if userInfo != nil {
-                    ContentsModalTopView(story: $story, selectedUserInfo: userInfo!)
+                if let userInfo = userInfo {
+                    // 상단 뷰
+                    ContentsModalTopView(story: $story, selectedUserInfo: userInfo)
                     
-                    StoryContentsView(story: $story)
+                    // Story 로딩 상태 처리
+                    if isLoadingStory {
+                        ProgressView() // 로딩 중 표시
+                    } else if let story = story {
+                        StoryContentsView(story: story) // 로드된 Story 전달
+                    } else {
+                        Text("스토리가 없습니다.")
+                            .foregroundColor(.gray)
+                    }
                 }
                 
                 HStack {
+                    // Likes 버튼
                     Button {
                         isPresentedLikedSheet = true
                     } label: {
@@ -44,14 +55,15 @@ struct MyContentsModalView: View {
                                 .frame(width: 30)
                                 .fontWeight(.light)
                             
-                        Text("Likes")
-                            .font(.caption)
-                            .foregroundStyle(.gray)
+                            Text("Likes")
+                                .font(.caption)
+                                .foregroundStyle(.gray)
                         }
                     }
                     
                     Spacer()
                     
+                    // + 버튼 (이모지 추가)
                     Button {
                         isDisplayEmojiPicker = true
                     } label: {
@@ -60,7 +72,7 @@ struct MyContentsModalView: View {
                             .aspectRatio(contentMode: .fit)
                             .foregroundStyle(.accent)
                             .frame(width: 30)
-                            .fontWeight(.light)                        
+                            .fontWeight(.light)
                     }
                     
                     Spacer()
@@ -95,24 +107,34 @@ struct MyContentsModalView: View {
                         isDisplayEmojiPicker = false
                     }
                     .zIndex(2)
-                EmojiView(isDisplayEmojiPicker: $isDisplayEmojiPicker)
+                EmojiView(isDisplayEmojiPicker: $isDisplayEmojiPicker, isMyModalPresented: $isMyModalPresented)
                     .zIndex(3)
             }
         }
         .onAppear {
-            // 친구들 이름 목록 배열화
-            Task {
-                // 사용자 본인의 정보 받아오기
+            loadUserAndStoryData()
+        }
+    }
+    
+    private func loadUserAndStoryData() {
+        Task {
+            isLoadingStory = true // 로딩 시작
+            do {
+                // 사용자 본인의 정보 가져오기
                 await userInfoStore.loadUserInfo(userID: authManager.userID)
-                // 사용자 본인의 정보 변수에 저장
                 userInfo = userInfoStore.userInfo
-                // 사용자 본인의 story
+                
+                // 사용자 본인의 Story 가져오기
                 story = try await storyStore.loadRecentStoryById(id: userInfoStore.userInfo?.id ?? "")
-                // 친구 ID 가져오기
-                let friendIDs: [String] = story?.likes ?? []
-                // 친구 ID로 UserInfo 불러오기
-                friends = try await userInfoStore.loadUsersInfoByEmail(userID: friendIDs)
+                
+                // Story 좋아요 목록에서 친구 정보 가져오기
+                if let friendIDs = story?.likes {
+                    friends = try await userInfoStore.loadUsersInfoByEmail(userID: friendIDs)
+                }
+            } catch {
+                print("데이터 로드 실패: \(error.localizedDescription)")
             }
+            isLoadingStory = false // 로딩 종료
         }
     }
 }

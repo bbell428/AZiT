@@ -51,25 +51,51 @@ struct MessageDetailView: View {
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var chatDetailViewStore: ChatDetailViewStore
     @Environment(\.dismiss) var dismiss
+    @State var isFriendsContentModalPresented: Bool = false
+    @State var selectedAlbum: Story?
+    @State var message: String = ""
+    @State var friend: UserInfo // 상대방 정보
     var roomId: String // 메시지방 id
     var nickname: String // 상대방 닉네임
     var userId: String // 상대방 id
     var profileImageName: String // 상대방 프로필 아이콘
     
+    @Binding var isShowToast: Bool
+    
     var body: some View {
         NavigationStack {
-            VStack {
-                // 채팅방 상단 (dismiss를 사용하기 위한 클로저 처리)
-                MessageDetailTopBar(dismissAction: { dismiss() }, nickname: nickname, profileImageName: profileImageName)
-                    .frame(maxHeight: 80)
+            ZStack(alignment: .top) {
+                // 스토리 클릭시, 상세 정보
+                if isFriendsContentModalPresented {
+                        Color.black.opacity(0.4)
+                            .ignoresSafeArea()
+                            .onTapGesture {
+                                isFriendsContentModalPresented = false
+                                message = ""
+                            }
+                            .zIndex(2)
+                        
+                    FriendsContentsModalView(message: $message, selectedUserInfo: $friend,isShowToast: $isShowToast, story: selectedAlbum)
+                            .zIndex(3)
+                            .frame(maxHeight: .infinity, alignment: .center)
+                }
                 
-                // 채팅방 메시지 내용
-                TextMessage(profileImageName: profileImageName)
-                
-                // 메시지 입력 공간
-                MessageSendField(roomId: roomId, nickname: nickname, userId: userId)
-                    .frame(maxHeight: 50)
-                    .padding(.bottom)
+                    VStack {
+                        // 채팅방 상단 (dismiss를 사용하기 위한 클로저 처리)
+                        MessageDetailTopBar(dismissAction: { dismiss() }, nickname: nickname, profileImageName: profileImageName)
+                            .frame(maxHeight: 80)
+                            .zIndex(1)
+                        
+                        // 채팅방 메시지 내용
+                        TextMessage(profileImageName: profileImageName, isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedAlbum: $selectedAlbum, nickname: nickname)
+                            .zIndex(1)
+                        
+                        // 메시지 입력 공간
+                        MessageSendField(roomId: roomId, nickname: nickname, userId: userId)
+                            .frame(maxHeight: 50)
+                            .padding(.bottom)
+                            .zIndex(1)
+                    }
             }
             .navigationBarBackButtonHidden(true)
             .onAppear {
@@ -130,15 +156,20 @@ struct TextMessage: View {
     @EnvironmentObject var chatDetailViewStore: ChatDetailViewStore
     var profileImageName: String
     
+    @Binding var isFriendsContentModalPresented: Bool
+    @Binding var selectedAlbum: Story?
+    
+    var nickname: String
+    
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView {
                 LazyVStack(spacing: 20) {
                     ForEach(chatDetailViewStore.chatList, id: \.id) { chat in
                         if chat.sender == authManager.userID {
-                                PostMessage(chat: chat)
+                            PostMessage(chat: chat, isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedAlbum: $selectedAlbum, nickname: nickname)
                         } else {
-                                GetMessage(chat: chat, profileImageName: profileImageName)
+                            GetMessage(chat: chat, profileImageName: profileImageName, isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedAlbum: $selectedAlbum)
                         }
                     }
             

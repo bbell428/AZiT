@@ -16,6 +16,7 @@ class AlbumStore: ObservableObject {
     @Published var storys: [Story] = []
     @Published var filterUserID: String = ""
     @Published var selectedDate: Date = Date()
+    @Published var cacheImages: [String: UIImage] = [:]
     
     @MainActor
     func loadStorysByIds(ids: [String]) async {

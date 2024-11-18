@@ -19,7 +19,7 @@ struct AlbumScrollView : View {
     @Binding var selectedAlbum: Story?
     
     var body: some View {
-        ScrollView {
+        ScrollView(.vertical, showsIndicators: false) {
             Rectangle()
                 .frame(height: 160)
                 .foregroundStyle(Color.white)
@@ -61,7 +61,7 @@ struct AlbumScrollView : View {
                                     VStack {
                                         // 스토리에 사진이 포함,
                                         if !story.image.isEmpty {
-                                            AlbumStoryImageView(imageStoreID: story.image)
+                                            // AlbumStoryImageView(imageStoreID: story.image)
                                         } else {
                                             // 스토리에 이모지 & 텍스트만 존재
                                             VStack {
@@ -81,7 +81,8 @@ struct AlbumScrollView : View {
                                             .cornerRadius(15) // 추가
                                         }
                                     }
-                                    .frame(width: 120, height: 160)
+                                    .padding(.horizontal, 2.5)
+                                    .frame(width: 115, height: 155)
                                 }
                             }
                         }

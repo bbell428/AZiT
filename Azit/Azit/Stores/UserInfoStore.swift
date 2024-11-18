@@ -331,20 +331,18 @@ class UserInfoStore: ObservableObject {
         }
     }
     
-    // MARK: - 첫 런치 때 유저 데이터 전달
-    func saveToUserDefaultsFirstLaunch(data: UserInfo) {
-        let userDefaults = UserDefaults(suiteName: "group.education.techit.Azit.AzitWidget")
-        let hasLaunchedKey = "hasLaunchedBefore"
-        
-        // 처음 실행되는 경우에만 저장
-        if userDefaults?.bool(forKey: hasLaunchedKey) == false {
-            if let encodedData = try? JSONEncoder().encode(data) {
-                userDefaults?.set(encodedData, forKey: "widgetData")
-                userDefaults?.set(true, forKey: hasLaunchedKey)
+    // MARK: - story 데이터 UserDefault에 전달
+    func updateSharedUserDefaults(user: UserInfo) {
+        if let sharedDefaults = UserDefaults(suiteName: "group.education.techit.Azit.AzitWidget") {
+            // User 객체를 Data로 변환
+            do {
+                let encoder = JSONEncoder()
+                let encodedStory = try encoder.encode(user)
+                sharedDefaults.set(encodedStory, forKey: "userInfo")
                 print("유저 디폴트에 유저 데이터를 저장하였습니다.")
+            } catch {
+                print("스토리 인코딩 실패: \(error)")
             }
-        } else {
-            print("이미 유저 데이터가 저장되어 있습니다.")
         }
     }
     
