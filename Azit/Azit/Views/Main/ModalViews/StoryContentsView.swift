@@ -1,16 +1,10 @@
-//
-//  StoryContentsView.swift
-//  Azit
-//
-//  Created by Hyunwoo Shin on 11/12/24.
-//
-
 import SwiftUI
 import FirebaseStorage
 
 struct StoryContentsView: View {
     let story: Story
-    @State private var imageURL: URL?
+    @EnvironmentObject var albumStore: AlbumStore
+    @State private var image: UIImage?
     @State private var isLoadingImage = false
     @State private var loadFailed = false
     
@@ -27,25 +21,12 @@ struct StoryContentsView: View {
                     }
                 }
                 
-                if let imageURL = imageURL {
-                    AsyncImage(url: imageURL) { phase in
-                        switch phase {
-                        case .empty:
-                            ProgressView()
-                                .frame(height: 200)
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 336, height: 448)
-                                .clipShape(RoundedRectangle(cornerRadius: 8))
-                        case .failure:
-                            PlaceholderView()
-                        @unknown default:
-                            EmptyView()
-                        }
-                    }
-                    .frame(width: 336, height: 448)
+                if let image = image {
+                    Image(uiImage: image)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 336, height: 448)
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
                 } else if isLoadingImage {
                     ProgressView()
                         .frame(height: 200)
@@ -80,16 +61,26 @@ struct StoryContentsView: View {
         isLoadingImage = true
         loadFailed = false
         
+        // 캐시에 있는지 확인
+        if let cachedImage = albumStore.cacheImages[story.image] {
+            self.image = cachedImage
+            isLoadingImage = false
+            return
+        }
+        
+        // 캐시에 없으면 Firebase에서 다운로드
         let storage = Storage.storage()
         let imageRef = storage.reference().child("image/\(story.image)")
         
-        imageRef.downloadURL { url, error in
+        imageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
             DispatchQueue.main.async {
                 if let error = error {
                     print("이미지 로드 실패: \(error.localizedDescription)")
                     loadFailed = true
-                } else {
-                    self.imageURL = url
+                } else if let data = data, let downloadedImage = UIImage(data: data) {
+                    self.image = downloadedImage
+                    // 다운로드 성공 시 캐시에 저장
+                    albumStore.cacheImages[story.image] = downloadedImage
                 }
                 isLoadingImage = false
             }
