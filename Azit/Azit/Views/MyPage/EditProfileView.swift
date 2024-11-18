@@ -19,6 +19,7 @@ struct EditProfileView: View {
     @State var isCancelEdit = false // 수정완료 버튼
     @State var isNicknameExists = false // 중복 닉네임 확인
     @State var isMyNickname: Bool = false // 나의 닉네임은 중복메시지 안뜨게 함
+    @State var isNicknameColor = false
     @Binding var isPresented: Bool // 편집 뷰
     
     
@@ -66,12 +67,12 @@ struct EditProfileView: View {
             .frame(maxWidth: 220)
             
             VStack {
-                if isNicknameExists && isMyNickname {
+                if isNicknameExists && !isMyNickname {
                     Text("이미 사용중인 닉네임입니다.")
                         .font(.caption)
                         .foregroundColor(Color.red)
                         .multilineTextAlignment(.center)
-                } else if nickname.count < 9 {
+                } else if nickname.count > 8 {
                     Text("8자 이하로 입력 가능합니다.")
                         .font(.caption)
                         .foregroundColor(Color.red)
@@ -81,6 +82,7 @@ struct EditProfileView: View {
                     TextField("", text: $nickname)
                         .font(.title2)
                         .multilineTextAlignment(.center)
+                        .foregroundStyle(isNicknameColor ? .red : .black)
                         .onAppear {
                             if nickname.isEmpty {
                                 nickname = userInfoStore.userInfo?.nickname ?? ""
@@ -102,36 +104,49 @@ struct EditProfileView: View {
                             }
                             
                             // 닉네임 길이 조건에 따라 isShowNickname 설정
-                            if nickname.count > 0 && nickname.count < 9 && !hasSingleConsonantOrVowel {
-                                Task {
-                                    if await userInfoStore.isNicknameExists(nickname) { // 닉네임 중복 확인
-                                        isCancelEdit = false
-                                        isNicknameExists = true
-                                    } else {
-                                        isCancelEdit = true
-                                        isNicknameExists = false
-                                    }
-                                    
-                                    // 입력할때마다 변화, 나의 닉네임이라면 true바꾸어 중복메시지 안뜸
-                                    isMyNickname = nickname != userInfoStore.userInfo?.nickname
-                                }
-                            } else {
-                                isCancelEdit = false
-                                isNicknameExists = false
+                            guard nickname.count > 0 && nickname.count < 9 else {
+                                isNicknameColor = true
+                                return isCancelEdit = false
                             }
+                            
+                            // 입력한 닉네임이 현재 나의 닉네임인 경우
+                            guard nickname != userInfoStore.userInfo?.nickname else {
+                                isCancelEdit = false
+                                return isMyNickname = true
+                            }
+                            
+                            // 한글 자음/모음 입력된 경우
+                            guard !hasSingleConsonantOrVowel else {
+                                isNicknameExists = false
+                                isNicknameColor = false
+                                return isCancelEdit = false
+                            }
+                            
+                            Task {
+                                // 닉네임 중복 확인
+                                if await userInfoStore.isNicknameExists(nickname) {
+                                    isMyNickname = false
+                                    isCancelEdit = false
+                                    isNicknameExists = true
+                                    isNicknameColor = true
+                                } else {
+                                    isNicknameExists = false
+                                    isCancelEdit = true
+                                    isNicknameColor = false
+                                }
+                            }
+                            
                         }
                         .padding(.leading, 30)
                     Spacer()
                     
-                        Image(systemName: "pencil")
-                            .foregroundStyle(Color.accentColor)
-                            .font(.headline)
+                    Image(systemName: "pencil")
+                        .foregroundStyle(Color.accentColor)
+                        .font(.headline)
                 }
-                .frame(maxWidth: 220)
-                
                 Divider()
             }
-            .padding(.top, -50)
+            .padding(.top, -40)
             .padding(.vertical, 10)
             .frame(maxWidth: 220)
             
@@ -158,8 +173,9 @@ struct EditProfileView: View {
                     isPresented.toggle()
                 }
             } label: {
-                EditButton(buttonName: isCancelEdit ? "수정 완료" : "cancel")
+                EditButton(buttonName: "저장")
             }
+            .disabled(!isCancelEdit)
         }
         .sheet(isPresented: $isSheetEmoji) { // 시트로 이모지 뷰 띄움
             EmojiSheetView(show: $isSheetEmoji, txt: $emoji)

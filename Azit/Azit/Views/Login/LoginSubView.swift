@@ -254,7 +254,7 @@ struct NicknameTextField: View {
                 }
                 
                 // 닉네임 길이 조건에 따라 isShowNickname 설정
-                if nickname.count > 1 && nickname.count < 9 && !hasSingleConsonantOrVowel {
+                if nickname.count > 0 && nickname.count < 9 && !hasSingleConsonantOrVowel {
                     Task {
                         if await userInfoStore.isNicknameExists(nickname) {
                             isShowNickname = false

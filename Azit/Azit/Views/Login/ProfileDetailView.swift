@@ -99,7 +99,7 @@ struct ProfileDetailView: View {
                         isNicknameExists: $isNicknameExists
                     )
                     
-                    Text("닉네임은 추후 변경이 가능하며 2~8자로 입력해주세요.")
+                    Text("닉네임은 추후 변경이 가능하며 8자 이하로 입력해주세요.")
                         .font(.caption2)
                         .foregroundColor(.gray)
                 }
