@@ -5,12 +5,13 @@ import FirebaseStorage
 
 struct PostMessage: View {
     @EnvironmentObject var authManager: AuthManager
+    @EnvironmentObject var albumStore: AlbumStore // 캐시 저장을 위한 AlbumStore
     var chat: Chat
     
     @State private var shareStory: Story?
     @State private var isLoading: Bool = false
     @State private var errorMessage: String?
-    @State private var imageURL: URL?
+    @State private var image: UIImage? // UIImage로 변경
     @State private var isLoadingImage: Bool = true
     @State private var loadFailed: Bool = false
     
@@ -41,43 +42,17 @@ struct PostMessage: View {
                                 selectedAlbum = story
                             } label: {
                                 VStack {
-                                    if let imageURL = imageURL, !loadFailed {
-                                        // 이미지가 있으면 URL로 로드
-                                        AsyncImage(url: imageURL) { phase in
-                                            switch phase {
-                                            case .empty:
-                                                ProgressView()
-                                                    .frame(width: 90, height: 120)
-                                            case .success(let image):
-                                                image
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fill)
-                                                    .frame(width: 90, height: 120)
-                                                    .cornerRadius(15)
-                                            case .failure:
-                                                PlaceholderView() // 로드 실패 시 대체 뷰
-                                            @unknown default:
-                                                EmptyView()
-                                            }
-                                        }
+                                    if let image = image {
+                                        Image(uiImage: image)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: 90, height: 120)
+                                            .cornerRadius(15)
+                                    } else if isLoadingImage {
+                                        ProgressView()
+                                            .frame(width: 90, height: 120)
                                     } else {
-                                        // 이미지가 없을 경우 기본 콘텐츠 표시
-                                        VStack {
-                                            Spacer()
-                                            SpeechBubbleView(text: story.content)
-                                                .font(.caption)
-                                                .padding(.bottom, 5)
-                                            Text(story.emoji)
-                                                .font(.largeTitle)
-                                            Spacer()
-                                        }
-                                        .frame(width: 90, height: 120)
-                                        .background(
-                                            Image("storyBackImage")
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fill)
-                                        )
-                                        .cornerRadius(15)
+                                        PlaceholderView() // 로드 실패 시 대체 뷰
                                     }
                                 }
                             }
@@ -89,7 +64,7 @@ struct PostMessage: View {
                         }
                         
                     } else if isLoading {
-                        Text("Loading story...")
+                        Text("이미지 다운로드중...")
                             .font(.caption)
                             .foregroundStyle(Color.gray)
                     } else if let errorMessage = errorMessage {
@@ -108,14 +83,12 @@ struct PostMessage: View {
                             }
                             Text(chat.formattedCreateAt)
                                 .font(.caption2)
-                            
                                 .foregroundStyle(Color.gray)
                         }
                         Text(chat.message)
                             .font(.headline)
                             .foregroundStyle(Color.black.opacity(0.5))
                             .multilineTextAlignment(.trailing)
-                            //.padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
                             .padding(10)
                             .background(Color.gray.opacity(0.4))
                             .cornerRadius(15)
@@ -193,22 +166,49 @@ struct PostMessage: View {
                      readUsers: readUsers)
     }
     
-    // Firebase Storage에서 URL을 비동기적으로 가져오는 함수
+    // Firebase Storage에서 이미지를 비동기적으로 가져오기
     private func loadImage(imageStoreID: String) async {
         isLoadingImage = true
         loadFailed = false
-        
+
+        // 캐시 확인
+        if let cachedImage = albumStore.cacheImages[imageStoreID] {
+            self.image = cachedImage
+            isLoadingImage = false
+            return
+        }
+
         let storage = Storage.storage()
         let imageRef = storage.reference().child("image/\(imageStoreID)")
-        
+
         do {
-            self.imageURL = try await imageRef.downloadURL()
+            let data = try await fetchData(from: imageRef)
+            if let downloadedImage = UIImage(data: data) {
+                self.image = downloadedImage
+                // 캐시에 저장
+                albumStore.cacheImages[imageStoreID] = downloadedImage
+            }
         } catch {
             loadFailed = true
             print("이미지 로드 실패: \(error.localizedDescription)")
         }
-        
+
         isLoadingImage = false
+    }
+
+    // Firebase Storage의 getData를 async/await로 래핑
+    private func fetchData(from imageRef: StorageReference) async throws -> Data {
+        return try await withCheckedThrowingContinuation { continuation in
+            imageRef.getData(maxSize: 1_000_000) { data, error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else if let data = data {
+                    continuation.resume(returning: data)
+                } else {
+                    continuation.resume(throwing: NSError(domain: "UnknownError", code: -1, userInfo: nil))
+                }
+            }
+        }
     }
 }
 

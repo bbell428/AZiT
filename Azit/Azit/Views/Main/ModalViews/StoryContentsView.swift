@@ -72,7 +72,7 @@ struct StoryContentsView: View {
         let storage = Storage.storage()
         let imageRef = storage.reference().child("image/\(story.image)")
         
-        imageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
+        imageRef.getData(maxSize: 1_000_000) { data, error in
             DispatchQueue.main.async {
                 if let error = error {
                     print("이미지 로드 실패: \(error.localizedDescription)")

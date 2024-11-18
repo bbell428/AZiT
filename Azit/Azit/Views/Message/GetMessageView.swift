@@ -1,33 +1,25 @@
-//
-//  SendMessageView.swift
-//  Azit
-//
-//  Created by 박준영 on 11/5/24.
-//
 import SwiftUI
 import Firebase
 import FirebaseFirestore
 import FirebaseStorage
 
-// 받은 메시지
 struct GetMessage: View {
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var userInfoStore: UserInfoStore
+    @EnvironmentObject var albumStore: AlbumStore
     var chat: Chat
     var profileImageName: String // 상대방 프로필 아이콘
     
     @State private var shareStory: Story?
     @State private var isLoading: Bool = false
     @State private var errorMessage: String?
-    @State private var imageURL: URL?
+    @State private var image: UIImage?
     @State private var isLoadingImage: Bool = true
     @State private var loadFailed: Bool = false
     
     @Binding var isFriendsContentModalPresented: Bool
     @Binding var selectedAlbum: Story?
-    
-    //var nickname: String
-    
+
     var body: some View {
         HStack(alignment: .top) {
             Text(profileImageName)
@@ -60,25 +52,17 @@ struct GetMessage: View {
                                 selectedAlbum = story
                             } label: {
                                 VStack {
-                                    if let imageURL = imageURL, !loadFailed {
-                                        // 이미지가 있으면 URL로 로드
-                                        AsyncImage(url: imageURL) { phase in
-                                            switch phase {
-                                            case .empty:
-                                                ProgressView()
-                                                    .frame(width: 90, height: 120)
-                                            case .success(let image):
-                                                image
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fill)
-                                                    .frame(width: 90, height: 120)
-                                                    .cornerRadius(15)
-                                            case .failure:
-                                                PlaceholderView() // 로드 실패 시 대체 뷰
-                                            @unknown default:
-                                                EmptyView()
-                                            }
-                                        }
+                                    if let image = image, !loadFailed {
+                                        // 캐시된 UIImage 표시
+                                        Image(uiImage: image)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: 90, height: 120)
+                                            .cornerRadius(15)
+                                    } else if isLoadingImage {
+                                        // 로딩 중
+                                        ProgressView()
+                                            .frame(width: 90, height: 120)
                                     } else {
                                         // 이미지가 없을 경우 기본 콘텐츠 표시
                                         VStack {
@@ -101,8 +85,6 @@ struct GetMessage: View {
                                 }
                             }
                         }
-                        
-                        
                     } else if isLoading {
                         Text("Loading story...")
                             .font(.caption)
@@ -112,12 +94,12 @@ struct GetMessage: View {
                             .font(.caption)
                             .foregroundStyle(Color.red)
                     }
+                    
                     HStack(alignment: .bottom) {
                         Text(chat.message)
                             .font(.headline)
                             .foregroundStyle(Color.black.opacity(0.5))
                             .multilineTextAlignment(.trailing)
-                            //.padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
                             .padding(10)
                             .background(.accent)
                             .cornerRadius(15)
@@ -142,7 +124,6 @@ struct GetMessage: View {
             }
             .fixedSize(horizontal: false, vertical: true) // 높이를 내용에 맞게 조절
             .frame(maxWidth: 300, alignment: .leading)
-            //.padding(.leading, 10)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .onAppear {
@@ -210,25 +191,48 @@ struct GetMessage: View {
                      readUsers: readUsers)
     }
     
-    // Firebase Storage에서 URL을 비동기적으로 가져오는 함수
+    // Firebase Storage에서 이미지를 비동기적으로 가져오기
     private func loadImage(imageStoreID: String) async {
         isLoadingImage = true
         loadFailed = false
-        
+
+        // 캐시 확인
+        if let cachedImage = albumStore.cacheImages[imageStoreID] {
+            self.image = cachedImage
+            isLoadingImage = false
+            return
+        }
+
         let storage = Storage.storage()
         let imageRef = storage.reference().child("image/\(imageStoreID)")
-        
+
         do {
-            self.imageURL = try await imageRef.downloadURL()
+            let data = try await fetchData(from: imageRef)
+            if let downloadedImage = UIImage(data: data) {
+                self.image = downloadedImage
+                // 캐시에 저장
+                albumStore.cacheImages[imageStoreID] = downloadedImage
+            }
         } catch {
             loadFailed = true
             print("이미지 로드 실패: \(error.localizedDescription)")
         }
-        
+
         isLoadingImage = false
     }
-}
 
-//#Preview {
-//    GetMessage(chat: Chat(createAt: Date(), message: "안녕하세요! 반갑습니다 어서오세요 안녕하세요! 반갑습니다 어서오세요 \n새로운 줄입니다!", sender: "parkjunyoung", readBy: ["parkjunyoung"]), profileImageName: "\u{1F642}")
-//}
+    // Firebase Storage의 getData를 async/await로 래핑
+    private func fetchData(from imageRef: StorageReference) async throws -> Data {
+        return try await withCheckedThrowingContinuation { continuation in
+            imageRef.getData(maxSize: 1_000_000) { data, error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else if let data = data {
+                    continuation.resume(returning: data)
+                } else {
+                    continuation.resume(throwing: NSError(domain: "UnknownError", code: -1, userInfo: nil))
+                }
+            }
+        }
+    }
+}
