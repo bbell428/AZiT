@@ -301,28 +301,36 @@ struct StartButton: View {
     }
 }
 
-//MARK: 이모지뷰
-struct EmojiSheetView : View {
+struct EmojiSheetView: View {
+    @Binding var show: Bool
+    @Binding var txt: String
     
-    @Binding var show : Bool
-    @Binding var txt : String
+    @State private var selectedEmoji: String? // 선택된 이모지
     
-    var body : some View{
+    var body: some View {
         ZStack(alignment: .topLeading) {
             ScrollView(.vertical, showsIndicators: false) {
-                VStack(spacing: 15){
-                    ForEach(self.getEmojiList(),id: \.self){i in
-                        HStack(spacing: 25){
-                            ForEach(i,id: \.self){j in
+                VStack(spacing: 15) {
+                    ForEach(self.getEmojiList(), id: \.self) { row in
+                        HStack(spacing: 25) {
+                            ForEach(row, id: \.self) { codePoint in
                                 Button(action: {
-                                    self.txt += String(UnicodeScalar(j)!)
-                                    self.show.toggle()
+                                    let emoji = String(UnicodeScalar(codePoint)!)
+                                    self.txt = emoji // 이모지를 바인딩에 전달
+                                    self.selectedEmoji = emoji // 선택된 이모지를 업데이트
                                 }) {
-                                    if (UnicodeScalar(j)?.properties.isEmoji)!{
-                                        Text(String(UnicodeScalar(j)!)).font(.system(size: 55))
-                                    }
-                                    else{
-                                        Text("")
+                                    ZStack {
+                                        if let scalar = UnicodeScalar(codePoint),
+                                           scalar.properties.isEmoji {
+                                            Text(String(scalar))
+                                                .font(.system(size: 55))
+                                                .frame(width: 70, height: 70)
+                                                .background(selectedEmoji == String(scalar) ? Color.accentColor.opacity(0.2) : Color.clear) // 선택 상태 배경색
+                                                .cornerRadius(10)
+                                        } else {
+                                            Text("")
+                                                .frame(width: 70, height: 70)
+                                        }
                                     }
                                 }
                             }
@@ -338,16 +346,18 @@ struct EmojiSheetView : View {
             Button(action: {
                 self.show.toggle()
             }) {
-                Image(systemName: "xmark").foregroundColor(.black)
-            }.padding()
+                Image(systemName: "xmark")
+                    .foregroundColor(.black)
+            }
+            .padding()
         }
     }
     
-    func getEmojiList()->[[Int]]{
-        var emojis : [[Int]] = []
-        for i in stride(from: 0x1F601, to: 0x1F64F, by: 4){
-            var temp : [Int] = []
-            for j in i...i+3{
+    func getEmojiList() -> [[Int]] {
+        var emojis: [[Int]] = []
+        for i in stride(from: 0x1F601, to: 0x1F64F, by: 4) {
+            var temp: [Int] = []
+            for j in i...i+3 {
                 temp.append(j)
             }
             emojis.append(temp)
