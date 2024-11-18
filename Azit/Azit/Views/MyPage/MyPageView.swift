@@ -81,7 +81,7 @@ struct MyPageView: View {
                             }
                         }) {
                             EditProfileView(isPresented: $isPresented)
-                                .presentationDetents([.fraction(4/9)])
+                                .presentationDetents([.fraction(0.45)])
                                 .presentationDragIndicator(.visible)
                         }
                     }
@@ -182,6 +182,7 @@ struct MyPageView: View {
                                     }
                                 }
                                 .padding(.vertical, 1)
+                                .zIndex(5)
                                 
                                 Divider()
                             }

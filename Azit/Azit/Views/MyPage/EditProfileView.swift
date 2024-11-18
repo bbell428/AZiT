@@ -12,7 +12,7 @@ struct EditProfileView: View {
     @EnvironmentObject private var userInfoStore: UserInfoStore
     
     @State var emoji: String = "" // 현재 이모지
-    @State private var emojiPrevious: String = "" // 이전 이모지
+//    @State private var emojiPrevious: String = "" // 이전 이모지
     @State private var nickname: String = ""
     
     @State var isSheetEmoji = false // 이모지 뷰
@@ -64,20 +64,8 @@ struct EditProfileView: View {
                 .offset(x: 40, y: 60)
             }
             .padding(.top, 40)
-            .frame(maxWidth: 220)
             
             VStack {
-                if isNicknameExists && !isMyNickname {
-                    Text("이미 사용중인 닉네임입니다.")
-                        .font(.caption)
-                        .foregroundColor(Color.red)
-                        .multilineTextAlignment(.center)
-                } else if nickname.count > 8 {
-                    Text("8자 이하로 입력 가능합니다.")
-                        .font(.caption)
-                        .foregroundColor(Color.red)
-                        .multilineTextAlignment(.center)
-                }
                 HStack {
                     TextField("", text: $nickname)
                         .font(.title2)
@@ -145,10 +133,21 @@ struct EditProfileView: View {
                         .font(.headline)
                 }
                 Divider()
+                
+                if isNicknameExists && !isMyNickname {
+                    Text("이미 사용중인 닉네임입니다.")
+                        .font(.caption)
+                        .foregroundColor(Color.red)
+                        .multilineTextAlignment(.center)
+                } else if nickname.count > 8 {
+                    Text("8자 이하로 입력 가능합니다.")
+                        .font(.caption)
+                        .foregroundColor(Color.red)
+                        .multilineTextAlignment(.center)
+                }
             }
             .padding(.top, -40)
-            .padding(.vertical, 10)
-            .frame(maxWidth: 220)
+            .frame(height: 10)
             
             Button {
                 if isCancelEdit {
@@ -158,14 +157,14 @@ struct EditProfileView: View {
                             email: authManager.email,
                             nickname: nickname,
                             profileImageName: emoji,
-                            previousState: emojiPrevious,
+                            previousState: userInfoStore.userInfo?.previousState ?? "",
                             friends: userInfoStore.userInfo?.friends ?? [""],
                             latitude: userInfoStore.userInfo?.latitude ?? 0.0,
                             longitude: userInfoStore.userInfo?.longitude ?? 0.0,
                             blockedFriends: [])
                         )
                         
-                        emojiPrevious = emoji
+//                        emojiPrevious = emoji
                         
                         isPresented.toggle()
                     }
@@ -176,6 +175,7 @@ struct EditProfileView: View {
                 EditButton(buttonName: "저장")
             }
             .disabled(!isCancelEdit)
+            .padding(.top, 10)
         }
         .sheet(isPresented: $isSheetEmoji) { // 시트로 이모지 뷰 띄움
             EmojiSheetView(show: $isSheetEmoji, txt: $emoji)
@@ -190,10 +190,10 @@ struct EditProfileView: View {
                 await userInfoStore.loadUserInfo(userID: authManager.userID)
                 emoji = userInfoStore.userInfo?.profileImageName ?? ""
                 
-                emojiPrevious = emoji
+//                emojiPrevious = emoji
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .frame(maxWidth: 220, maxHeight: .infinity)
     }
 }
 //
@@ -211,7 +211,7 @@ struct EditButton: View {
         Text("\(buttonName)")
             .font(.title2)
             .bold()
-            .frame(maxWidth: 220, maxHeight: 40)
+            .frame(width: 220, height: 40)
             .background(Color.accentColor)
             .foregroundStyle(Color.white)
             .cornerRadius(10)
