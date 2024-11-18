@@ -106,6 +106,7 @@ struct FriendsContentsModalView: View {
                     print("스토리 로드 실패: \(error.localizedDescription)")
                 }
             }
+            isLoadingStory = false
         }
     }
     
