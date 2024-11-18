@@ -16,7 +16,7 @@ struct EmojiView : View {
     @EnvironmentObject var locationManager: LocationManager
     
     @Binding var isDisplayEmojiPicker: Bool // MainView에서 전달받은 바인딩 변수
-    @Binding var isMyModalPresented: Bool
+    @Binding var isMyModalPresented: Bool // 내 스토리에 대한 모달
   
     @State var publishedTargets: [String] = []
     @State var isShowingsheet: Bool = false
@@ -96,7 +96,7 @@ struct EmojiView : View {
             }
             
             // 카메라 촬영 버튼
-            NavigationLink(destination: TakePhotoView(firstNaviLinkActive: $firstNaviLinkActive, isMainDisplay: $isDisplayEmojiPicker), isActive: $firstNaviLinkActive) {
+            NavigationLink(destination: TakePhotoView(firstNaviLinkActive: $firstNaviLinkActive, isMainDisplay: $isDisplayEmojiPicker, isMyModalPresented: $isMyModalPresented), isActive: $firstNaviLinkActive) {
                 RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
                     .background(RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
                         .fill(Color.accentColor))

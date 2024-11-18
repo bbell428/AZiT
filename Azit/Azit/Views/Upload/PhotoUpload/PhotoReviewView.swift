@@ -20,6 +20,7 @@ struct PhotoReviewView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var firstNaviLinkActive: Bool
     @Binding var isMainDisplay: Bool // MainView에서 전달받은 바인딩 변수
+    @Binding var isMyModalPresented: Bool // 내 스토리에 대한 모달
     @Binding var isPhotoTaken: Bool
     var image: UIImage?
     
@@ -197,6 +198,7 @@ struct PhotoReviewView: View {
             showUploadView = true
             firstNaviLinkActive = false
             isMainDisplay = false
+            isMyModalPresented = false
             resetStory()
 //            cameraService.capturedImage = nil
         }
