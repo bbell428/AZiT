@@ -50,7 +50,7 @@ struct RotationView: View {
                                        height: 100)
                 }
                 .zIndex(1)
-                .offset(y: 250)
+                .offset(y: 300)
                 // 타원 생성
                 EllipsesView()
                 

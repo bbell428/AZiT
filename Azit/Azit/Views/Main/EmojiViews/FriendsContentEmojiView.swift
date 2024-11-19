@@ -67,7 +67,7 @@ struct FriendsContentEmojiView: View {
             }
         }
         .frame(width: 50, height: 50)
-        .offset(x: majorAxis * cos(angle), y: minorAxis * sin(angle) + 250)
+        .offset(x: majorAxis * cos(angle), y: minorAxis * sin(angle) + 300)
         .animation(.easeInOut(duration: 0.5), value: rotation)
         .onAppear {
             Task {

@@ -18,7 +18,7 @@ struct EllipsesView: View {
                     Ellipse()
                         .stroke(Color(UIColor.systemGray3), lineWidth: 1)
                 )
-                .offset(y: 250)
+                .offset(y: 300)
                 .zIndex(0)
         }
     }
