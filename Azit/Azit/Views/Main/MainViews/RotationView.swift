@@ -80,7 +80,7 @@ struct RotationView: View {
                 DragGesture()
                     .onChanged { value in
                         // 속도 설정 부
-                        rotation += Double(value.translation.width) * 0.02
+                        rotation += Double(value.translation.width) * 0.005
                     }
             )
             // 뷰의 크기 확대, 축소
