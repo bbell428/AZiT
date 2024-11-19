@@ -6,17 +6,17 @@
 //
 
 import Foundation
-import Observation
 import FirebaseCore
 import FirebaseFirestore
-import SwiftUICore
 import FirebaseStorage
+import SwiftUI
 
 class AlbumStore: ObservableObject {
     @Published var storys: [Story] = []
     @Published var filterUserID: String = ""
     @Published var selectedDate: Date = Date()
-    @Published var cacheImages: [String: UIImage] = [:]
+    @Published var cacheImages: [String: UIImage] = [:] // 이미지 캐싱
+    @Published var loadingImage: Bool = false
     
     @MainActor
     func loadStorysByIds(ids: [String]) async {
@@ -47,9 +47,46 @@ class AlbumStore: ObservableObject {
             
             filterUserID = self.storys.first?.userId ?? ""
             print("첫번째 친구 : \(filterUserID)")
+            
+            // 이미지 캐싱 시작
+            await cacheStoryImages(stories: stories)
         } catch {
             print("loadStories error: \(error.localizedDescription)")
         }
+    }
+    
+    @MainActor
+    private func cacheStoryImages(stories: [Story]) async {
+        // 로딩 상태 시작
+            self.loadingImage = true
+        
+        let storage = Storage.storage()
+        
+        for story in stories {
+            let imageKey = story.image
+            guard !imageKey.isEmpty else { continue }
+            
+            // 이미 캐싱된 경우 스킵
+            if cacheImages[imageKey] != nil { continue }
+            
+            do {
+                // Firebase Storage 참조
+                let imageRef = storage.reference().child("image/\(imageKey)")
+                let data = try await imageRef.data(maxSize: 1_000_000) // 최대 이미지 크기
+                if let image = UIImage(data: data) {
+                    // 메인 스레드에서 업데이트
+                        self.cacheImages[imageKey] = image
+                    print("이미지 캐싱 성공: \(imageKey)")
+                } else {
+                    print("이미지 변환 실패: \(imageKey)")
+                }
+            } catch {
+                print("이미지 다운로드 실패: \(error.localizedDescription)")
+            }
+        }
+        
+        // 로딩 상태 완료
+            self.loadingImage = false
     }
     
     func getTimeGroupedStories() -> [(title: String, stories: [Story])] {
