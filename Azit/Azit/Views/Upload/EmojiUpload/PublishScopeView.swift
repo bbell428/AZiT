@@ -17,7 +17,6 @@ struct PublishScopeView: View {
     @State var isSelected: [String : Bool] = [:]
     @State private var scale: CGFloat = 0.1
     @State var publishingtargets: [String] = []
-//    @State var friendID: String = ""
 
     
     var body: some View {
@@ -25,8 +24,6 @@ struct PublishScopeView: View {
             Text("공개 범위")
                 .padding(.top, 35)
                 .padding(.bottom, 20)
-//            Spacer()
-            
             
             if userInfoStore.userInfo?.friends.count == 0 {
                 Text("친구를 초대해보세요!")
@@ -78,6 +75,8 @@ struct PublishScopeView: View {
                     Divider()
                     // MARK: - 친구 리스트
                     if let friendsID = userInfoStore.userInfo?.friends {
+                        
+                        
                         ForEach(friendsID, id: \.self) { friendID in
                             Button(action: {
                                 isAllSelected = false
@@ -93,8 +92,6 @@ struct PublishScopeView: View {
                                 } else {
                                     publishingtargets.removeAll { $0 == (userInfoStore.friendInfo[friendID]?.id ?? "") }
                                 }
-                                
-                                
                             }) {
                                 HStack {
                                     if let isSelected = isSelected[friendID] {
@@ -122,6 +119,9 @@ struct PublishScopeView: View {
                             }
                             .padding(.horizontal, 10)
                             Divider()
+                            
+                            
+                            
                         }
                     } else {
                         VStack {
@@ -136,10 +136,17 @@ struct PublishScopeView: View {
                 .padding([.leading, .trailing])
                 .presentationDetents([.fraction(0.5)])
                 .presentationDragIndicator(.visible)
+                
+                
                 .onAppear {
                     Task {
                         await userInfoStore.loadUserInfo(userID: authManager.userID)
                         userInfoStore.loadFriendsInfo(friendsIDs: userInfoStore.userInfo?.friends ?? [])
+                        
+                        // 모든 친구 기본적으로 넣기
+                        if storyDraft.publishedTargets == [] {
+                            storyDraft.publishedTargets = userInfoStore.userInfo?.friends ?? []
+                        }
                     }
                 }
                 .onAppear {
@@ -155,60 +162,6 @@ struct PublishScopeView: View {
                 .onDisappear() {
                     storyDraft.publishedTargets = publishingtargets
                 }
-                
-                //            VStack(alignment: .center) {
-                //MARK: 친구 목록
-                //                ForEach(Array(friends.prefix(3)), id: \.id) { friend in
-                //                    HStack {
-                //                        ZStack {
-                //                            Circle()
-                //                                .fill(Color.subColor4)
-                //                                .frame(width: 45, height: 45)
-                //                            Text(friend.profileImageName)
-                //                                .font(.system(size: 30))
-                //                                .bold()
-                //                        }
-                //                        Text(friend.nickname)
-                //                            .fontWeight(.light)
-                //                            .foregroundStyle(Color.gray)
-                //
-                //                        Spacer()
-                //
-                //                        Button {
-                //                            isEditFriend.toggle()
-                //                            friendID = friend.id
-                //                        } label: {
-                //                            Image(systemName: "line.horizontal.3")
-                //                                .foregroundColor(.gray)
-                //                                .padding(.trailing, 20)
-                //                                .font(.title3)
-                //                        }
-                //                        .overlay {
-                //                            if isEditFriend && friendID == friend.id {
-                //                                EditFriend(friendID: friendID, isEditFriend: $isEditFriend)
-                //                                    .scaleEffect(scale)
-                //                                    .onAppear {
-                //                                        withAnimation(.easeInOut(duration: 0.3)) {
-                //                                            scale = 1.0
-                //                                        }
-                //                                    }
-                //                                    .onDisappear {
-                //                                        withAnimation(.easeInOut(duration: 0.3)) {
-                //                                            scale = 0.1
-                //                                        }
-                //                                    }
-                //                                    .padding(.leading, -40)
-                //                            }
-                //                        }
-                //                    }
-                //                    .padding(.vertical, 1)
-                //
-                //                    Divider()
-                //                }
-                //            }
-//            }
-//            .padding(.horizontal)
-//            .padding(.bottom, 50)
         }
 
         }
