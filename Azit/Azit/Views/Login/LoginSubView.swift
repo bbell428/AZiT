@@ -35,11 +35,11 @@ struct EmailTextField: View {
                 focus = .password                // 다음 포커스로 비밀번호 필드로 이동
             }
             .padding()
-            .cornerRadius(8)
+            .cornerRadius(15)
             .overlay(
-                RoundedRectangle(cornerRadius: 8)
+                RoundedRectangle(cornerRadius: 15)
                     .stroke(
-                        focus == .email ? Color.accentColor : (isErrorEmail ? Color.red : Color.black), lineWidth: 1
+                        focus == .email ? Color.accentColor : (isErrorEmail ? Color.red : Color.gray), lineWidth: 1
                     ) // 포커스에 따른 테두리 색상
                 
             )
@@ -104,11 +104,11 @@ struct SignUpEmailTextField: View {
             }
         }
         .padding()
-        .cornerRadius(8)
+        .cornerRadius(15)
         .overlay(
-            RoundedRectangle(cornerRadius: 8)
+            RoundedRectangle(cornerRadius: 15)
                 .stroke(
-                    focus == .email ? Color.accentColor : (isErrorEmail ? Color.red : Color.black), lineWidth: 1
+                    focus == .email ? Color.accentColor : (isErrorEmail ? Color.red : Color.gray), lineWidth: 1
                 ) // 포커스에 따른 테두리 색상
         )
     }
@@ -149,11 +149,11 @@ struct PasswordTextField: View {
             onSubmit() // Submit 누르면 로그인 시도
         }
         .padding()
-        .cornerRadius(8)
+        .cornerRadius(15)
         .overlay(
-            RoundedRectangle(cornerRadius: 8)
+            RoundedRectangle(cornerRadius: 15)
                 .stroke(
-                    focus == focusType ? Color.accentColor : (isErrorPassword ? Color.red : Color.black),
+                    focus == focusType ? Color.accentColor : (isErrorPassword ? Color.red : Color.gray),
                     lineWidth: 1
                 )
         )
@@ -187,7 +187,7 @@ struct LoginButton: View {
         }
         .disabled(!isValid)             // isEnabled가 false일 경우 버튼 비활성화
         .buttonStyle(.borderedProminent)  // 강조된 버튼 스타일 적용
-        .cornerRadius(20)                 // 버튼 모서리를 둥글게 설정
+        .cornerRadius(15)                 // 버튼 모서리를 둥글게 설정
     }
 }
 
@@ -203,15 +203,12 @@ struct SignInButton: View {
         } label: {
             Image("\(imageName)")
                 .resizable()
-                .frame(width: 24, height: 24)
-                .padding(10)
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 44, height: 44)
         }
+        .frame(width: 44, height: 44)
         .background(backColor)
-        .clipShape(RoundedRectangle(cornerRadius: 8))
-        .overlay(
-            RoundedRectangle(cornerRadius: 8)
-                .stroke(Color.gray, lineWidth: 1)
-        )
+        .clipShape(RoundedRectangle(cornerRadius: imageName == "GoogleLogo" ? 0 : 8))
     }
 }
 
@@ -235,11 +232,11 @@ struct NicknameTextField: View {
                 //
             }
             .padding()
-            .cornerRadius(8)
+            .cornerRadius(15)
             .multilineTextAlignment(.center)
             .overlay(
-                RoundedRectangle(cornerRadius: 8)
-                    .stroke(focus == .nickname ? Color.accentColor : Color.black, lineWidth: 1) // 포커스에 따른 테두리 색상
+                RoundedRectangle(cornerRadius: 15)
+                    .stroke(focus == .nickname ? Color.accentColor : Color.gray, lineWidth: 1) // 포커스에 따른 테두리 색상
             )
             .onChange(of: nickname) {
                 // 특수문자와 공백을 제외한 문자열로 필터링
@@ -257,7 +254,7 @@ struct NicknameTextField: View {
                 }
                 
                 // 닉네임 길이 조건에 따라 isShowNickname 설정
-                if nickname.count > 1 && nickname.count < 9 && !hasSingleConsonantOrVowel {
+                if nickname.count > 0 && nickname.count < 9 && !hasSingleConsonantOrVowel {
                     Task {
                         if await userInfoStore.isNicknameExists(nickname) {
                             isShowNickname = false
@@ -300,32 +297,40 @@ struct StartButton: View {
         }
         .disabled(!isShowNickname || !isShowEmoji)
         .buttonStyle(.borderedProminent)
-        .cornerRadius(20)
+        .cornerRadius(15)
     }
 }
 
-//MARK: 이모지뷰
-struct EmojiSheetView : View {
+struct EmojiSheetView: View {
+    @Binding var show: Bool
+    @Binding var txt: String
     
-    @Binding var show : Bool
-    @Binding var txt : String
+    @State private var selectedEmoji: String? // 선택된 이모지
     
-    var body : some View{
+    var body: some View {
         ZStack(alignment: .topLeading) {
             ScrollView(.vertical, showsIndicators: false) {
-                VStack(spacing: 15){
-                    ForEach(self.getEmojiList(),id: \.self){i in
-                        HStack(spacing: 25){
-                            ForEach(i,id: \.self){j in
+                VStack(spacing: 15) {
+                    ForEach(self.getEmojiList(), id: \.self) { row in
+                        HStack(spacing: 25) {
+                            ForEach(row, id: \.self) { codePoint in
                                 Button(action: {
-                                    self.txt += String(UnicodeScalar(j)!)
-                                    self.show.toggle()
+                                    let emoji = String(UnicodeScalar(codePoint)!)
+                                    self.txt = emoji // 이모지를 바인딩에 전달
+                                    self.selectedEmoji = emoji // 선택된 이모지를 업데이트
                                 }) {
-                                    if (UnicodeScalar(j)?.properties.isEmoji)!{
-                                        Text(String(UnicodeScalar(j)!)).font(.system(size: 55))
-                                    }
-                                    else{
-                                        Text("")
+                                    ZStack {
+                                        if let scalar = UnicodeScalar(codePoint),
+                                           scalar.properties.isEmoji {
+                                            Text(String(scalar))
+                                                .font(.system(size: 55))
+                                                .frame(width: 70, height: 70)
+                                                .background(selectedEmoji == String(scalar) ? Color.accentColor.opacity(0.2) : Color.clear) // 선택 상태 배경색
+                                                .cornerRadius(10)
+                                        } else {
+                                            Text("")
+                                                .frame(width: 70, height: 70)
+                                        }
                                     }
                                 }
                             }
@@ -341,16 +346,18 @@ struct EmojiSheetView : View {
             Button(action: {
                 self.show.toggle()
             }) {
-                Image(systemName: "xmark").foregroundColor(.black)
-            }.padding()
+                Image(systemName: "xmark")
+                    .foregroundColor(.black)
+            }
+            .padding()
         }
     }
     
-    func getEmojiList()->[[Int]]{
-        var emojis : [[Int]] = []
-        for i in stride(from: 0x1F601, to: 0x1F64F, by: 4){
-            var temp : [Int] = []
-            for j in i...i+3{
+    func getEmojiList() -> [[Int]] {
+        var emojis: [[Int]] = []
+        for i in stride(from: 0x1F601, to: 0x1F64F, by: 4) {
+            var temp: [Int] = []
+            for j in i...i+3 {
                 temp.append(j)
             }
             emojis.append(temp)

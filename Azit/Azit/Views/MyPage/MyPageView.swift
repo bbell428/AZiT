@@ -81,7 +81,7 @@ struct MyPageView: View {
                             }
                         }) {
                             EditProfileView(isPresented: $isPresented)
-                                .presentationDetents([.fraction(4/9)])
+                                .presentationDetents([.fraction(0.45)])
                                 .presentationDragIndicator(.visible)
                         }
                     }
@@ -182,6 +182,7 @@ struct MyPageView: View {
                                     }
                                 }
                                 .padding(.vertical, 1)
+                                .zIndex(5)
                                 
                                 Divider()
                             }
@@ -334,6 +335,8 @@ struct MyPageView: View {
             Task {
                 await userInfoStore.loadUserInfo(userID: authManager.userID)
                 userInfoStore.friendInfos = try await userInfoStore.loadUsersInfoByEmail(userID: userInfoStore.userInfo?.friends ?? [])
+                
+                userInfoStore.friendInfos = userInfoStore.friendInfos.sorted { $0.id > $1.id } // 오름차순
             }
         }
         .navigationBarBackButtonHidden(true)
