@@ -72,7 +72,7 @@ struct MainTopView: View {
                         }
                     }
                     .frame(width: 150, height: 50)
-                    .background(Color.gray.opacity(0.1))
+                    .background(Color.gray.opacity(0.4))
                     .clipShape(RoundedRectangle(cornerRadius: 15))
                     .padding()
                 }
