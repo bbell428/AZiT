@@ -99,10 +99,10 @@ class ChatDetailViewStore: ObservableObject {
     func updateNotReadCount(roomId: String, userId: String, count: Int) {
         let chatRoomDocumentPath = db.collection("Chat").document(roomId)
         
-        // 바로 업데이트 또는 병합 (읽기 요청 제거)
-        chatRoomDocumentPath.setData([
-            "notReadCount": [userId: count]
-        ], merge: true) { error in
+        // Update the specific user's notReadCount directly
+        chatRoomDocumentPath.updateData([
+            "notReadCount.\(userId)": count
+        ]) { error in
             if let error = error {
                 print("notReadCount 업데이트 실패: \(error.localizedDescription)")
             } else {
@@ -145,7 +145,7 @@ class ChatDetailViewStore: ObservableObject {
                         if let error = error {
                             print("업데이트 실패: \(error)")
                         } else {
-                            // 존재하는 경우에는 friendId의 notReadCount 값을 +1 증가
+                             //존재하는 경우에는 friendId의 notReadCount 값을 +1 증가
                             chatRoomDocumentPath.updateData([
                                 fieldKey: FieldValue.increment(Int64(1))
                             ]) { error in

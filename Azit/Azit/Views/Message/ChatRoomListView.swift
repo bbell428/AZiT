@@ -52,7 +52,7 @@ struct ChatRoomListView: View {
                                                 .font(.subheadline)
                                                 .foregroundStyle(.gray)
                                             
-                                            if let unreadCount = chatroom.notReadCount[friend.id] { // 상대방 UID로 값 접근
+                                            if let unreadCount = chatroom.notReadCount[authManager.userID] { // 상대방 UID로 값 접근
                                                     Text("\(unreadCount)") // 상대방의 읽지 않은 메시지 개수 표시
                                                         .font(.subheadline)
                                                         .foregroundStyle(.red)
