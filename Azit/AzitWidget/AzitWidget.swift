@@ -254,8 +254,8 @@ struct AzitWidgetEntryView : View {
                             .padding(.top, 40)
                     }
 
-                    if entry.widgetData?.recentStory?.emoji ?? "" != "" {
-                        Text(entry.widgetData?.recentStory?.emoji ?? "")
+                    if entry.widgetData?.userInfo?.previousState ?? "" != "" {
+                        Text(entry.widgetData?.userInfo?.previousState ?? "")
                             .padding(.top, -5)
                             .font(.system(size: 80))
                     }
