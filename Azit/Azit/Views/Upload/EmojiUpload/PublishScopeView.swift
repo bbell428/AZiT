@@ -17,7 +17,7 @@ struct PublishScopeView: View {
     @State var isSelected: [String : Bool] = [:]
     @State private var scale: CGFloat = 0.1
     @State var publishingtargets: [String] = []
-
+    
     
     var body: some View {
         VStack() {
@@ -80,7 +80,7 @@ struct PublishScopeView: View {
                         ForEach(friendsID, id: \.self) { friendID in
                             Button(action: {
                                 isAllSelected = false
-//                                isSelected[friendID]?.toggle()
+                                
                                 if isSelected[friendID] ?? true {
                                     isSelected[friendID] = false
                                 } else {

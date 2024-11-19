@@ -31,8 +31,9 @@ struct RotationView: View {
     @State private var isShowInvaitaion = false // QR로 앱 -> 알림 띄움 (친구추가)
     @State private var isShowYes = false // QR로 인해 친구추가 알림에서 Yes를 누를 경우
     @State private var isTappedWidget = false // 위젯이 클릭 되었는지 확인
+    @State private var rotationAngle: Double = 0 // 현재 회전 각도
     @State private var tappedWidgetUserInfo: UserInfo = UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0, blockedFriends: [])
-  
+    
     var body: some View {
         ZStack {
             ZStack {
@@ -51,6 +52,26 @@ struct RotationView: View {
                 }
                 .zIndex(1)
                 .offset(y: 250)
+                
+                Button(action: {
+                    rotateWheel()
+                }) {
+                    ZStack {
+                        Capsule()
+                            .fill(Color.white)
+                            .frame(width: 100, height: 40)
+                            .shadow(radius: 3)
+                        
+                        Text("Rotate")
+                            .foregroundColor(.orange)
+                            .font(.headline)
+                    }
+                }
+                .padding(.bottom, 50)
+                .zIndex(1)
+                .offset(y: 280)
+                
+                
                 // 타원 생성
                 EllipsesView()
                 
@@ -62,9 +83,10 @@ struct RotationView: View {
                         let randomAngleOffset = Double.random(in: Constants.angles[index % 6].0..<Constants.angles[index % 6].1)
                         
                         let interpolationRatio: CGFloat = numberOfCircles > 1 ? CGFloat(index) / CGFloat(numberOfCircles - 1) : 0
+                        let angleOffset = Double(index) * 360.0 / Double(numberOfCircles)
                         
                         FriendsContentEmojiView(userInfo: $sortedUsers[index],
-                                                rotation: $rotation,
+                                                rotation: .constant(rotationAngle + angleOffset),
                                                 isFriendsModalPresented: $isFriendsModalPresented,
                                                 selectedIndex: $selectedIndex,
                                                 randomAngleOffset: randomAngleOffset,
@@ -72,7 +94,15 @@ struct RotationView: View {
                                                 startEllipse: startEllipse,
                                                 endEllipse: endEllipse,
                                                 interpolationRatio: interpolationRatio)
+                        .offset(x: CGFloat(cos((rotationAngle + angleOffset) * .pi / 180) * 150),
+                                y: CGFloat(sin((rotationAngle + angleOffset) * .pi / 180) * 150))
                     }
+                }
+            }
+            .onAppear {
+                // 데이터 로드
+                Task {
+                    await loadFriendsData()
                 }
             }
             // 타원 위의 Circle들 각도 설정
@@ -154,8 +184,8 @@ struct RotationView: View {
                 // 사용자 본인의 정보 받아오기
                 await userInfoStore.loadUserInfo(userID: authManager.userID)
                 
-//                let initialData = userInfoStore.userInfo
-//                userInfoStore.saveToUserDefaultsFirstLaunch(data: initialData!)
+                //                let initialData = userInfoStore.userInfo
+                //                userInfoStore.saveToUserDefaultsFirstLaunch(data: initialData!)
                 
                 // 사용자 본인의 친구 받아오기
                 userInfoStore.loadFriendsInfo(friendsIDs: userInfoStore.userInfo?.friends ?? [])
@@ -204,7 +234,7 @@ struct RotationView: View {
                         }
                     } catch { }
                 }
-                 
+                
                 sortedUsers = Utility.sortUsersByDistance(from: userInfoStore.userInfo!, users: tempUsers)
                 numberOfCircles = sortedUsers.count
                 let story = try await storyStore.loadRecentStoryById(id: userInfoStore.userInfo?.id ?? "")
@@ -212,5 +242,53 @@ struct RotationView: View {
                 
             }
         }
+    }
+    
+    private func rotateWheel() {
+        rotationAngle += 90 // 90도씩 추가
+        if rotationAngle >= 360 { // 360도를 초과하면 초기화
+            rotationAngle = 0
+        }
+    }
+    
+    private func loadFriendsData() async {
+        // 친구 데이터 정렬 로직
+        let tempUsers = await fetchSortedUsers()
+        sortedUsers = tempUsers
+        numberOfCircles = sortedUsers.count
+    }
+    
+    
+    /// 비동기로 친구들의 정보를 가져와 정렬된 배열로 반환하는 함수
+    /// - Returns: 거리 순으로 정렬된 `UserInfo` 배열
+    private func fetchSortedUsers() async -> [UserInfo] {
+        var tempUsers: [UserInfo] = []
+        
+        // userInfoStore.userInfo 확인
+        guard let currentUser = userInfoStore.userInfo else {
+            print("Error: userInfoStore.userInfo is nil")
+            return [] // 빈 배열 반환
+        }
+        
+        for friend in currentUser.friends {
+            do {
+                let tempStory = try await storyStore.loadRecentStoryById(id: friend)
+                
+                // 조건 확인
+                if tempStory.id != "" &&
+                    (tempStory.publishedTargets.contains(currentUser.id) || tempStory.publishedTargets.isEmpty) {
+                    
+                    // 유저 정보 추가
+                    if let userInfo = try? await userInfoStore.loadUsersInfoByEmail(userID: [friend]).first {
+                        tempUsers.append(userInfo)
+                    }
+                }
+            } catch {
+                print("Error loading story for friend \(friend): \(error)")
+            }
+        }
+        
+        // 거리 정렬
+        return Utility.sortUsersByDistance(from: currentUser, users: tempUsers)
     }
 }
