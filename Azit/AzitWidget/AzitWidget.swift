@@ -100,7 +100,7 @@ class WidgetViewModel: ObservableObject {
                                     azitWidgetData.image = image
                                     print("최신의 이미지 : \(image)")
                                 } else {
-                                    azitWidgetData.image = UIImage(systemName: "xmark.app")
+                                    azitWidgetData.image = UIImage(systemName: "WidgetBackImage")
                                 }
                                 hasCalledContinuation = true
                                 self.widgetData = azitWidgetData
@@ -233,16 +233,20 @@ struct AzitWidgetEntryView : View {
     
     var body: some View {
         ZStack {
-            Image(uiImage: (entry.widgetData?.image ?? UIImage(systemName: "xmark"))!)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(height: UIScreen.main.bounds.height)
-                .zIndex(0)
+            if let widgetImage = entry.widgetData?.image ?? UIImage(named: "WidgetBackImage") {
+                Image(uiImage: widgetImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: UIScreen.main.bounds.height)
+                    .zIndex(0)
+            }
 
             VStack {
                 if entry.widgetData?.recentStory?.image ?? "" == "" {
                     if entry.widgetData?.recentStory?.content ?? "" != "" {
                         SpeechBubbleView(text: entry.widgetData?.recentStory?.content ?? "")
+                            .lineLimit(1)
+                            .truncationMode(.tail)
                             .frame(width: 150)
                             .padding(.top, 40)
                     } else {

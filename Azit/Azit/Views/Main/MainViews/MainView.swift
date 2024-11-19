@@ -8,9 +8,12 @@
 import SwiftUI
 import BackgroundTasks
 import AlertToast
+import WidgetKit
 
 struct MainView: View {
     let screenBounds = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds
+    
+    @Environment(\.scenePhase) private var scenePhase
     
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var userInfoStore: UserInfoStore
@@ -52,6 +55,20 @@ struct MainView: View {
         .toast(isPresenting: $isShowToast, alert: {
             AlertToast(displayMode: .banner(.pop), type: .systemImage("envelope.open", Color.white), title: "전송 완료", style: .style(backgroundColor: .subColor1, titleColor: Color.white))
         })
+        .onChange(of: scenePhase) {
+            switch scenePhase {
+            case .background:
+                userInfoStore.updateSharedUserDefaults(user: userInfoStore.userInfo!)
+                WidgetCenter.shared.reloadTimelines(ofKind: "AzitWidget")
+                print("background")
+            case .active:
+                print("active")
+            case .inactive:
+                print("inactive")
+            @unknown default:
+                break
+            }
+        }
     }
     
     private func fetchAddress() {
