@@ -16,7 +16,7 @@ struct PublishScopeView: View {
     @State var isAllSelected: Bool = true
     @State var isSelected: [String : Bool] = [:]
     @State private var scale: CGFloat = 0.1
-//    @State var friends: [UserInfo] = []
+    @State var publishingtargets: [String] = []
 //    @State var friendID: String = ""
 
     
@@ -43,8 +43,8 @@ struct PublishScopeView: View {
                                 for friendID in friendsID {
                                     isSelected[friendID] = false
                                     if let friendNickname = userInfoStore.friendInfo[friendID]?.nickname {
-                                        if !storyDraft.publishedTargets.contains(friendNickname) {
-                                            storyDraft.publishedTargets.append(friendNickname)
+                                        if !publishingtargets.contains(friendNickname) {
+                                            publishingtargets.append(friendNickname)
                                         }
                                     }
                                 }
@@ -89,9 +89,9 @@ struct PublishScopeView: View {
                                 }
                                 
                                 if let isSelected = isSelected[friendID] {
-                                    storyDraft.publishedTargets.append(userInfoStore.friendInfo[friendID]?.id ?? "")
+                                    publishingtargets.append(userInfoStore.friendInfo[friendID]?.id ?? "")
                                 } else {
-                                    storyDraft.publishedTargets.removeAll { $0 == (userInfoStore.friendInfo[friendID]?.id ?? "") }
+                                    publishingtargets.removeAll { $0 == (userInfoStore.friendInfo[friendID]?.id ?? "") }
                                 }
                                 
                                 
@@ -153,8 +153,7 @@ struct PublishScopeView: View {
                     }
                 }
                 .onDisappear() {
-                    // Draft에 담았던 거 storyStore에 저장
-//                    storyStore. = storyDraft.publishedTargets
+                    storyDraft.publishedTargets = publishingtargets
                 }
                 
                 //            VStack(alignment: .center) {
