@@ -99,7 +99,7 @@ class UserInfoStore: ObservableObject {
             
             print("userinfo: \(String(describing: self.userInfo))")
             
-            loadFriendsInfo(friendsIDs: userInfo?.friends ?? [])
+//            loadFriendsInfo(friendsIDs: userInfo?.friends ?? [])
         } catch {
             print("Error loading user info: \(error)")
         }

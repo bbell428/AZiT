@@ -335,6 +335,8 @@ struct MyPageView: View {
             Task {
                 await userInfoStore.loadUserInfo(userID: authManager.userID)
                 userInfoStore.friendInfos = try await userInfoStore.loadUsersInfoByEmail(userID: userInfoStore.userInfo?.friends ?? [])
+                
+                userInfoStore.friendInfos = userInfoStore.friendInfos.sorted { $0.id > $1.id } // 오름차순
             }
         }
         .navigationBarBackButtonHidden(true)
