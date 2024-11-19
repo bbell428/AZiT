@@ -113,7 +113,7 @@ struct FriendsContentsModalView: View {
     private func sendMessage() {
         Task {
             guard !message.isEmpty else { return }
-            chatDetailViewStore.sendMessage(
+            await chatDetailViewStore.sendMessage(
                 text: message,
                 myId: userInfoStore.userInfo?.id ?? "",
                 friendId: story?.userId ?? "",

@@ -18,79 +18,77 @@ struct ChatRoomListView: View {
             ScrollView {
                 LazyVStack(spacing: 0) { // Divider로 구분하므로 spacing은 0으로 설정
                     ForEach(Array(chatListStore.chatRoomList.enumerated()), id: \.element.id) { index, chatroom in
+                        // 다른 참가자 찾기
                         if let otherParticipantID = chatroom.participants.first(where: { $0 != authManager.userID }),
                            let friend = userInfoStore.friendInfo[otherParticipantID] {
+                            
                             NavigationLink {
                                 MessageDetailView(
                                     friend: friend,
                                     roomId: chatroom.roomId,
                                     nickname: friend.nickname,
-                                    userId: friend.id, profileImageName: friend.profileImageName,
+                                    userId: friend.id,
+                                    profileImageName: friend.profileImageName,
                                     isShowToast: $isShowToast
                                 )
                             } label: {
                                 HStack {
+                                    // 프로필 이미지 원
                                     ZStack(alignment: .center) {
                                         Circle()
-                                            .fill(.subColor3)
+                                            .fill(Color.subColor3) // 색상 수정 가능
                                             .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
                                         
                                         Text(friend.profileImageName) // 프로필 이미지가 문자열로 설정된 경우
                                             .font(.largeTitle)
+                                            .foregroundStyle(.white)
                                     }
                                     .frame(alignment: .leading)
                                     .padding(.leading, 20)
                                     
+                                    // 채팅 내용
                                     VStack(alignment: .leading, spacing: 5) {
                                         HStack {
-                                            Text("\(friend.nickname)") // 친구의 닉네임
+                                            Text(friend.nickname) // 친구의 닉네임
                                                 .font(.title3)
                                                 .fontWeight(.bold)
-                                                .foregroundStyle(Color.black)
+                                                .foregroundColor(.black)
                                             
                                             Text(chatroom.formattedLastMessageAt) // 보내고 나서 지난 시간
                                                 .font(.subheadline)
                                                 .foregroundStyle(.gray)
-                                            
-//                                            if let unreadCount = chatroom.notReadCount[authManager.userID] { // 상대방 UID로 값 접근
-//                                                    Text("\(unreadCount)") // 상대방의 읽지 않은 메시지 개수 표시
-//                                                        .font(.subheadline)
-//                                                        .foregroundStyle(.red)
-//                                                } else {
-//                                                    Text("0") // 기본값
-//                                                        .font(.subheadline)
-//                                                        .foregroundStyle(.gray)
-//                                                }
                                         }
                                         
                                         // 메시지 길이가 12 보다 크다면 생략표시
                                         Text(chatroom.lastMessage.count > 12 ? "\(chatroom.lastMessage.prefix(12))..." : chatroom.lastMessage)
                                             .font(.subheadline)
                                             .fontWeight(.thin)
-                                            .foregroundStyle(Color.black)
+                                            .foregroundColor(.black)
                                     }
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .padding(.leading, 20)
+                                    
+                                    // 읽지 않은 메시지 표시
+                                    if let unreadCount = chatroom.unreadCount[authManager.userID], unreadCount > 0 {
+                                        ZStack(alignment: .center) {
+                                            Circle()
+                                                .fill(Color.red) // 색상 수정 가능
+                                                .frame(width: geometry.size.width * 0.05, height: geometry.size.width * 0.05)
+                                            
+                                            Text("\(unreadCount)") // 프로필 이미지가 문자열로 설정된 경우
+                                                .font(.subheadline)
+                                                .foregroundStyle(.white)
+                                        }
+                                        //.frame(alignment: .trailing)
+                                        .padding(.trailing, 30)
+                                    }
                                 }
                                 .frame(height: geometry.size.height * 0.1)
-                            }
-                            
-                            // Divider 추가 (마지막 항목 제외)
-                            if index < chatListStore.chatRoomList.count - 1 {
-                                Divider()
-                                    .padding(.horizontal, geometry.size.width * 0.06) // 프로필 이미지 크기에 맞춰 패딩
-                                    .padding(.vertical, geometry.size.height * 0.02)
                             }
                         }
                     }
                 }
             }
-        }
-        .onAppear {
-            chatListStore.startTimer() // MessageView가 나타날 때 타이머 시작
-        }
-        .onDisappear {
-            chatListStore.stopTimer() // MessageView가 닫힐 때 타이머 중지
         }
     }
 }

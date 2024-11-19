@@ -15,6 +15,7 @@ struct ChatRoom: Codable, Identifiable {
     var lastMessageAt: Date // 마지막으로 보낸 메시지 시간
     var participants: [String] // 대화 참가자들 UID (예: ["user1", "user2"])
     var roomId: String // 채팅방 id
+    var unreadCount: [String: Int] // 사용자별 읽지 않은 메시지 개수
     // var readStatus: [String: Date] // 각 참가자의 마지막 읽은 메시지 시점
     // var notReadCount: [String: Int] = [:] // 각 참가자의 읽지 않은 메시지 개수
     
