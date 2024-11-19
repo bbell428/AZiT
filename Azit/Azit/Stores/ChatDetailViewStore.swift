@@ -18,7 +18,6 @@ class ChatDetailViewStore: ObservableObject {
         listener = nil
     }
     
-    // 메시지 내용 받아오기
     func getChatMessages(roomId: String, userId: String) {
         // 이전 리스너가 있으면 해제
         listener?.remove()
@@ -36,6 +35,7 @@ class ChatDetailViewStore: ObservableObject {
                 var updatedMessages: [Chat] = []
                 var newLastMessageId: String?
                 var messageIdsToUpdate: [String] = []  // Firestore에 일괄 업데이트할 메시지 ID 저장
+                var unreadCount = 0  // 읽지 않은 메시지 카운트
                 
                 self.chatList = documents.compactMap { document -> Chat? in
                     do {
@@ -46,6 +46,11 @@ class ChatDetailViewStore: ObservableObject {
                             chat.readBy.append(userId)
                             updatedMessages.append(chat)
                             messageIdsToUpdate.append(chat.id ?? "")
+                        }
+                        
+                        // 자신만 읽은 상태인지 확인
+                        if chat.readBy == [userId] {
+                            unreadCount += 1
                         }
                         
                         newLastMessageId = chat.id  // 메시지 ID를 최신으로 갱신
@@ -86,6 +91,12 @@ class ChatDetailViewStore: ObservableObject {
                     self.lastMessageId = id
                     print("마지막 id = \(self.lastMessageId)")
                 }
+                
+                // 읽지 않은 메시지 개수 출력
+                print("상대방이 읽지 않은 메시지 개수: \(unreadCount)")
+                
+                // 필요하다면 UI 업데이트 함수 호출
+                //self.updateUnreadCount(unreadCount: unreadCount)
             }
     }
     

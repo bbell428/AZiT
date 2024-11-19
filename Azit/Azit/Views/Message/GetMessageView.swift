@@ -102,7 +102,7 @@ struct GetMessage: View {
                         Text(chat.message)
                             .font(.headline)
                             .foregroundStyle(Color.black.opacity(0.5))
-                            .multilineTextAlignment(.trailing)
+                            .multilineTextAlignment(.leading)
                             .padding(10)
                             .background(.accent)
                             .cornerRadius(15)

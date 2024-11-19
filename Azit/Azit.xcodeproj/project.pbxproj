@@ -89,7 +89,6 @@
 		CE062BB02CD91EEE00CB5D4A /* ChatRoomListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062BAF2CD91EE700CB5D4A /* ChatRoomListView.swift */; };
 		CE374EAD2CD79F6300601AA7 /* ChatListStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE374EAC2CD79F6300601AA7 /* ChatListStore.swift */; };
 		CE3A16E22CD85A5B0045DB52 /* MessageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A16E12CD85A5B0045DB52 /* MessageDetailView.swift */; };
-		CE446D2A2CEA506500E1BA8A /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = CE446D292CEA506500E1BA8A /* AlertToast */; };
 		CE5574652CE4666600266EBD /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5574642CE4666600266EBD /* ProfileDetailView.swift */; };
 		CE5574672CE4669500266EBD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE5574662CE4669500266EBD /* GoogleService-Info.plist */; };
 		CE69CDCC2CE70C2800322E7A /* AlbumStoryImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE69CDCB2CE70C2800322E7A /* AlbumStoryImageView.swift */; };
@@ -97,6 +96,7 @@
 		CE86A3B82CE6E1B4000B59B2 /* AlbumFriendListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE86A3B72CE6E1B4000B59B2 /* AlbumFriendListView.swift */; };
 		CE86A3BA2CE6E4C6000B59B2 /* AlbumScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE86A3B92CE6E4C6000B59B2 /* AlbumScrollView.swift */; };
 		CE89D79E2CDA8D1600DC73A8 /* EmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = CE89D79D2CDA8D1600DC73A8 /* EmojiPicker */; };
+		CE946B3D2CEC390400250F9E /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE946B3C2CEC390400250F9E /* KeyboardObserver.swift */; };
 		CED22B1B2CEA33600075F56C /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = CED22B1A2CEA33600075F56C /* AlertToast */; };
 		CEDFC2CE2CE1C814008C215A /* FriendSegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDFC2CD2CE1C814008C215A /* FriendSegmentView.swift */; };
 		CEDFC2EE2CE2EAB0008C215A /* AlbumStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDFC2ED2CE2EAB0008C215A /* AlbumStore.swift */; };
@@ -221,6 +221,7 @@
 		CE86A3B52CE6DFE2000B59B2 /* AlbumDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailView.swift; sourceTree = "<group>"; };
 		CE86A3B72CE6E1B4000B59B2 /* AlbumFriendListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumFriendListView.swift; sourceTree = "<group>"; };
 		CE86A3B92CE6E4C6000B59B2 /* AlbumScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumScrollView.swift; sourceTree = "<group>"; };
+		CE946B3C2CEC390400250F9E /* KeyboardObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
 		CEDFC2CD2CE1C814008C215A /* FriendSegmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendSegmentView.swift; sourceTree = "<group>"; };
 		CEDFC2ED2CE2EAB0008C215A /* AlbumStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumStore.swift; sourceTree = "<group>"; };
 		EA31371F2CE331AA00AA4685 /* Azit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Azit.entitlements; sourceTree = "<group>"; };
@@ -361,6 +362,7 @@
 			isa = PBXGroup;
 			children = (
 				8EC52DDB2CE1E81D00DC8190 /* Constants.swift */,
+				CE946B3C2CEC390400250F9E /* KeyboardObserver.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -497,7 +499,6 @@
 		8EAFEFAE2CD4529E00136348 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				EAF840B12CD9F9C100F23839 /* MyPage */,
 				8EAFF0012CD4A05C00136348 /* Album */,
 				8EAFEFFF2CD4A04300136348 /* Login */,
 				8EAFEFFD2CD4A03200136348 /* Main */,
@@ -597,6 +598,7 @@
 				CE69CDCB2CE70C2800322E7A /* AlbumStoryImageView.swift */,
 				8EAFF0142CD4A33E00136348 /* AlbumView.swift */,
 				CEDFC2CD2CE1C814008C215A /* FriendSegmentView.swift */,
+				EAF840B12CD9F9C100F23839 /* MyPage */,
 			);
 			path = Album;
 			sourceTree = "<group>";
@@ -877,6 +879,7 @@
 				8B3FE8AE2CD9E23E000A4519 /* EmojiView.swift in Sources */,
 				8EC52DDC2CE1E81D00DC8190 /* Constants.swift in Sources */,
 				CE062BAC2CD91E2B00CB5D4A /* PostMessageView.swift in Sources */,
+				CE946B3D2CEC390400250F9E /* KeyboardObserver.swift in Sources */,
 				CE062B9E2CD8DB8100CB5D4A /* ChatDetailViewStore.swift in Sources */,
 				CE062BB02CD91EEE00CB5D4A /* ChatRoomListView.swift in Sources */,
 				8E645D592CE47C0700F43836 /* AzitExtension.swift in Sources */,
@@ -1365,14 +1368,6 @@
 				minimumVersion = 8.0.0;
 			};
 		};
-		CE446D282CEA506500E1BA8A /* XCRemoteSwiftPackageReference "AlertToast" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/elai950/AlertToast";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.3.9;
-			};
-		};
 		CE89D79C2CDA8D1600DC73A8 /* XCRemoteSwiftPackageReference "EmojiPicker" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Kelvas09/EmojiPicker";
@@ -1516,11 +1511,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8EAFEFCA2CD45DC600136348 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
-		};
-		CE446D292CEA506500E1BA8A /* AlertToast */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CE446D282CEA506500E1BA8A /* XCRemoteSwiftPackageReference "AlertToast" */;
-			productName = AlertToast;
 		};
 		CE89D79D2CDA8D1600DC73A8 /* EmojiPicker */ = {
 			isa = XCSwiftPackageProductDependency;

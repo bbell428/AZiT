@@ -92,7 +92,7 @@ struct MessageDetailView: View {
                     
                     // 메시지 입력 공간
                     MessageSendField(roomId: roomId, nickname: nickname, userId: userId)
-                        .frame(maxHeight: 50)
+                        .frame(maxHeight: 40)
                         .padding(.bottom)
                         .zIndex(1)
                 }
@@ -161,6 +161,8 @@ struct TextMessage: View {
     
     var nickname: String
     
+    @StateObject private var keyboardObserver = KeyboardObserver()
+    
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView {
@@ -175,6 +177,7 @@ struct TextMessage: View {
                     
                     Rectangle()
                         .fill(Color.white)
+                        .frame(height: 1)
                         .id("Bottom")
                 }
                 // 초기에 가장 하단 스크롤으로 이동
@@ -185,9 +188,19 @@ struct TextMessage: View {
                 .onChange(of: chatDetailViewStore.lastMessageId) { id, _ in
                     proxy.scrollTo("Bottom", anchor: .bottom)
                 }
+                // 키보드가 올라오면 하단 스크롤로 이동
+                .onChange(of: keyboardObserver.isKeyboardVisible) { isVisible in
+                    if isVisible {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            withAnimation {
+                                proxy.scrollTo("Bottom", anchor: .bottom)
+                            }
+                        }
+                    }
+                }
             }
         }
-        // 다른곳 터치시 키보드 내리기
+        // 다른 곳 터치 시 키보드 내리기
         .onTapGesture {
             UIApplication.shared.endEditing()
         }
@@ -222,11 +235,11 @@ struct MessageSendField: View {
                         .font(.largeTitle)
                         .foregroundColor(.accentColor)
                 }
-
+                
                 TextField("\(nickname)에게 보내기", text: $text)
                     .padding()
                     .foregroundColor(Color.black)  // 글자 색상 추가
-                    //.background(Color.gray)  // 텍스트 필드 배경색 (원하는 색상으로 설정 가능)
+                //.background(Color.gray)  // 텍스트 필드 배경색 (원하는 색상으로 설정 가능)
                     .cornerRadius(15)
                     .frame(width: 250)
                 // 키보드에 있는 전송 버튼을 활용할때,
