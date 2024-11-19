@@ -18,7 +18,7 @@ struct MyContentEmojiView: View {
     var body: some View {
         ZStack {
             Circle()
-                .fill(.clear)
+                .fill(.white.opacity(0.7))
                 .frame(width: width, height: height)
                 .overlay(
                     ZStack {

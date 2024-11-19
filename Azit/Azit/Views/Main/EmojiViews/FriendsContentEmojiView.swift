@@ -51,7 +51,7 @@ struct FriendsContentEmojiView: View {
                         .frame(width: 20 * (1.5 - interpolationRatio), height: 10 * (1.5 - interpolationRatio))
                     
                     Circle()
-                        .fill(.clear)
+                        .fill(.white.opacity(0.7))
                         .overlay(
                             ZStack {
                                 Circle()
@@ -59,8 +59,8 @@ struct FriendsContentEmojiView: View {
                                 Text(userInfo.previousState)
                                     .font(.system(size: 25 * (1.5 - interpolationRatio)))
                             }
-                            
                         )
+                        
                         .offset(x: 0, y: -30)
                         .frame(width: 40 * (1.5 - interpolationRatio), height: 40 * (1.5 - interpolationRatio))
                 }
