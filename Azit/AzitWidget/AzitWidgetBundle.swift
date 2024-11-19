@@ -7,9 +7,14 @@
 
 import WidgetKit
 import SwiftUI
+import FirebaseCore
 
 @main
 struct AzitWidgetBundle: WidgetBundle {
+    init() {
+        FirebaseApp.configure()
+    }
+    
     @WidgetBundleBuilder
     private var iOSAllWidgets: some Widget {
         AzitWidget()

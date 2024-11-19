@@ -10,45 +10,168 @@ import SwiftUI
 import FirebaseCore
 import FirebaseFirestore
 
+@MainActor
+class WidgetViewModel: ObservableObject {
+    @Published var widgetData: AzitWidgetData?
+    private var listener: ListenerRegistration? // 리스너를 저장할 변수
+    
+    private var userInfoStore: UserInfoStore
+    private var photoImageStore: PhotoImageStore
+    
+    init(userInfoStore: UserInfoStore, photoImageStore: PhotoImageStore) {
+        self.userInfoStore = userInfoStore
+        self.photoImageStore = photoImageStore
+    }
+    
+    func loadUserInfo() -> UserInfo {
+        let userDefaults = UserDefaults(suiteName: "group.education.techit.Azit.AzitWidget")
+        if let data = userDefaults?.data(forKey: "userInfo"),
+           let userInfo = try? JSONDecoder().decode(UserInfo.self, from: data) {
+            return userInfo
+        }
+        return UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0, blockedFriends: [])
+    }
+
+    // 사용자 정보 로드 및 실시간 데이터 업데이트
+    func loadRecentStoryByIds() async throws -> AzitWidgetData {
+        // 기존 리스너 제거
+        
+        await userInfoStore.loadUserInfo(userID: loadUserInfo().id)
+        
+        listener?.remove()
+        
+        let db = Firestore.firestore()
+        var stories: [Story] = []
+        var hasCalledContinuation = false // Continuation 중복 호출 방지 플래그
+
+        // 새 리스너 등록
+        return try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<AzitWidgetData, Error>) in
+            
+            guard let friends = userInfoStore.userInfo?.friends, !friends.isEmpty else {
+                continuation.resume(throwing: NSError(domain: "InvalidInput", code: -1, userInfo: [NSLocalizedDescriptionKey: "IDs array is empty or nil."]))
+                return
+            }
+            
+            listener = db.collection("Story")
+                .whereField("userId", in: userInfoStore.userInfo?.friends as [Any])
+                .addSnapshotListener { documentSnapshot, error in
+                    if hasCalledContinuation { return } // Continuation이 이미 호출된 경우 실행하지 않음
+                    
+                    if let error = error {
+                        hasCalledContinuation = true
+                        continuation.resume(throwing: error)
+                        return
+                    }
+                    
+                    guard let documents = documentSnapshot?.documents else {
+                        hasCalledContinuation = true
+                        continuation.resume(throwing: NSError(domain: "NoDocuments", code: -1, userInfo: [NSLocalizedDescriptionKey: "No documents found for the given IDs."]))
+                        return
+                    }
+                    
+                    Task {
+                        do {
+                            for document in documents {
+                                let story = try await Story(document: document)
+                                stories.append(story)
+                            }
+                            
+                            // 최신 메시지 기준으로 정렬
+                            stories.sort { $0.date > $1.date }
+                            
+                            if let recentStory = stories.first {
+                                var azitWidgetData = AzitWidgetData() // 반환할 데이터 객체 생성
+                                azitWidgetData.recentStory = recentStory
+                                print("최신의 스토리 : \(recentStory.id)")
+                                
+                                // 사용자 정보 가져오기
+                                if let userInfo = try await self.userInfoStore.loadUsersInfoByEmail(userID: [recentStory.userId]).first {
+                                    azitWidgetData.userInfo = userInfo
+                                    print("최신의 유저 : \(userInfo.id)")
+                                } else {
+                                    hasCalledContinuation = true
+                                    continuation.resume(throwing: NSError(domain: "UserInfoError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to load user info."]))
+                                    return
+                                }
+                                
+                                if recentStory.image != "" {
+                                    // 이미지 가져오기
+                                    let image = await self.photoImageStore.loadImageAsync(imageName: recentStory.id)
+                                    azitWidgetData.image = image
+                                    print("최신의 이미지 : \(image)")
+                                } else {
+                                    azitWidgetData.image = UIImage(systemName: "xmark.app")
+                                }
+                                hasCalledContinuation = true
+                                self.widgetData = azitWidgetData
+                                continuation.resume(returning: azitWidgetData)
+                                
+                            } else {
+                                hasCalledContinuation = true
+                                continuation.resume(throwing: NSError(domain: "NoRecentStory", code: -1, userInfo: [NSLocalizedDescriptionKey: "No recent story found."]))
+                            }
+                        } catch {
+                            hasCalledContinuation = true
+                            continuation.resume(throwing: error)
+                        }
+                    }
+                }
+        }
+    }
+
+    // 리스너를 제거하는 메서드
+    func removeListener() {
+        listener?.remove()
+    }
+}
+
+
 struct Provider: TimelineProvider {
+    @ObservedObject var widgetViewModel: WidgetViewModel
+    var albumStore: AlbumStore = AlbumStore()
+    
+    @State var widgetData = AzitWidgetData()
+    
+    init(userInfoStore: UserInfoStore, photoImageStore: PhotoImageStore) {
+        _widgetViewModel = ObservedObject(wrappedValue: WidgetViewModel(userInfoStore: userInfoStore, photoImageStore: photoImageStore))
+    }
+    
     func placeholder(in context: Context) -> AzitWidgetEntry {
-        AzitWidgetEntry(date: Date(), recentStory: loadStory(), userInfo: loadUserInfo(), image: loadStoryImage())
+        return AzitWidgetEntry(date: Date(), widgetData: widgetData)
     }
     
     func getSnapshot(in context: Context, completion: @escaping (AzitWidgetEntry) -> Void) {
-        let currentDate = Date.now
+        let currentDate = Date()
         
-        // 유저 디폴트에서 스토리 데이터 불러오기
-        let recentStory = loadStory()
-        
-        // 위젯에 표시할 데이터 항목을 생성합니다.
-        let entry = AzitWidgetEntry(date: currentDate, recentStory: recentStory, userInfo: loadUserInfo(), image: loadStoryImage())
-        
-        completion(entry)
-        
+        // 비동기 작업 실행
+        Task {
+            let temp = try await widgetViewModel.loadRecentStoryByIds()
+            
+            let entry = AzitWidgetEntry(date: currentDate, widgetData: temp)
+            completion(entry)
+        }
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<AzitWidgetEntry>) -> Void) {
-        let currentDate = Date.now
-        // 유저 디폴트에서 스토리 데이터 불러오기
-        let recentStory = loadStory()
-        
-        let storyImage = loadStoryImage()
-        
-        // 15분 후 시간 설정
-        let nextRefreshDate = Calendar.current.date(byAdding: .minute, value: 5, to: currentDate)!
-        
-        // 위젯에 표시할 데이터
-        let entry = AzitWidgetEntry(date: currentDate, recentStory: recentStory, userInfo: loadUserInfo(), image: storyImage)
-        
-        // 15분마다 리프레시되는 타임라인 설정
-        let timeline = Timeline(entries: [entry], policy: .after(nextRefreshDate))
-        
-        // 컴플리션 핸들러로 넘기기
-        completion(timeline)
-        
-        // 타임라인이 갱신된 후 위젯 리프레시
-        WidgetCenter.shared.reloadAllTimelines()
+        Task {
+            do {
+                let widgetData = try await widgetViewModel.loadRecentStoryByIds()
+                
+                let currentDate = Date.now
+                let nextRefreshDate = Calendar.current.date(byAdding: .second, value: 15, to: currentDate)!
+                
+                // 새로 가져온 데이터로 엔트리 생성
+                let entry = AzitWidgetEntry(date: currentDate, widgetData: widgetData)
+                
+                // 타임라인에 엔트리 추가
+                let timeline = Timeline(entries: [entry], policy: .after(nextRefreshDate))
+                
+                // 위젯 타임라인 갱신
+                completion(timeline)
+            } catch {
+                print("Error loading recent story: \(error)")
+            }
+        }
     }
     
     func loadUserInfo() -> UserInfo {
@@ -78,52 +201,62 @@ struct Provider: TimelineProvider {
         print("기본 이미지 반환")
         return UIImage(systemName: "arrow.clockwise")
     }
-    
-//    func loadStoryImage() -> UIImage? {
-//        let imageData = UserDefaults.standard.object(forKey: "storyImage")
-//        let image = UIImage(data: (imageData as! NSData) as Data)
-//        
-//        return image
-//    }
+   
 }
 
 struct AzitWidgetEntry: TimelineEntry {
     var date: Date
     
-    let recentStory: Story?
-    let userInfo: UserInfo?
-    let image: UIImage?
+    var widgetData: AzitWidgetData?
 }
 
 struct AzitWidgetEntryView : View {
-    @State var recentStory: Story?
-    @State var userInfo: UserInfo?
-    @State var image: UIImage?
+    @StateObject private var widgetViewModel: WidgetViewModel
+    
+    @StateObject var userInfoStore: UserInfoStore = UserInfoStore()
+    @StateObject var storyStore: StoryStore = StoryStore()
+    @StateObject var photoImageStore: PhotoImageStore = PhotoImageStore()
+    
+    @State private var hasAppeared = false
+    
+    @State private var recentStory: Story?
+    @State private var userInfo: UserInfo?
+    @State private var image: UIImage?
     
     @State var entry: Provider.Entry
     
+    
+    init(entry: Provider.Entry, userInfoStore: UserInfoStore, photoImageStore: PhotoImageStore) {
+        _widgetViewModel = StateObject(wrappedValue: WidgetViewModel(userInfoStore: userInfoStore, photoImageStore: photoImageStore))
+        _entry = State(initialValue: entry) // entry 초기화
+    }
+    
     var body: some View {
         ZStack {
-            Image(uiImage: (image ?? UIImage(systemName: "xmark"))!)
+            Image(uiImage: (entry.widgetData?.image ?? UIImage(systemName: "xmark"))!)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(height: UIScreen.main.bounds.height)
+                .zIndex(0)
 
             VStack {
-                if recentStory?.image ?? "" == "" {
-                    if recentStory?.content ?? "" != "" {
-                        SpeechBubbleView(text: recentStory?.content ?? "")
+                if entry.widgetData?.recentStory?.image ?? "" == "" {
+                    if entry.widgetData?.recentStory?.content ?? "" != "" {
+                        SpeechBubbleView(text: entry.widgetData?.recentStory?.content ?? "")
                             .frame(width: 150)
+                            .padding(.top, 40)
+                    } else {
+                        Text("")
                             .padding(.top, 40)
                     }
 
-                    if recentStory?.emoji ?? "" != "" {
-                        Text(recentStory?.emoji ?? "")
+                    if entry.widgetData?.recentStory?.emoji ?? "" != "" {
+                        Text(entry.widgetData?.recentStory?.emoji ?? "")
                             .padding(.top, -5)
                             .font(.system(size: 80))
                     }
 
-                    Text(userInfo?.nickname ?? "")
+                    Text(entry.widgetData?.userInfo?.nickname ?? "")
                         .foregroundStyle(.accent)
                         .font(.caption2)
                         .padding(.top, -50)
@@ -131,34 +264,24 @@ struct AzitWidgetEntryView : View {
                     Spacer()
 
                     HStack {
-                        Circle()
-                            .fill(.subColor4)
-                            .overlay(
-                                Text(recentStory?.emoji ?? "")
-                            )
-                            .frame(width: 25)
+                        HStack {
+                            Text(entry.widgetData?.recentStory?.emoji ?? "")
+                                .foregroundStyle(.accent)
+                            Text(entry.widgetData?.userInfo?.nickname ?? "")
+                                .foregroundStyle(.accent)
+                        }
+                        .padding(5)
+                        .padding([.leading, .trailing], 5)
+                        .background(Capsule().fill(.subColor4))
                         
-                        Text(userInfo?.nickname ?? "")
                         Spacer()
                     }
                     .padding([.leading, .bottom], 10)
                     .font(.caption)
-                    .frame(maxWidth: .infinity) // HStack 너비를 화면 전체로 확장
                     .offset(y: -350) // 나중에 %로 계산
                 }
             }
-        }
-        .onAppear {
-            recentStory = entry.recentStory
-            userInfo = entry.userInfo
-            
-            if recentStory?.image ?? "" == "" {
-                print("이미지 비었을 때")
-                image = UIImage(named: "WidgetBackImage")
-            } else {
-                print("이미지 있을 때")
-                image = entry.image
-            }
+            .zIndex(1)
         }
     }
 }
@@ -167,12 +290,13 @@ struct AzitWidget: Widget {
     let kind: String = "AzitWidget"
 
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: Provider()) { entry in
+        StaticConfiguration(kind: kind, provider: Provider(userInfoStore: UserInfoStore(), photoImageStore: PhotoImageStore())) { entry in
             if #available(iOS 17.0, *) {
-                AzitWidgetEntryView(entry: entry)
+                AzitWidgetEntryView(entry: entry, userInfoStore: UserInfoStore(), photoImageStore: PhotoImageStore())
+                //AzitWidgetEntryView(entry: entry)
                     .containerBackground(.fill.tertiary, for: .widget)
             } else {
-                AzitWidgetEntryView(entry: entry)
+                AzitWidgetEntryView(entry: entry, userInfoStore: UserInfoStore(), photoImageStore: PhotoImageStore())
                     .padding()
                     .background()
             }
@@ -181,10 +305,4 @@ struct AzitWidget: Widget {
         .configurationDisplayName("My Widget")
         .description("This is an example widget.")
     }
-}
-
-#Preview(as: .systemSmall) {
-    AzitWidget()
-} timeline: {
-    AzitWidgetEntry(date: .now, recentStory: nil, userInfo: nil, image: nil)
 }

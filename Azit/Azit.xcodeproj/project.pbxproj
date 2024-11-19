@@ -22,6 +22,9 @@
 		8BDA11D52CDA769C004242DB /* EmojiPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDA11D42CDA7696004242DB /* EmojiPickerView.swift */; };
 		8E538EE12CD844700094ABD1 /* RotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E538EE02CD844700094ABD1 /* RotationView.swift */; };
 		8E538EE32CD844A50094ABD1 /* FriendsContentsModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E538EE22CD844A50094ABD1 /* FriendsContentsModalView.swift */; };
+		8E611FDF2CEC9E0D00DF40E4 /* AzitWidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E611FDE2CEC9E0D00DF40E4 /* AzitWidgetData.swift */; };
+		8E611FE02CEC9E0D00DF40E4 /* AzitWidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E611FDE2CEC9E0D00DF40E4 /* AzitWidgetData.swift */; };
+		8E611FE12CEC9E3100DF40E4 /* PhotoImageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B067A022CE45A5C00ABD942 /* PhotoImageStore.swift */; };
 		8E645D552CE4784F00F43836 /* MyContentEmojiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E645D542CE4784F00F43836 /* MyContentEmojiView.swift */; };
 		8E645D592CE47C0700F43836 /* AzitExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E645D582CE47C0700F43836 /* AzitExtension.swift */; };
 		8E71EF0D2CE2DF0D00BA8F33 /* MainTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E71EF0C2CE2DF0D00BA8F33 /* MainTopView.swift */; };
@@ -89,7 +92,6 @@
 		CE062BB02CD91EEE00CB5D4A /* ChatRoomListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062BAF2CD91EE700CB5D4A /* ChatRoomListView.swift */; };
 		CE374EAD2CD79F6300601AA7 /* ChatListStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE374EAC2CD79F6300601AA7 /* ChatListStore.swift */; };
 		CE3A16E22CD85A5B0045DB52 /* MessageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A16E12CD85A5B0045DB52 /* MessageDetailView.swift */; };
-		CE446D2A2CEA506500E1BA8A /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = CE446D292CEA506500E1BA8A /* AlertToast */; };
 		CE5574652CE4666600266EBD /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5574642CE4666600266EBD /* ProfileDetailView.swift */; };
 		CE5574672CE4669500266EBD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE5574662CE4669500266EBD /* GoogleService-Info.plist */; };
 		CE69CDCC2CE70C2800322E7A /* AlbumStoryImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE69CDCB2CE70C2800322E7A /* AlbumStoryImageView.swift */; };
@@ -175,6 +177,7 @@
 		8E42C9FA2CE6E5270006CAA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E538EE02CD844700094ABD1 /* RotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotationView.swift; sourceTree = "<group>"; };
 		8E538EE22CD844A50094ABD1 /* FriendsContentsModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsContentsModalView.swift; sourceTree = "<group>"; };
+		8E611FDE2CEC9E0D00DF40E4 /* AzitWidgetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzitWidgetData.swift; sourceTree = "<group>"; };
 		8E645D542CE4784F00F43836 /* MyContentEmojiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyContentEmojiView.swift; sourceTree = "<group>"; };
 		8E645D582CE47C0700F43836 /* AzitExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzitExtension.swift; sourceTree = "<group>"; };
 		8E71EF0C2CE2DF0D00BA8F33 /* MainTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTopView.swift; sourceTree = "<group>"; };
@@ -490,6 +493,7 @@
 				8EAFEFB32CD4582200136348 /* Story.swift */,
 				8EAFEFB52CD45CB100136348 /* Chat.swift */,
 				8EAFEFB72CD45CCE00136348 /* ChatRoom.swift */,
+				8E611FDE2CEC9E0D00DF40E4 /* AzitWidgetData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -843,6 +847,7 @@
 				CE86A3B82CE6E1B4000B59B2 /* AlbumFriendListView.swift in Sources */,
 				8BDA11D52CDA769C004242DB /* EmojiPickerView.swift in Sources */,
 				EAB079722CDDAED700293C62 /* SplashView.swift in Sources */,
+				8E611FDF2CEC9E0D00DF40E4 /* AzitWidgetData.swift in Sources */,
 				EAF93B8E2CD4A50700116035 /* AuthView.swift in Sources */,
 				CE69CDCC2CE70C2800322E7A /* AlbumStoryImageView.swift in Sources */,
 				CEDFC2EE2CE2EAB0008C215A /* AlbumStore.swift in Sources */,
@@ -933,7 +938,9 @@
 			files = (
 				8EE014732CE5D4DB003151F8 /* StoryStore.swift in Sources */,
 				8EE014722CE5D4D7003151F8 /* UserInfoStore.swift in Sources */,
+				8E611FE12CEC9E3100DF40E4 /* PhotoImageStore.swift in Sources */,
 				8EE014752CE5D6C9003151F8 /* AlbumStore.swift in Sources */,
+				8E611FE02CEC9E0D00DF40E4 /* AzitWidgetData.swift in Sources */,
 				8EE014702CE5D4C8003151F8 /* UserInfo.swift in Sources */,
 				8EE014712CE5D4CC003151F8 /* Story.swift in Sources */,
 				8EE014762CE5D830003151F8 /* AuthManager.swift in Sources */,
@@ -1365,14 +1372,6 @@
 				minimumVersion = 8.0.0;
 			};
 		};
-		CE446D282CEA506500E1BA8A /* XCRemoteSwiftPackageReference "AlertToast" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/elai950/AlertToast";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.3.9;
-			};
-		};
 		CE89D79C2CDA8D1600DC73A8 /* XCRemoteSwiftPackageReference "EmojiPicker" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Kelvas09/EmojiPicker";
@@ -1516,11 +1515,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8EAFEFCA2CD45DC600136348 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
-		};
-		CE446D292CEA506500E1BA8A /* AlertToast */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CE446D282CEA506500E1BA8A /* XCRemoteSwiftPackageReference "AlertToast" */;
-			productName = AlertToast;
 		};
 		CE89D79D2CDA8D1600DC73A8 /* EmojiPicker */ = {
 			isa = XCSwiftPackageProductDependency;

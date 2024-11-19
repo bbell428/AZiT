@@ -13,7 +13,12 @@ import SwiftUICore
 import FirebaseStorage
 
 class StoryStore: ObservableObject {
+    @ObservedObject var userInfoStore: UserInfoStore = UserInfoStore()
+    @ObservedObject var photoImageStore: PhotoImageStore = PhotoImageStore()
+    
     @Published var createdStory: Story?
+    
+    private var listener: ListenerRegistration?
     
     // MARK: - 게시물 추가
     func addStory(_ story: Story) async {
@@ -88,54 +93,82 @@ class StoryStore: ObservableObject {
         }
     }
     
-    // MARK: - story 데이터 UserDefault에 전달
-    func updateSharedUserDefaults(recentStory: Story) {
-        if let sharedDefaults = UserDefaults(suiteName: "group.education.techit.Azit.AzitWidget") {
-            // Story 객체를 Data로 변환
-            do {
-                let encoder = JSONEncoder()
-                let encodedStory = try encoder.encode(recentStory)
-                sharedDefaults.set(encodedStory, forKey: "recentStory")
-                print("유저 디폴트에 스토리 데이터를 저장하였습니다.")
-            } catch {
-                print("스토리 인코딩 실패: \(error)")
+    // MARK: - Widget에서 사용 할 최신 story listener
+    func loadRecentStoryByIds(ids: [String]) async throws -> AzitWidgetData {
+        // 기존 리스너 제거
+        listener?.remove()
+        
+        let db = Firestore.firestore()
+        var stories: [Story] = []
+        var hasCalledContinuation = false // Continuation 중복 호출 방지 플래그
+
+        // 새 리스너 등록
+        return try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<AzitWidgetData, Error>) in
+            guard !ids.isEmpty else {
+                continuation.resume(throwing: NSError(domain: "InvalidInput", code: -1, userInfo: [NSLocalizedDescriptionKey: "IDs array is empty."]))
+                return
             }
-        }
-    }
-    
-    func updateSharedUserDefaults(image: UIImage) {
-        guard let sharedDefaults = UserDefaults(suiteName: "group.education.techit.Azit.AzitWidget") else {
-            print("UserDefaults 접근 실패")
-            return
-        }
-
-        // 기존 데이터 제거
-        sharedDefaults.removeObject(forKey: "storyImage")
-        print("storyImage 데이터가 삭제되었습니다.")
-
-        // 리사이즈 및 압축
-        if let resizedImage = resizeImage(image: image, targetSize: CGSize(width: image.size.width * 0.5, height: image.size.height * 0.5)),
-           let compressedData = resizedImage.jpegData(compressionQuality: 0.7) {
-            sharedDefaults.set(compressedData, forKey: "storyImage")
-            print("Resized and compressed image saved successfully. Data Size: \(compressedData.count) bytes")
-        } else {
-            print("이미지 리사이즈 또는 압축 실패")
-        }
-    }
-
-    // 리사이즈 함수
-    func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage? {
-        UIGraphicsBeginImageContextWithOptions(targetSize, false, 1.0)
-        image.draw(in: CGRect(origin: .zero, size: targetSize))
-        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return resizedImage
-    }
-
-    func rasterizeImage(_ image: UIImage) -> UIImage? {
-        let renderer = UIGraphicsImageRenderer(size: image.size)
-        return renderer.image { _ in
-            image.draw(in: CGRect(origin: .zero, size: image.size))
+            
+            listener = db.collection("Story")
+                .whereField("userId", in: ids as [Any])
+                .addSnapshotListener { documentSnapshot, error in
+                    if hasCalledContinuation { return } // Continuation이 이미 호출된 경우 실행하지 않음
+                    
+                    if let error = error {
+                        hasCalledContinuation = true
+                        continuation.resume(throwing: error)
+                        return
+                    }
+                    
+                    guard let documents = documentSnapshot?.documents else {
+                        hasCalledContinuation = true
+                        continuation.resume(throwing: NSError(domain: "NoDocuments", code: -1, userInfo: [NSLocalizedDescriptionKey: "No documents found for the given IDs."]))
+                        return
+                    }
+                    
+                    Task {
+                        do {
+                            for document in documents {
+                                let story = try await Story(document: document)
+                                stories.append(story)
+                            }
+                            
+                            // 최신 메시지 기준으로 정렬
+                            stories.sort { $0.date > $1.date }
+                            
+                            if let recentStory = stories.first {
+                                var azitWidgetData = AzitWidgetData() // 반환할 데이터 객체 생성
+                                azitWidgetData.recentStory = recentStory
+                                
+                                // 사용자 정보 가져오기
+                                if let userInfo = try await self.userInfoStore.loadUsersInfoByEmail(userID: [recentStory.userId]).first {
+                                    azitWidgetData.userInfo = userInfo
+                                } else {
+                                    hasCalledContinuation = true
+                                    continuation.resume(throwing: NSError(domain: "UserInfoError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to load user info."]))
+                                    return
+                                }
+                                
+                                if recentStory.image != "" {
+                                    // 이미지 가져오기
+                                    let image = await self.photoImageStore.loadImageAsync(imageName: recentStory.id)
+                                    azitWidgetData.image = image
+                                    
+                                    hasCalledContinuation = true
+                                    continuation.resume(returning: azitWidgetData) // 작업 완료 시 데이터 반환
+                                } else {
+                                    azitWidgetData.image = UIImage(systemName: "xmark.app")
+                                }
+                            } else {
+                                hasCalledContinuation = true
+                                continuation.resume(throwing: NSError(domain: "NoRecentStory", code: -1, userInfo: [NSLocalizedDescriptionKey: "No recent story found."]))
+                            }
+                        } catch {
+                            hasCalledContinuation = true
+                            continuation.resume(throwing: error)
+                        }
+                    }
+                }
         }
     }
 }
