@@ -45,17 +45,37 @@ struct PostMessage: View {
                                 selectedAlbum = story
                             } label: {
                                 VStack {
-                                    if let image = image {
-                                        Image(uiImage: image)
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 90, height: 120)
-                                            .cornerRadius(15)
-                                    } else if isLoadingImage {
-                                        ProgressView()
-                                            .frame(width: 90, height: 120)
+                                    if !story.image.isEmpty {
+                                        if let image = image {
+                                            Image(uiImage: image)
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fill)
+                                                .frame(width: 90, height: 120)
+                                                .cornerRadius(15)
+                                        } else if isLoadingImage {
+                                            ProgressView()
+                                                .frame(width: 90, height: 120)
+                                        } else {
+                                            PlaceholderView() // 로드 실패 시 대체 뷰
+                                        }
                                     } else {
-                                        PlaceholderView() // 로드 실패 시 대체 뷰
+                                        // 이모지와 텍스트만 표시
+                                        VStack {
+                                            Spacer()
+                                            SpeechBubbleView(text: story.content)
+                                                .font(.caption)
+                                                .padding(.bottom, 5)
+                                            Text(story.emoji)
+                                                .font(.largeTitle)
+                                            Spacer()
+                                        }
+                                        .frame(width: 90, height: 120) // 고정된 크기
+                                        .background(
+                                            Image("storyBackImage")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fill)
+                                        )
+                                        .cornerRadius(15)
                                     }
                                 }
                             }
@@ -67,7 +87,7 @@ struct PostMessage: View {
                         }
                         
                     } else if isLoading {
-                        Text("이미지 다운로드중...")
+                        Text("스토리 로딩중...")
                             .font(.caption)
                             .foregroundStyle(Color.gray)
                     } else if let errorMessage = errorMessage {

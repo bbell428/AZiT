@@ -55,19 +55,21 @@ struct GetMessage: View {
                                 selectedAlbum = story
                             } label: {
                                 VStack {
-                                    if let image = image, !loadFailed {
-                                        // 캐시된 UIImage 표시
-                                        Image(uiImage: image)
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 90, height: 120)
-                                            .cornerRadius(15)
-                                    } else if isLoadingImage {
-                                        // 로딩 중
-                                        ProgressView()
-                                            .frame(width: 90, height: 120)
+                                    if !story.image.isEmpty {
+                                        if let image = image {
+                                            Image(uiImage: image)
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fill)
+                                                .frame(width: 90, height: 120)
+                                                .cornerRadius(15)
+                                        } else if isLoadingImage {
+                                            ProgressView()
+                                                .frame(width: 90, height: 120)
+                                        } else {
+                                            PlaceholderView() // 로드 실패 시 대체 뷰
+                                        }
                                     } else {
-                                        // 이미지가 없을 경우 기본 콘텐츠 표시
+                                        // 이모지와 텍스트만 표시
                                         VStack {
                                             Spacer()
                                             SpeechBubbleView(text: story.content)
@@ -77,7 +79,7 @@ struct GetMessage: View {
                                                 .font(.largeTitle)
                                             Spacer()
                                         }
-                                        .frame(width: 90, height: 120)
+                                        .frame(width: 90, height: 120) // 고정된 크기
                                         .background(
                                             Image("storyBackImage")
                                                 .resizable()
