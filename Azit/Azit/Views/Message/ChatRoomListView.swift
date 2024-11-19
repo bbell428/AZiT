@@ -51,6 +51,16 @@ struct ChatRoomListView: View {
                                             Text(chatroom.formattedLastMessageAt) // 보내고 나서 지난 시간
                                                 .font(.subheadline)
                                                 .foregroundStyle(.gray)
+                                            
+                                            if let unreadCount = chatroom.notReadCount[friend.id] { // 상대방 UID로 값 접근
+                                                    Text("\(unreadCount)") // 상대방의 읽지 않은 메시지 개수 표시
+                                                        .font(.subheadline)
+                                                        .foregroundStyle(.red)
+                                                } else {
+                                                    Text("0") // 기본값
+                                                        .font(.subheadline)
+                                                        .foregroundStyle(.gray)
+                                                }
                                         }
                                         
                                         // 메시지 길이가 12 보다 크다면 생략표시

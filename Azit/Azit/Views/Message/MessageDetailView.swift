@@ -99,7 +99,7 @@ struct MessageDetailView: View {
             }
             .navigationBarBackButtonHidden(true)
             .onAppear {
-                chatDetailViewStore.getChatMessages(roomId: roomId, userId: authManager.userID)
+                chatDetailViewStore.getChatMessages(roomId: roomId, userId: authManager.userID, friendId: userId)
             }
             .onDisappear {
                 chatDetailViewStore.removeChatMessagesListener()

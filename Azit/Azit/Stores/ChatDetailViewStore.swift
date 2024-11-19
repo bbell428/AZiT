@@ -18,101 +18,159 @@ class ChatDetailViewStore: ObservableObject {
         listener = nil
     }
     
-    func getChatMessages(roomId: String, userId: String) {
-        // 이전 리스너가 있으면 해제
+    func getChatMessages(roomId: String, userId: String, friendId: String) {
+        // 기존 리스너 해제
         listener?.remove()
         
+        // 새 리스너 등록
         listener = db.collection("Chat")
             .document(roomId)
             .collection("Messages")
             .order(by: "createAt")
             .addSnapshotListener { documentSnapshot, error in
                 guard let documents = documentSnapshot?.documents else {
-                    print("Error fetching document: \(error!)")
+                    print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
                     return
                 }
                 
-                var updatedMessages: [Chat] = []
-                var newLastMessageId: String?
-                var messageIdsToUpdate: [String] = []  // Firestore에 일괄 업데이트할 메시지 ID 저장
-                var unreadCount = 0  // 읽지 않은 메시지 카운트
+                var messageIdsToUpdate: [String] = []  // 읽음 상태 업데이트용 ID 리스트
+                var unreadCount = 0                   // 읽지 않은 메시지 카운트
+                var newLastMessageId: String?         // 가장 최근 메시지 ID
                 
                 self.chatList = documents.compactMap { document -> Chat? in
                     do {
                         var chat = try document.data(as: Chat.self)
                         
-                        // 마지막 읽은 메시지 이후의 새로운 메시지만 읽음 처리
-                        if chat.id != self.lastMessageId, !chat.readBy.contains(userId) {
+                        // 읽지 않은 메시지 처리
+                        if !chat.readBy.contains(userId) {
                             chat.readBy.append(userId)
-                            updatedMessages.append(chat)
                             messageIdsToUpdate.append(chat.id ?? "")
                         }
                         
-                        // 자신만 읽은 상태인지 확인
-                        if chat.readBy == [userId] {
+                        // 읽지 않은 메시지 카운트 증가
+                        if !chat.readBy.contains(friendId) {
                             unreadCount += 1
                         }
                         
-                        newLastMessageId = chat.id  // 메시지 ID를 최신으로 갱신
+                        newLastMessageId = chat.id
                         return chat
                     } catch {
-                        print("메시지 문서를 디코딩하는데 오류가 발생했습니다 : \(error)")
+                        print("메시지 디코딩 오류: \(error)")
                         return nil
                     }
                 }
                 
-                // Firestore에 한 번에 업데이트
+                // 읽음 상태 업데이트 (배치 처리)
                 if !messageIdsToUpdate.isEmpty {
-                    let batch = self.db.batch()
-                    
-                    messageIdsToUpdate.forEach { messageId in
-                        let messageRef = self.db.collection("Chat")
-                            .document(roomId)
-                            .collection("Messages")
-                            .document(messageId)
-                        
-                        batch.updateData(["readBy": FieldValue.arrayUnion([userId])], forDocument: messageRef)
-                    }
-                    
-                    batch.commit { error in
-                        if let error = error {
-                            print("읽음 상태 일괄 업데이트 오류: \(error.localizedDescription)")
-                        } else {
-                            print("\(messageIdsToUpdate.count)개의 메시지가 일괄 읽음 처리되었습니다.")
-                        }
-                    }
+                    self.updateReadStatus(roomId: roomId, messageIds: messageIdsToUpdate, userId: userId)
                 }
                 
-                // 메시지 리스트를 시간순으로 정렬
+                // Firestore의 notReadCount 업데이트
+                self.updateNotReadCount(roomId: roomId, userId: friendId, count: unreadCount)
+                
+                // 메시지 리스트 정렬
                 self.chatList.sort { $0.createAt < $1.createAt }
                 
-                // 마지막 메시지 ID를 업데이트
+                // 마지막 메시지 ID 업데이트
                 if let id = newLastMessageId {
                     self.lastMessageId = id
-                    print("마지막 id = \(self.lastMessageId)")
                 }
-                
-                // 읽지 않은 메시지 개수 출력
-                print("상대방이 읽지 않은 메시지 개수: \(unreadCount)")
-                
-                // 필요하다면 UI 업데이트 함수 호출
-                //self.updateUnreadCount(unreadCount: unreadCount)
             }
+    }
+
+    func updateReadStatus(roomId: String, messageIds: [String], userId: String) {
+        let batch = db.batch()
+        for messageId in messageIds {
+            let messageRef = db.collection("Chat")
+                .document(roomId)
+                .collection("Messages")
+                .document(messageId)
+            batch.updateData(["readBy": FieldValue.arrayUnion([userId])], forDocument: messageRef)
+        }
+        batch.commit { error in
+            if let error = error {
+                print("읽음 상태 업데이트 실패: \(error.localizedDescription)")
+            } else {
+                print("\(messageIds.count)개의 메시지가 읽음 처리되었습니다.")
+            }
+        }
+    }
+
+    func updateNotReadCount(roomId: String, userId: String, count: Int) {
+        let chatRoomDocumentPath = db.collection("Chat").document(roomId)
+        
+        // 바로 업데이트 또는 병합 (읽기 요청 제거)
+        chatRoomDocumentPath.setData([
+            "notReadCount": [userId: count]
+        ], merge: true) { error in
+            if let error = error {
+                print("notReadCount 업데이트 실패: \(error.localizedDescription)")
+            } else {
+                print("notReadCount 업데이트 성공")
+            }
+        }
     }
     
     // MARK: - 메시지 전송
     func sendMessage(text: String, myId: String, friendId: String, storyId: String = "") {
         let newMessageId = UUID().uuidString
+        let chatRoomId = generateChatRoomId(userId1: myId, userId2: friendId)
+        let messageDocumentPath = db.collection("Chat").document(chatRoomId).collection("Messages").document(newMessageId)
+        let chatRoomDocumentPath = db.collection("Chat").document(chatRoomId)
+        
+        let newMessage = Chat(id: newMessageId, createAt: Date(), message: text, sender: myId, readBy: [myId], storyId: storyId)
+        
         do {
-            let newMessage = Chat(id: newMessageId, createAt: Date(), message: text, sender: myId, readBy: [myId], storyId: storyId)
-            // 메시지 저장
-            try db.collection("Chat").document(generateChatRoomId(userId1: myId, userId2: friendId)).collection("Messages").document(newMessageId).setData(from: newMessage)
+            // 1. 메시지 저장
+            try messageDocumentPath.setData(from: newMessage)
             
-            // 메시지 채팅방에 마지막에 올라온 내용과 시간 업데이트
-            db.collection("Chat").document(generateChatRoomId(userId1: myId, userId2: friendId))
-                .setData(["lastMessage": text, "lastMessageAt": Date(), "participants": [myId, friendId], "roomId": generateChatRoomId(userId1: myId, userId2: friendId)])
+            // 2. 채팅방의 마지막 메시지 및 notReadCount 업데이트
+            chatRoomDocumentPath.getDocument { document, error in
+                if let error = error {
+                    print("문서 확인 중 오류 발생: \(error)")
+                    return
+                }
+                
+                let fieldKey = "notReadCount.\(friendId)"
+                var updateData: [String: Any] = [
+                    "lastMessage": text,
+                    "lastMessageAt": Date(),
+                    "participants": [myId, friendId],
+                    "roomId": chatRoomId
+                ]
+                
+                if let document = document, document.exists {
+                    // 문서가 이미 존재하는 경우 -> updateData
+                    chatRoomDocumentPath.updateData(updateData) { error in
+                        if let error = error {
+                            print("업데이트 실패: \(error)")
+                        } else {
+                            // 존재하는 경우에는 friendId의 notReadCount 값을 +1 증가
+                            chatRoomDocumentPath.updateData([
+                                fieldKey: FieldValue.increment(Int64(1))
+                            ]) { error in
+                                if let error = error {
+                                    print("notReadCount 업데이트 실패: \(error)")
+                                } else {
+                                    print("notReadCount가 증가되었습니다.")
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    // 문서가 존재하지 않는 경우 -> setData
+                    updateData["notReadCount"] = [friendId: 1, myId: 0] // 초기화
+                    chatRoomDocumentPath.setData(updateData) { error in
+                        if let error = error {
+                            print("새 문서 생성 실패: \(error)")
+                        } else {
+                            print("새 문서 생성 및 notReadCount 초기화 완료.")
+                        }
+                    }
+                }
+            }
         } catch {
-            print("메시지 전송하는데 실패했습니다. \(error)")
+            print("메시지 전송 실패: \(error)")
         }
     }
     
