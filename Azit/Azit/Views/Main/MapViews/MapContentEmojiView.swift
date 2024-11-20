@@ -7,9 +7,11 @@
 
 import SwiftUI
 import MapKit
+import Kingfisher
 
 struct MapContentEmojiView: View {
     @EnvironmentObject var storyStore: StoryStore
+    let emojiManager = EmojiManager()
     
     @Binding var user: UserInfo // 선택 된 친구
     @Binding var isFriendsModalPresented: Bool // 친구의 모달 컨트롤
@@ -44,6 +46,12 @@ struct MapContentEmojiView: View {
                             ZStack {
                                 Circle()
                                     .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 3)
+                                if let codepoints = emojiManager.getCodepoints(forName: user.previousState) {
+                                    KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 45, height: 45)
+                                }
                                 Text(user.previousState)
                                     .font(.system(size: 45))
                             }
