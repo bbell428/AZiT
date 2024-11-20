@@ -6,18 +6,58 @@
 //
 
 import SwiftUI
-
+// 0, 1 1, 2, 2, 3
 struct EllipsesView: View {
     var body: some View {
-        // 타원 생성
-        ForEach(0..<4, id: \.self) { index in
+        ZStack {
+            // 첫 번째 타원
             Ellipse()
-                .fill(Utility.createGradient(index: index, width: CGFloat(1260 - index * 293), height: CGFloat(1008 - CGFloat(index * 234))))
-                .frame(width: CGFloat(1260 - index * 293), height: CGFloat(1008 - CGFloat(index * 234)))
+                .fill(.clear)
                 .overlay(
                     Ellipse()
-                        .stroke(Color(UIColor.systemGray3), lineWidth: 1)
+                        .stroke(Color.white, lineWidth: 1)
                 )
+                .frame(width: Constants.ellipses[3].width, height: Constants.ellipses[3].height)
+                .offset(y: 300)
+                .zIndex(3)
+            
+            // 두 번째 타원
+            Ellipse()
+                .fill(.clear)
+                .overlay(
+                    Ellipse()
+                        .stroke(Color.white, lineWidth: 1)
+                )
+                .frame(width: Constants.ellipses[2].width, height: Constants.ellipses[2].height)
+                .offset(y: 300)
+                .zIndex(2)
+            
+            // 세 번째 타원
+            Ellipse()
+                .fill(.clear)
+                .overlay(
+                    Ellipse()
+                        .stroke(Color.white, lineWidth: 1)
+                )
+                .frame(width: Constants.ellipses[1].width, height: Constants.ellipses[1].height)
+                .offset(y: 300)
+                .zIndex(1)
+            
+            // 네 번째 타원
+            Ellipse()
+                .fill(
+                    EllipticalGradient(
+                        gradient: Gradient(colors: [.subColor0, .subColor1, .subColor2, .subColor3, .subColor4, .subColor5, .subColor6]),
+                        center: .center,
+                        startRadiusFraction: 0,
+                        endRadiusFraction: 0.5
+                    )
+                )
+                .overlay(
+                    Ellipse()
+                        .stroke(Color.white, lineWidth: 1)
+                )
+                .frame(width: Constants.ellipses[0].width, height: Constants.ellipses[0].height)
                 .offset(y: 300)
                 .zIndex(0)
         }

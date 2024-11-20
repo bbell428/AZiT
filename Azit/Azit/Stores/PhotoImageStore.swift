@@ -108,10 +108,6 @@ extension PhotoImageStore {
     func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage? {
         guard let cgImage = image.cgImage else { return nil }
         
-        // 원본 이미지의 크기와 목표 크기를 비교해서 비율을 계산
-        let widthRatio = targetSize.width / CGFloat(cgImage.width)
-        let heightRatio = targetSize.height / CGFloat(cgImage.height)
-        
         // 최종적으로 리사이즈된 크기 계산 (비율에 맞춰서)
         let newWidth = CGFloat(cgImage.width) * 0.5
         let newHeight = CGFloat(cgImage.height) * 0.5
@@ -143,7 +139,7 @@ extension PhotoImageStore {
 
     func rotateImage(image: UIImage) -> UIImage? {
         // 회전 변환: 90도 오른쪽 회전
-        var transform = CGAffineTransform(rotationAngle: .pi / 2)
+        let transform = CGAffineTransform(rotationAngle: .pi / 2)
         
         // 이미지 크기
         let size = image.size

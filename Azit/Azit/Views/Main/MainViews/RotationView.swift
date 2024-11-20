@@ -46,8 +46,8 @@ struct RotationView: View {
                 } label: {
                     MyContentEmojiView(isPassed24Hours: $isPassed24Hours,
                                        previousState: userInfoStore.userInfo?.previousState ?? "",
-                                       width: 100,
-                                       height: 100)
+                                       width: 134,
+                                       height: 134)
                 }
                 .zIndex(1)
                 .offset(y: 300)

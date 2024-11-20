@@ -48,21 +48,21 @@ struct FriendsContentEmojiView: View {
                                              center: .center,
                                              startRadius: 0,
                                              endRadius: 20))
-                        .frame(width: 20 * (1.5 - interpolationRatio), height: 10 * (1.5 - interpolationRatio))
+                        .frame(width: 20 * (2 - interpolationRatio), height: 10 * (2 - interpolationRatio))
                     
                     Circle()
                         .fill(.white.opacity(0.7))
                         .overlay(
                             ZStack {
                                 Circle()
-                                    .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 3)
+                                    .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 5)
                                 Text(userInfo.previousState)
-                                    .font(.system(size: 25 * (1.5 - interpolationRatio)))
+                                    .font(.system(size: 25 * (2 - interpolationRatio)))
                             }
                         )
                         
                         .offset(x: 0, y: -30)
-                        .frame(width: 40 * (1.5 - interpolationRatio), height: 40 * (1.5 - interpolationRatio))
+                        .frame(width: 40 * (2 - interpolationRatio), height: 40 * (2 - interpolationRatio))
                 }
             }
         }
