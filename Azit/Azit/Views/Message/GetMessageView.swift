@@ -108,7 +108,7 @@ struct GetMessage: View {
                                     Image(uiImage: loadedImage)
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
-                                        .frame(width: 90, height: 120)
+                                        .frame(width: 180, height: 240)
                                         .cornerRadius(15)
                                 } else if isLoadingImage {
                                     ProgressView()
