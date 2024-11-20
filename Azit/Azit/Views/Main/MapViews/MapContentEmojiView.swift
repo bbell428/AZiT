@@ -39,7 +39,7 @@ struct MapContentEmojiView: View {
                                              endRadius: 20))
                     
                     Circle()
-                        .fill(.white.opacity(0.7))
+                        .fill(.white.opacity(0.2))
                         .overlay(
                             ZStack {
                                 Circle()
