@@ -1,4 +1,6 @@
 import Foundation
+import FirebaseStorage
+import _PhotosUI_SwiftUI
 import FirebaseFirestore
 import Observation
 import FirebaseAuth
@@ -7,11 +9,82 @@ import SwiftUICore
 
 class ChatDetailViewStore: ObservableObject {
     @EnvironmentObject var authManager: AuthManager
+    @EnvironmentObject var userInfoStore: UserInfoStore
     @Published private(set) var chatList: [Chat] = [] // 채팅 메시지 리스트
     @Published private(set) var lastMessageId: String = ""
     @Published private(set) var totalUnreadCount: Int = 0 // 전체 안 읽은 메시지 개수
     private var db = Firestore.firestore()
     private var listener: ListenerRegistration?
+    
+    @Published var imageSelection: PhotosPickerItem? = nil // 갤러리에서 선택한 이미지
+    @Published var selectedImage: UIImage? = nil          // 선택된 이미지를 UIImage로 변환
+    @Published var isUploading: Bool = false              // 업로드 상태
+    
+    // MARK: - 이미지 선택 및 처리
+    func handleImageSelection() async {
+        guard let selectedItem = imageSelection else { return }
+        
+        do {
+            // 선택한 이미지를 로드
+            if let data = try await selectedItem.loadTransferable(type: Data.self), let uiImage = UIImage(data: data) {
+                // 이미지 크기 조정
+                self.selectedImage = resizeImage(image: uiImage, targetSize: CGSize(width: 300, height: 400))
+                print("이미지 로드 성공")
+            }
+        } catch {
+            print("이미지를 로드할 수 없습니다: \(error.localizedDescription)")
+        }
+    }
+    
+    // MARK: - 이미지 크기 조정
+    private func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage? {
+        let format = UIGraphicsImageRendererFormat.default()
+        format.opaque = false
+        format.scale = 1.0
+        
+        let renderer = UIGraphicsImageRenderer(size: targetSize, format: format)
+        return renderer.image { _ in
+            image.draw(in: CGRect(origin: .zero, size: targetSize))
+        }
+    }
+    
+    // MARK: - Firebase Storage에 이미지 업로드
+    func uploadImage(myId: String, friendId: String) async {
+        guard let image = selectedImage else {
+            print("업로드할 이미지가 없습니다.")
+            return
+        }
+
+        isUploading = true
+
+        // 이미지를 JPEG 데이터로 압축
+        guard let imageData = image.jpegData(compressionQuality: 0.5) else {
+            print("이미지 압축 실패")
+            isUploading = false
+            return
+        }
+        
+        let imageUUID: String = UUID().uuidString
+        let storageRef = Storage.storage().reference().child("image/\(imageUUID)")
+
+        do {
+            // Firebase Storage에 데이터 업로드
+            let _ = try await storageRef.putDataAsync(imageData, metadata: nil)
+
+            // 업로드 성공: 다운로드 URL 가져오기
+            let imageUrl = try await storageRef.downloadURL()
+
+            print("이미지 업로드 성공, URL: \(imageUrl)")
+            
+            // Firestore에 이미지 메시지 전송
+            await sendMessage(text: "", myId: myId, friendId: friendId, uploadImage: imageUUID)
+        } catch {
+            print("이미지 업로드 실패: \(error.localizedDescription)")
+            isUploading = false
+        }
+
+        isUploading = false
+    }
     
     // MARK: - 메시지 리스너 제거
     func removeChatMessagesListener() {
@@ -73,12 +146,12 @@ class ChatDetailViewStore: ObservableObject {
     }
     
     // MARK: - 메시지 전송
-    func sendMessage(text: String, myId: String, friendId: String, storyId: String = "") async {
+    func sendMessage(text: String, myId: String, friendId: String, storyId: String = "", uploadImage: String = "") async {
         let newMessageId = UUID().uuidString
         let roomId = generateChatRoomId(userId1: myId, userId2: friendId)
         
         do {
-            let newMessage = Chat(id: newMessageId, createAt: Date(), message: text, sender: myId, readBy: [myId], storyId: storyId)
+            let newMessage = Chat(id: newMessageId, createAt: Date(), message: text, sender: myId, readBy: [myId], storyId: storyId, uploadImage: uploadImage)
             
             let batch = db.batch()
             
@@ -122,7 +195,7 @@ class ChatDetailViewStore: ObservableObject {
             print("메시지 전송 실패: \(error)")
         }
     }
-
+    
     // MARK: - 메시지 읽음 처리
     private func updateReadStatus(roomId: String, messageIds: [String], userId: String) {
         let batch = db.batch()

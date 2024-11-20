@@ -467,19 +467,19 @@
 		8EAFEFA82CD4528E00136348 /* Azit */ = {
 			isa = PBXGroup;
 			children = (
-				8E42C9FA2CE6E5270006CAA5 /* Info.plist */,
-				8E645D5A2CE47C1200F43836 /* Constants */,
-				8E645D572CE47BE900F43836 /* Extension */,
-				8E645D562CE47BDA00F43836 /* Utility */,
 				8EC52DC12CE18FB900DC8190 /* Assets.xcassets */,
 				8EAFEFEB2CD47A0700136348 /* Auth */,
 				EA31371F2CE331AA00AA4685 /* Azit.entitlements */,
 				8EAFEFA62CD4528E00136348 /* AzitApp.swift */,
+				8E645D5A2CE47C1200F43836 /* Constants */,
+				8E645D572CE47BE900F43836 /* Extension */,
 				8EAFEFB02CD4571D00136348 /* Fonts */,
 				CE5574662CE4669500266EBD /* GoogleService-Info.plist */,
+				8E42C9FA2CE6E5270006CAA5 /* Info.plist */,
 				8EAFEFAD2CD4529300136348 /* Models */,
 				8EAFEFA42CD4528E00136348 /* Preview Content */,
 				8EAFEFAF2CD452A600136348 /* Stores */,
+				8E645D562CE47BDA00F43836 /* Utility */,
 				8EAFEFAE2CD4529E00136348 /* Views */,
 			);
 			path = Azit;
@@ -513,13 +513,13 @@
 			isa = PBXGroup;
 			children = (
 				CEDFC2ED2CE2EAB0008C215A /* AlbumStore.swift */,
+				8BD71F812CD89ABD0030693B /* CameraService.swift */,
 				CE062B9D2CD8DB8100CB5D4A /* ChatDetailViewStore.swift */,
 				CE374EAC2CD79F6300601AA7 /* ChatListStore.swift */,
+				8B0679F02CE20C2D00ABD942 /* LocationManager.swift */,
+				8B067A022CE45A5C00ABD942 /* PhotoImageStore.swift */,
 				8EAFF00E2CD4A31300136348 /* StoryStore.swift */,
 				EAF840732CD9B56200F23839 /* UserInfoStore.swift */,
-				8BD71F812CD89ABD0030693B /* CameraService.swift */,
-				8B067A022CE45A5C00ABD942 /* PhotoImageStore.swift */,
-				8B0679F02CE20C2D00ABD942 /* LocationManager.swift */,
 			);
 			path = Stores;
 			sourceTree = "<group>";

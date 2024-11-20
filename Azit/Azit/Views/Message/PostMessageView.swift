@@ -108,15 +108,32 @@ struct PostMessage: View {
                                 .font(.caption2)
                                 .foregroundStyle(Color.gray)
                         }
-                        Text(chat.message)
-                            .font(.headline)
-                            .foregroundStyle(Color.black.opacity(0.5))
-                            .multilineTextAlignment(.trailing)
-                            .padding(10)
-                            .background(Color.gray.opacity(0.4))
-                            .cornerRadius(15)
-                            .fixedSize(horizontal: false, vertical: true) // 높이를 내용에 맞게 조절
-                            .id(chat.id)
+                        
+                        // Check if chat has an uploaded image and load it if available
+                        if let uploadImage = chat.uploadImage, !uploadImage.isEmpty {
+                            if let loadedImage = image {
+                                Image(uiImage: loadedImage)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 90, height: 120)
+                                    .cornerRadius(15)
+                            } else if isLoadingImage {
+                                ProgressView()
+                                    .frame(width: 90, height: 120)
+                            } else {
+                                PlaceholderView() // Placeholder if the image load fails
+                            }
+                        } else {
+                            Text(chat.message)
+                                .font(.headline)
+                                .foregroundStyle(Color.black.opacity(0.5))
+                                .multilineTextAlignment(.trailing)
+                                .padding(10)
+                                .background(Color.gray.opacity(0.4))
+                                .cornerRadius(15)
+                                .fixedSize(horizontal: false, vertical: true) // 높이를 내용에 맞게 조절
+                                .id(chat.id)
+                        }
                     }
                     .frame(maxWidth: 300, alignment: .trailing)
                 }
@@ -125,13 +142,14 @@ struct PostMessage: View {
         .padding(.trailing, 20)
         .frame(maxWidth: .infinity, alignment: .trailing)
         .onAppear {
-            loadStoryAndImage()
+            loadStoryAndImage() // 기존의 스토리와 이미지 로딩을 포함하도록 변경
         }
     }
     
     // 스토리와 이미지 불러오기
     private func loadStoryAndImage() {
         Task {
+            // 1. 스토리 로드
             if let storyId = chat.storyId, !storyId.isEmpty {
                 isLoading = true
                 errorMessage = nil
@@ -149,6 +167,11 @@ struct PostMessage: View {
                 }
                 
                 isLoading = false
+            }
+            
+            // 2. chat.uploadImage 로드
+            if let uploadImage = chat.uploadImage, !uploadImage.isEmpty {
+                await loadImage(imageStoreID: uploadImage)
             }
         }
     }

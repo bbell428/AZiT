@@ -48,7 +48,7 @@ struct FriendSegmentView: View {
             let dummyData = UserInfo(
                 id: "000AzitALLFriends",
                 email: "",
-                nickname: "ALL",
+                nickname: "전체",
                 profileImageName: "",
                 previousState: "",
                 friends: [],

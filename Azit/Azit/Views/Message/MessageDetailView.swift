@@ -7,6 +7,7 @@
 
 import SwiftUI
 import UIKit
+import _PhotosUI_SwiftUI
 
 // 키보드 내리기 위한
 extension UIApplication {
@@ -62,6 +63,8 @@ struct MessageDetailView: View {
     
     @Binding var isShowToast: Bool
     
+    @State var isOpenGallery: Bool = false
+    
     var body: some View {
         NavigationStack {
             ZStack(alignment: .top) {
@@ -91,7 +94,7 @@ struct MessageDetailView: View {
                         .zIndex(1)
                     
                     // 메시지 입력 공간
-                    MessageSendField(roomId: roomId, nickname: nickname, userId: userId)
+                    MessageSendField(roomId: roomId, nickname: nickname, userId: userId, isOpenGallery: $isOpenGallery)
                         .frame(maxHeight: 40)
                         .padding(.bottom)
                         .zIndex(1)
@@ -217,6 +220,8 @@ struct MessageSendField: View {
     var nickname: String
     var userId: String // 상대방 id
     
+    @Binding var isOpenGallery: Bool
+    
     var body: some View {
         ZStack(alignment: .center) {
             Rectangle()
@@ -228,13 +233,23 @@ struct MessageSendField: View {
             HStack {
                 Spacer()
                 
-                Button {
-                    // 사진 추가?
-                } label: {
-                    Image(systemName: "plus.circle.fill")
-                        .font(.largeTitle)
-                        .foregroundColor(.accentColor)
-                }
+                PhotosPicker(
+                    selection: $chatDetailViewStore.imageSelection,
+                    matching: .images,
+                    photoLibrary: .shared()) {
+                        Image(systemName: "plus.circle.fill")
+                            .font(.largeTitle)
+                            .foregroundColor(.accentColor)
+                    }
+                    .onChange(of: chatDetailViewStore.imageSelection) { _, _ in
+                        if chatDetailViewStore.imageSelection != nil {
+                            Task {
+                                // 이미지 처리 및 업로드 로직 호출
+                                await chatDetailViewStore.handleImageSelection()
+                                await chatDetailViewStore.uploadImage(myId: userInfoStore.userInfo?.id ?? "", friendId: userId)
+                            }
+                        }
+                    }
                 
                 TextField("\(nickname)에게 보내기", text: $text)
                     .padding()
@@ -275,6 +290,27 @@ struct MessageSendField: View {
                 Spacer()
             }
             .zIndex(2)
+            
+            // 이미지 업로드 중일 때 ProgressView와 텍스트 표시
+            if chatDetailViewStore.isUploading {
+                VStack {
+                    Spacer()
+                    HStack(alignment: .center) {
+                        Spacer()
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                            .cornerRadius(10)
+                        Text("이미지 업로드중..")
+                            .foregroundStyle(Color.white)
+                        Spacer()
+                    }
+                    Spacer()
+                }
+                //.cornerRadius(20)
+                .padding(.horizontal, 10)
+                .background(Color.black.opacity(0.3))
+                .zIndex(3)
+            }
         }
         //.padding(.horizontal)
     }
