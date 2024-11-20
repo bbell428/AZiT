@@ -87,11 +87,11 @@ struct PublishScopeView: View {
                                     isSelected[friendID] = true
                                 }
                                 
-                                if let isSelected = isSelected[friendID] {
-                                    publishingtargets.append(userInfoStore.friendInfo[friendID]?.id ?? "")
-                                } else {
-                                    publishingtargets.removeAll { $0 == (userInfoStore.friendInfo[friendID]?.id ?? "") }
-                                }
+//                                if let isSelected = isSelected[friendID] {
+//                                    publishingtargets.append(userInfoStore.friendInfo[friendID]?.id ?? "")
+//                                } else {
+//                                    publishingtargets.removeAll { $0 == (userInfoStore.friendInfo[friendID]?.id ?? "") }
+//                                }
                             }) {
                                 HStack {
                                     if let isSelected = isSelected[friendID] {

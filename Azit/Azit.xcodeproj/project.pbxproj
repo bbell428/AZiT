@@ -10,6 +10,8 @@
 		8B0679F12CE20C3100ABD942 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0679F02CE20C2D00ABD942 /* LocationManager.swift */; };
 		8B0679F32CE2376600ABD942 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B0679F22CE2376600ABD942 /* CoreLocation.framework */; };
 		8B067A032CE45A6200ABD942 /* PhotoImageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B067A022CE45A5C00ABD942 /* PhotoImageStore.swift */; };
+		8B2FC1BB2CEDC5B30078443F /* TwemojiHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2FC1BA2CEDC5A70078443F /* TwemojiHelper.swift */; };
+		8B2FC1BD2CEDD1B30078443F /* icons.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B2FC1BC2CEDD1B30078443F /* icons.json */; };
 		8B3FE8AE2CD9E23E000A4519 /* EmojiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3FE8AD2CD9E239000A4519 /* EmojiView.swift */; };
 		8BA5D4A22CDAFC7900B03843 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA5D4A12CDAFC7500B03843 /* SearchView.swift */; };
 		8BA5D4B42CDD3A7400B03843 /* EditStoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA5D4B32CDD3A6D00B03843 /* EditStoryView.swift */; };
@@ -89,7 +91,6 @@
 		CE062BB02CD91EEE00CB5D4A /* ChatRoomListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062BAF2CD91EE700CB5D4A /* ChatRoomListView.swift */; };
 		CE374EAD2CD79F6300601AA7 /* ChatListStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE374EAC2CD79F6300601AA7 /* ChatListStore.swift */; };
 		CE3A16E22CD85A5B0045DB52 /* MessageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A16E12CD85A5B0045DB52 /* MessageDetailView.swift */; };
-		CE446D2A2CEA506500E1BA8A /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = CE446D292CEA506500E1BA8A /* AlertToast */; };
 		CE5574652CE4666600266EBD /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5574642CE4666600266EBD /* ProfileDetailView.swift */; };
 		CE5574672CE4669500266EBD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE5574662CE4669500266EBD /* GoogleService-Info.plist */; };
 		CE69CDCC2CE70C2800322E7A /* AlbumStoryImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE69CDCB2CE70C2800322E7A /* AlbumStoryImageView.swift */; };
@@ -162,6 +163,8 @@
 		8B0679F02CE20C2D00ABD942 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		8B0679F22CE2376600ABD942 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		8B067A022CE45A5C00ABD942 /* PhotoImageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoImageStore.swift; sourceTree = "<group>"; };
+		8B2FC1BA2CEDC5A70078443F /* TwemojiHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwemojiHelper.swift; sourceTree = "<group>"; };
+		8B2FC1BC2CEDD1B30078443F /* icons.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = icons.json; sourceTree = "<group>"; };
 		8B3FE8AD2CD9E239000A4519 /* EmojiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiView.swift; sourceTree = "<group>"; };
 		8BA5D4A12CDAFC7500B03843 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		8BA5D4B32CDD3A6D00B03843 /* EditStoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStoryView.swift; sourceTree = "<group>"; };
@@ -466,6 +469,7 @@
 			isa = PBXGroup;
 			children = (
 				8E42C9FA2CE6E5270006CAA5 /* Info.plist */,
+				8B2FC1BC2CEDD1B30078443F /* icons.json */,
 				8E645D5A2CE47C1200F43836 /* Constants */,
 				8E645D572CE47BE900F43836 /* Extension */,
 				8E645D562CE47BDA00F43836 /* Utility */,
@@ -510,6 +514,7 @@
 		8EAFEFAF2CD452A600136348 /* Stores */ = {
 			isa = PBXGroup;
 			children = (
+				8B2FC1BA2CEDC5A70078443F /* TwemojiHelper.swift */,
 				CEDFC2ED2CE2EAB0008C215A /* AlbumStore.swift */,
 				CE062B9D2CD8DB8100CB5D4A /* ChatDetailViewStore.swift */,
 				CE374EAC2CD79F6300601AA7 /* ChatListStore.swift */,
@@ -808,6 +813,7 @@
 			files = (
 				8EAFEFA92CD4528E00136348 /* Preview Assets.xcassets in Resources */,
 				8EC52DC22CE18FB900DC8190 /* Assets.xcassets in Resources */,
+				8B2FC1BD2CEDD1B30078443F /* icons.json in Resources */,
 				CE5574672CE4669500266EBD /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -904,6 +910,7 @@
 				8EAFF0152CD4A33E00136348 /* AlbumView.swift in Sources */,
 				8BA5D4A22CDAFC7900B03843 /* SearchView.swift in Sources */,
 				8E538EE32CD844A50094ABD1 /* FriendsContentsModalView.swift in Sources */,
+				8B2FC1BB2CEDC5B30078443F /* TwemojiHelper.swift in Sources */,
 				8EAFEFB42CD4582200136348 /* Story.swift in Sources */,
 				CE062BAE2CD91E6C00CB5D4A /* GetMessageView.swift in Sources */,
 				CE3A16E22CD85A5B0045DB52 /* MessageDetailView.swift in Sources */,
@@ -1365,14 +1372,6 @@
 				minimumVersion = 8.0.0;
 			};
 		};
-		CE446D282CEA506500E1BA8A /* XCRemoteSwiftPackageReference "AlertToast" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/elai950/AlertToast";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.3.9;
-			};
-		};
 		CE89D79C2CDA8D1600DC73A8 /* XCRemoteSwiftPackageReference "EmojiPicker" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Kelvas09/EmojiPicker";
@@ -1516,11 +1515,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8EAFEFCA2CD45DC600136348 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
-		};
-		CE446D292CEA506500E1BA8A /* AlertToast */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CE446D282CEA506500E1BA8A /* XCRemoteSwiftPackageReference "AlertToast" */;
-			productName = AlertToast;
 		};
 		CE89D79D2CDA8D1600DC73A8 /* EmojiPicker */ = {
 			isa = XCSwiftPackageProductDependency;
