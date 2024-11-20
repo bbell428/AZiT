@@ -18,6 +18,9 @@ struct PostMessage: View {
     @Binding var isFriendsContentModalPresented: Bool
     @Binding var selectedAlbum: Story?
     
+    @Binding var isSelectedImage: Bool // 이미지를 선택했을때
+    @Binding var selectedImage: UIImage? // 선택된 이미지
+    
     var nickname: String
     
     var body: some View {
@@ -112,11 +115,17 @@ struct PostMessage: View {
                         // Check if chat has an uploaded image and load it if available
                         if let uploadImage = chat.uploadImage, !uploadImage.isEmpty {
                             if let loadedImage = image {
-                                Image(uiImage: loadedImage)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 180, height: 240)
-                                    .cornerRadius(15)
+                                Button {
+                                    selectedImage = loadedImage
+                                    isSelectedImage.toggle()
+                                } label: {
+                                    Image(uiImage: loadedImage)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 180, height: 240)
+                                        .cornerRadius(15)
+                                }
+
                             } else if isLoadingImage {
                                 ProgressView()
                                     .frame(width: 90, height: 120)
@@ -125,11 +134,12 @@ struct PostMessage: View {
                             }
                         } else {
                             Text(chat.message)
-                                .font(.headline)
+                                .font(.subheadline)
                                 .foregroundStyle(Color.black.opacity(0.5))
                                 .multilineTextAlignment(.trailing)
-                                .padding(10)
-                                .background(Color.gray.opacity(0.4))
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 7)
+                                .background(Color.gray.opacity(0.2))
                                 .cornerRadius(15)
                                 .fixedSize(horizontal: false, vertical: true) // 높이를 내용에 맞게 조절
                                 .id(chat.id)

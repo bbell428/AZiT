@@ -60,7 +60,7 @@ struct ChatRoomListView: View {
                                         }
                                         
                                         // 메시지 길이가 12 보다 크다면 생략표시
-                                        Text(chatroom.lastMessage.count > 12 ? "\(chatroom.lastMessage.prefix(12))..." : chatroom.lastMessage)
+                                        Text(chatroom.lastMessage.count > 15 ? "\(chatroom.lastMessage.prefix(15))..." : chatroom.lastMessage)
                                             .font(.subheadline)
                                             .fontWeight(.thin)
                                             .foregroundColor(.black)

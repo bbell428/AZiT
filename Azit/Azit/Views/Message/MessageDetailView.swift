@@ -64,6 +64,9 @@ struct MessageDetailView: View {
     @Binding var isShowToast: Bool
     
     @State var isOpenGallery: Bool = false
+    @State private var textEditorHeight: CGFloat = 40 // 초기 높이
+    @State var isSelectedImage: Bool = false // 이미지를 선택했을때
+    @State var selectedImage: UIImage? // 선택된 이미지
     
     var body: some View {
         NavigationStack {
@@ -83,6 +86,49 @@ struct MessageDetailView: View {
                         .frame(maxHeight: .infinity, alignment: .center)
                 }
                 
+                // 이미지 업로드 중일 때 ProgressView와 텍스트 표시
+                if chatDetailViewStore.isUploading {
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                            Text("이미지 업로드중..")
+                                .foregroundStyle(Color.white)
+                            Spacer()
+                        }
+                        Spacer()
+                    }
+                    .background(Color.black.opacity(0.3))
+                    .zIndex(9)
+                }
+                
+                if isSelectedImage {
+                    Color.black.opacity(0.4)
+                        .edgesIgnoringSafeArea(.all)
+                        .onTapGesture {
+                            isSelectedImage = false
+                        }
+                        .zIndex(8)
+                    
+                    VStack {
+                        Image(uiImage: selectedImage!)
+                        Button {
+                            chatDetailViewStore.saveImageToPhotoLibrary(image: selectedImage!)
+                        } label: {
+                            Image(systemName: "tray.and.arrow.down.fill")
+                                .font(.title2)
+                                .frame(width: 60, height: 60)
+                                .background(Color.white.opacity(0.8))
+                                .cornerRadius(20)
+                        }
+                        
+                    }
+                    .frame(maxHeight: .infinity, alignment: .center)
+                    .zIndex(9)
+                }
+                
                 VStack {
                     // 채팅방 상단 (dismiss를 사용하기 위한 클로저 처리)
                     MessageDetailTopBar(dismissAction: { dismiss() }, nickname: nickname, profileImageName: profileImageName)
@@ -90,13 +136,14 @@ struct MessageDetailView: View {
                         .zIndex(1)
                     
                     // 채팅방 메시지 내용
-                    TextMessage(profileImageName: profileImageName, isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedAlbum: $selectedAlbum, nickname: nickname)
+                    TextMessage(profileImageName: profileImageName, isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedAlbum: $selectedAlbum, nickname: nickname, isSelectedImage: $isSelectedImage, selectedImage: $selectedImage)
                         .zIndex(1)
                     
                     // 메시지 입력 공간
-                    MessageSendField(roomId: roomId, nickname: nickname, userId: userId, isOpenGallery: $isOpenGallery)
-                        .frame(maxHeight: 40)
-                        .padding(.bottom)
+                    MessageSendField(roomId: roomId, nickname: nickname, userId: userId, isOpenGallery: $isOpenGallery, textEditorHeight: $textEditorHeight)
+                        .frame(height: textEditorHeight)
+                    //.frame(maxHeight: 80) // 높이 제한 설정
+                        .padding(.bottom, 10)
                         .zIndex(1)
                 }
             }
@@ -166,15 +213,19 @@ struct TextMessage: View {
     
     @StateObject private var keyboardObserver = KeyboardObserver()
     
+    @Binding var isSelectedImage: Bool // 이미지를 선택했을때
+    @Binding var selectedImage: UIImage? // 선택된 이미지
+    
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView {
                 LazyVStack(spacing: 20) {
                     ForEach(chatDetailViewStore.chatList, id: \.id) { chat in
                         if chat.sender == authManager.userID {
-                            PostMessage(chat: chat, isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedAlbum: $selectedAlbum, nickname: nickname)
+                            PostMessage(chat: chat, isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedAlbum: $selectedAlbum, isSelectedImage: $isSelectedImage,
+                                        selectedImage: $selectedImage,nickname: nickname)
                         } else {
-                            GetMessage(chat: chat, profileImageName: profileImageName, isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedAlbum: $selectedAlbum)
+                            GetMessage(chat: chat, profileImageName: profileImageName, isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedAlbum: $selectedAlbum, isSelectedImage: $isSelectedImage, selectedImage: $selectedImage)
                         }
                     }
                     
@@ -199,6 +250,8 @@ struct TextMessage: View {
                                 proxy.scrollTo("Bottom", anchor: .bottom)
                             }
                         }
+                    } else {
+                        proxy.scrollTo("Bottom", anchor: .bottom)
                     }
                 }
             }
@@ -221,16 +274,19 @@ struct MessageSendField: View {
     var userId: String // 상대방 id
     
     @Binding var isOpenGallery: Bool
+    @Binding var textEditorHeight: CGFloat // 초기 높이
     
     var body: some View {
         ZStack(alignment: .center) {
             Rectangle()
+                .frame(height: textEditorHeight + 10)
+            //.frame(maxHeight: 80) // 높이 제한 설정
                 .cornerRadius(20)
                 .padding(.horizontal, 10)
                 .foregroundStyle(Color.gray.opacity(0.1))
                 .zIndex(1)
             
-            HStack {
+            HStack(alignment: .bottom) {
                 Spacer()
                 
                 PhotosPicker(
@@ -251,29 +307,36 @@ struct MessageSendField: View {
                         }
                     }
                 
-                TextField("\(nickname)에게 보내기", text: $text)
-                    .padding()
-                    .foregroundColor(Color.black)  // 글자 색상 추가
-                //.background(Color.gray)  // 텍스트 필드 배경색 (원하는 색상으로 설정 가능)
-                    .cornerRadius(15)
-                    .frame(width: 250)
-                // 키보드에 있는 전송 버튼을 활용할때,
-                    .onSubmit {
-                        // 메시지가 비어 있지 않을 경우에만 전송
-                        guard !text.isEmpty else { return }
-                        Task {
-                            print("메시지 전송: \(text)")
-                            await chatDetailViewStore.sendMessage(text: text, myId: userInfoStore.userInfo?.id ?? "", friendId: userId)
-                            text = "" // 메시지 전송 후 입력 필드를 비웁니다.
-                        }
+                // 텍스트 입력 필드
+                ZStack(alignment: .leading) {
+                    if text.isEmpty {
+                        Text("\(nickname)에게 보내기")
+                            .foregroundColor(Color.gray.opacity(0.3))
+                            .padding(.horizontal, 15)
+                            .zIndex(5)
                     }
+                    
+                    TextEditor(text: $text)
+                        .padding(.horizontal, 5)
+                        .foregroundColor(Color.black)
+                        .frame(height: textEditorHeight)
+                        .scrollContentBackground(.hidden)
+                    //.frame(maxHeight: 80) // 높이 제한 설정
+                    //.background(Color.gray.opacity(0.1)) // 텍스트 에디터 배경색 회색 적용
+                        .cornerRadius(15)
+                        .onChange(of: text) { _, _ in
+                            adjustHeight() // 높이 조정
+                        }
+                }
                 
                 // 전송 버튼
                 Button(action: {
                     Task {
+                        guard !text.isEmpty else { return }
                         print("메시지 전송: \(text)")
                         await chatDetailViewStore.sendMessage(text: text, myId: userInfoStore.userInfo?.id ?? "", friendId: userId)
-                        text = "" // 메시지 전송 후 입력 필드를 비웁니다.
+                        text = "" // 메시지 전송 후 입력 필드를 초기화
+                        adjustHeight() // 높이 리셋
                     }
                 }) {
                     Image(systemName: "paperplane.fill")
@@ -284,35 +347,24 @@ struct MessageSendField: View {
                         .background(.accent)
                         .cornerRadius(15)
                 }
-                // 텍스트가 없으면 버튼 비활성화
+                .padding(.bottom, 3)
                 .disabled(text.isEmpty)
                 
                 Spacer()
             }
+            .padding(10)
             .zIndex(2)
-            
-            // 이미지 업로드 중일 때 ProgressView와 텍스트 표시
-            if chatDetailViewStore.isUploading {
-                VStack {
-                    Spacer()
-                    HStack(alignment: .center) {
-                        Spacer()
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                            .cornerRadius(10)
-                        Text("이미지 업로드중..")
-                            .foregroundStyle(Color.white)
-                        Spacer()
-                    }
-                    Spacer()
-                }
-                //.cornerRadius(20)
-                .padding(.horizontal, 10)
-                .background(Color.black.opacity(0.3))
-                .zIndex(3)
-            }
         }
-        //.padding(.horizontal)
+        //.frame(maxHeight: 80) // 높이 제한 설정
+    }
+    
+    // 텍스트 에디터 높이를 동적으로 조정하는 함수
+    private func adjustHeight() {
+        let width = UIScreen.main.bounds.width - 150 // 좌우 여백 포함
+        let size = CGSize(width: width, height: .infinity)
+        let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 16)]
+        let boundingBox = text.boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+        textEditorHeight = max(40, boundingBox.height + 20) // 기본 높이 보장
     }
 }
 

@@ -19,7 +19,10 @@ struct GetMessage: View {
     
     @Binding var isFriendsContentModalPresented: Bool
     @Binding var selectedAlbum: Story?
-
+    
+    @Binding var isSelectedImage: Bool // 이미지를 선택했을때
+    @Binding var selectedImage: UIImage? // 선택된 이미지
+    
     var body: some View {
         HStack(alignment: .top) {
             Text(profileImageName)
@@ -105,11 +108,16 @@ struct GetMessage: View {
                             // Check if chat has an uploaded image and load it if available
                             if let uploadImage = chat.uploadImage, !uploadImage.isEmpty {
                                 if let loadedImage = image {
-                                    Image(uiImage: loadedImage)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: 180, height: 240)
-                                        .cornerRadius(15)
+                                    Button {
+                                        selectedImage = loadedImage
+                                        isSelectedImage.toggle()
+                                    } label: {
+                                        Image(uiImage: loadedImage)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: 180, height: 240)
+                                            .cornerRadius(15)
+                                    }
                                 } else if isLoadingImage {
                                     ProgressView()
                                         .frame(width: 90, height: 120)
@@ -118,10 +126,11 @@ struct GetMessage: View {
                                 }
                             } else {
                                 Text(chat.message)
-                                    .font(.headline)
-                                    .foregroundStyle(Color.black.opacity(0.5))
+                                    .font(.subheadline)
+                                    .foregroundStyle(Color.white)
                                     .multilineTextAlignment(.leading)
-                                    .padding(10)
+                                    .padding(.horizontal, 10)
+                                    .padding(.vertical, 7)
                                     .background(Color.accent)
                                     .cornerRadius(15)
                                     .fixedSize(horizontal: false, vertical: true) // 높이를 내용에 맞게 조절

@@ -1099,6 +1099,7 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "앱에서 사진을 촬영하기 위해 카메라 접근이 필요합니다.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "앱이 백그라운드에서도 위치를 접근합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "스토리에 위치 정보를 추가하기 위해 위치 접근이 필요합니다.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "사진 저장을 위해 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1139,6 +1140,7 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "앱에서 사진을 촬영하기 위해 카메라 접근이 필요합니다.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "앱이 백그라운드에서도 위치를 접근합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "스토리에 위치 정보를 추가하기 위해 위치 접근이 필요합니다.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "사진 저장을 위해 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

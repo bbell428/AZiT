@@ -77,13 +77,18 @@ class ChatDetailViewStore: ObservableObject {
             print("이미지 업로드 성공, URL: \(imageUrl)")
             
             // Firestore에 이미지 메시지 전송
-            await sendMessage(text: "", myId: myId, friendId: friendId, uploadImage: imageUUID)
+            await sendMessage(text: "사진", myId: myId, friendId: friendId, uploadImage: imageUUID)
         } catch {
             print("이미지 업로드 실패: \(error.localizedDescription)")
             isUploading = false
         }
 
         isUploading = false
+    }
+    
+    // MARK: 이미지를 사진 앨범에 저장하는 함수
+    func saveImageToPhotoLibrary(image: UIImage) {
+        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
     }
     
     // MARK: - 메시지 리스너 제거
