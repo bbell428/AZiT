@@ -503,6 +503,7 @@
 				8EAFEFFF2CD4A04300136348 /* Login */,
 				8EAFEFFD2CD4A03200136348 /* Main */,
 				8EAFEFFE2CD4A03C00136348 /* Message */,
+				EAF840B12CD9F9C100F23839 /* MyPage */,
 				8EAFF0002CD4A04900136348 /* Upload */,
 			);
 			path = Views;
@@ -598,7 +599,6 @@
 				CE69CDCB2CE70C2800322E7A /* AlbumStoryImageView.swift */,
 				8EAFF0142CD4A33E00136348 /* AlbumView.swift */,
 				CEDFC2CD2CE1C814008C215A /* FriendSegmentView.swift */,
-				EAF840B12CD9F9C100F23839 /* MyPage */,
 			);
 			path = Album;
 			sourceTree = "<group>";

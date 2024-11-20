@@ -40,8 +40,32 @@ struct FriendSegmentView: View {
     
     init(selectedIndex: Binding<Int>, titles: [UserInfo]) {
         self._selectedIndex = selectedIndex
-        self.titles = titles
-        frames = titles.isEmpty ? [CGRect(x: 0, y: 0, width: 100, height: 50)] : Array<CGRect>(repeating: .zero, count: titles.count)  // 기본값 설정
+        var modifiedTitles = titles
+        
+        // 만약, 친구 리스트가 한명이라도 있다면
+        if !modifiedTitles.isEmpty {
+            // 전부를 보여주는 ALL 버튼 추가
+            let dummyData = UserInfo(
+                id: "000AzitALLFriends",
+                email: "",
+                nickname: "ALL",
+                profileImageName: "",
+                previousState: "",
+                friends: [],
+                latitude: 0.0,
+                longitude: 0.0,
+                blockedFriends: []
+            )
+            modifiedTitles.append(dummyData)
+        }
+        
+        // id를 기준으로 정렬
+        modifiedTitles.sort { $0.id < $1.id }
+        
+        self.titles = modifiedTitles
+        frames = modifiedTitles.isEmpty
+            ? [CGRect(x: 0, y: 0, width: 100, height: 50)]
+            : Array<CGRect>(repeating: .zero, count: modifiedTitles.count)  // 기본값 설정
     }
     
     var body: some View {
@@ -139,8 +163,14 @@ private struct SegmentedControlButtonView: View {
                                 .fill(selectedIndex == index ? .accent.opacity(0.5) : .subColor4)
                                 .frame(width: 70, height: 70)
                             
-                            Text(titles[index].profileImageName)
-                                .font(.largeTitle)
+                            if titles[index].id != "000AzitALLFriends" {
+                                Text(titles[index].profileImageName)
+                                    .font(.largeTitle)
+                            } else {
+                                Image(systemName: "person.3.fill")
+                                    .frame(width: 40, height: 40)  // Image 크기 명시
+                                    .foregroundStyle(.white)
+                            }
                         }
                         .padding(.bottom, 5)
                         

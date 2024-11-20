@@ -108,28 +108,42 @@ class AlbumStore: ObservableObject {
             ("4주일 전", { $0.isWithin(hours: 1344) && !$0.isWithin(hours: 1008) }),
             ("그 외", { !$0.isWithin(hours: 1344) })
         ]
-        
+
         let calendar = Calendar.current
         let isToday = calendar.isDateInToday(selectedDate)
         let selectedDayStart = calendar.startOfDay(for: selectedDate)
         let selectedDayEnd = calendar.date(byAdding: .day, value: 1, to: selectedDayStart) ?? selectedDayStart
-        
+
         return timeGroups.compactMap { group in
             let filteredStories: [Story]
-            
-            // 만약 날짜가 오늘이라면, 최근/1일/1주일.. 로직
+
             if isToday {
-                filteredStories = storys.filter { story in
-                    story.userId == filterUserID && group.1(story)
+                if filterUserID == "000AzitALLFriends" {
+                    // 모든 storys 반환 (오늘의 이야기만 시간 그룹으로 필터)
+                    filteredStories = storys.filter { story in
+                        group.1(story)
+                    }
+                } else {
+                    // 특정 사용자의 storys만 필터링
+                    filteredStories = storys.filter { story in
+                        story.userId == filterUserID && group.1(story)
+                    }
                 }
-                // 만약 날짜가 오늘이 아니라면, 해당하는 날짜만 가져오기
             } else {
-                filteredStories = storys.filter { story in
-                    story.userId == filterUserID &&
-                    (selectedDayStart...selectedDayEnd).contains(story.date)
+                if filterUserID == "000AzitALLFriends" {
+                    // 모든 storys 중 특정 날짜만 반환
+                    filteredStories = storys.filter { story in
+                        (selectedDayStart...selectedDayEnd).contains(story.date)
+                    }
+                } else {
+                    // 특정 사용자의 storys 중 특정 날짜만 반환
+                    filteredStories = storys.filter { story in
+                        story.userId == filterUserID &&
+                        (selectedDayStart...selectedDayEnd).contains(story.date)
+                    }
                 }
             }
-            
+
             let title: String
             if isToday {
                 title = group.0
@@ -139,7 +153,7 @@ class AlbumStore: ObservableObject {
                 formatter.dateFormat = "YYYY년 M월 d일"
                 title = formatter.string(from: selectedDate)
             }
-            
+
             return filteredStories.isEmpty ? nil : (title, filteredStories.sorted(by: { $0.date > $1.date }))
         }
     }

@@ -28,7 +28,7 @@ struct ModalIdentificationView: View {
                 .zIndex(2)
             
             if !users.isEmpty {
-                FriendsContentsModalView(message: $message, selectedUserInfo: $users[selectedIndex], isShowToast: $isShowToast)
+                FriendsContentsModalView(message: $message, selectedUserInfo: users[selectedIndex], isShowToast: $isShowToast)
                     .zIndex(3)
             }
         }

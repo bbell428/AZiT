@@ -16,7 +16,7 @@ struct FriendsContentsModalView: View {
     @EnvironmentObject var userInfoStore: UserInfoStore
     
     @Binding var message: String
-    @Binding var selectedUserInfo: UserInfo
+    var selectedUserInfo: UserInfo
     @Binding var isShowToast: Bool
     
     @State var story: Story? = nil

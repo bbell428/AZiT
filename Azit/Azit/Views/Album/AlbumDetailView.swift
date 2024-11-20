@@ -10,6 +10,7 @@ import SwiftUI
 
 // 스토리 클릭시, 상세 정보
 struct AlbumDetailView: View {
+    @EnvironmentObject var albumstore: AlbumStore
     @EnvironmentObject var userInfoStore: UserInfoStore
     
     @Binding var isFriendsContentModalPresented: Bool
@@ -28,9 +29,19 @@ struct AlbumDetailView: View {
                 }
                 .zIndex(1)
             
-            FriendsContentsModalView(message: $message, selectedUserInfo: $userInfoStore.friendInfos[selectedIndex], isShowToast: $isShowToast, story: selectedAlbum)
+            if let matchingUserInfo = userInfoStore.friendInfos.first(where: { $0.id == selectedAlbum?.userId }) {
+                FriendsContentsModalView(
+                    message: $message,
+                    selectedUserInfo: matchingUserInfo,
+                    isShowToast: $isShowToast,
+                    story: selectedAlbum
+                )
                 .zIndex(2)
                 .frame(maxHeight: .infinity, alignment: .center)
+            } else {
+                Text("해당 사용자를 찾을 수 없습니다.")
+                    .frame(maxHeight: .infinity, alignment: .center)
+            }
         }
     }
 }

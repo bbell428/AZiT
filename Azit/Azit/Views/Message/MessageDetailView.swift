@@ -75,7 +75,7 @@ struct MessageDetailView: View {
                         }
                         .zIndex(2)
                     
-                    FriendsContentsModalView(message: $message, selectedUserInfo: $friend,isShowToast: $isShowToast, story: selectedAlbum)
+                    FriendsContentsModalView(message: $message, selectedUserInfo: friend, isShowToast: $isShowToast, story: selectedAlbum)
                         .zIndex(3)
                         .frame(maxHeight: .infinity, alignment: .center)
                 }

@@ -75,7 +75,7 @@ struct AlbumView: View {
                     
                     // 스토리 클릭시, 상세 정보
                     if isFriendsContentModalPresented {
-                        AlbumDetailView(isFriendsContentModalPresented: $isFriendsContentModalPresented, message: $message, selectedIndex: $selectedIndex,isShowToast: $isShowToast, selectedAlbum: selectedAlbum)
+                        AlbumDetailView(isFriendsContentModalPresented: $isFriendsContentModalPresented, message: $message, selectedIndex: $selectedIndex, isShowToast: $isShowToast, selectedAlbum: selectedAlbum)
                             .zIndex(7)
                     }
                     
@@ -128,7 +128,7 @@ struct AlbumView: View {
                         .frame(maxHeight: .infinity)  // 화면 중앙에 오도록 설정
                     } else {
                         // 선택된 친구가 storys 값에 포함되고 있을경우 (= 스토리가 있을 경우)
-                        if albumstore.storys.contains(where: { $0.userId == albumstore.filterUserID }) && !albumstore.getTimeGroupedStories().isEmpty {
+                        if (albumstore.storys.contains(where: { $0.userId == albumstore.filterUserID }) && !albumstore.getTimeGroupedStories().isEmpty) || albumstore.filterUserID == "000AzitALLFriends" {
                             AlbumScrollView(lastOffsetY: $lastOffsetY, isShowHorizontalScroll: $isShowHorizontalScroll, isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedAlbum: $selectedAlbum)
                                 .padding(.horizontal, 20)
                                 .onPreferenceChange(ScrollPreferenceKey.self, perform: { value in
@@ -157,7 +157,7 @@ struct AlbumView: View {
             .onAppear {
                 Task {
                     await albumstore.loadStorysByIds(ids: userInfoStore.userInfo?.friends ?? [])
-                    albumstore.filterUserID = userInfoStore.friendInfos.first?.id ?? ""
+                    albumstore.filterUserID = "000AzitALLFriends"
                 }
             }
             .sheet(isPresented: $isShowCalendar) {

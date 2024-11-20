@@ -119,7 +119,7 @@ struct RotationView: View {
                     }
                     .zIndex(2)
                 
-                FriendsContentsModalView(message: $message, selectedUserInfo: $tappedWidgetUserInfo, isShowToast: $isShowToast)
+                FriendsContentsModalView(message: $message, selectedUserInfo: tappedWidgetUserInfo, isShowToast: $isShowToast)
             }
             
             // 초대장을 띄어줌

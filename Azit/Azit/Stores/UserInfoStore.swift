@@ -129,7 +129,7 @@ class UserInfoStore: ObservableObject {
                     }
                 }
                 
-                self.friendInfos = Array(self.friendInfo.values).sorted { $0.nickname > $1.nickname }
+                self.friendInfos = Array(self.friendInfo.values).sorted { $0.nickname < $1.nickname }
                 
                 print("친구 : \(self.friendInfo)")
             }
