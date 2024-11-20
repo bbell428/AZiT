@@ -65,7 +65,7 @@ struct Constants {
     
     // MARK: - 타원 크기
     static let ellipses: [(width: CGFloat, height: CGFloat)] = [
-        (1260, 1008), (967, 774), (674, 540), (285, 225)
+        (1260, 1008), (967, 774), (674, 540), (360, 284)
     ]
     
     // MARK: - 타원 Color

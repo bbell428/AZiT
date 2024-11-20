@@ -47,7 +47,7 @@ struct EllipsesView: View {
             Ellipse()
                 .fill(
                     EllipticalGradient(
-                        gradient: Gradient(colors: [.subColor0, .subColor1, .subColor2, .subColor3, .subColor4, .subColor5, .subColor6]),
+                        gradient: Gradient(colors: [.ellipseColor0, .ellipseColor1, .ellipseColor2, .ellipseColor3, .ellipseColor4, .ellipseColor5, .ellipseColor6, .ellipseColor7, .ellipseColor8, .ellipseColor9, .ellipseColor10]),
                         center: .center,
                         startRadiusFraction: 0,
                         endRadiusFraction: 0.5
