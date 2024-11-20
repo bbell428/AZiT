@@ -102,42 +102,42 @@ struct GetMessage: View {
                     
                     HStack(alignment: .bottom) {
                         VStack(alignment: .leading) {
-                            if !chat.readBy.contains(where: { $0 != authManager.userID }) {
-                                Text("1")
-                                    .font(.caption2)
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(Color.green)
+                            // Check if chat has an uploaded image and load it if available
+                            if let uploadImage = chat.uploadImage, !uploadImage.isEmpty {
+                                if let loadedImage = image {
+                                    Image(uiImage: loadedImage)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 90, height: 120)
+                                        .cornerRadius(15)
+                                } else if isLoadingImage {
+                                    ProgressView()
+                                        .frame(width: 90, height: 120)
+                                } else {
+                                    PlaceholderView() // Placeholder if the image load fails
+                                }
+                            } else {
+                                Text(chat.message)
+                                    .font(.headline)
+                                    .foregroundStyle(Color.black.opacity(0.5))
+                                    .multilineTextAlignment(.leading)
+                                    .padding(10)
+                                    .background(Color.accent)
+                                    .cornerRadius(15)
+                                    .fixedSize(horizontal: false, vertical: true) // 높이를 내용에 맞게 조절
+                                    .id(chat.id)
                             }
-                            Text(chat.formattedCreateAt)
-                                .font(.caption2)
-                                .foregroundStyle(Color.gray)
                         }
                         
-                        // Check if chat has an uploaded image and load it if available
-                        if let uploadImage = chat.uploadImage, !uploadImage.isEmpty {
-                            if let loadedImage = image {
-                                Image(uiImage: loadedImage)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 90, height: 120)
-                                    .cornerRadius(15)
-                            } else if isLoadingImage {
-                                ProgressView()
-                                    .frame(width: 90, height: 120)
-                            } else {
-                                PlaceholderView() // Placeholder if the image load fails
-                            }
-                        } else {
-                            Text(chat.message)
-                                .font(.headline)
-                                .foregroundStyle(Color.black.opacity(0.5))
-                                .multilineTextAlignment(.leading)
-                                .padding(10)
-                                .background(Color.accent)
-                                .cornerRadius(15)
-                                .fixedSize(horizontal: false, vertical: true) // 높이를 내용에 맞게 조절
-                                .id(chat.id)
+                        if !chat.readBy.contains(where: { $0 != authManager.userID }) {
+                            Text("1")
+                                .font(.caption2)
+                                .fontWeight(.bold)
+                                .foregroundStyle(Color.green)
                         }
+                        Text(chat.formattedCreateAt)
+                            .font(.caption2)
+                            .foregroundStyle(Color.gray)
                     }
                     .frame(maxWidth: 300, alignment: .leading)
                 }
@@ -154,6 +154,7 @@ struct GetMessage: View {
     // 스토리와 이미지 불러오기
     private func loadStoryAndImage() {
         Task {
+            // 1. 스토리 로드
             if let storyId = chat.storyId, !storyId.isEmpty {
                 isLoading = true
                 errorMessage = nil
@@ -171,6 +172,11 @@ struct GetMessage: View {
                 }
                 
                 isLoading = false
+            }
+            
+            // 2. chat.uploadImage 로드
+            if let uploadImage = chat.uploadImage, !uploadImage.isEmpty {
+                await loadImage(imageStoreID: uploadImage)
             }
         }
     }
