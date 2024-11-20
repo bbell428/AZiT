@@ -91,6 +91,18 @@ struct FriendsContentsModalView: View {
                         sendMessage()
                     } else {
                         isLiked.toggle()
+                        
+                        if isLiked {
+                            Task {
+                                story?.likes.append(userInfoStore.userInfo?.id ?? "")
+                                await storyStore.addStory(story!)
+                            }
+                        } else {
+                            Task {
+                                story?.likes.removeAll(where: { $0 == userInfoStore.userInfo?.id ?? "" })
+                                await storyStore.addStory(story!)
+                            }
+                        }
                     }
                 }) {
                     Image(systemName: !message.isEmpty ? "paperplane.fill" : (isLiked ? "heart.fill" : "heart"))
@@ -115,7 +127,11 @@ struct FriendsContentsModalView: View {
         }
         .onAppear {
             message = ""
-            loadStory()
+            
+            Task {
+                await loadStory()
+            }
+           
             withAnimation(.easeInOut(duration: 0.3)) {
                 scale = 1.0
             }
@@ -128,12 +144,16 @@ struct FriendsContentsModalView: View {
         .frame(width: (screenBounds?.width ?? 0) - 32)
     }
     
-    private func loadStory() {
+    private func loadStory() async {
         Task {
             isLoadingStory = true
             if story == nil {
                 do {
                     story = try await storyStore.loadRecentStoryById(id: selectedUserInfo.id)
+                    
+                    if let contains = story?.likes.contains(userInfoStore.userInfo?.id ?? "") {
+                        isLiked = contains ? true : false
+                    }
                 } catch {
                     print("스토리 로드 실패: \(error.localizedDescription)")
                 }
