@@ -59,7 +59,7 @@ struct FriendsContentEmojiView: View {
                         .overlay(
                             ZStack {
                                 Circle()
-                                    .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 3)
+                                    .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 5)
                                 if let codepoints = emojiManager.getCodepoints(forName: userInfo.previousState) {
                                     KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
                                         .resizable()

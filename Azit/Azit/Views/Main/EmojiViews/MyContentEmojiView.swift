@@ -21,13 +21,13 @@ struct MyContentEmojiView: View {
     var body: some View {
         ZStack {
             Circle()
-                .fill(.white.opacity(0.2))
+                .fill(isMainExposed ? .white.opacity(0.2) : .white.opacity(0.7))
                 .frame(width: width, height: height)
                 .overlay(
                     ZStack {
                         // 24시간 지남 여부에 따라 색 변경, 24시간 이 전: 그레디언트, 24시간 이 후: 흰 색
                         Circle()
-                            .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: isMainExposed ? 5 : 15)
+                            .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: isMainExposed ? 7 : 15)
                            
                         
                         if let codepoints = emojiManager.getCodepoints(forName: previousState) {
