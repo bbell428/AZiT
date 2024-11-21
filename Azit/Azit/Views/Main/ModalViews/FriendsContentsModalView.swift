@@ -9,7 +9,7 @@ import SwiftUI
 import AlertToast
 import Combine
 
-class KeyboardObserver: ObservableObject {
+class KeyboardObservers: ObservableObject {
     @Published var keyboardHeight: CGFloat = 0
     
     private var cancellables: Set<AnyCancellable> = []
@@ -39,7 +39,7 @@ struct FriendsContentsModalView: View {
     @EnvironmentObject var chatDetailViewStore: ChatDetailViewStore
     @EnvironmentObject var userInfoStore: UserInfoStore
     
-    @StateObject private var keyboardObserver = KeyboardObserver()
+    @StateObject private var keyboardObservers = KeyboardObservers()
     
     @Binding var message: String
     var selectedUserInfo: UserInfo
@@ -120,8 +120,8 @@ struct FriendsContentsModalView: View {
         .background(.subColor4)
         .cornerRadius(8)
         .scaleEffect(scale)
-        .padding(.bottom, keyboardObserver.keyboardHeight > 0 ? keyboardObserver.keyboardHeight - 150 : keyboardObserver.keyboardHeight)
-        .animation(.easeOut(duration: 0.3), value: keyboardObserver.keyboardHeight)
+        .padding(.bottom, keyboardObservers.keyboardHeight > 0 ? keyboardObservers.keyboardHeight - 150 : keyboardObservers.keyboardHeight)
+        .animation(.easeOut(duration: 0.3), value: keyboardObservers.keyboardHeight)
         .onTapGesture {
             self.endTextEditing()
         }
