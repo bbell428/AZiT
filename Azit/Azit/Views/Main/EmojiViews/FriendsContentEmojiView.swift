@@ -59,7 +59,7 @@ struct FriendsContentEmojiView: View {
                         .overlay(
                             ZStack {
                                 Circle()
-                                    .stroke(isPassed24Hours ? AnyShapeStyle(Color.gray.opacity(0.2)) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 3)
+                                    .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 3)
                                 if let codepoints = emojiManager.getCodepoints(forName: userInfo.previousState) {
                                     KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
                                         .resizable()
@@ -79,6 +79,7 @@ struct FriendsContentEmojiView: View {
         .animation(.easeInOut(duration: 0.5), value: rotation)
         .onAppear {
             Task {
+                print("interpolationRatio: \(interpolationRatio)")
                 // 선택 된 친구의 story
                 let story = try await storyStore.loadRecentStoryById(id: userInfo.id)
                 // 24시간이 지났는 지 판별
