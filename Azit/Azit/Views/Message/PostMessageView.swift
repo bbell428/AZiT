@@ -2,6 +2,7 @@ import SwiftUI
 import Firebase
 import FirebaseFirestore
 import FirebaseStorage
+import Kingfisher
 
 struct PostMessage: View {
     @EnvironmentObject var authManager: AuthManager
@@ -22,6 +23,7 @@ struct PostMessage: View {
     @Binding var selectedImage: UIImage? // 선택된 이미지
     
     var nickname: String
+    let emojiManager = EmojiManager()
     
     var body: some View {
         HStack(alignment: .bottom) {
@@ -65,11 +67,17 @@ struct PostMessage: View {
                                         // 이모지와 텍스트만 표시
                                         VStack {
                                             Spacer()
-                                            SpeechBubbleView(text: story.content)
-                                                .font(.caption)
-                                                .padding(.bottom, 5)
-                                            Text(story.emoji)
-                                                .font(.largeTitle)
+                                            if !story.content.isEmpty {
+                                                SpeechBubbleView(text: story.content)
+                                                    .font(.caption)
+                                                    .padding(.bottom, 5)
+                                            }
+                                            if let codepoints = emojiManager.getCodepoints(forName: story.emoji) {
+                                                KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(width: 40, height: 40)
+                                            }
                                             Spacer()
                                         }
                                         .frame(width: 90, height: 120) // 고정된 크기

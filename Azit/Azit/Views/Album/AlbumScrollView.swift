@@ -80,9 +80,11 @@ struct AlbumScrollView : View {
                                             // 이모지와 텍스트만 표시
                                             VStack {
                                                 Spacer()
-                                                SpeechBubbleView(text: story.content)
-                                                    .font(.caption)
-                                                    .padding(.bottom, 5)
+                                                if !story.content.isEmpty {
+                                                    SpeechBubbleView(text: story.content)
+                                                        .font(.caption)
+                                                        .padding(.bottom, 5)
+                                                }
                                                 if let codepoints = emojiManager.getCodepoints(forName: story.emoji) {
                                                     KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
                                                         .resizable()

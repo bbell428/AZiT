@@ -59,12 +59,12 @@ struct FriendsContentEmojiView: View {
                         .overlay(
                             ZStack {
                                 Circle()
-                                    .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 3)
+                                    .stroke(isPassed24Hours ? AnyShapeStyle(Color.gray.opacity(0.2)) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 3)
                                 if let codepoints = emojiManager.getCodepoints(forName: userInfo.previousState) {
                                     KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(width: 25 * (1.5 - interpolationRatio), height: 25 * (1.5 - interpolationRatio))
+                                        .frame(width: 25 * (2.2 - interpolationRatio), height: 25 * (2.2 - interpolationRatio))
                                 }
                             }
                         )

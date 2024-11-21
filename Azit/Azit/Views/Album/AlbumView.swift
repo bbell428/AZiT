@@ -90,11 +90,12 @@ struct AlbumView: View {
                             Spacer()
                             VStack {
                                 ProgressView()
-                                    .padding(.top, 15)
-                                Text("잠시만 기다려주세요..")
-                                    .padding(15)
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                Text("스토리 불러오는중...")
+                                    .foregroundStyle(Color.white)
                             }
-                            .background(Color.accent)
+                            .padding(15)
+                            .background(Color.accent.opacity(0.8))
                             .cornerRadius(15)
                             .frame(width: 250, height: 150)
                             Spacer()

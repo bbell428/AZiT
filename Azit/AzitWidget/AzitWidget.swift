@@ -9,6 +9,7 @@ import WidgetKit
 import SwiftUI
 import FirebaseCore
 import FirebaseFirestore
+import Kingfisher
 
 @MainActor
 class WidgetViewModel: ObservableObject {
@@ -224,7 +225,7 @@ struct AzitWidgetEntryView : View {
     @State private var image: UIImage?
     
     @State var entry: Provider.Entry
-    
+    let emojiManager = EmojiManager()
     
     init(entry: Provider.Entry, userInfoStore: UserInfoStore, photoImageStore: PhotoImageStore) {
         _widgetViewModel = StateObject(wrappedValue: WidgetViewModel(userInfoStore: userInfoStore, photoImageStore: photoImageStore))
@@ -255,9 +256,15 @@ struct AzitWidgetEntryView : View {
                     }
 
                     if entry.widgetData?.userInfo?.previousState ?? "" != "" {
-                        Text(entry.widgetData?.userInfo?.previousState ?? "")
-                            .padding(.top, -5)
-                            .font(.system(size: 80))
+                        if let codepoints = emojiManager.getCodepoints(forName: entry.widgetData?.userInfo?.previousState ?? "") {
+                            KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30, height: 30)
+                        }
+//                        Text(entry.widgetData?.userInfo?.previousState ?? "")
+//                            .padding(.top, -5)
+//                            .font(.system(size: 80))
                     }
 
                     Text(entry.widgetData?.userInfo?.nickname ?? "")
@@ -269,8 +276,12 @@ struct AzitWidgetEntryView : View {
 
                     HStack {
                         HStack {
-                            Text(entry.widgetData?.recentStory?.emoji ?? "")
-                                .foregroundStyle(.accent)
+                            if let codepoints = emojiManager.getCodepoints(forName: entry.widgetData?.userInfo?.previousState ?? "") {
+                                KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 10, height: 10)
+                            }
                             Text(entry.widgetData?.userInfo?.nickname ?? "")
                                 .foregroundStyle(.accent)
                         }

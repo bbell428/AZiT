@@ -81,7 +81,7 @@ struct PhotoReviewView: View {
                                             .scaledToFit()
                                             .frame(width: 20, height: 20)
                                     }
-                                    Text(storyDraft.emoji)
+                                    //Text(storyDraft.emoji)
                                     Text(storyDraft.content)
                                 }
                                 .padding([.leading, .bottom], 5)

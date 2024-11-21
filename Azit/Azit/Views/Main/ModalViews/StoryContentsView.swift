@@ -47,7 +47,8 @@ struct StoryContentsView: View {
                     KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 100, height: 100)
+                        .frame(width: 70, height: 70)
+                        .padding(.top, 40)
                 }
                 
             } else if !story.content.isEmpty {

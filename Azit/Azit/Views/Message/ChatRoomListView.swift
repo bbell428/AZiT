@@ -16,7 +16,7 @@ struct ChatRoomListView: View {
     var body: some View {
         GeometryReader { geometry in
             ScrollView {
-                LazyVStack(spacing: 0) { // Divider로 구분하므로 spacing은 0으로 설정
+                LazyVStack(spacing: 10) { // Divider로 구분하므로 spacing은 0으로 설정
                     ForEach(Array(chatListStore.chatRoomList.enumerated()), id: \.element.id) { index, chatroom in
                         // 다른 참가자 찾기
                         if let otherParticipantID = chatroom.participants.first(where: { $0 != authManager.userID }),

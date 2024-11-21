@@ -98,6 +98,7 @@
 		CE062BAC2CD91E2B00CB5D4A /* PostMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062BAB2CD91E2500CB5D4A /* PostMessageView.swift */; };
 		CE062BAE2CD91E6C00CB5D4A /* GetMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062BAD2CD91E6600CB5D4A /* GetMessageView.swift */; };
 		CE062BB02CD91EEE00CB5D4A /* ChatRoomListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062BAF2CD91EE700CB5D4A /* ChatRoomListView.swift */; };
+		CE0B24C02CEEC35A002FE86D /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = CE0B24BF2CEEC35A002FE86D /* Kingfisher */; };
 		CE374EAD2CD79F6300601AA7 /* ChatListStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE374EAC2CD79F6300601AA7 /* ChatListStore.swift */; };
 		CE3A16E22CD85A5B0045DB52 /* MessageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A16E12CD85A5B0045DB52 /* MessageDetailView.swift */; };
 		CE5574652CE4666600266EBD /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5574642CE4666600266EBD /* ProfileDetailView.swift */; };
@@ -350,6 +351,7 @@
 				8EE0145D2CE5D497003151F8 /* FirebaseCore in Frameworks */,
 				8EE014592CE5D497003151F8 /* FirebaseAuth in Frameworks */,
 				8EE014412CE5D33D003151F8 /* WidgetKit.framework in Frameworks */,
+				CE0B24C02CEEC35A002FE86D /* Kingfisher in Frameworks */,
 				8EE0146F2CE5D497003151F8 /* GoogleSignInSwift in Frameworks */,
 				8EE014692CE5D497003151F8 /* FirebaseStorage in Frameworks */,
 				8EE0145B2CE5D497003151F8 /* FirebaseAuthCombine-Community in Frameworks */,
@@ -486,13 +488,9 @@
 		8EAFEFA82CD4528E00136348 /* Azit */ = {
 			isa = PBXGroup;
 			children = (
-				8E42C9FA2CE6E5270006CAA5 /* Info.plist */,
 				8B2FC1CA2CEE57560078443F /* metadata.json */,
 				8B2FC1C82CEE4CD90078443F /* chars.json */,
 				8B2FC1BC2CEDD1B30078443F /* icons.json */,
-				8E645D5A2CE47C1200F43836 /* Constants */,
-				8E645D572CE47BE900F43836 /* Extension */,
-				8E645D562CE47BDA00F43836 /* Utility */,
 				8EC52DC12CE18FB900DC8190 /* Assets.xcassets */,
 				8EAFEFEB2CD47A0700136348 /* Auth */,
 				EA31371F2CE331AA00AA4685 /* Azit.entitlements */,
@@ -775,6 +773,7 @@
 				8EE0146A2CE5D497003151F8 /* FirebaseStorageCombine-Community */,
 				8EE0146C2CE5D497003151F8 /* GoogleSignIn */,
 				8EE0146E2CE5D497003151F8 /* GoogleSignInSwift */,
+				CE0B24BF2CEEC35A002FE86D /* Kingfisher */,
 			);
 			productName = AzitWidgetExtension;
 			productReference = 8EE0143F2CE5D33D003151F8 /* AzitWidgetExtension.appex */;
@@ -1568,6 +1567,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8EAFEFCA2CD45DC600136348 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		CE0B24BF2CEEC35A002FE86D /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8B2FC1C02CEE445E0078443F /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 		CE89D79D2CDA8D1600DC73A8 /* EmojiPicker */ = {
 			isa = XCSwiftPackageProductDependency;
