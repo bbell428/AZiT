@@ -8,6 +8,7 @@
 import SwiftUI
 import AVFoundation
 import PhotosUI
+import Kingfisher
 
 struct PhotoReviewView: View {
     @EnvironmentObject var cameraService: CameraService
@@ -23,6 +24,7 @@ struct PhotoReviewView: View {
     @Binding var isMyModalPresented: Bool // 내 스토리에 대한 모달
     @Binding var isPhotoTaken: Bool
     var image: UIImage?
+    let emojiManager = EmojiManager()
     
     @State private var showUploadView = false
     @State var isDisplayEmojiPicker: Bool = false
@@ -73,6 +75,12 @@ struct PhotoReviewView: View {
                         HStack {
                             VStack(alignment: .leading) {
                                 HStack{
+                                    if let codepoints = emojiManager.getCodepoints(forName: storyDraft.emoji) {
+                                        KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 20, height: 20)
+                                    }
                                     Text(storyDraft.emoji)
                                     Text(storyDraft.content)
                                 }

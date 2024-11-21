@@ -1,8 +1,10 @@
 import SwiftUI
 import FirebaseStorage
+import Kingfisher
 
 struct StoryContentsView: View {
     let story: Story
+    let emojiManager = EmojiManager()
     @EnvironmentObject var albumStore: AlbumStore
     @State private var image: UIImage?
     @State private var isLoadingImage = false
@@ -40,8 +42,14 @@ struct StoryContentsView: View {
                     }
                     .padding(.bottom, -50)
                 }
-                Text(story.emoji)
-                    .font(.system(size: 100))
+                
+                if let codepoints = emojiManager.getCodepoints(forName: story.emoji) {
+                    KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 100, height: 100)
+                }
+                
             } else if !story.content.isEmpty {
                 HStack {
                     Text(story.content)

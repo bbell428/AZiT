@@ -24,6 +24,7 @@ struct EmojiView : View {
     @State var firstNaviLinkActive = false
     @State private var isLimitExceeded: Bool = false
     @State private var scale: CGFloat = 0.1
+    @State var friendID: String = ""
     private let characterLimit = 20
     var isShareEnabled: Bool {
         return storyDraft.emoji.isEmpty && storyDraft.content.isEmpty
@@ -46,16 +47,21 @@ struct EmojiView : View {
                     // 공개 범위
                     Button(action: {
                         isShowingsheet.toggle()
+                        Task {
+                            friendID = try await userInfoStore.getUserNameById(id: storyDraft.publishedTargets[0])
+                        }
                     }) {
                         HStack {
                             Image(systemName: "person")
-                            if storyDraft.publishedTargets.isEmpty {
+                            
+                            if storyDraft.publishedTargets.count == userInfoStore.userInfo?.friends.count {
                                 Text("ALL")
                             } else if storyDraft.publishedTargets.count == 1 {
-                                Text("\(storyDraft.publishedTargets[0])")
+                                Text("\(friendID)")
                             } else {
-                                Text("\(storyDraft.publishedTargets[0]) 외 \(storyDraft.publishedTargets.count)명")
+                                Text("\(friendID) 외 \(storyDraft.publishedTargets.count - 1)명")
                             }
+                            
                             Text(">")
                         }
                         .font(.caption2)
@@ -176,7 +182,8 @@ struct EmojiView : View {
             } else {
                 print("위치 정보가 아직 준비되지 않았습니다.")
             }
-            
+            // 공개 범위에 모두를 넣음
+            storyDraft.publishedTargets = userInfoStore.userInfo?.friends ?? []
             
             withAnimation(.easeInOut(duration: 0.3)) {
                 scale = 1.0

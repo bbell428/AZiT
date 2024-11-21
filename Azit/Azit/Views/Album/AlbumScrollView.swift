@@ -7,10 +7,12 @@
 
 import Foundation
 import SwiftUI
+import Kingfisher
 
 // 친구 스토리 리스트
 struct AlbumScrollView : View {
     @EnvironmentObject var albumstore: AlbumStore
+    let emojiManager = EmojiManager()
     
     @Binding var lastOffsetY: CGFloat
     @Binding var isShowHorizontalScroll: Bool
@@ -81,8 +83,12 @@ struct AlbumScrollView : View {
                                                 SpeechBubbleView(text: story.content)
                                                     .font(.caption)
                                                     .padding(.bottom, 5)
-                                                Text(story.emoji)
-                                                    .font(.largeTitle)
+                                                if let codepoints = emojiManager.getCodepoints(forName: story.emoji) {
+                                                    KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
+                                                        .resizable()
+                                                        .scaledToFit()
+                                                        .frame(width: 40, height: 40)
+                                                }
                                                 Spacer()
                                             }
                                             .frame(width: 110, height: 150) // 고정된 크기

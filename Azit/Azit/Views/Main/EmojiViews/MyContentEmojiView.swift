@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 // 사용자 본인의 Circle Button의 label
 struct MyContentEmojiView: View {
-    @Binding var isPassed24Hours: Bool    
+    @Binding var isPassed24Hours: Bool
+    let emojiManager = EmojiManager()
     
     var previousState: String = ""
     var width: CGFloat = 0
@@ -27,9 +29,12 @@ struct MyContentEmojiView: View {
                             .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 6)
                            
                         
-                        Text(previousState)
-                            .font(.system(size: width * 0.8))
-                            .zIndex(2)
+                        if let codepoints = emojiManager.getCodepoints(forName: previousState) {
+                            KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 60, height: 60)
+                        }
                     }
                 )
                 .zIndex(0)

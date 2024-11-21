@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 // 친구의 story Circle
 struct FriendsContentEmojiView: View {
@@ -23,6 +24,7 @@ struct FriendsContentEmojiView: View {
     var startEllipse: (width: CGFloat, height: CGFloat) // 타원의 시작점
     var endEllipse: (width: CGFloat, height: CGFloat) // 타원의 끝점
     var interpolationRatio: CGFloat // 타원 내 위치를 설정
+    let emojiManager = EmojiManager()
     
     var body: some View {
         let majorAxis = startEllipse.width / 2 * (1 - interpolationRatio) + endEllipse.width / 2 * interpolationRatio // 타원의 넓은 부분
@@ -57,9 +59,13 @@ struct FriendsContentEmojiView: View {
                         .overlay(
                             ZStack {
                                 Circle()
-                                    .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 2 * (2.5 - interpolationRatio))
-                                Text(userInfo.previousState)
-                                    .font(.system(size: 25 * (2.2 - interpolationRatio)))
+                                    .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 3)
+                                if let codepoints = emojiManager.getCodepoints(forName: userInfo.previousState) {
+                                    KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 25 * (1.5 - interpolationRatio), height: 25 * (1.5 - interpolationRatio))
+                                }
                             }
                         )
                         
