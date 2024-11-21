@@ -249,28 +249,24 @@ struct AzitWidgetEntryView : View {
                             .lineLimit(1)
                             .truncationMode(.tail)
                             .frame(width: 150)
-                            .padding(.top, 40)
                     } else {
                         Text("")
-                            .padding(.top, 40)
                     }
-
-                    if entry.widgetData?.userInfo?.previousState ?? "" != "" {
-                        if let codepoints = emojiManager.getCodepoints(forName: entry.widgetData?.userInfo?.previousState ?? "") {
-                            KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 30, height: 30)
-                        }
-//                        Text(entry.widgetData?.userInfo?.previousState ?? "")
-//                            .padding(.top, -5)
-//                            .font(.system(size: 80))
+                    
+                    if let codepoints = emojiManager.getCodepoints(forName: entry.widgetData?.userInfo?.previousState ?? "") {
+                        KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 60, height: 60)
+                            .padding(.top, 10)
                     }
-
+                    //                        Text(entry.widgetData?.userInfo?.previousState ?? "")
+                    //                            .padding(.top, -5)
+                    //                            .font(.system(size: 80))
                     Text(entry.widgetData?.userInfo?.nickname ?? "")
                         .foregroundStyle(.accent)
                         .font(.caption2)
-                        .padding(.top, -50)
+                        .padding(.top, 10)
                 } else {
                     Spacer()
 
