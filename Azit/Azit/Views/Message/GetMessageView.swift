@@ -123,7 +123,7 @@ struct GetMessage: View {
                                     } label: {
                                         Image(uiImage: loadedImage)
                                             .resizable()
-                                            .aspectRatio(contentMode: .fill)
+                                            .aspectRatio(contentMode: .fit)
                                             .frame(width: 180, height: 240)
                                             .cornerRadius(15)
                                     }
