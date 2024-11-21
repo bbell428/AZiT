@@ -34,14 +34,14 @@ struct MainView: View {
             ZStack {
                 // 메인 화면일 때 타원 뷰
                 if isMainExposed {
-                    RotationView(isMyModalPresented: $isMyModalPresented, isFriendsModalPresented: $isFriendsModalPresented, isDisplayEmojiPicker: $isDisplayEmojiPicker, isPassed24Hours: $isPassed24Hours, isShowToast: $isShowToast)
+                    RotationView(isMainExposed: $isMainExposed, isMyModalPresented: $isMyModalPresented, isFriendsModalPresented: $isFriendsModalPresented, isDisplayEmojiPicker: $isDisplayEmojiPicker, isPassed24Hours: $isPassed24Hours, isShowToast: $isShowToast)
                         .frame(width: 300, height: 300)
                         .zIndex(isMyModalPresented
                                 || isFriendsModalPresented
                                 || isDisplayEmojiPicker ? 2 : 1)
                 // 맵 화면일 때 맵 뷰
                 } else {
-                    MapView(isMyModalPresented: $isMyModalPresented, isFriendsModalPresented: $isFriendsModalPresented, isDisplayEmojiPicker: $isDisplayEmojiPicker, isPassed24Hours: $isPassed24Hours, isShowToast: $isShowToast)
+                    MapView(isMainExposed: $isMainExposed, isMyModalPresented: $isMyModalPresented, isFriendsModalPresented: $isFriendsModalPresented, isDisplayEmojiPicker: $isDisplayEmojiPicker, isPassed24Hours: $isPassed24Hours, isShowToast: $isShowToast)
                         .zIndex(isMyModalPresented
                                 || isFriendsModalPresented
                                 || isDisplayEmojiPicker ? 2 : 1)

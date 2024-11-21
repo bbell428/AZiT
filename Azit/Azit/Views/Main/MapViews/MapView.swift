@@ -13,6 +13,7 @@ struct MapView: View {
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var storyStore: StoryStore
     
+    @Binding var isMainExposed: Bool
     @Binding var isMyModalPresented: Bool
     @Binding var isFriendsModalPresented: Bool
     @Binding var isDisplayEmojiPicker: Bool
@@ -38,12 +39,14 @@ struct MapView: View {
                             }
                         } label: {
                             ZStack {
-                                MyContentEmojiView(isPassed24Hours: $isPassed24Hours,
+                                MyContentEmojiView(isMainExposed: $isMainExposed,
+                                                   isPassed24Hours: $isPassed24Hours,
                                                    previousState: userInfoStore.userInfo?.previousState ?? "",
-                                                   width: 50,
-                                                   height: 50)
+                                                   width: 120,
+                                                   height: 120)
                                     .zIndex(3)
-                            }                            
+                            }
+                            .scaleEffect(max(0.5, min(1.0, 1.0 / (region.span.latitudeDelta * 12.5))))
                         }
                     } else {
                         MapContentEmojiView(user: $user,
@@ -118,5 +121,83 @@ struct MapView: View {
                 }
             }
         }
-    }
-}
+    }}
+
+//struct ClusteredMapView: UIViewRepresentable {
+//    @Binding var users: [UserInfo]
+//    @Binding var region: MKCoordinateRegion
+//
+//    func makeUIView(context: Context) -> MKMapView {
+//        let mapView = MKMapView()
+//        mapView.delegate = context.coordinator
+//        return mapView
+//    }
+//
+//    func updateUIView(_ mapView: MKMapView, context: Context) {
+//        mapView.removeAnnotations(mapView.annotations)
+//        
+//        let clusteredAnnotations = clusterAnnotations(users: users)
+//        mapView.addAnnotations(clusteredAnnotations)
+//    }
+//
+//    func makeCoordinator() -> Coordinator {
+//        Coordinator(self)
+//    }
+//
+//    class Coordinator: NSObject, MKMapViewDelegate {
+//        var parent: ClusteredMapView
+//
+//        init(_ parent: ClusteredMapView) {
+//            self.parent = parent
+//        }
+//
+//        func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+//            let identifier = "CustomAnnotation"
+//            
+//            if let annotation = annotation as? MKPointAnnotation {
+//                var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView
+//                if annotationView == nil {
+//                    annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+//                }
+//                annotationView?.markerTintColor = .red
+//                annotationView?.glyphText = annotation.title
+//                return annotationView
+//            }
+//            return nil
+//        }
+//    }
+//    
+//    // 클러스터링 로직
+//    private func clusterAnnotations(users: [UserInfo]) -> [MKPointAnnotation] {
+//        let clusteringDistance: Double = 0.05 // 클러스터링 범위 (latitude, longitude 단위)
+//        var clusteredAnnotations: [MKPointAnnotation] = []
+//        var usedIndices: Set<Int> = []
+//        
+//        for (i, user) in users.enumerated() {
+//            guard !usedIndices.contains(i) else { continue }
+//            
+//            var cluster = [user]
+//            let userLocation = CLLocation(latitude: user.latitude, longitude: user.longitude)
+//            
+//            for (j, otherUser) in users.enumerated() where i != j && !usedIndices.contains(j) {
+//                let otherLocation = CLLocation(latitude: otherUser.latitude, longitude: otherUser.longitude)
+//                let distance = userLocation.distance(from: otherLocation)
+//                if distance < clusteringDistance * 1000 { // 거리 비교 (미터 단위)
+//                    cluster.append(otherUser)
+//                    usedIndices.insert(j)
+//                }
+//            }
+//            
+//            // 클러스터 대표 위치 계산
+//            let clusterLatitude = cluster.map { $0.latitude }.reduce(0, +) / Double(cluster.count)
+//            let clusterLongitude = cluster.map { $0.longitude }.reduce(0, +) / Double(cluster.count)
+//            
+//            let annotation = MKPointAnnotation()
+//            annotation.coordinate = CLLocationCoordinate2D(latitude: clusterLatitude, longitude: clusterLongitude)
+//            annotation.title = cluster.count > 1 ? "\(cluster.count) Users" : cluster.first?.nickname
+//            clusteredAnnotations.append(annotation)
+//            usedIndices.insert(i)
+//        }
+//        return clusteredAnnotations
+//    }
+//}

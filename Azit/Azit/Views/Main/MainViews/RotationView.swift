@@ -13,6 +13,7 @@ struct RotationView: View {
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var storyStore: StoryStore
     
+    @Binding var isMainExposed: Bool // 메인 화면인지 맵 화면인지
     @Binding var isMyModalPresented: Bool // 사용자 자신의 모달 컨트롤
     @Binding var isFriendsModalPresented: Bool // 친구의 모달 컨트롤
     @Binding var isDisplayEmojiPicker: Bool  // 사용자 자신의 게시글 작성 모달 컨트롤
@@ -44,7 +45,8 @@ struct RotationView: View {
                         isMyModalPresented = true
                     }
                 } label: {
-                    MyContentEmojiView(isPassed24Hours: $isPassed24Hours,
+                    MyContentEmojiView(isMainExposed: $isMainExposed,
+                                       isPassed24Hours: $isPassed24Hours,
                                        previousState: userInfoStore.userInfo?.previousState ?? "",
                                        width: 134,
                                        height: 134)
