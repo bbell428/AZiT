@@ -46,11 +46,11 @@ struct RotationView: View {
                 } label: {
                     MyContentEmojiView(isPassed24Hours: $isPassed24Hours,
                                        previousState: userInfoStore.userInfo?.previousState ?? "",
-                                       width: 100,
-                                       height: 100)
+                                       width: 134,
+                                       height: 134)
                 }
                 .zIndex(1)
-                .offset(y: 250)
+                .offset(y: 300)
                 // 타원 생성
                 EllipsesView()
                 
@@ -80,7 +80,7 @@ struct RotationView: View {
                 DragGesture()
                     .onChanged { value in
                         // 속도 설정 부
-                        rotation += Double(value.translation.width) * 0.02
+                        rotation += Double(value.translation.width) * 0.005
                     }
             )
             // 뷰의 크기 확대, 축소

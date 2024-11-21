@@ -18,28 +18,32 @@ struct MyContentEmojiView: View {
     var body: some View {
         ZStack {
             Circle()
-                .fill(.clear)
+                .fill(.white.opacity(0.2))
                 .frame(width: width, height: height)
                 .overlay(
                     ZStack {
                         // 24시간 지남 여부에 따라 색 변경, 24시간 이 전: 그레디언트, 24시간 이 후: 흰 색
                         Circle()
-                            .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 3)
+                            .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 6)
+                           
                         
                         Text(previousState)
                             .font(.system(size: width * 0.8))
+                            .zIndex(2)
                     }
                 )
-            // 24시간이 지남 여부에 따라 + Circle이 반영 
+                .zIndex(0)
+            // 24시간이 지남 여부에 따라 + Circle이 반영
             if isPassed24Hours {
                 Circle()
                     .fill(.white)
-                    .frame(width: 25, height: 25)
+                    .frame(width: width / 5, height: height / 5)
                     .overlay(
                         Text("+")
                             .fontWeight(.black)
                     )
-                    .offset(y: 50)
+                    .offset(y: height / 2)
+                    .zIndex(1)
             }
         }
     }

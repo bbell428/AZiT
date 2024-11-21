@@ -7,10 +7,13 @@
 
 import SwiftUI
 
+
+
 struct Utility {
     // MARK: - Gradient
+    static let colors: [Color] = [.subColor3, .subColor2, .subColor1, .subColor0]
+    
     static func createGradient(index: Int, width: CGFloat, height: CGFloat) -> RadialGradient {
-        let colors: [Color] = [.subColor4, .subColor3, .subColor2, .subColor1]
         let startColor: Color = colors[index]
         
         return RadialGradient(
@@ -27,6 +30,11 @@ struct Utility {
             startPoint: .top,
             endPoint: .bottom
         )
+    }
+    
+    static func colorForIndex(_ index: Int) -> Color {
+        let colors = colors
+        return colors[index % colors.count]
     }
     
     

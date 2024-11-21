@@ -7,6 +7,30 @@
 
 import SwiftUI
 import AlertToast
+import Combine
+
+class KeyboardObserver: ObservableObject {
+    @Published var keyboardHeight: CGFloat = 0
+    
+    private var cancellables: Set<AnyCancellable> = []
+    
+    init() {
+        NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)
+            .merge(with: NotificationCenter.default.publisher(for: UIResponder.keyboardWillChangeFrameNotification))
+            .compactMap { $0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect }
+            .map { $0.height }
+            .sink { [weak self] height in
+                self?.keyboardHeight = height
+            }
+            .store(in: &cancellables)
+        
+        NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)
+            .sink { [weak self] _ in
+                self?.keyboardHeight = 0
+            }
+            .store(in: &cancellables)
+    }
+}
 
 struct FriendsContentsModalView: View {
     let screenBounds = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds
@@ -14,6 +38,8 @@ struct FriendsContentsModalView: View {
     @EnvironmentObject var storyStore: StoryStore
     @EnvironmentObject var chatDetailViewStore: ChatDetailViewStore
     @EnvironmentObject var userInfoStore: UserInfoStore
+    
+    @StateObject private var keyboardObserver = KeyboardObserver()
     
     @Binding var message: String
     var selectedUserInfo: UserInfo
@@ -65,6 +91,18 @@ struct FriendsContentsModalView: View {
                         sendMessage()
                     } else {
                         isLiked.toggle()
+                        
+                        if isLiked {
+                            Task {
+                                story?.likes.append(userInfoStore.userInfo?.id ?? "")
+                                await storyStore.addStory(story!)
+                            }
+                        } else {
+                            Task {
+                                story?.likes.removeAll(where: { $0 == userInfoStore.userInfo?.id ?? "" })
+                                await storyStore.addStory(story!)
+                            }
+                        }
                     }
                 }) {
                     Image(systemName: !message.isEmpty ? "paperplane.fill" : (isLiked ? "heart.fill" : "heart"))
@@ -82,8 +120,18 @@ struct FriendsContentsModalView: View {
         .background(.subColor4)
         .cornerRadius(8)
         .scaleEffect(scale)
+        .padding(.bottom, keyboardObserver.keyboardHeight > 0 ? keyboardObserver.keyboardHeight - 150 : keyboardObserver.keyboardHeight)
+        .animation(.easeOut(duration: 0.3), value: keyboardObserver.keyboardHeight)
+        .onTapGesture {
+            self.endTextEditing()
+        }
         .onAppear {
-            loadStory()
+            message = ""
+            
+            Task {
+                await loadStory()
+            }
+           
             withAnimation(.easeInOut(duration: 0.3)) {
                 scale = 1.0
             }
@@ -96,12 +144,16 @@ struct FriendsContentsModalView: View {
         .frame(width: (screenBounds?.width ?? 0) - 32)
     }
     
-    private func loadStory() {
+    private func loadStory() async {
         Task {
             isLoadingStory = true
             if story == nil {
                 do {
                     story = try await storyStore.loadRecentStoryById(id: selectedUserInfo.id)
+                    
+                    if let contains = story?.likes.contains(userInfoStore.userInfo?.id ?? "") {
+                        isLiked = contains ? true : false
+                    }
                 } catch {
                     print("스토리 로드 실패: \(error.localizedDescription)")
                 }

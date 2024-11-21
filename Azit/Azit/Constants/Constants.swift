@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct Constants {
     // MARK: - 각도 정보
@@ -64,6 +65,11 @@ struct Constants {
     
     // MARK: - 타원 크기
     static let ellipses: [(width: CGFloat, height: CGFloat)] = [
-        (1260, 1008), (967, 774), (674, 540), (285, 225)
+        (1260, 1008), (967, 774), (674, 540), (360, 284)
+    ]
+    
+    // MARK: - 타원 Color
+    static let gradientColors: [(firstColor: Color, secondColor: Color)] = [
+        (.subColor0, .subColor1), (.subColor1, .subColor2), (.subColor2, .subColor3), (.subColor3, .subColor4)
     ]
 }

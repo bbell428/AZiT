@@ -109,7 +109,7 @@ struct MapView: View {
                             latitude: userLat,
                             longitude: userLng
                         ),
-                        span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+                        span: MKCoordinateSpan(latitudeDelta: 4.5, longitudeDelta: 4.5)
                     )
                     // 사용자 본인의 story
                     let story = try await storyStore.loadRecentStoryById(id: userInfoStore.userInfo?.id ?? "")

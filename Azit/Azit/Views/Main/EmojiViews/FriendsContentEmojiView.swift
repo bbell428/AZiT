@@ -41,33 +41,35 @@ struct FriendsContentEmojiView: View {
                     .foregroundStyle(Color(UIColor.darkGray))
                     .frame(minWidth: 100)
                     .padding(.top, -40).scaleEffect(1)
+                    .offset(x: 0, y: -25 * (1 - interpolationRatio))
                 
                 ZStack {
-                    Ellipse()
-                        .fill(RadialGradient(gradient: Gradient(colors: [Color.black.opacity(0.4), Color.black.opacity(0)]),
-                                             center: .center,
-                                             startRadius: 0,
-                                             endRadius: 20))
-                        .frame(width: 20 * (1.5 - interpolationRatio), height: 10 * (1.5 - interpolationRatio))
+                    EllipticalGradient(
+                        gradient: Gradient(colors: [.black.opacity(0.7), .clear]),
+                        center: .center,
+                        startRadiusFraction: 0,
+                        endRadiusFraction: 0.5
+                    )
+                    .frame(width: 40 * (2.2 - interpolationRatio), height: 10 * (2.2 - interpolationRatio))
                     
                     Circle()
-                        .fill(.clear)
+                        .fill(.white.opacity(0.2))
                         .overlay(
                             ZStack {
                                 Circle()
-                                    .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 3)
+                                    .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 2 * (2.5 - interpolationRatio))
                                 Text(userInfo.previousState)
-                                    .font(.system(size: 25 * (1.5 - interpolationRatio)))
+                                    .font(.system(size: 25 * (2.2 - interpolationRatio)))
                             }
-                            
                         )
-                        .offset(x: 0, y: -30)
-                        .frame(width: 40 * (1.5 - interpolationRatio), height: 40 * (1.5 - interpolationRatio))
+                        
+                        .offset(x: 0, y: -25 * (2.2 - interpolationRatio))
+                        .frame(width: 40 * (2.2 - interpolationRatio), height: 40 * (2.2 - interpolationRatio))
                 }
             }
         }
         .frame(width: 50, height: 50)
-        .offset(x: majorAxis * cos(angle), y: minorAxis * sin(angle) + 250)
+        .offset(x: majorAxis * cos(angle), y: minorAxis * sin(angle) + 300)
         .animation(.easeInOut(duration: 0.5), value: rotation)
         .onAppear {
             Task {
