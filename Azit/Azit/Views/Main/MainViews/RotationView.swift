@@ -37,22 +37,29 @@ struct RotationView: View {
     var body: some View {
         ZStack {
             ZStack {
-                // 사용자 본인의 Circle Button
-                Button {
-                    if isPassed24Hours {
-                        isDisplayEmojiPicker = true
-                    } else {
-                        isMyModalPresented = true
+                VStack {
+                    // 사용자 본인의 Circle Button
+                    Button {
+                        if isPassed24Hours {
+                            isDisplayEmojiPicker = true
+                        } else {
+                            isMyModalPresented = true
+                        }
+                    } label: {
+                        MyContentEmojiView(isMainExposed: $isMainExposed,
+                                           isPassed24Hours: $isPassed24Hours,
+                                           previousState: userInfoStore.userInfo?.previousState ?? "",
+                                           width: 134,
+                                           height: 134)
                     }
-                } label: {
-                    MyContentEmojiView(isMainExposed: $isMainExposed,
-                                       isPassed24Hours: $isPassed24Hours,
-                                       previousState: userInfoStore.userInfo?.previousState ?? "",
-                                       width: 134,
-                                       height: 134)
+                    
+                    Slider(value: $rotation, in: 0...360) {
+                        
+                    }
+                    .frame(width: 120)
                 }
                 .zIndex(1)
-                .offset(y: 300)
+                .offset(y: 270)
                 // 타원 생성
                 EllipsesView()
                 

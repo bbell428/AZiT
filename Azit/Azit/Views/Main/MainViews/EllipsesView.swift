@@ -18,7 +18,7 @@ struct EllipsesView: View {
                         .stroke(Color.white, lineWidth: 1)
                 )
                 .frame(width: Constants.ellipses[3].width, height: Constants.ellipses[3].height)
-                .offset(y: 300)
+                .offset(y: 270)
                 .zIndex(3)
             
             // 두 번째 타원
@@ -29,7 +29,7 @@ struct EllipsesView: View {
                         .stroke(Color.white, lineWidth: 1)
                 )
                 .frame(width: Constants.ellipses[2].width, height: Constants.ellipses[2].height)
-                .offset(y: 300)
+                .offset(y: 270)
                 .zIndex(2)
             
             // 세 번째 타원
@@ -40,7 +40,7 @@ struct EllipsesView: View {
                         .stroke(Color.white, lineWidth: 1)
                 )
                 .frame(width: Constants.ellipses[1].width, height: Constants.ellipses[1].height)
-                .offset(y: 300)
+                .offset(y: 270)
                 .zIndex(1)
             
             // 네 번째 타원
@@ -58,7 +58,7 @@ struct EllipsesView: View {
                         .stroke(Color.white, lineWidth: 1)
                 )
                 .frame(width: Constants.ellipses[0].width, height: Constants.ellipses[0].height)
-                .offset(y: 300)
+                .offset(y: 270)
                 .zIndex(0)
         }
     }

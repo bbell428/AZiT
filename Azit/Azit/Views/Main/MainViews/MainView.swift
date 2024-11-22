@@ -28,6 +28,8 @@ struct MainView: View {
     @State private var isPassed24Hours: Bool = false // 사용자 자신의 게시글 작성 후 24시간에 대한 판별 여부
     @State private var scale: CGFloat = 0.1 // EmojiView 애니메이션
     @State private var isShowToast = false
+    @State private var isRightToLeftSwipe = false // 오른쪽에서 왼쪽 스와이프 여부
+    @State private var isLeftToRightSwipe = false // 왼쪽에서 오른쪽 스와이프 여부
     
     var body: some View {
         NavigationStack() {
@@ -51,10 +53,27 @@ struct MainView: View {
                 MainTopView(isMainExposed: $isMainExposed, isShowToast: $isShowToast)
                     .zIndex(1)
             }
+            .navigationDestination(isPresented: $isRightToLeftSwipe) {
+                MessageView(isShowToast: $isShowToast)
+            }
+//            .navigationDestination(isPresented: $isLeftToRightSwipe) {
+//                MyPageView()
+//            }
         }
         .toast(isPresenting: $isShowToast, alert: {
             AlertToast(displayMode: .banner(.pop), type: .systemImage("envelope.open", Color.white), title: "전송 완료", style: .style(backgroundColor: .subColor1, titleColor: Color.white))
         })
+        .gesture (
+            DragGesture()
+                .onEnded { value in
+                    if value.translation.width < -50 { // 왼쪽으로 드래그
+                        isRightToLeftSwipe = true
+                    }
+//                    else if value.translation.width > 50 { // 오른쪽으로 드래그
+//                        isLeftToRightSwipe = true
+//                    }
+                }
+        )
         .onChange(of: scenePhase) {
             switch scenePhase {
             case .background:
