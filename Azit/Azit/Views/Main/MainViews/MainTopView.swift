@@ -40,16 +40,16 @@ struct MainTopView: View {
                         //                                .frame(width: 25)
                         //                        }
                         //                        .disabled(isModalPresented ? true : false)
-                        
-                        NavigationLink {
-                            MessageView(isShowToast: $isShowToast)
-                        } label: {
-                            Image(systemName: "ellipsis.message.fill")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 30)
-                                .foregroundStyle(Utility.createLinearGradient(colors: [.accent, .gradation1]))
-                        }
+//                        
+//                        NavigationLink {
+//                            MessageView(isShowToast: $isShowToast)
+//                        } label: {
+//                            Image(systemName: "ellipsis.message.fill")
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fit)
+//                                .frame(width: 30)
+//                                .foregroundStyle(Utility.createLinearGradient(colors: [.accent, .gradation1]))
+//                        }
                         
                         NavigationLink {
                             AlbumView(isShowToast: $isShowToast)
@@ -71,7 +71,7 @@ struct MainTopView: View {
                                 .foregroundStyle(Utility.createLinearGradient(colors: [.accent, .gradation1]))
                         }
                     }
-                    .frame(width: 150, height: 50)
+                    .frame(width: 100, height: 50)
                     .background(isMainExposed ? Color.gray.opacity(0.1) : Color.subColor4.opacity(0.8))
                     .clipShape(RoundedRectangle(cornerRadius: 15))
                     .padding()
