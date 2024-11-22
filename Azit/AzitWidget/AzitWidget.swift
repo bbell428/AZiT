@@ -287,7 +287,8 @@ struct AzitWidgetEntryView : View {
                         
                         Spacer()
                     }
-                    .padding([.leading, .bottom], 10)
+                    .padding([.leading], 10)
+                    .padding([.bottom], 5)
                     .font(.caption)
                     .offset(y: -350) // 나중에 %로 계산
                 }

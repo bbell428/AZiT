@@ -8,10 +8,16 @@ import SwiftUI
 
 // 메시지 채팅방 List View
 struct ChatRoomListView: View {
+    
+    @Environment(\.dismiss) private var dismiss
+    
     @EnvironmentObject var chatListStore: ChatListStore
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var authManager: AuthManager
+    
     @Binding var isShowToast: Bool
+    
+    @State private var dragOffset: CGFloat = 0.0
     
     var body: some View {
         GeometryReader { geometry in
@@ -90,5 +96,30 @@ struct ChatRoomListView: View {
                 }
             }
         }
+        .gesture(
+            DragGesture()
+//                .onEnded { value in
+//                    if value.translation.width < -50 { // 왼쪽으로 드래그
+//                        isRightToLeftSwipe = true
+//                    }
+//                    if value.translation.width > 50 { // 오른쪽으로 드래그
+//                        dismiss()
+//                    }
+//                }
+                .onChanged { value in
+                    if value.translation.width > 0 {
+                        dragOffset = value.translation.width
+                    }
+                }
+                .onEnded { value in
+                    if value.translation.width > 100 {
+                        dismiss()
+                    }
+                    
+                    dragOffset = 0
+                }
+        )
+        .offset(x: dragOffset)
+        .animation(.easeInOut, value: dragOffset)
     }
 }

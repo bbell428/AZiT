@@ -53,10 +53,7 @@ struct RotationView: View {
                                            height: 134)
                     }
                     
-                    Slider(value: $rotation, in: 0...360) {
-                        
-                    }
-                    .frame(width: 120)
+                    RotationBar(rotation: $rotation)
                 }
                 .zIndex(1)
                 .offset(y: 270)
@@ -86,13 +83,13 @@ struct RotationView: View {
                 }
             }
             // 타원 위의 Circle들 각도 설정
-            .gesture(
-                DragGesture()
-                    .onChanged { value in
-                        // 속도 설정 부
-                        rotation += Double(value.translation.width) * 0.005
-                    }
-            )
+//            .gesture(
+//                DragGesture()
+//                    .onChanged { value in
+//                        // 속도 설정 부
+//                        rotation += Double(value.translation.width) * 0.005
+//                    }
+//            )
             // 뷰의 크기 확대, 축소
             .gesture(
                 MagnificationGesture()
