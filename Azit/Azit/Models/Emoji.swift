@@ -83,7 +83,7 @@ public class EmojiManager {
         let jsDelivrURL = "https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/72x72/\(unicodeHex).png"
         // 만약 jsDelivr에 이미지가 없으면 unpkg 시도
         // let unpkgURL = "https://unpkg.com/twemoji@latest/assets/72x72/\(unicodeHex).png"
-        // 이중 CDN 시도 방식은 Swift 코드에서는 직접 구현하기 어렵지만, 우선 jsDelivr를 사용하고 대체 처리를 통해 unpkg를 시도할 수 있습니다.
+//         이중 CDN 시도 방식은 Swift 코드에서는 직접 구현하기 어렵지만, 우선 jsDelivr를 사용하고 대체 처리를 통해 unpkg를 시도할 수 있습니다.
         return jsDelivrURL
     }
 }

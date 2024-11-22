@@ -17,7 +17,7 @@ public struct EmojiPickerView: View {
     private var selectedColor: Color
     @State private var searchEnabled: Bool
     
-    public init(selectedEmoji: Binding<String>, searchEnabled: Bool = false, selectedColor: Color = .blue, emojiProvider: any EmojiProvider = DefaultEmojiProvider()) {
+    public init(selectedEmoji: Binding<String>, searchEnabled: Bool = false, selectedColor: Color = Color.accentColor.opacity(0.5), emojiProvider: any EmojiProvider = DefaultEmojiProvider()) {
         self._selectedEmoji = selectedEmoji
         self.selectedColor = selectedColor
         self.searchEnabled = searchEnabled
@@ -47,7 +47,8 @@ public struct EmojiPickerView: View {
             LazyVGrid(columns: columns, spacing: 20) {
                 ForEach(searchResults, id: \.self) { emoji in
                     RoundedRectangle(cornerRadius: 16)
-                        .fill((selectedEmoji == emoji.emoji ? selectedColor : Color.subColor2).opacity(0.3))
+//                        .fill((EmojiManager.getTwemojiURL(for: emoji.code) == emoji.code ? selectedColor : Color.subColor2).opacity(0.3))
+                        .fill((selectedEmoji == emoji.name ? selectedColor : Color.subColor2).opacity(0.3))
                         .frame(width: 40, height: 40)
                         .overlay {
                             // Kingfisher를 사용하여 Twemoji 이미지 로드
