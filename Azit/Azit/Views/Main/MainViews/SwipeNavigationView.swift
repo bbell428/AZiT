@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct SwipeNavigationView: View {
     @State private var offset: CGFloat = 0 // 드래그 오프셋
     @State private var currentIndex: Int = 1
@@ -66,7 +64,7 @@ struct SwipeNavigationView: View {
                     }
             )
         }
-        .edgesIgnoringSafeArea(.all)
+//        .edgesIgnoringSafeArea(.all)
     }
 }
 

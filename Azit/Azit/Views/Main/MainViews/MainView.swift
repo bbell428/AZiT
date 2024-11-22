@@ -63,17 +63,17 @@ struct MainView: View {
         .toast(isPresenting: $isShowToast, alert: {
             AlertToast(displayMode: .banner(.pop), type: .systemImage("envelope.open", Color.white), title: "전송 완료", style: .style(backgroundColor: .subColor1, titleColor: Color.white))
         })
-        .gesture (
-            DragGesture()
-                .onEnded { value in
-                    if value.translation.width < -50 { // 왼쪽으로 드래그
-                        isRightToLeftSwipe = true
-                    }
-//                    else if value.translation.width > 50 { // 오른쪽으로 드래그
-//                        isLeftToRightSwipe = true
+//        .gesture (
+//            DragGesture()
+//                .onEnded { value in
+//                    if value.translation.width < -50 { // 왼쪽으로 드래그
+//                        isRightToLeftSwipe = true
 //                    }
-                }
-        )
+////                    else if value.translation.width > 50 { // 오른쪽으로 드래그
+////                        isLeftToRightSwipe = true
+////                    }
+//                }
+//        )
         .onChange(of: scenePhase) {
             switch scenePhase {
             case .background:
