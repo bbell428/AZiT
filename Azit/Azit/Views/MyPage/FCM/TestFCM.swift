@@ -10,7 +10,7 @@ import SwiftUI
 struct TestFCM: View {
     let title = "아지트"
     let body2 = "캬아~~ FC"
-    let targetToken = "e5Mp9lVaLkSqpELnucg6qY:APA91bEcwgoTh2RiPd3Pxw36fffY47PZ6Ysk4NPf_yQLIsbMWyRehOlehvSga6_8KGs90cSqDVccLSjXJSJd4YdDBrpfQxdmWYMCm3mq1sSzFpPqfQ4UE9E"
+    @AppStorage("fcmToken") private var targetToken: String = ""
     
     var body: some View {
         Button {

@@ -158,7 +158,7 @@ struct MyPageView: View {
                                         isEditFriend.toggle()
                                         friendID = friend.id
                                     } label: {
-                                        Image(systemName: "line.horizontal.3")
+                                        Image(systemName: "ellipsis")
                                             .foregroundColor(.gray)
                                             .padding(.trailing, 20)
                                             .font(.title3)
@@ -189,11 +189,12 @@ struct MyPageView: View {
                             
                             if userInfoStore.friendInfos.count > 3 {
                                 Button {
-                                    withAnimation { // 애니메이션을 추가, 자연스러운 느낌쓰
+                                    withAnimation(.easeInOut(duration: 0.3)) { // 애니메이션을 추가, 자연스러운 느낌쓰
                                         showAllFriends.toggle()
                                     }
                                 } label: {
-                                    Image(systemName: showAllFriends ? "chevron.up" : "chevron.down")
+//                                    Image(systemName: showAllFriends ? "chevron.up" : "chevron.down")
+                                    Image(systemName: "chevron.down")
                                         .font(.caption)
                                         .fontWeight(.light)
                                         .padding(.horizontal, 20)

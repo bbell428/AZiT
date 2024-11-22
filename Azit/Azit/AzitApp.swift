@@ -72,6 +72,8 @@ extension AppDelegate: MessagingDelegate {
         // 그러나 서버가 없기 때문에 이렇게 token을 출력하게 한다.
         // 이 토큰은 뒤에서 Test할때 필요하다!
         print("FCM Token: \(fcmToken)")
+        
+        UserDefaults.standard.set(fcmToken, forKey: "fcmToken")
     }
 }
 
