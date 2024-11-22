@@ -69,9 +69,9 @@ struct MainView: View {
 //                    if value.translation.width < -50 { // 왼쪽으로 드래그
 //                        isRightToLeftSwipe = true
 //                    }
-////                    else if value.translation.width > 50 { // 오른쪽으로 드래그
-////                        isLeftToRightSwipe = true
-////                    }
+//                    else if value.translation.width > 50 { // 오른쪽으로 드래그
+//                        isLeftToRightSwipe = true
+//                    }
 //                }
 //        )
         .onChange(of: scenePhase) {

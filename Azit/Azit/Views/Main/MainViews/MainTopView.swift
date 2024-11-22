@@ -89,20 +89,23 @@ struct MainTopView: View {
                 Button {
                     isMainExposed.toggle()
                 } label: {
-                    Image(systemName: isMainExposed ? "map" : "house")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 30)
-                        .foregroundStyle(Utility.createLinearGradient(colors: [.accent, .gradation1]))
+                    if isMainExposed {
+                        Image(.personPinCircle)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30)
+                            .foregroundStyle(Utility.createLinearGradient(colors: [.accent, .gradation1]))
+                    } else {
+                        Image(systemName: "house.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30)
+                            .foregroundStyle(Utility.createLinearGradient(colors: [.accent, .gradation1]))
+                    }
                 }
                 .frame(width: 60, height: 60)
                 .background(Color.white)
-                .clipShape(RoundedRectangle(cornerRadius: 15))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 15)
-                        .stroke(Utility.createLinearGradient(colors: [.accent, .gradation1]), lineWidth: 2)
-                        
-                )
+                .clipShape(RoundedRectangle(cornerRadius: 25))
             }
             .padding()            
         }
