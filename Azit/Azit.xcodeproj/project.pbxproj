@@ -102,7 +102,6 @@
 		CE374EAD2CD79F6300601AA7 /* ChatListStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE374EAC2CD79F6300601AA7 /* ChatListStore.swift */; };
 		CE3A16E22CD85A5B0045DB52 /* MessageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A16E12CD85A5B0045DB52 /* MessageDetailView.swift */; };
 		CE5574652CE4666600266EBD /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5574642CE4666600266EBD /* ProfileDetailView.swift */; };
-		CE5574672CE4669500266EBD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE5574662CE4669500266EBD /* GoogleService-Info.plist */; };
 		CE69CDCC2CE70C2800322E7A /* AlbumStoryImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE69CDCB2CE70C2800322E7A /* AlbumStoryImageView.swift */; };
 		CE86A3B62CE6DFE2000B59B2 /* AlbumDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE86A3B52CE6DFE2000B59B2 /* AlbumDetailView.swift */; };
 		CE86A3B82CE6E1B4000B59B2 /* AlbumFriendListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE86A3B72CE6E1B4000B59B2 /* AlbumFriendListView.swift */; };
@@ -121,8 +120,10 @@
 		EAAABB7A2CE70BF40003C250 /* EditFriend.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAABB792CE70BF40003C250 /* EditFriend.swift */; };
 		EAAABB9C2CE890AB0003C250 /* BlockedFriendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAABB9B2CE890AB0003C250 /* BlockedFriendView.swift */; };
 		EAB079722CDDAED700293C62 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB079712CDDAED700293C62 /* SplashView.swift */; };
+		EAB582DB2CEC6081007385FC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EAB582DA2CEC6081007385FC /* GoogleService-Info.plist */; };
 		EACABF212CE30E760042340D /* AuthApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = EACABF202CE30E760042340D /* AuthApple.swift */; };
 		EAD18AE52CD6719600AF3013 /* LoginSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD18AE42CD6719600AF3013 /* LoginSubView.swift */; };
+		EAF3D1022CEDA31800ABCB4F /* TestFCM.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF3D1012CEDA31800ABCB4F /* TestFCM.swift */; };
 		EAF840742CD9B56200F23839 /* UserInfoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF840732CD9B56200F23839 /* UserInfoStore.swift */; };
 		EAF840B32CD9FA0E00F23839 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF840B22CD9FA0E00F23839 /* MyPageView.swift */; };
 		EAF8BB1B2CDB368F00B67AAF /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF8BB1A2CDB368F00B67AAF /* EditProfileView.swift */; };
@@ -235,7 +236,6 @@
 		CE374EAC2CD79F6300601AA7 /* ChatListStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListStore.swift; sourceTree = "<group>"; };
 		CE3A16E12CD85A5B0045DB52 /* MessageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailView.swift; sourceTree = "<group>"; };
 		CE5574642CE4666600266EBD /* ProfileDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailView.swift; sourceTree = "<group>"; };
-		CE5574662CE4669500266EBD /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CE69CDCB2CE70C2800322E7A /* AlbumStoryImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumStoryImageView.swift; sourceTree = "<group>"; };
 		CE86A3B52CE6DFE2000B59B2 /* AlbumDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailView.swift; sourceTree = "<group>"; };
 		CE86A3B72CE6E1B4000B59B2 /* AlbumFriendListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumFriendListView.swift; sourceTree = "<group>"; };
@@ -252,8 +252,10 @@
 		EAAABB792CE70BF40003C250 /* EditFriend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditFriend.swift; sourceTree = "<group>"; };
 		EAAABB9B2CE890AB0003C250 /* BlockedFriendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedFriendView.swift; sourceTree = "<group>"; };
 		EAB079712CDDAED700293C62 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		EAB582DA2CEC6081007385FC /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		EACABF202CE30E760042340D /* AuthApple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthApple.swift; sourceTree = "<group>"; };
 		EAD18AE42CD6719600AF3013 /* LoginSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSubView.swift; sourceTree = "<group>"; };
+		EAF3D1012CEDA31800ABCB4F /* TestFCM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFCM.swift; sourceTree = "<group>"; };
 		EAF840732CD9B56200F23839 /* UserInfoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoStore.swift; sourceTree = "<group>"; };
 		EAF840B22CD9FA0E00F23839 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		EAF8BB1A2CDB368F00B67AAF /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
@@ -643,6 +645,14 @@
 			path = QRCode;
 			sourceTree = "<group>";
 		};
+		EABA948B2CEC303500193C1E /* FCM */ = {
+			isa = PBXGroup;
+			children = (
+				EAF3D1012CEDA31800ABCB4F /* TestFCM.swift */,
+			);
+			path = FCM;
+			sourceTree = "<group>";
+		};
 		EAF840B12CD9F9C100F23839 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
@@ -651,6 +661,7 @@
 				EAAABB792CE70BF40003C250 /* EditFriend.swift */,
 				EAAABB9B2CE890AB0003C250 /* BlockedFriendView.swift */,
 				EA3137222CE337A600AA4685 /* QRCode */,
+				EABA948B2CEC303500193C1E /* FCM */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -840,6 +851,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8EAFEFA92CD4528E00136348 /* Preview Assets.xcassets in Resources */,
+				EAB582DB2CEC6081007385FC /* GoogleService-Info.plist in Resources */,
 				8EC52DC22CE18FB900DC8190 /* Assets.xcassets in Resources */,
 				8B2FC1BD2CEDD1B30078443F /* icons.json in Resources */,
 				CE5574672CE4669500266EBD /* GoogleService-Info.plist in Resources */,
@@ -876,6 +888,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAF3D1022CEDA31800ABCB4F /* TestFCM.swift in Sources */,
 				CE86A3B82CE6E1B4000B59B2 /* AlbumFriendListView.swift in Sources */,
 				8BDA11D52CDA769C004242DB /* EmojiPickerView.swift in Sources */,
 				EAB079722CDDAED700293C62 /* SplashView.swift in Sources */,
