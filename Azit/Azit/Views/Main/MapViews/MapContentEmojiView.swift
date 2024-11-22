@@ -24,11 +24,6 @@ struct MapContentEmojiView: View {
     
     var body: some View {
         VStack {
-            Text(user.nickname)
-                .font(.caption)
-                .foregroundStyle(.black)
-                .padding(.top, max(-40, min(-20, -40 * (1.0 / (region.span.latitudeDelta * 12.5)))))
-            
             Button {
                 isFriendsModalPresented = true
                 selectedIndex = index // 선택 된 친구의 index 유지
@@ -40,24 +35,49 @@ struct MapContentEmojiView: View {
                                              startRadius: 0,
                                              endRadius: 20))
                     
-                    Circle()
-                        .fill(.white.opacity(0.2))
-                        .overlay(
-                            ZStack {
-                                Circle()
-                                    .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 3)
-                                if let codepoints = emojiManager.getCodepoints(forName: user.previousState) {
-                                    KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 45, height: 45)
+                    VStack {
+                        Circle()
+                            .fill(.white.opacity(0.8))
+                            .overlay(
+                                VStack {
+                                    ZStack {
+                                        Circle()
+                                            .stroke(isPassed24Hours ? AnyShapeStyle(Utility.createLinearGradient(colors: [.ellipseColor2.opacity(0.5), .ellipseColor2])) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 15)
+                                            .frame(width: 90, height: 90)
+                                        if let codepoints = emojiManager.getCodepoints(forName: user.previousState) {
+                                            KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 60, height: 60)
+                                            
+                                        }
+                                    }
+                                    
+                                   
                                 }
-                                Text(user.previousState)
-                                    .font(.system(size: 45))
-                            }
-                        )
-                        .offset(x: 0, y: -30)
-                        .frame(width: 60, height: 60)
+                                
+                            )
+                            .frame(width: 90, height: 90)
+                        
+                        HStack {
+                            Spacer()
+                            
+                            Capsule()
+                                .fill(isPassed24Hours ? .ellipseColor2 : .accent)
+                                .overlay(
+                                    Text(user.nickname)
+                                        .font(.caption)
+                                        .foregroundStyle(.white)
+                                        .bold()
+                                )
+                                .frame(height: 25)
+                                .offset(y: -10)
+                                .zIndex(1)
+                                .padding([.leading, .trailing], 5)
+                            
+                            Spacer()
+                        }
+                    }
                 }
             }
             .scaleEffect(max(0.5, min(1.0, 1.0 / (region.span.latitudeDelta * 12.5))))
