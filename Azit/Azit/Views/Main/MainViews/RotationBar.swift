@@ -24,7 +24,7 @@ struct RotationBar: View {
                     .padding([.leading, .trailing], 5)
             }
             .contentShape(Rectangle())
-            .gesture(
+            .highPriorityGesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged { value in
                         let newValue = min(max(0, value.location.x / trackWidth), 1) * 360
