@@ -198,7 +198,7 @@ struct PhotoReviewView: View {
                 userInfoStore.userInfo?.previousState = storyDraft.emoji
             }
             
-            if let image = self.image {
+            if let image = cameraService.capturedImage {
                 photoImageStore.UploadImage(image: image, imageName: newStory.image)
             }
             await userInfoStore.updateUserInfo(userInfoStore.userInfo!)
