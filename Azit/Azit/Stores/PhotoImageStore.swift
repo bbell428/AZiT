@@ -166,4 +166,32 @@ extension PhotoImageStore {
         return rotatedImage
     }
 
+    func reverseRotateImage(image: UIImage) -> UIImage? {
+        // 회전 변환: 90도 오른쪽 회전
+        let transform = CGAffineTransform(rotationAngle: -.pi / 2)
+        
+        // 이미지 크기
+        let size = image.size
+        
+        // 회전된 이미지의 경계 크기 계산
+        let newWidth = size.height
+        let newHeight = size.width
+        
+        // 그래픽 컨텍스트 생성 (회전된 크기 반영)
+        UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newHeight))
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+        
+        // 회전 설정
+        context.translateBy(x: newWidth / 2, y: newHeight / 2)
+        context.concatenate(transform)
+        
+        // 이미지를 회전하고 그리기
+        image.draw(at: CGPoint(x: -size.width / 2, y: -size.height / 2))
+        
+        // 회전된 이미지를 가져오기
+        let rotatedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return rotatedImage
+    }
 }

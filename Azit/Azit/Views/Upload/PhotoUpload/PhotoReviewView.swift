@@ -17,7 +17,8 @@ struct PhotoReviewView: View {
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var locationManager: LocationManager
     @EnvironmentObject var userInfoStore: UserInfoStore
-    @EnvironmentObject private var photoImageStore: PhotoImageStore
+    @EnvironmentObject var photoImageStore: PhotoImageStore
+    @EnvironmentObject var editPhotoService: EditPhotoStore
     @Environment(\.dismiss) var dismiss
     @Binding var firstNaviLinkActive: Bool
     @Binding var isMainDisplay: Bool // MainView에서 전달받은 바인딩 변수
@@ -53,12 +54,13 @@ struct PhotoReviewView: View {
                 .padding()
                 
                 // 스토리 이미지
-                if let image = cameraService.capturedImage {
-                    Image(uiImage: image)
-                        .resizable()
-                    //                    .scaledToFill()
-                        .aspectRatio(3/4, contentMode: .fit)
-                        .frame(width: 360, height: 480)
+                if cameraService.capturedImage != nil {
+                    EditPhotoView()
+//                    Image(uiImage: image)
+//                        .resizable()
+//                    //                    .scaledToFill()
+//                        .aspectRatio(3/4, contentMode: .fit)
+//                        .frame(width: 360, height: 480)
                 } else {
                     Text("No Image Captured")
                 }
@@ -130,6 +132,7 @@ struct PhotoReviewView: View {
                 // save 버튼
                 Button(action: {
 //                    savePhoto()
+                    
                     shareStory()
                 }) {
                     RoundedRectangle(cornerSize: CGSize(width: 15.0, height: 15.0))
@@ -194,13 +197,15 @@ struct PhotoReviewView: View {
         Task {
             await storyStore.addStory(newStory)
             // 유저의 새로운 상태, 위경도 값 저장
+            
             if !(storyDraft.emoji == "") {
                 userInfoStore.userInfo?.previousState = storyDraft.emoji
             }
             
             if let image = cameraService.capturedImage {
-                photoImageStore.UploadImage(image: image, imageName: newStory.image)
+                await editPhotoService.saveImage(image: image, id: newStory.id) // 편집한 이미지로 변경
             }
+            
             await userInfoStore.updateUserInfo(userInfoStore.userInfo!)
             isDisplayEmojiPicker = false
             showUploadView = true
