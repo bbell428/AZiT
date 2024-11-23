@@ -28,6 +28,8 @@
 		8BD71F842CD89AEA0030693B /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F832CD89AE90030693B /* PhotoPicker.swift */; };
 		8BD71F882CD8C6300030693B /* PhotoReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F872CD8C62B0030693B /* PhotoReviewView.swift */; };
 		8BDA11D52CDA769C004242DB /* EmojiPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDA11D42CDA7696004242DB /* EmojiPickerView.swift */; };
+		8BE42D402CF0B8B900AB21F4 /* .swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE42D3F2CF0B8B600AB21F4 /* .swift */; };
+		8BE42D422CF0B8C300AB21F4 /* BlurView.swift in Resources */ = {isa = PBXBuildFile; fileRef = 8BE42D412CF0B8C300AB21F4 /* BlurView.swift */; };
 		8E538EE12CD844700094ABD1 /* RotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E538EE02CD844700094ABD1 /* RotationView.swift */; };
 		8E538EE32CD844A50094ABD1 /* FriendsContentsModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E538EE22CD844A50094ABD1 /* FriendsContentsModalView.swift */; };
 		8E611FDF2CEC9E0D00DF40E4 /* AzitWidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E611FDE2CEC9E0D00DF40E4 /* AzitWidgetData.swift */; };
@@ -193,6 +195,8 @@
 		8BD71F832CD89AE90030693B /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		8BD71F872CD8C62B0030693B /* PhotoReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoReviewView.swift; sourceTree = "<group>"; };
 		8BDA11D42CDA7696004242DB /* EmojiPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiPickerView.swift; sourceTree = "<group>"; };
+		8BE42D3F2CF0B8B600AB21F4 /* .swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swift; sourceTree = "<group>"; };
+		8BE42D412CF0B8C300AB21F4 /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		8E42C9FA2CE6E5270006CAA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E538EE02CD844700094ABD1 /* RotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotationView.swift; sourceTree = "<group>"; };
 		8E538EE22CD844A50094ABD1 /* FriendsContentsModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsContentsModalView.swift; sourceTree = "<group>"; };
@@ -531,6 +535,7 @@
 		8EAFEFAE2CD4529E00136348 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				8BE42D412CF0B8C300AB21F4 /* BlurView.swift */,
 				8EAFF0012CD4A05C00136348 /* Album */,
 				8EAFEFFF2CD4A04300136348 /* Login */,
 				8EAFEFFD2CD4A03200136348 /* Main */,
@@ -544,6 +549,7 @@
 		8EAFEFAF2CD452A600136348 /* Stores */ = {
 			isa = PBXGroup;
 			children = (
+				8BE42D3F2CF0B8B600AB21F4 /* .swift */,
 				8B2FC1C62CEE48000078443F /* EmojiProvider.swift */,
 				8B2FC1BA2CEDC5A70078443F /* TwemojiHelper.swift */,
 				CEDFC2ED2CE2EAB0008C215A /* AlbumStore.swift */,
@@ -865,6 +871,7 @@
 				8EAFEFA92CD4528E00136348 /* Preview Assets.xcassets in Resources */,
 				EAB582DB2CEC6081007385FC /* GoogleService-Info.plist in Resources */,
 				8EC52DC22CE18FB900DC8190 /* Assets.xcassets in Resources */,
+				8BE42D422CF0B8C300AB21F4 /* BlurView.swift in Resources */,
 				8B2FC1BD2CEDD1B30078443F /* icons.json in Resources */,
 				8B2FC1CB2CEE57560078443F /* metadata.json in Resources */,
 				8B2FC1C92CEE4CD90078443F /* chars.json in Resources */,
@@ -912,6 +919,7 @@
 				EAF93B8F2CD4A50700116035 /* SignupView.swift in Sources */,
 				EAAABB762CE6D0CA0003C250 /* QRInvitation.swift in Sources */,
 				EAAABB782CE6D2BE0003C250 /* QR.swift in Sources */,
+				8BE42D402CF0B8B900AB21F4 /* .swift in Sources */,
 				8E645D552CE4784F00F43836 /* MyContentEmojiView.swift in Sources */,
 				EA3137212CE3322000AA4685 /* QRCodeView.swift in Sources */,
 				8EAFEFB82CD45CCE00136348 /* ChatRoom.swift in Sources */,

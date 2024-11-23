@@ -220,16 +220,5 @@ struct EmojiView : View {
             print("위치를 가져올 수 없습니다.")
         }
     }
-    //    func getEmojiList()->[[Int]] {
-    //        var emojis : [[Int]] = []
-    //        for i in stride(from: 0x1F601, to: 0x1F64F, by: 4){
-    //            var temp : [Int] = []
-    //            for j in i...i+3{
-    //                temp.append(j)
-    //            }
-    //            emojis.append(temp)
-    //        }
-    //        return emojis
-    //    }
 }
 

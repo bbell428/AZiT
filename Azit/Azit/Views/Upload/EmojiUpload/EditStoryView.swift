@@ -9,56 +9,69 @@ import SwiftUI
 //import EmojiPicker
 
 struct EditStoryView : View {
-    @EnvironmentObject var storyStore: StoryStore
     @EnvironmentObject var authManager: AuthManager
+    @EnvironmentObject var userInfoStore: UserInfoStore
+    @EnvironmentObject var storyStore: StoryStore
     @EnvironmentObject var storyDraft: StoryDraft
-    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var locationManager: LocationManager
     
-    // 작성될 때의 경도와 위도 값 받기 > 위치 변환하려면 api 받아야 하나
-//    @State var currentLatitude: Double = 0
-//    @State var currentLongitude: Double = 0
-//    @Binding var message: String
-//    @Binding var selectedEmoji: String
+    @Binding var isDisplayEmojiPicker: Bool // MainView에서 전달받은 바인딩 변수
+    @Binding var isMyModalPresented: Bool // 내 스토리에 대한 모달
+  
     @State var publishedTargets: [String] = []
-    @Binding var isDisplayEmojiPicker: Bool
-    
     @State var isShowingsheet: Bool = false
     @State var isPicture:Bool = false
+    @State var firstNaviLinkActive = false
+    @State private var isLimitExceeded: Bool = false
+    @State private var scale: CGFloat = 0.1
+    @State var friendID: String = ""
+    private let characterLimit = 20
     var isShareEnabled: Bool {
-        return storyDraft.emoji.isEmpty || storyDraft.content.isEmpty
+        return storyDraft.emoji.isEmpty && storyDraft.content.isEmpty
     }
     
     var body : some View{
-        VStack() {
+        VStack {
             NavigationStack {
+                // 상단 바
                 HStack {
+                    // 위치
                     HStack {
                         Image(systemName: "location.fill")
                             .foregroundStyle(Color.accentColor)
-                        
-                        // 위치 데이터
-                        Text("경기도 고양시")
+                        Text(storyDraft.address)
                             .font(.caption2)
                     }
                     Spacer()
+                    
+                    // 공개 범위
                     Button(action: {
                         isShowingsheet.toggle()
+                        Task {
+                            friendID = try await userInfoStore.getUserNameById(id: storyDraft.publishedTargets[0])
+                        }
                     }) {
                         HStack {
                             Image(systemName: "person")
-                            Text("전체 공개")
-                                .font(.caption2)
+                            
+                            if storyDraft.publishedTargets.count == userInfoStore.userInfo?.friends.count {
+                                Text("ALL")
+                            } else if storyDraft.publishedTargets.count == 1 {
+                                Text("\(friendID)")
+                            } else {
+                                Text("\(friendID) 외 \(storyDraft.publishedTargets.count - 1)명")
+                            }
+                            
                             Text(">")
-                                .font(.caption2)
                         }
+                        .font(.caption2)
                     }
                 }
-                .padding(.horizontal)
+                .padding([.horizontal, .bottom])
                 
                 // 이모지피커 뷰 - 서치 바와 리스트
                 EmojiPickerView(selectedEmoji: $storyDraft.emoji, searchEnabled: false,  selectedColor: Color.accent)
                     .background(Color.subColor4)
-
                 
             }.frame(width: UIScreen.main.bounds.width*0.9, height: UIScreen.main.bounds.height * 1.1 / 3)
                 .padding(.bottom)
@@ -72,8 +85,22 @@ struct EditStoryView : View {
                         .stroke(Color.subColor1, lineWidth: 0.5)
                         .background(Color.white.clipShape(RoundedRectangle(cornerRadius: 10)))
                 )
-                .padding(.bottom, 10)
+                .padding(.bottom, 5)
+                .onChange(of: storyDraft.content) { newValue in
+                    if newValue.count >= characterLimit {
+                        storyDraft.content = String(newValue.prefix(characterLimit))
+                        isLimitExceeded = true
+                    } else {
+                        isLimitExceeded = false
+                    }
+                }
             
+            if isLimitExceeded {
+                Text("최대 20자까지 입력할 수 있습니다.")
+                    .font(.caption2)
+                    .foregroundColor(.red)
+            }
+
             // 수정 완료 버튼
             Button (action:{
                 isDisplayEmojiPicker = false
@@ -89,32 +116,68 @@ struct EditStoryView : View {
                     )
             }
         }
-        .frame(width: 365, height: 480) // 팝업창 크기
+        .padding()
+        .frame(width: 365, height: 500) // 팝업창 크기
         .background(
             RoundedRectangle(cornerRadius: 15)
                 .fill(Color.subColor4)
                 .stroke(Color.accentColor, lineWidth: 0.5)
                 .shadow(radius: 10)
-            
         )
-        .padding()
         .sheet(isPresented: $isShowingsheet) {
             PublishScopeView()
-                .presentationDetents([.medium])
+                .presentationDetents([.medium, .large])
+        }
+        .onTapGesture {
+            self.endTextEditing()
+        }
+        .contentShape(Rectangle()) // 전체 뷰가 터치 가능하도록 설정
+        .scaleEffect(scale)
+        .onAppear {
+            if let location = locationManager.currentLocation {
+                fetchAddress()
+            } else {
+                print("위치 정보가 아직 준비되지 않았습니다.")
+            }
+            // 공개 범위에 모두를 넣음
+            storyDraft.publishedTargets = userInfoStore.userInfo?.friends ?? []
+            
+            withAnimation(.easeInOut(duration: 0.3)) {
+                scale = 1.0
+            }
+        }
+        .onDisappear {
+            withAnimation(.easeInOut(duration: 0.3)) {
+                scale = 0.1
+            }
         }
     }
-
     
-    //    func getEmojiList()->[[Int]] {
-    //        var emojis : [[Int]] = []
-    //        for i in stride(from: 0x1F601, to: 0x1F64F, by: 4){
-    //            var temp : [Int] = []
-    //            for j in i...i+3{
-    //                temp.append(j)
-    //            }
-    //            emojis.append(temp)
-    //        }
-    //        return emojis
-    //    }
+    // 저장 후 초기화 함수
+    func resetStory() {
+//        storyDraft.id = ""
+//        storyDraft.userId = ""
+        storyDraft.likes = []
+        storyDraft.latitude = 0.0
+        storyDraft.longitude = 0.0
+        storyDraft.address = ""
+        storyDraft.emoji = ""
+        storyDraft.image = ""
+        storyDraft.content = ""
+        storyDraft.publishedTargets = []
+        storyDraft.readUsers = []
+    }
+    
+    private func fetchAddress() {
+        if let location = locationManager.currentLocation {
+            reverseGeocode(location: location) { addr in
+                storyDraft.address = addr ?? ""
+            }
+        } else {
+            print("위치를 가져올 수 없습니다.")
+        }
+    }
 }
+
+
 
