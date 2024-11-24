@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-//import EmojiPicker
 
 struct EmojiView : View {
     @EnvironmentObject var authManager: AuthManager
