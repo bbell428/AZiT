@@ -26,10 +26,12 @@ struct AuthView: View {
                 MainView()
                     .environmentObject(authManager)
                     .environmentObject(userInfoStore)
-                    .onAppear { // 로그인 후, 해당 디바이스로 UserInfo에 토큰 저장
+                    .onAppear {
                         Task {
+                            // 로그인 후, 해당 디바이스로 UserInfo에 토큰 저장
                             await userInfoStore.updateFCMToken(authManager.userID, fcmToken: targetToken)
                             
+                            // 로그인 후, 메시지 개수 알림 배지로 표시
                             await sendNotificationToServer(myNickname: "", message: "", fcmToken: userInfoStore.userInfo?.fcmToken ?? "", badge: userInfoStore.sumIntegerValuesContainingUserID(userID: authManager.userID))
                         }
                     }

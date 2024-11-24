@@ -239,6 +239,7 @@ struct MyPageView: View {
                             
                             Button {
                                 Task {
+                                    // 로그아웃 시, 토근 값 빈문자열 + 알림배지 개수 0으로 초기화
                                     await userInfoStore.updateFCMToken(authManager.userID, fcmToken: "")
                                     sendNotificationToServer(myNickname: "", message: "", fcmToken: userInfoStore.userInfo?.fcmToken ?? "", badge: 0)
                                     
