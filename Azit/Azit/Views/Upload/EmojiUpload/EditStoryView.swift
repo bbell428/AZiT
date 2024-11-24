@@ -26,6 +26,7 @@ struct EditStoryView : View {
     @State private var scale: CGFloat = 0.1
     @State var friendID: String = ""
     private let characterLimit = 20
+    let screenBounds = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds
     var isShareEnabled: Bool {
         return storyDraft.emoji.isEmpty && storyDraft.content.isEmpty
     }
@@ -117,11 +118,10 @@ struct EditStoryView : View {
             }
         }
         .padding()
-        .frame(width: 365, height: 500) // 팝업창 크기
+        .frame(width: (screenBounds?.width ?? 0) - 32, height: 500) // 팝업창 크기
         .background(
             RoundedRectangle(cornerRadius: 15)
                 .fill(Color.subColor4)
-                .stroke(Color.accentColor, lineWidth: 0.5)
                 .shadow(radius: 10)
         )
         .sheet(isPresented: $isShowingsheet) {
