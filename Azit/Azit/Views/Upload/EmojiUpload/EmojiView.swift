@@ -17,7 +17,6 @@ struct EmojiView : View {
     @Binding var isDisplayEmojiPicker: Bool // MainView에서 전달받은 바인딩 변수
     @Binding var isMyModalPresented: Bool // 내 스토리에 대한 모달
   
-    @State var publishedTargets: [String] = []
     @State var isShowingsheet: Bool = false
     @State var isPicture:Bool = false
     @State var firstNaviLinkActive = false
@@ -46,9 +45,9 @@ struct EmojiView : View {
                     // 공개 범위
                     Button(action: {
                         isShowingsheet.toggle()
-                        Task {
-                            friendID = try await userInfoStore.getUserNameById(id: storyDraft.publishedTargets[0])
-                        }
+//                        Task {
+//                            friendID = try await userInfoStore.getUserNameById(id: storyDraft.publishedTargets[0])
+//                        }
                     }) {
                         HStack {
                             Image(systemName: "person")
@@ -169,6 +168,12 @@ struct EmojiView : View {
         .sheet(isPresented: $isShowingsheet) {
             PublishScopeView()
                 .presentationDetents([.medium, .large])
+                .onDisappear {
+                    // 공개 범위 업데이트
+                    if let firstTarget = storyDraft.publishedTargets.first {
+                        friendID = userInfoStore.friendInfo[firstTarget]?.nickname ?? ""
+                    }
+                }
         }
         .onTapGesture {
             self.endTextEditing()
@@ -183,6 +188,10 @@ struct EmojiView : View {
             }
             // 공개 범위에 모두를 넣음
             storyDraft.publishedTargets = userInfoStore.userInfo?.friends ?? []
+            
+            Task {
+                friendID = try await userInfoStore.getUserNameById(id: storyDraft.publishedTargets[0])
+            }
             
             withAnimation(.easeInOut(duration: 0.3)) {
                 scale = 1.0
