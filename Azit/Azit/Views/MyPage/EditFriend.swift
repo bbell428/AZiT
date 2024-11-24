@@ -73,7 +73,8 @@ struct EditFriend: View {
                                 friends: userInfoStore.userInfo?.friends ?? [""],
                                 latitude: userInfoStore.userInfo?.latitude ?? 0.0,
                                 longitude: userInfoStore.userInfo?.longitude ?? 0.0,
-                                blockedFriends: currentBlockedFriends)
+                                blockedFriends: currentBlockedFriends,
+                                fcmToken: userInfoStore.userInfo?.fcmToken ?? "")
                             )
                             
                             userInfoStore.removeFriend(friendID: friendID, currentUserID: authManager.userID)

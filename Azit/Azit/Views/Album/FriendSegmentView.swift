@@ -54,7 +54,8 @@ struct FriendSegmentView: View {
                 friends: [],
                 latitude: 0.0,
                 longitude: 0.0,
-                blockedFriends: []
+                blockedFriends: [],
+                fcmToken: ""
             )
             modifiedTitles.append(dummyData)
         }

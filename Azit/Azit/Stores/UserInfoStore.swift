@@ -33,7 +33,8 @@ class UserInfoStore: ObservableObject {
                 "friends": user.friends,
                 "latitude": user.latitude,
                 "longitude": user.longitude,
-                "blockedFriends": user.blockedFriends
+                "blockedFriends": user.blockedFriends,
+                "fcmToken": user.fcmToken
             ])
             
             print("Document successfully written!")
@@ -56,7 +57,9 @@ class UserInfoStore: ObservableObject {
                 "friends": user.friends,
                 "latitude": user.latitude,
                 "longitude": user.longitude,
-                "blockedFriends": user.blockedFriends
+                "blockedFriends": user.blockedFriends,
+                "fcmToken": user.fcmToken
+                
             ], merge: true) // 기존 데이터에 덮어쓰기
             print("Document successfully updated!")
         } catch {
@@ -83,6 +86,7 @@ class UserInfoStore: ObservableObject {
             let latitude: Double = docData["latitude"] as? Double ?? 0.0
             let longitude: Double = docData["longitude"] as? Double ?? 0.0
             let blockedFriends: [String] = docData["blockedFriends"] as? [String] ?? []
+            let fcmToken: String = docData["fcmToken"] as? String ?? ""
             
             // `userInfoStore` 업데이트
             self.userInfo = UserInfo(
@@ -94,7 +98,8 @@ class UserInfoStore: ObservableObject {
                 friends: friends,
                 latitude: latitude,
                 longitude: longitude,
-                blockedFriends: blockedFriends
+                blockedFriends: blockedFriends,
+                fcmToken: fcmToken
             )
             
             print("userinfo: \(String(describing: self.userInfo))")
@@ -223,7 +228,7 @@ class UserInfoStore: ObservableObject {
     func getUserNameById(id: String) async throws -> String {
         let db = Firestore.firestore()
         
-        var user: UserInfo = UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0, blockedFriends: [])
+        var user: UserInfo = UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0, blockedFriends: [], fcmToken: "")
         
         do {
             let querySnapshot = try await db.collection("User")
@@ -269,6 +274,8 @@ class UserInfoStore: ObservableObject {
             let friends = docData["friends"] as? [String] ?? []
             let latitude = docData["latitude"] as? Double ?? 0.0
             let longitude = docData["longitude"] as? Double ?? 0.0
+            let blockedFriends = docData["blockedFriends"] as? [String] ?? []
+            let fcmToken = docData["fcmToken"] as? String ?? ""
             
             let userInfo = UserInfo(
                 id: id,
@@ -279,7 +286,8 @@ class UserInfoStore: ObservableObject {
                 friends: friends,
                 latitude: latitude,
                 longitude: longitude,
-                blockedFriends: []
+                blockedFriends: blockedFriends,
+                fcmToken: fcmToken
             )
             
             return userInfo
@@ -390,5 +398,47 @@ class UserInfoStore: ObservableObject {
             }
             print("차단목록에 친구 삭제 완료")
         }
+    }
+    
+    // MARK: - 로그인 후, 전용 디바이스 토큰으로 업데이트
+    func updateFCMToken(_ userId: String, fcmToken: String) async {
+        do {
+            let db = Firestore.firestore()
+            
+            try await db.collection("User").document(userId).setData([
+                "fcmToken": fcmToken
+                
+            ], merge: true) // 기존 데이터에 덮어쓰기
+            print("Document successfully updated!")
+        } catch {
+            print("Error updating document: \(error)")
+        }
+    }
+    
+    //MARK: Chat문서 읽지 않는 값 전부 긁어오기
+    func sumIntegerValuesContainingUserID(userID: String) async -> Int {
+        let db = Firestore.firestore()
+        var totalSum = 0
+        
+        do {
+            // Chat 컬렉션의 문서 가져오기
+            let querySnapshot = try await db.collection("Chat").getDocuments()
+            
+            for document in querySnapshot.documents {
+                // `unreadCount` 필드가 Map인지 확인
+                if let unreadCountMap = document.data()["unreadCount"] as? [String: Int] {
+                    // Map에서 특정 userID에 해당하는 값 추출
+                    if let userUnreadCount = unreadCountMap[userID] {
+                        totalSum += userUnreadCount
+                    }
+                }
+            }
+            
+            print("Total sum of integer values for userID \(userID): \(totalSum)")
+        } catch {
+            print("Error calculating sum of integer values: \(error)")
+        }
+        
+        return totalSum
     }
 }

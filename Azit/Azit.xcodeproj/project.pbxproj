@@ -125,7 +125,7 @@
 		EAB582DB2CEC6081007385FC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EAB582DA2CEC6081007385FC /* GoogleService-Info.plist */; };
 		EACABF212CE30E760042340D /* AuthApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = EACABF202CE30E760042340D /* AuthApple.swift */; };
 		EAD18AE52CD6719600AF3013 /* LoginSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD18AE42CD6719600AF3013 /* LoginSubView.swift */; };
-		EAF3D1022CEDA31800ABCB4F /* TestFCM.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF3D1012CEDA31800ABCB4F /* TestFCM.swift */; };
+		EAF3D1022CEDA31800ABCB4F /* sendNotificationToServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF3D1012CEDA31800ABCB4F /* sendNotificationToServer.swift */; };
 		EAF840742CD9B56200F23839 /* UserInfoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF840732CD9B56200F23839 /* UserInfoStore.swift */; };
 		EAF840B32CD9FA0E00F23839 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF840B22CD9FA0E00F23839 /* MyPageView.swift */; };
 		EAF8BB1B2CDB368F00B67AAF /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF8BB1A2CDB368F00B67AAF /* EditProfileView.swift */; };
@@ -258,7 +258,7 @@
 		EAB582DA2CEC6081007385FC /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		EACABF202CE30E760042340D /* AuthApple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthApple.swift; sourceTree = "<group>"; };
 		EAD18AE42CD6719600AF3013 /* LoginSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSubView.swift; sourceTree = "<group>"; };
-		EAF3D1012CEDA31800ABCB4F /* TestFCM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFCM.swift; sourceTree = "<group>"; };
+		EAF3D1012CEDA31800ABCB4F /* sendNotificationToServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sendNotificationToServer.swift; sourceTree = "<group>"; };
 		EAF840732CD9B56200F23839 /* UserInfoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoStore.swift; sourceTree = "<group>"; };
 		EAF840B22CD9FA0E00F23839 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		EAF8BB1A2CDB368F00B67AAF /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
@@ -660,7 +660,7 @@
 		EABA948B2CEC303500193C1E /* FCM */ = {
 			isa = PBXGroup;
 			children = (
-				EAF3D1012CEDA31800ABCB4F /* TestFCM.swift */,
+				EAF3D1012CEDA31800ABCB4F /* sendNotificationToServer.swift */,
 			);
 			path = FCM;
 			sourceTree = "<group>";
@@ -901,7 +901,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EAF3D1022CEDA31800ABCB4F /* TestFCM.swift in Sources */,
+				EAF3D1022CEDA31800ABCB4F /* sendNotificationToServer.swift in Sources */,
 				CE86A3B82CE6E1B4000B59B2 /* AlbumFriendListView.swift in Sources */,
 				8BDA11D52CDA769C004242DB /* EmojiPickerView.swift in Sources */,
 				EAB079722CDDAED700293C62 /* SplashView.swift in Sources */,

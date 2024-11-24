@@ -272,6 +272,7 @@ struct MessageSendField: View {
     var roomId: String
     var nickname: String
     var userId: String // 상대방 id
+    @State var otherUserInfo: UserInfo? // 상대방 아이디로 UserInfo 할당하기 위해 사용
     
     @Binding var isOpenGallery: Bool
     @Binding var textEditorHeight: CGFloat // 초기 높이
@@ -335,6 +336,9 @@ struct MessageSendField: View {
                         guard !text.isEmpty else { return }
                         print("메시지 전송: \(text)")
                         await chatDetailViewStore.sendMessage(text: text, myId: userInfoStore.userInfo?.id ?? "", friendId: userId)
+                        
+                        sendNotificationToServer(myNickname: userInfoStore.userInfo?.nickname ?? "", message: text, fcmToken: otherUserInfo?.fcmToken ?? "", badge: await userInfoStore.sumIntegerValuesContainingUserID(userID: otherUserInfo?.id ?? "")) // 푸시 알림-메시지
+                        
                         text = "" // 메시지 전송 후 입력 필드를 초기화
                         adjustHeight() // 높이 리셋
                     }
@@ -354,6 +358,15 @@ struct MessageSendField: View {
             }
             .padding(10)
             .zIndex(2)
+        }
+        .onAppear {
+            Task {
+                // 상대방의 UserInfo 가져옴, 상대방 토큰을 위해 사용함
+                otherUserInfo = try await userInfoStore.getUserInfoById(id: userId) ?? UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0, blockedFriends: [], fcmToken: "")
+                
+                // 해당 채팅방으로 들어가면 배지 업데이트(읽음 메시지는 배지 알림 개수 전체에서 빼기)
+                await sendNotificationToServer(myNickname: "", message: "", fcmToken: userInfoStore.userInfo?.fcmToken ?? "", badge: userInfoStore.sumIntegerValuesContainingUserID(userID: authManager.userID))
+            }
         }
         //.frame(maxHeight: 80) // 높이 제한 설정
     }

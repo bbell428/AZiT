@@ -30,7 +30,7 @@ class WidgetViewModel: ObservableObject {
            let userInfo = try? JSONDecoder().decode(UserInfo.self, from: data) {
             return userInfo
         }
-        return UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0, blockedFriends: [])
+        return UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0, blockedFriends: [], fcmToken: "")
     }
 
     // 사용자 정보 로드 및 실시간 데이터 업데이트
@@ -181,7 +181,7 @@ struct Provider: TimelineProvider {
            let userInfo = try? JSONDecoder().decode(UserInfo.self, from: data) {
             return userInfo
         }
-        return UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0, blockedFriends: [])
+        return UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0, blockedFriends: [], fcmToken: "")
     }
     
     func loadStory() -> Story {

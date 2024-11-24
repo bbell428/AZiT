@@ -12,6 +12,7 @@ import GoogleSignIn
 struct AuthView: View {
     @EnvironmentObject private var authManager: AuthManager
     @EnvironmentObject private var userInfoStore: UserInfoStore
+    @AppStorage("fcmToken") private var targetToken: String = ""
     
     var body: some View {
         VStack {
@@ -25,6 +26,11 @@ struct AuthView: View {
                 MainView()
                     .environmentObject(authManager)
                     .environmentObject(userInfoStore)
+                    .onAppear { // 로그인 후, 해당 디바이스로 UserInfo에 토큰 저장
+                        Task {
+                            await userInfoStore.updateFCMToken(authManager.userID, fcmToken: targetToken)
+                        }
+                    }
             case .profileExist:
                 ProfileDetailView()
             }

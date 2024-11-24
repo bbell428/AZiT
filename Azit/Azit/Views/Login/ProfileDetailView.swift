@@ -20,6 +20,7 @@ struct ProfileDetailView: View {
     @State private var emoji: String = "" // 기본 이모지
     @State private var nickname: String = ""
     @State var isSheetEmoji = false // 이모지 뷰
+    @AppStorage("fcmToken") private var targetToken: String = ""
     
     private func StartAzit() {
         Task {
@@ -32,7 +33,8 @@ struct ProfileDetailView: View {
                 friends: [],
                 latitude: 0.0,
                 longitude: 0.0,
-                blockedFriends: []
+                blockedFriends: [],
+                fcmToken: targetToken
             )
             await userInfoStore.addUserInfo(newUserInfo)
             authManager.authenticationState = .authenticated
