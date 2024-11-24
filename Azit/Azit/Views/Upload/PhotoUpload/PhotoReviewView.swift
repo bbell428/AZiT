@@ -32,8 +32,15 @@ struct PhotoReviewView: View {
     @State private var progressValue: Double = 2.0
     let totalValue: Double = 2.0
     
+    @State var isDisplayTextEditor: Bool = false // 이미지 편집에 들어갈 텍스트 편집 뷰
+    @State var isSelectText: Bool = false // 이미지에 텍스트를 넣을것인가?
+    
     var body: some View {
-        ZStack {
+        ZStack() {
+            if isDisplayTextEditor {                TextEditorView(isDisplayTextEditor: $isDisplayTextEditor)
+                    .zIndex(2)
+            }
+            
             VStack {
                 // 프로그래스 뷰
                 ZStack(alignment: .leading) {
@@ -55,12 +62,7 @@ struct PhotoReviewView: View {
                 
                 // 스토리 이미지
                 if cameraService.capturedImage != nil {
-                    EditPhotoView()
-//                    Image(uiImage: image)
-//                        .resizable()
-//                    //                    .scaledToFill()
-//                        .aspectRatio(3/4, contentMode: .fit)
-//                        .frame(width: 360, height: 480)
+                    EditPhotoView(isDisplayTextEditor: $isDisplayTextEditor, isSelectText: $isSelectText)
                 } else {
                     Text("No Image Captured")
                 }
@@ -131,7 +133,7 @@ struct PhotoReviewView: View {
                 
                 // save 버튼
                 Button(action: {
-//                    savePhoto()
+                    //                    savePhoto()
                     
                     shareStory()
                 }) {
@@ -160,10 +162,11 @@ struct PhotoReviewView: View {
                 }
             }
         }
-//        .onAppear {
-//            isPhotoTaken = false
-//        }
         .navigationBarTitle("게시물 공유", displayMode: .inline)
+        .onDisappear {
+            isSelectText = false
+            editPhotoService.resetState()
+        }
     }
     
     // firebase storage에 저장
@@ -187,7 +190,7 @@ struct PhotoReviewView: View {
             content: storyDraft.content,
             publishedTargets: []
         )
-//        isDisplayEmojiPicker = false
+        //        isDisplayEmojiPicker = false
         // 유저의 새로운 상태, 위경도 값 저장
         if let location = locationManager.currentLocation {
             userInfoStore.userInfo?.latitude = location.coordinate.latitude
@@ -213,18 +216,18 @@ struct PhotoReviewView: View {
             isMainDisplay = false
             isMyModalPresented = false
             resetStory()
-//            cameraService.capturedImage = nil
+            //            cameraService.capturedImage = nil
         }
-//        showUploadView = true
-//        firstNaviLinkActive = false
-//        isMainDisplay = false
+        //        showUploadView = true
+        //        firstNaviLinkActive = false
+        //        isMainDisplay = false
         
-//        cameraService.capturedImage = nil
+        //        cameraService.capturedImage = nil
     }
     
     func resetStory() {
         storyDraft.id = UUID().uuidString
-//        storyDraft.userId = ""
+        //        storyDraft.userId = ""
         storyDraft.likes = []
         storyDraft.latitude = 0.0
         storyDraft.longitude = 0.0

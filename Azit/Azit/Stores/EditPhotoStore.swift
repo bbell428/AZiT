@@ -35,7 +35,7 @@ class EditPhotoStore: ObservableObject {
         scale: CGFloat = 1.0,
         rotation: Angle = .zero,
         imageRotation: Angle = .zero,
-        textInput: String = "Hello, SwiftUI!",
+        textInput: String = "텍스트를 입력해주세요",
         imageScale: CGFloat = 1.0,
         imageDragOffset: CGSize = .zero,
         currentImageOffset: CGSize = .zero,
@@ -70,7 +70,7 @@ class EditPhotoStore: ObservableObject {
         scale = 1.0
         rotation = .zero
         imageRotation = .zero
-        textInput = "Hello, SwiftUI!"
+        textInput = "텍스트를 입력해주세요"
         imageScale = 1.0
         imageDragOffset = .zero
         currentImageOffset = .zero
