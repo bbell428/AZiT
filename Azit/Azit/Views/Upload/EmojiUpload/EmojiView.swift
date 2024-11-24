@@ -69,7 +69,6 @@ struct EmojiView : View {
                 
                 // 이모지피커 뷰 - 서치 바와 리스트
                 EmojiPickerView(selectedEmoji: $storyDraft.emoji, searchEnabled: false,  selectedColor: Color.accent)
-                    .background(Color.subColor4)
                 
             }.frame(width: UIScreen.main.bounds.width*0.9, height: UIScreen.main.bounds.height * 1.1 / 3)
                 .padding(.bottom)
