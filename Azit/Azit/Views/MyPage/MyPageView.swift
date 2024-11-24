@@ -220,22 +220,7 @@ struct MyPageView: View {
                             .bold()
                             .padding(.bottom, 15)
                         
-                        VStack(spacing: 15) {
-                            Button {
-                                // 알림 설정
-                            } label: {
-                                HStack {
-                                    Text("알림 설정")
-                                        .foregroundStyle(Color.gray)
-                                        .font(.system(size: 15))
-                                        .bold()
-                                    Spacer()
-                                }
-                                .padding()
-                                .background(RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.gray, lineWidth: 0.5))
-                            }
-                            
+                        VStack(spacing: 15) {   
                             // 차단 유저 목록
                             NavigationLink {
                                 BlockedFriendView()
@@ -253,7 +238,12 @@ struct MyPageView: View {
                             }
                             
                             Button {
-                                authManager.signOut()
+                                Task {
+                                    await userInfoStore.updateFCMToken(authManager.userID, fcmToken: "")
+                                    sendNotificationToServer(myNickname: "", message: "", fcmToken: userInfoStore.userInfo?.fcmToken ?? "", badge: 0)
+                                    
+                                    authManager.signOut()
+                                }
                             } label: {
                                 HStack {
                                     Text("로그아웃")

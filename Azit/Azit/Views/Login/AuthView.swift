@@ -29,6 +29,8 @@ struct AuthView: View {
                     .onAppear { // 로그인 후, 해당 디바이스로 UserInfo에 토큰 저장
                         Task {
                             await userInfoStore.updateFCMToken(authManager.userID, fcmToken: targetToken)
+                            
+                            await sendNotificationToServer(myNickname: "", message: "", fcmToken: userInfoStore.userInfo?.fcmToken ?? "", badge: userInfoStore.sumIntegerValuesContainingUserID(userID: authManager.userID))
                         }
                     }
             case .profileExist:
