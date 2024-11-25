@@ -47,7 +47,7 @@ struct MainView: View {
                                 || isDisplayEmojiPicker
                                 || isTappedWidget ? 2 : 1)
                     
-                    .ignoresSafeArea(.keyboard)
+                    //.ignoresSafeArea(.keyboard)
                 // 맵 화면일 때 맵 뷰
                 } else {
                     MapView(isMainExposed: $isMainExposed, isMyModalPresented: $isMyModalPresented, isFriendsModalPresented: $isFriendsModalPresented, isDisplayEmojiPicker: $isDisplayEmojiPicker, isPassed24Hours: $isPassed24Hours, isShowToast: $isShowToast, isAnimatingForStroke: $isAnimatingForStroke)

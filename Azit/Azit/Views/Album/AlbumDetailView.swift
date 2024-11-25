@@ -18,6 +18,7 @@ struct AlbumDetailView: View {
     @Binding var selectedIndex: Int
     @Binding var isShowToast: Bool
     var selectedAlbum: Story?
+    var list: [UserInfo]
     
     var body: some View {
         ZStack {
@@ -29,7 +30,7 @@ struct AlbumDetailView: View {
                 }
                 .zIndex(1)
             
-            if let matchingUserInfo = userInfoStore.friendInfos.first(where: { $0.id == selectedAlbum?.userId }) {
+            if let matchingUserInfo = list.first(where: { $0.id == selectedAlbum?.userId }) {
                 FriendsContentsModalView(
                     message: $message,
                     selectedUserInfo: matchingUserInfo,

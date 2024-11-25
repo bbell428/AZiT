@@ -35,6 +35,22 @@ struct AlbumView: View {
     
     @Binding var isShowToast: Bool
     
+    // 계산형 프로퍼티로 리스트 생성
+    private var friendList: [String] {
+        guard let userInfo = userInfoStore.userInfo else { return [] }
+        var list = userInfo.friends
+        list.append(userInfo.id)
+        return list
+    }
+    
+    private var combinedFriendList: [UserInfo] {
+        var list = userInfoStore.friendInfos
+        if let user = userInfoStore.userInfo {
+            list.append(user)
+        }
+        return list
+    }
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -75,7 +91,7 @@ struct AlbumView: View {
                     
                     // 스토리 클릭시, 상세 정보
                     if isFriendsContentModalPresented {
-                        AlbumDetailView(isFriendsContentModalPresented: $isFriendsContentModalPresented, message: $message, selectedIndex: $selectedIndex, isShowToast: $isShowToast, selectedAlbum: selectedAlbum)
+                        AlbumDetailView(isFriendsContentModalPresented: $isFriendsContentModalPresented, message: $message, selectedIndex: $selectedIndex, isShowToast: $isShowToast, selectedAlbum: selectedAlbum, list: combinedFriendList)
                             .zIndex(7)
                     }
                     
@@ -83,7 +99,7 @@ struct AlbumView: View {
                     if albumstore.loadingImage {
                         Color.gray.opacity(0.5)
                             .ignoresSafeArea()
-                            //.padding(.top, 70)
+                        //.padding(.top, 70)
                             .zIndex(4)
                         
                         VStack(alignment: .center) {
@@ -110,7 +126,7 @@ struct AlbumView: View {
                     // 스크롤이 내려가지 않았거나, 위로 올렸을경우 (친구 리스트)
                     if isShowHorizontalScroll {
                         AlbumFriendListView(isShowHorizontalScroll:
-                                                $isShowHorizontalScroll, selectedIndex: $selectedIndex)
+                                                $isShowHorizontalScroll, selectedIndex: $selectedIndex, combinedFriendList: combinedFriendList)
                         .background(Color.white)
                         .padding(.top, 70)
                         .zIndex(3)
@@ -161,7 +177,7 @@ struct AlbumView: View {
             }
             .onAppear {
                 Task {
-                    await albumstore.loadStorysByIds(ids: userInfoStore.userInfo?.friends ?? [])
+                    await albumstore.loadStorysByIds(ids: friendList)
                     albumstore.filterUserID = "000AzitALLFriends"
                 }
             }

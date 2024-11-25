@@ -30,6 +30,7 @@ struct RectPreferenceKey: PreferenceKey {
 }
 
 struct FriendSegmentView: View {
+    @EnvironmentObject var userInfoStore: UserInfoStore
     @Binding private var selectedIndex: Int
     
     @State private var frames: Array<CGRect>

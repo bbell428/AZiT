@@ -14,10 +14,11 @@ struct AlbumFriendListView: View {
     
     @Binding var isShowHorizontalScroll: Bool
     @Binding var selectedIndex: Int
+    var combinedFriendList: [UserInfo]
     
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            FriendSegmentView(selectedIndex: $selectedIndex, titles: userInfoStore.friendInfos)
+            FriendSegmentView(selectedIndex: $selectedIndex, titles: combinedFriendList)
             //.padding(.leading, 20)
             //.background(Color.white)
                 .zIndex(3)
