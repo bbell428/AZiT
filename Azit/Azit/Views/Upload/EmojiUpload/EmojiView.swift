@@ -31,7 +31,7 @@ struct EmojiView : View {
     
     var body : some View{
         VStack {
-            NavigationStack {                
+            NavigationStack {
                 // 상단 바
                 HStack {
                     // 위치
@@ -126,7 +126,7 @@ struct EmojiView : View {
                         address: storyDraft.address,
                         emoji: storyDraft.emoji,
                         content: storyDraft.content,
-                        publishedTargets: storyDraft.publishedTargets
+                        publishedTargets: []
                     )
                     isDisplayEmojiPicker = false
                     if let location = locationManager.currentLocation {
@@ -196,6 +196,12 @@ struct EmojiView : View {
                     friendID = "All"
                 }
                 
+            }
+            
+            withAnimation(.easeInOut(duration: 0.3)) {
+                scale = 1.0
+            }
+        }
         .onDisappear {
             withAnimation(.easeInOut(duration: 0.3)) {
                 scale = 0.1
@@ -228,4 +234,3 @@ struct EmojiView : View {
         }
     }
 }
-
