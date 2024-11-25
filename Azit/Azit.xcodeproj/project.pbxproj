@@ -28,6 +28,10 @@
 		8BD71F842CD89AEA0030693B /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F832CD89AE90030693B /* PhotoPicker.swift */; };
 		8BD71F882CD8C6300030693B /* PhotoReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F872CD8C62B0030693B /* PhotoReviewView.swift */; };
 		8BDA11D52CDA769C004242DB /* EmojiPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDA11D42CDA7696004242DB /* EmojiPickerView.swift */; };
+		8BE42D402CF0B8B900AB21F4 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE42D3F2CF0B8B600AB21F4 /* BlurView.swift */; };
+		8BE42D422CF0B8C300AB21F4 /* BlurView.swift in Resources */ = {isa = PBXBuildFile; fileRef = 8BE42D412CF0B8C300AB21F4 /* BlurView.swift */; };
+		8BE42D522CF1B0E000AB21F4 /* FilterButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE42D512CF1B0D800AB21F4 /* FilterButtons.swift */; };
+		8BE42D552CF1B23200AB21F4 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE42D542CF1B23200AB21F4 /* OrderedCollections */; };
 		8E538EE12CD844700094ABD1 /* RotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E538EE02CD844700094ABD1 /* RotationView.swift */; };
 		8E538EE32CD844A50094ABD1 /* FriendsContentsModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E538EE22CD844A50094ABD1 /* FriendsContentsModalView.swift */; };
 		8E611FDF2CEC9E0D00DF40E4 /* AzitWidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E611FDE2CEC9E0D00DF40E4 /* AzitWidgetData.swift */; };
@@ -196,6 +200,9 @@
 		8BD71F832CD89AE90030693B /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		8BD71F872CD8C62B0030693B /* PhotoReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoReviewView.swift; sourceTree = "<group>"; };
 		8BDA11D42CDA7696004242DB /* EmojiPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiPickerView.swift; sourceTree = "<group>"; };
+		8BE42D3F2CF0B8B600AB21F4 /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
+		8BE42D412CF0B8C300AB21F4 /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
+		8BE42D512CF1B0D800AB21F4 /* FilterButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterButtons.swift; sourceTree = "<group>"; };
 		8E42C9FA2CE6E5270006CAA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E538EE02CD844700094ABD1 /* RotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotationView.swift; sourceTree = "<group>"; };
 		8E538EE22CD844A50094ABD1 /* FriendsContentsModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsContentsModalView.swift; sourceTree = "<group>"; };
@@ -329,6 +336,7 @@
 				8EAFEFC72CD45D8D00136348 /* FirebaseStorage in Frameworks */,
 				8EAFEFC32CD45D8D00136348 /* FirebaseFirestoreCombine-Community in Frameworks */,
 				CED22B1B2CEA33600075F56C /* AlertToast in Frameworks */,
+				8BE42D552CF1B23200AB21F4 /* OrderedCollections in Frameworks */,
 				8B2FC1C22CEE45B20078443F /* Kingfisher in Frameworks */,
 				8EAFEFBD2CD45D8D00136348 /* FirebaseAuthCombine-Community in Frameworks */,
 				8EAFEFCC2CD45DC600136348 /* GoogleSignIn in Frameworks */,
@@ -539,6 +547,7 @@
 		8EAFEFAE2CD4529E00136348 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				8BE42D412CF0B8C300AB21F4 /* BlurView.swift */,
 				8EAFF0012CD4A05C00136348 /* Album */,
 				8EAFEFFF2CD4A04300136348 /* Login */,
 				8EAFEFFD2CD4A03200136348 /* Main */,
@@ -553,6 +562,8 @@
 			isa = PBXGroup;
 			children = (
 				CE4865762CF03F9E00C30997 /* EditPhotoStore.swift */,
+				8BE42D512CF1B0D800AB21F4 /* FilterButtons.swift */,
+				8BE42D3F2CF0B8B600AB21F4 /* BlurView.swift */,
 				8B2FC1C62CEE48000078443F /* EmojiProvider.swift */,
 				8B2FC1BA2CEDC5A70078443F /* TwemojiHelper.swift */,
 				CEDFC2ED2CE2EAB0008C215A /* AlbumStore.swift */,
@@ -725,6 +736,7 @@
 				CE89D79D2CDA8D1600DC73A8 /* EmojiPicker */,
 				CED22B1A2CEA33600075F56C /* AlertToast */,
 				8B2FC1C12CEE45B20078443F /* Kingfisher */,
+				8BE42D542CF1B23200AB21F4 /* OrderedCollections */,
 			);
 			productName = Azit;
 			productReference = 8EAFEF762CD4524500136348 /* Azit.app */;
@@ -852,6 +864,7 @@
 				CE89D79C2CDA8D1600DC73A8 /* XCRemoteSwiftPackageReference "EmojiPicker" */,
 				CED22B192CEA33600075F56C /* XCRemoteSwiftPackageReference "AlertToast" */,
 				8B2FC1C02CEE445E0078443F /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				8BE42D532CF1B22200AB21F4 /* XCRemoteSwiftPackageReference "swift-collections" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 8EAFEF772CD4524500136348 /* Products */;
@@ -874,6 +887,7 @@
 				8EAFEFA92CD4528E00136348 /* Preview Assets.xcassets in Resources */,
 				EAB582DB2CEC6081007385FC /* GoogleService-Info.plist in Resources */,
 				8EC52DC22CE18FB900DC8190 /* Assets.xcassets in Resources */,
+				8BE42D422CF0B8C300AB21F4 /* BlurView.swift in Resources */,
 				8B2FC1BD2CEDD1B30078443F /* icons.json in Resources */,
 				8B2FC1CB2CEE57560078443F /* metadata.json in Resources */,
 				8B2FC1C92CEE4CD90078443F /* chars.json in Resources */,
@@ -916,6 +930,7 @@
 				EAB079722CDDAED700293C62 /* SplashView.swift in Sources */,
 				CE4865772CF03FAD00C30997 /* EditPhotoStore.swift in Sources */,
 				8E611FDF2CEC9E0D00DF40E4 /* AzitWidgetData.swift in Sources */,
+				8BE42D522CF1B0E000AB21F4 /* FilterButtons.swift in Sources */,
 				EAF93B8E2CD4A50700116035 /* AuthView.swift in Sources */,
 				CE69CDCC2CE70C2800322E7A /* AlbumStoryImageView.swift in Sources */,
 				CEDFC2EE2CE2EAB0008C215A /* AlbumStore.swift in Sources */,
@@ -923,6 +938,7 @@
 				EAAABB762CE6D0CA0003C250 /* QRInvitation.swift in Sources */,
 				EAAABB782CE6D2BE0003C250 /* QR.swift in Sources */,
 				CE8A3BAD2CF35E2100DDA2E8 /* TextEditorView.swift in Sources */,
+				8BE42D402CF0B8B900AB21F4 /* BlurView.swift in Sources */,
 				8E645D552CE4784F00F43836 /* MyContentEmojiView.swift in Sources */,
 				EA3137212CE3322000AA4685 /* QRCodeView.swift in Sources */,
 				8EAFEFB82CD45CCE00136348 /* ChatRoom.swift in Sources */,
@@ -1441,6 +1457,14 @@
 				minimumVersion = 8.1.1;
 			};
 		};
+		8BE42D532CF1B22200AB21F4 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.4;
+			};
+		};
 		8EAFEFB92CD45D8D00136348 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -1480,6 +1504,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8B2FC1C02CEE445E0078443F /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		8BE42D542CF1B23200AB21F4 /* OrderedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8BE42D532CF1B22200AB21F4 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = OrderedCollections;
 		};
 		8EAFEFBA2CD45D8D00136348 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;

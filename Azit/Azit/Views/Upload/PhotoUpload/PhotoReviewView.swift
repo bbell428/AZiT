@@ -34,6 +34,7 @@ struct PhotoReviewView: View {
     
     @State var isDisplayTextEditor: Bool = false // 이미지 편집에 들어갈 텍스트 편집 뷰
     @State var isSelectText: Bool = false // 이미지에 텍스트를 넣을것인가?
+    @State var friendID: String = ""
     
     var body: some View {
         ZStack() {
@@ -42,12 +43,14 @@ struct PhotoReviewView: View {
             }
             
             VStack {
+                
                 // 프로그래스 뷰
                 ZStack(alignment: .leading) {
+                    // 회색 배경
                     RoundedRectangle(cornerRadius: 15)
                         .fill(Color.gray.opacity(0.3))
                         .frame(width: 360, height: 15)
-                    
+                    // 진행 바 - 그라디언트
                     RoundedRectangle(cornerRadius: 15)
                         .fill(
                             LinearGradient(
@@ -66,10 +69,9 @@ struct PhotoReviewView: View {
                 } else {
                     Text("No Image Captured")
                 }
-                
                 Spacer()
                 
-                // 임시저장된 스토리 불러오기
+                // MARK: - 임시저장된 스토리 불러오기
                 RoundedRectangle(cornerSize: CGSize(width: 15.0, height: 15.0))
                     .stroke(Color.accentColor, lineWidth: 1)
                     .background(RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
@@ -78,6 +80,7 @@ struct PhotoReviewView: View {
                     .overlay(
                         HStack {
                             VStack(alignment: .leading) {
+                                // 이모지 + 매시지
                                 HStack{
                                     if let codepoints = emojiManager.getCodepoints(forName: storyDraft.emoji) {
                                         KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
@@ -85,32 +88,40 @@ struct PhotoReviewView: View {
                                             .scaledToFit()
                                             .frame(width: 20, height: 20)
                                     }
-                                    //Text(storyDraft.emoji)
                                     Text(storyDraft.content)
                                 }
                                 .padding([.leading, .bottom], 5)
+                                
                                 HStack {
                                     Image(systemName: "location.fill")
                                         .foregroundStyle(Color.accentColor)
                                     Text(storyDraft.address)
                                 }
                                 .padding([.leading, .bottom], 5)
+                                
+                                // 공개 범위
                                 HStack {
                                     Image(systemName: "person.fill")
                                         .foregroundStyle(Color.accentColor)
                                     
-                                    if storyDraft.publishedTargets.isEmpty {
+                                    if storyDraft.publishedTargets.count == userInfoStore.userInfo?.friends.count {
                                         Text("ALL")
                                     } else if storyDraft.publishedTargets.count == 1 {
-                                        Text("\(storyDraft.publishedTargets[0])")
+                                        Text("\(friendID)")
                                     } else {
-                                        Text("\(storyDraft.publishedTargets[0]) 외 \(storyDraft.publishedTargets.count)명")
+                                        Text("\(friendID) 외 \(storyDraft.publishedTargets.count - 1)명")
+                                    }
+                                }
+                                .onAppear() {
+                                    Task {
+                                        friendID = try await userInfoStore.getUserNameById(id: storyDraft.publishedTargets[0])
                                     }
                                 }
                                 .padding([.leading, .bottom], 5)
                             }
                             Spacer()
                             
+                            // 스토리 편집 버튼
                             Button (action: {
                                 isDisplayEmojiPicker = true
                             }) {
@@ -158,7 +169,7 @@ struct PhotoReviewView: View {
                         .onTapGesture {
                             isDisplayEmojiPicker = false // 배경 터치 시 닫기
                         }
-                    EditStoryView(isDisplayEmojiPicker: $isDisplayEmojiPicker)
+                    EditStoryView(isDisplayEmojiPicker: $isDisplayEmojiPicker, isMyModalPresented: $isMyModalPresented)
                 }
             }
         }
@@ -168,6 +179,9 @@ struct PhotoReviewView: View {
             editPhotoService.resetState()
         }
     }
+    
+    
+    // MARK: - 함수들
     
     // firebase storage에 저장
     func savePhoto() {

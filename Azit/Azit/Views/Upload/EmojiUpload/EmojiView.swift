@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-//import EmojiPicker
 
 struct EmojiView : View {
     @EnvironmentObject var authManager: AuthManager
@@ -18,7 +17,6 @@ struct EmojiView : View {
     @Binding var isDisplayEmojiPicker: Bool // MainView에서 전달받은 바인딩 변수
     @Binding var isMyModalPresented: Bool // 내 스토리에 대한 모달
   
-    @State var publishedTargets: [String] = []
     @State var isShowingsheet: Bool = false
     @State var isPicture:Bool = false
     @State var firstNaviLinkActive = false
@@ -26,6 +24,7 @@ struct EmojiView : View {
     @State private var scale: CGFloat = 0.1
     @State var friendID: String = ""
     private let characterLimit = 20
+    let screenBounds = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds
     var isShareEnabled: Bool {
         return storyDraft.emoji.isEmpty && storyDraft.content.isEmpty
     }
@@ -47,9 +46,9 @@ struct EmojiView : View {
                     // 공개 범위
                     Button(action: {
                         isShowingsheet.toggle()
-                        Task {
-                            friendID = try await userInfoStore.getUserNameById(id: storyDraft.publishedTargets[0])
-                        }
+//                        Task {
+//                            friendID = try await userInfoStore.getUserNameById(id: storyDraft.publishedTargets[0])
+//                        }
                     }) {
                         HStack {
                             Image(systemName: "person")
@@ -71,7 +70,6 @@ struct EmojiView : View {
                 
                 // 이모지피커 뷰 - 서치 바와 리스트
                 EmojiPickerView(selectedEmoji: $storyDraft.emoji, searchEnabled: false,  selectedColor: Color.accent)
-                    .background(Color.subColor4)
                 
             }.frame(width: UIScreen.main.bounds.width*0.9, height: UIScreen.main.bounds.height * 1.1 / 3)
                 .padding(.bottom)
@@ -81,9 +79,9 @@ struct EmojiView : View {
                 .padding(.leading, 10)
                 .frame(width: 340, height: 40)
                 .background(
-                    RoundedRectangle(cornerRadius: 6)
+                    RoundedRectangle(cornerRadius: 15)
                         .stroke(Color.subColor1, lineWidth: 0.5)
-                        .background(Color.white.clipShape(RoundedRectangle(cornerRadius: 10)))
+                        .background(Color.white.clipShape(RoundedRectangle(cornerRadius: 15)))
                 )
                 .padding(.bottom, 5)
                 .onChange(of: storyDraft.content) { newValue in
@@ -103,8 +101,8 @@ struct EmojiView : View {
             
             // 카메라 촬영 버튼
             NavigationLink(destination: TakePhotoView(firstNaviLinkActive: $firstNaviLinkActive, isMainDisplay: $isDisplayEmojiPicker, isMyModalPresented: $isMyModalPresented), isActive: $firstNaviLinkActive) {
-                RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
-                    .background(RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
+                RoundedRectangle(cornerSize: CGSize(width: 15.0, height: 15.0))
+                    .background(RoundedRectangle(cornerSize: CGSize(width: 15.0, height: 15.0))
                         .fill(Color.accentColor))
                     .frame(width: 340, height: 40)
                     .overlay(Image(systemName: "camera.fill")
@@ -160,16 +158,22 @@ struct EmojiView : View {
             }
         }
         .padding()
-        .frame(width: 365, height: isShareEnabled ? 500 : 550) // 팝업창 크기
+        .frame(width: (screenBounds?.width ?? 0) - 32, height: isShareEnabled ? 500 : 550) // 팝업창 크기
         .background(
             RoundedRectangle(cornerRadius: 15)
                 .fill(Color.subColor4)
-                .stroke(Color.accentColor, lineWidth: 0.5)
+//                .stroke(Color.accentColor, lineWidth: 0.5)
                 .shadow(radius: 10)
         )
         .sheet(isPresented: $isShowingsheet) {
             PublishScopeView()
                 .presentationDetents([.medium, .large])
+                .onDisappear {
+                    // 공개 범위 업데이트
+                    if let firstTarget = storyDraft.publishedTargets.first {
+                        friendID = userInfoStore.friendInfo[firstTarget]?.nickname ?? ""
+                    }
+                }
         }
         .onTapGesture {
             self.endTextEditing()
@@ -184,6 +188,10 @@ struct EmojiView : View {
             }
             // 공개 범위에 모두를 넣음
             storyDraft.publishedTargets = userInfoStore.userInfo?.friends ?? []
+            
+            Task {
+                friendID = try await userInfoStore.getUserNameById(id: storyDraft.publishedTargets[0])
+            }
             
             withAnimation(.easeInOut(duration: 0.3)) {
                 scale = 1.0
@@ -220,16 +228,5 @@ struct EmojiView : View {
             print("위치를 가져올 수 없습니다.")
         }
     }
-    //    func getEmojiList()->[[Int]] {
-    //        var emojis : [[Int]] = []
-    //        for i in stride(from: 0x1F601, to: 0x1F64F, by: 4){
-    //            var temp : [Int] = []
-    //            for j in i...i+3{
-    //                temp.append(j)
-    //            }
-    //            emojis.append(temp)
-    //        }
-    //        return emojis
-    //    }
 }
 

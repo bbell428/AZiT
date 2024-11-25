@@ -130,7 +130,7 @@ struct MyPageView: View {
                                     .padding(.vertical, 6)
                                     .background(Color.accentColor)
                                     .foregroundColor(.white)
-                                    .cornerRadius(10)
+                                    .cornerRadius(15)
                             }
                         }
                         Divider()

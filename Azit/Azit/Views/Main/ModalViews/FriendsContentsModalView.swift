@@ -74,9 +74,9 @@ struct FriendsContentsModalView: View {
                     .padding(.leading, 10)
                     .frame(height: 30)
                     .background(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .clipShape(RoundedRectangle(cornerRadius: 15))
                     .overlay(
-                        RoundedRectangle(cornerRadius: 8)
+                        RoundedRectangle(cornerRadius: 15)
                             .stroke(.accent, lineWidth: 1)
                     )
                     .onSubmit {

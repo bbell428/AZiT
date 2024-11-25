@@ -21,9 +21,11 @@ struct SearchView: View {
             VStack {
                 HStack {
                     ZStack {
-                        RoundedRectangle(cornerRadius: 6)
+                        RoundedRectangle(cornerSize: CGSize(width: 15.0, height: 15.0))
                             .stroke(Color.gray, lineWidth: 0.5)
                             .background(Color.white)
+                            .background(RoundedRectangle(cornerSize: CGSize(width: 15.0, height: 15.0))
+                                .fill(Color.white))
                             .foregroundStyle(Color.white)
                             .frame(width: 340, height: 40)
                         HStack {
