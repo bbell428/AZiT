@@ -24,7 +24,7 @@
 <br/>
 
 # 👤User Flow
-<img src="https://github.com/user-attachments/assets/beb056a4-16fd-4536-af4f-c3f7a8c71dc3" alt="배너" width="100%"/>
+<img src="https://github.com/user-attachments/assets/54e2d3a1-f5f4-43a7-979b-3b110024d959" alt="배너" width="100%"/>
 
 # 🚀 주요 기능
 - 🗂️ **기능 1**: [기능에 대한 간단 설명]
@@ -52,15 +52,15 @@
 ## Backen
 | Firebase | Koyeb |
 |:------:|:------:|
-| <img src="https://firebase.google.com/static/images/brand-guidelines/logo-vertical.png?hl=ko" alt="Firebase" width="100"> | <img src="https://github.com/user-attachments/assets/e7912d56-040e-497b-b37c-91e2e9f10ca2" alt="Koyeb" width="100"> | 
-| 10.12.5 | 10.12.5 |
+| <img src="https://firebase.google.com/static/images/brand-guidelines/logo-vertical.png?hl=ko" alt="Firebase" width="100"> | <img src="https://github.com/user-attachments/assets/d8a10ada-a8c7-4a76-9154-1dc308309c15" alt="Koyeb" width="100"> | 
+| 11.4.0 | v5.3.0 |
 
 <br/>
 
 ## Cooperation
 | Git | Discord | Notion | Figma |
 |:------:|:------:|:------:|:------:|
-| <img src="https://github.com/user-attachments/assets/03b7d917-65bb-4027-b1a2-630f4050f1a4" alt="git" width="100"> | <img src="https://github.com/user-attachments/assets/3f1e5dfd-c113-44a3-904a-c697d3fde997" alt="git kraken" width="100"> |<img src="https://github.com/user-attachments/assets/16703970-7713-49dd-a8fa-28301b884315" width="100"> | <img src="https://github.com/user-attachments/assets/c96f0599-089f-4b91-ab30-4efd1d7da2f4" alt="Notion" width="100"> |
+| <img src="https://github.com/user-attachments/assets/03b7d917-65bb-4027-b1a2-630f4050f1a4" alt="git" width="100"> | <img src="https://github.com/user-attachments/assets/b256c308-3e77-4e8c-9101-53f4bf6dc8f2" alt="Discord" width="100"> |<img src="https://github.com/user-attachments/assets/16703970-7713-49dd-a8fa-28301b884315" width="100"> | <img src="https://github.com/user-attachments/assets/c96f0599-089f-4b91-ab30-4efd1d7da2f4" alt="Notion" width="100"> |
 
 <br/>
 
