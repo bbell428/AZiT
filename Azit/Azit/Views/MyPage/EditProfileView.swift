@@ -214,6 +214,6 @@ struct EditButton: View {
             .frame(width: 220, height: 40)
             .background(Color.accentColor)
             .foregroundStyle(Color.white)
-            .cornerRadius(10)
+            .cornerRadius(15)
     }
 }

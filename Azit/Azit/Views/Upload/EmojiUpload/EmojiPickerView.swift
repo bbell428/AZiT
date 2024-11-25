@@ -46,7 +46,7 @@ public struct EmojiPickerView: View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 20) {
                 ForEach(searchResults, id: \.self) { emoji in
-                    RoundedRectangle(cornerRadius: 16)
+                    RoundedRectangle(cornerRadius: 15)
 //                        .fill((EmojiManager.getTwemojiURL(for: emoji.code) == emoji.code ? selectedColor : Color.subColor2).opacity(0.3))
                         .fill((selectedEmoji == emoji.name ? selectedColor : Color.subColor2).opacity(0.3))
                         .frame(width: 40, height: 40)

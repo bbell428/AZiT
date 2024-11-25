@@ -82,9 +82,9 @@ struct EditStoryView : View {
                 .padding(.leading, 10)
                 .frame(width: 340, height: 40)
                 .background(
-                    RoundedRectangle(cornerRadius: 6)
+                    RoundedRectangle(cornerRadius: 15)
                         .stroke(Color.subColor1, lineWidth: 0.5)
-                        .background(Color.white.clipShape(RoundedRectangle(cornerRadius: 10)))
+                        .background(Color.white.clipShape(RoundedRectangle(cornerRadius: 15)))
                 )
                 .padding(.bottom, 5)
                 .onChange(of: storyDraft.content) { newValue in

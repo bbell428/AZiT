@@ -231,7 +231,7 @@ struct MyPageView: View {
                                     Spacer()
                                 }
                                 .padding()
-                                .background(RoundedRectangle(cornerRadius: 10)
+                                .background(RoundedRectangle(cornerRadius: 15)
                                     .stroke(Color.gray, lineWidth: 0.5))
                             }
                             
