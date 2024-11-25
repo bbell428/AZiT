@@ -268,9 +268,7 @@ struct AzitWidgetEntryView : View {
                             .frame(width: 60, height: 60)
                             .padding(.top, 10)
                     }
-                    //                        Text(entry.widgetData?.userInfo?.previousState ?? "")
-                    //                            .padding(.top, -5)
-                    //                            .font(.system(size: 80))
+                    
                     Text(entry.widgetData?.userInfo?.nickname ?? "")
                         .foregroundStyle(.accent)
                         .font(.caption2)

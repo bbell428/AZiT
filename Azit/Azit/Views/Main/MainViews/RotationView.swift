@@ -177,7 +177,9 @@ struct RotationView: View {
                 // 스토리가 있는 친구들에서 공개가 되어있는지에 대한 분류
                 for friend in userInfoStore.userInfo?.friends ?? [] {
                     do {
-                        let tempStories = await storyStore.loadStorysByIds(ids: [friend])
+                        var tempStories = await storyStore.loadStorysByIds(ids: [friend])
+                        
+                        tempStories = tempStories.sorted { $0.date > $1.date }
                         
                         if tempStories.count > 0 {
                             var tempStory = Story(userId: "", date: Date.now)
