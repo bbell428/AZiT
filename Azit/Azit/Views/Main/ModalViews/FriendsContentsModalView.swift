@@ -113,7 +113,7 @@ struct FriendsContentsModalView: View {
                             .frame(width: 25, height: 25)
                     }
                 }
-                .padding(.bottom, keyboardObservers.keyboardHeight)
+                //.padding(.bottom, 30)
             }
         }
        
