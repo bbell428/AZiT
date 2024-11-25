@@ -10,6 +10,7 @@ import Kingfisher
 
 // 친구의 story Circle
 struct FriendsContentEmojiView: View {
+    @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var storyStore: StoryStore
     
     @Binding var userInfo: UserInfo // 선택 된 친구 story
@@ -20,11 +21,14 @@ struct FriendsContentEmojiView: View {
     @State var randomAngleOffset: Double
     @State private var isPassed24Hours: Bool = false
     
+    @State var story: Story?
+    
     var index: Int // 선택 된 index의 데이터를 유지하기 위함
     var startEllipse: (width: CGFloat, height: CGFloat) // 타원의 시작점
     var endEllipse: (width: CGFloat, height: CGFloat) // 타원의 끝점
     var interpolationRatio: CGFloat // 타원 내 위치를 설정
     let emojiManager = EmojiManager()
+    
     
     var body: some View {
         let majorAxis = startEllipse.width / 2 * (1 - interpolationRatio) + endEllipse.width / 2 * interpolationRatio // 타원의 넓은 부분
@@ -60,7 +64,7 @@ struct FriendsContentEmojiView: View {
                             ZStack {
                                 Circle()
                                     .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 5)
-                                if let codepoints = emojiManager.getCodepoints(forName: userInfo.previousState) {
+                                if let codepoints = emojiManager.getCodepoints(forName: story?.emoji ?? "") {
                                     KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
                                         .resizable()
                                         .scaledToFit()
@@ -81,9 +85,26 @@ struct FriendsContentEmojiView: View {
             Task {
                 print("interpolationRatio: \(interpolationRatio)")
                 // 선택 된 친구의 story
-                let story = try await storyStore.loadRecentStoryById(id: userInfo.id)
+                var tempStories = await storyStore.loadStorysByIds(ids: [userInfo.id])
+                
+                tempStories = tempStories.sorted { $0.date > $1.date }
+                
+                if tempStories.count > 0 {
+                    var tempStory = Story(userId: "", date: Date.now)
+                    
+                    for story in tempStories {
+                        tempStory = story
+                        
+                        if tempStory.publishedTargets.contains(userInfoStore.userInfo?.id ?? "") || tempStory.publishedTargets.isEmpty {
+                            
+                            self.story = tempStory
+                            
+                            break
+                        }
+                    }
+                }
                 // 24시간이 지났는 지 판별
-                isPassed24Hours = Utility.hasPassed24Hours(from: story.date)
+                isPassed24Hours = Utility.hasPassed24Hours(from: story?.date ?? Date.now)
             }
         }
     }

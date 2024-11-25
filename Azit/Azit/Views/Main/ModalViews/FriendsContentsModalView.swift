@@ -52,17 +52,19 @@ struct FriendsContentsModalView: View {
     @State private var isLoadingStory = true // Story 로딩 상태
     
     var body: some View {
-        VStack(alignment: .center, spacing: 15) {
-            ContentsModalTopView(story: $story, selectedUserInfo: selectedUserInfo)
-            
-            if isLoadingStory {
-                ProgressView() // Story 로딩 중 표시
-            } else {
-                if let story = story {
-                    StoryContentsView(story: story) // 로드된 Story 전달
+        ZStack {
+            VStack(alignment: .center, spacing: 15) {
+                ContentsModalTopView(story: $story, selectedUserInfo: selectedUserInfo)
+                
+                if isLoadingStory {
+                    ProgressView() // Story 로딩 중 표시
                 } else {
-                    Text("스토리가 없습니다.")
-                        .foregroundColor(.gray)
+                    if let story = story {
+                        StoryContentsView(story: story) // 로드된 Story 전달
+                    } else {
+                        Text("스토리가 없습니다.")
+                            .foregroundColor(.gray)
+                    }
                 }
             }
             
@@ -113,6 +115,7 @@ struct FriendsContentsModalView: View {
                 }
             }
         }
+       
 //        .toast(isPresenting: $showToast, alert: {
 //            AlertToast(displayMode: .alert, type: .systemImage("envelope.open", Color.white), title: "전송 완료", style: .style(backgroundColor: .subColor1, titleColor: Color.white))
 //        })
@@ -120,7 +123,6 @@ struct FriendsContentsModalView: View {
         .background(.subColor4)
         .cornerRadius(8)
         .scaleEffect(scale)
-        .padding(.bottom, keyboardObservers.keyboardHeight > 0 ? keyboardObservers.keyboardHeight - 150 : keyboardObservers.keyboardHeight)
         .animation(.easeOut(duration: 0.3), value: keyboardObservers.keyboardHeight)
         .onTapGesture {
             self.endTextEditing()
@@ -149,7 +151,26 @@ struct FriendsContentsModalView: View {
             isLoadingStory = true
             if story == nil {
                 do {
-                    story = try await storyStore.loadRecentStoryById(id: selectedUserInfo.id)
+                    var tempStories = await storyStore.loadStorysByIds(ids: [selectedUserInfo.id])
+                    
+                    tempStories = tempStories.sorted { $0.date > $1.date }
+                    
+                    if tempStories.count > 0 {
+                        var tempStory = Story(userId: "", date: Date.now)
+                        
+                        for story in tempStories {
+                            tempStory = story
+                            
+                            if tempStory.publishedTargets.contains(userInfoStore.userInfo?.id ?? "") || tempStory.publishedTargets.isEmpty {
+                                
+                                self.story = tempStory
+                                
+                                break
+                            }
+                        }
+                    }
+//                    
+//                    story = try await storyStore.loadRecentStoryById(id: selectedUserInfo.id)
                     
                     if let contains = story?.likes.contains(userInfoStore.userInfo?.id ?? "") {
                         isLiked = contains ? true : false

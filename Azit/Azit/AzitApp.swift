@@ -16,6 +16,8 @@ import Firebase
 import FirebaseMessaging
 
 class AppDelegate: NSObject, UIApplicationDelegate {
+    static var receivedURL: URL?
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
         // Firebase 초기화
@@ -116,10 +118,11 @@ struct AzitApp: App {
     @StateObject private var friendsStore = FriendsStore()
     
     @State private var timer: Timer?
+    @State private var url: URL?
     
     var body: some Scene {
         WindowGroup {
-            AuthView()
+            AuthView(url: $url)
                 .environmentObject(authManager)
                 .environmentObject(userInfoStore)
                 .environmentObject(chatListStore)
@@ -136,8 +139,14 @@ struct AzitApp: App {
                     if url.scheme == "azit", let userID = URLComponents(url: url, resolvingAgainstBaseURL: false)?.host {
                         authManager.deepUserID = userID
                         print("QR 코드로부터 받은 User ID:", userID)
+                    } else {
+                        self.url = url
                     }
                 }
         }
     }
+}
+
+extension Notification.Name {
+    static let didReceiveURL = Notification.Name("didReceiveURL")
 }

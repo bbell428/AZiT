@@ -26,6 +26,14 @@
 				<string>azit</string>
 			</array>
 		</dict>
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>azit.widget</string>
+            </array>
+        </dict>
 	</array>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>

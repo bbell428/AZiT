@@ -27,8 +27,13 @@ struct MyContentEmojiView: View {
                 .overlay(
                     ZStack {
                         // 24시간 지남 여부에 따라 색 변경, 24시간 이 전: 그레디언트, 24시간 이 후: 흰 색
-                        Circle()
-                            .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: isMainExposed ? 7 : 15)
+                        if isMainExposed {
+                            Circle()
+                                .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 7)
+                        } else {
+                            Circle()
+                                .stroke(isPassed24Hours ? AnyShapeStyle(Utility.createLinearGradient(colors: [.ellipseColor2.opacity(0.5), .ellipseColor2])) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 15)
+                        }
                            
                         if previousState == "" {
                             Text(userInfoStore.userInfo?.profileImageName ?? "")
@@ -39,7 +44,16 @@ struct MyContentEmojiView: View {
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: width * 0.55, height: width * 0.55)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: width * 0.55, height: width * 0.55)
                         }
+                        
+                        if let codepoints = emojiManager.getCodepoints(forName: previousState) {
+                            KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: width * 0.75, height: width * 0.75)
                         }
                     }
                 )
