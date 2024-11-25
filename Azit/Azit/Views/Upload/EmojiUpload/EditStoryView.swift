@@ -112,7 +112,7 @@ struct EditStoryView : View {
             }
         }
         .padding()
-        .frame(width: (screenBounds?.width ?? 0) - 32, height: 500) // 팝업창 크기
+        .frame(width: (screenBounds?.width ?? 0) - 32, height: 470) // 팝업창 크기
         .background(
             RoundedRectangle(cornerRadius: 15)
                 .fill(Color.subColor4)
