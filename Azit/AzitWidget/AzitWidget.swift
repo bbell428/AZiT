@@ -77,10 +77,22 @@ class WidgetViewModel: ObservableObject {
                                 stories.append(story)
                             }
                             
-                            // 최신 메시지 기준으로 정렬
-                            stories.sort { $0.date > $1.date }
-                            
-                            if let recentStory = stories.first {
+                            if stories.count > 0 {
+                                // 최신 메시지 기준으로 정렬
+                                stories.sort { $0.date > $1.date }
+                                
+                                var tempStory = Story(userId: "", date: Date.now)
+                                
+                                for story in stories {
+                                    tempStory = story
+                                    
+                                    if tempStory.publishedTargets.contains(self.userInfoStore.userInfo?.id ?? "") || tempStory.publishedTargets.isEmpty {
+                                        break
+                                    }
+                                }
+                                
+                                let recentStory = tempStory
+                                
                                 var azitWidgetData = AzitWidgetData() // 반환할 데이터 객체 생성
                                 azitWidgetData.recentStory = recentStory
                                 print("최신의 스토리 : \(recentStory.id)")
@@ -106,10 +118,6 @@ class WidgetViewModel: ObservableObject {
                                 hasCalledContinuation = true
                                 self.widgetData = azitWidgetData
                                 continuation.resume(returning: azitWidgetData)
-                                
-                            } else {
-                                hasCalledContinuation = true
-                                continuation.resume(throwing: NSError(domain: "NoRecentStory", code: -1, userInfo: [NSLocalizedDescriptionKey: "No recent story found."]))
                             }
                         } catch {
                             hasCalledContinuation = true

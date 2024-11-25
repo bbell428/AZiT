@@ -173,13 +173,25 @@ struct RotationView: View {
                 userInfoStore.loadFriendsInfo(friendsIDs: userInfoStore.userInfo?.friends ?? [])
                 
                 var tempUsers: [UserInfo] = []
+                
                 // 스토리가 있는 친구들에서 공개가 되어있는지에 대한 분류
                 for friend in userInfoStore.userInfo?.friends ?? [] {
                     do {
-                        let tempStory = try await storyStore.loadRecentStoryById(id: friend)
+                        let tempStories = await storyStore.loadStorysByIds(ids: [friend])
                         
-                        if tempStory.id != "" && (tempStory.publishedTargets.contains(userInfoStore.userInfo?.id ?? "") || tempStory.publishedTargets.isEmpty) {
-                            try await tempUsers.append(userInfoStore.loadUsersInfoByEmail(userID: [friend])[0])
+                        if tempStories.count > 0 {
+                            var tempStory = Story(userId: "", date: Date.now)
+                            
+                            for story in tempStories {
+                                tempStory = story
+                                
+                                if tempStory.publishedTargets.contains(userInfoStore.userInfo?.id ?? "") || tempStory.publishedTargets.isEmpty {
+                                    
+                                    try await tempUsers.append(userInfoStore.loadUsersInfoByEmail(userID: [friend])[0])
+                                    
+                                    break
+                                }
+                            }
                         }
                     } catch { }
                 }

@@ -93,6 +93,40 @@ class StoryStore: ObservableObject {
         }
     }
     
+    // MARK: - 친구의 스토리들을 불러옴
+    @MainActor
+    func loadStorysByIds(ids: [String]) async -> [Story] {
+        guard !ids.isEmpty else {
+            print("친구가 없습니다")
+            return []
+        }
+
+        let db = Firestore.firestore()
+        
+        do {
+            let querySnapshot = try await db.collection("Story")
+                .whereField("userId", in: ids).getDocuments()
+            
+            var stories: [Story] = []
+            
+            for document in querySnapshot.documents {
+                do {
+                    let story = try await Story(document: document)
+                    stories.append(story)
+                } catch {
+                    print("loadStories error: \(error.localizedDescription)")
+                }
+            }
+            
+            return stories
+            
+        } catch {
+            print("loadStories error: \(error.localizedDescription)")
+            
+            return []
+        }
+    }
+    
     // MARK: - Widget에서 사용 할 최신 story listener
     func loadRecentStoryByIds(ids: [String]) async throws -> AzitWidgetData {
         // 기존 리스너 제거
