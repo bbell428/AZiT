@@ -112,7 +112,8 @@ struct FriendsContentsModalView: View {
                             .foregroundStyle(.accent)
                             .frame(width: 25, height: 25)
                     }
-                }   
+                }
+                .padding(.bottom, keyboardObservers.keyboardHeight)
             }
         }
        
@@ -121,7 +122,7 @@ struct FriendsContentsModalView: View {
 //        })
         .padding()
         .background(.subColor4)
-        .cornerRadius(8)
+        .cornerRadius(15)
         .scaleEffect(scale)
         .animation(.easeOut(duration: 0.3), value: keyboardObservers.keyboardHeight)
         .onTapGesture {
