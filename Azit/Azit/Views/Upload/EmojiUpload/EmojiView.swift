@@ -101,8 +101,8 @@ struct EmojiView : View {
             
             // 카메라 촬영 버튼
             NavigationLink(destination: TakePhotoView(firstNaviLinkActive: $firstNaviLinkActive, isMainDisplay: $isDisplayEmojiPicker, isMyModalPresented: $isMyModalPresented), isActive: $firstNaviLinkActive) {
-                RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
-                    .background(RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
+                RoundedRectangle(cornerSize: CGSize(width: 15.0, height: 15.0))
+                    .background(RoundedRectangle(cornerSize: CGSize(width: 15.0, height: 15.0))
                         .fill(Color.accentColor))
                     .frame(width: 340, height: 40)
                     .overlay(Image(systemName: "camera.fill")
