@@ -93,7 +93,7 @@ struct MainTopView: View {
                         Image(.personPinCircle)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 30)
+                            .frame(width: 45, height: 45)
                             .foregroundStyle(Utility.createLinearGradient(colors: [.accent, .gradation1]))
                     } else {
                         Image(systemName: "house.fill")

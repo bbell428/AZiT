@@ -34,7 +34,6 @@
 		8BE42D552CF1B23200AB21F4 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE42D542CF1B23200AB21F4 /* OrderedCollections */; };
 		8E538EE12CD844700094ABD1 /* RotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E538EE02CD844700094ABD1 /* RotationView.swift */; };
 		8E538EE32CD844A50094ABD1 /* FriendsContentsModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E538EE22CD844A50094ABD1 /* FriendsContentsModalView.swift */; };
-		8E611FDF2CEC9E0D00DF40E4 /* AzitWidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E611FDE2CEC9E0D00DF40E4 /* AzitWidgetData.swift */; };
 		8E611FE02CEC9E0D00DF40E4 /* AzitWidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E611FDE2CEC9E0D00DF40E4 /* AzitWidgetData.swift */; };
 		8E611FE12CEC9E3100DF40E4 /* PhotoImageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B067A022CE45A5C00ABD942 /* PhotoImageStore.swift */; };
 		8E645D552CE4784F00F43836 /* MyContentEmojiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E645D542CE4784F00F43836 /* MyContentEmojiView.swift */; };
@@ -119,6 +118,7 @@
 		CE89D79E2CDA8D1600DC73A8 /* EmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = CE89D79D2CDA8D1600DC73A8 /* EmojiPicker */; };
 		CE8A3BAD2CF35E2100DDA2E8 /* TextEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8A3BAC2CF35E2100DDA2E8 /* TextEditorView.swift */; };
 		CE946B3D2CEC390400250F9E /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE946B3C2CEC390400250F9E /* KeyboardObserver.swift */; };
+		CE9BB1132CF40AF70048C755 /* AzitWidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E611FDE2CEC9E0D00DF40E4 /* AzitWidgetData.swift */; };
 		CED22B1B2CEA33600075F56C /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = CED22B1A2CEA33600075F56C /* AlertToast */; };
 		CEDFC2CE2CE1C814008C215A /* FriendSegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDFC2CD2CE1C814008C215A /* FriendSegmentView.swift */; };
 		CEDFC2EE2CE2EAB0008C215A /* AlbumStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDFC2ED2CE2EAB0008C215A /* AlbumStore.swift */; };
@@ -939,6 +939,7 @@
 				CE4865772CF03FAD00C30997 /* EditPhotoStore.swift in Sources */,
 				8E863A462CF03F8300057FF8 /* RotationBar.swift in Sources */,
 				8BE42D522CF1B0E000AB21F4 /* FilterButtons.swift in Sources */,
+				CE9BB1132CF40AF70048C755 /* AzitWidgetData.swift in Sources */,
 				EAF93B8E2CD4A50700116035 /* AuthView.swift in Sources */,
 				CE69CDCC2CE70C2800322E7A /* AlbumStoryImageView.swift in Sources */,
 				CEDFC2EE2CE2EAB0008C215A /* AlbumStore.swift in Sources */,
