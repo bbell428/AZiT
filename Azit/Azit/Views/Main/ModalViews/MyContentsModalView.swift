@@ -16,6 +16,7 @@ struct MyContentsModalView: View {
     
     @Binding var isDisplayEmojiPicker: Bool
     @Binding var isMyModalPresented: Bool
+    @Binding var isAnimatingForStroke: Bool
     
     @State private var story: Story?
     @State private var friends: [UserInfo] = []
@@ -107,7 +108,7 @@ struct MyContentsModalView: View {
                         isDisplayEmojiPicker = false
                     }
                     .zIndex(2)
-                EmojiView(isDisplayEmojiPicker: $isDisplayEmojiPicker, isMyModalPresented: $isMyModalPresented)
+                EmojiView(isDisplayEmojiPicker: $isDisplayEmojiPicker, isMyModalPresented: $isMyModalPresented, isAnimatingForStroke: $isAnimatingForStroke)
                     .zIndex(3)
             }
         }

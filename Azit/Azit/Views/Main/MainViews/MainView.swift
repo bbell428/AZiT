@@ -31,6 +31,7 @@ struct MainView: View {
     @State private var isRightToLeftSwipe = false // 오른쪽에서 왼쪽 스와이프 여부
     @State private var isLeftToRightSwipe = false // 왼쪽에서 오른쪽 스와이프 여부
     @State private var isTappedWidget = false // 위젯이 클릭 되었는지 확인
+    @State private var isAnimatingForStroke = false // 글이 써졌는지 확인 후 애니메이션을 위함
     
     @Binding var url: URL?
     
@@ -39,7 +40,7 @@ struct MainView: View {
             ZStack {
                 // 메인 화면일 때 타원 뷰
                 if isMainExposed {
-                    RotationView(isMainExposed: $isMainExposed, isMyModalPresented: $isMyModalPresented, isFriendsModalPresented: $isFriendsModalPresented, isDisplayEmojiPicker: $isDisplayEmojiPicker, isPassed24Hours: $isPassed24Hours, isShowToast: $isShowToast, isTappedWidget: $isTappedWidget, url: $url)
+                    RotationView(isMainExposed: $isMainExposed, isMyModalPresented: $isMyModalPresented, isFriendsModalPresented: $isFriendsModalPresented, isDisplayEmojiPicker: $isDisplayEmojiPicker, isPassed24Hours: $isPassed24Hours, isShowToast: $isShowToast, isTappedWidget: $isTappedWidget, isAnimatingForStroke: $isAnimatingForStroke, url: $url)
                         .frame(width: 300, height: 300)
                         .zIndex(isMyModalPresented
                                 || isFriendsModalPresented
@@ -49,7 +50,7 @@ struct MainView: View {
                     .ignoresSafeArea(.keyboard)
                 // 맵 화면일 때 맵 뷰
                 } else {
-                    MapView(isMainExposed: $isMainExposed, isMyModalPresented: $isMyModalPresented, isFriendsModalPresented: $isFriendsModalPresented, isDisplayEmojiPicker: $isDisplayEmojiPicker, isPassed24Hours: $isPassed24Hours, isShowToast: $isShowToast)
+                    MapView(isMainExposed: $isMainExposed, isMyModalPresented: $isMyModalPresented, isFriendsModalPresented: $isFriendsModalPresented, isDisplayEmojiPicker: $isDisplayEmojiPicker, isPassed24Hours: $isPassed24Hours, isShowToast: $isShowToast, isAnimatingForStroke: $isAnimatingForStroke)
                         .zIndex(isMyModalPresented
                                 || isFriendsModalPresented
                                 || isDisplayEmojiPicker

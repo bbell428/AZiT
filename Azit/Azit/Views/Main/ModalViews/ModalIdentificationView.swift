@@ -12,6 +12,7 @@ struct ModalIdentificationView: View {
     @Binding var isFriendsModalPresented: Bool // 친구의 모달 컨트롤
     @Binding var isDisplayEmojiPicker: Bool // 사용자 자신의 게시글 작성 모달 컨트롤
     @Binding var isPassed24Hours: Bool // 사용자 자신의 게시글 작성 후 24시간에 대한 판별 여부
+    @Binding var isAnimatingForStroke: Bool
     @Binding var users: [UserInfo]
     @Binding var message: String
     @Binding var selectedIndex: Int
@@ -42,7 +43,7 @@ struct ModalIdentificationView: View {
                         isDisplayEmojiPicker = false
                     }
                     .zIndex(2)
-                EmojiView(isDisplayEmojiPicker: $isDisplayEmojiPicker, isMyModalPresented: $isMyModalPresented)
+                EmojiView(isDisplayEmojiPicker: $isDisplayEmojiPicker, isMyModalPresented: $isMyModalPresented, isAnimatingForStroke: $isAnimatingForStroke)
                     .zIndex(3)
             }
         // story 작성 후 24시간이 지나지 않았을 때
@@ -54,7 +55,7 @@ struct ModalIdentificationView: View {
                         isMyModalPresented = false
                     }
                     .zIndex(2)
-                MyContentsModalView(isDisplayEmojiPicker: $isDisplayEmojiPicker, isMyModalPresented: $isMyModalPresented)
+                MyContentsModalView(isDisplayEmojiPicker: $isDisplayEmojiPicker, isMyModalPresented: $isMyModalPresented, isAnimatingForStroke: $isAnimatingForStroke)
                     .zIndex(3)
             }
         }

@@ -21,6 +21,7 @@ struct RotationView: View {
     @Binding var isPassed24Hours: Bool // 사용자 자신의 게시글 작성 후 24시간에 대한 판별 여부
     @Binding var isShowToast: Bool
     @Binding var isTappedWidget: Bool // 위젯이 클릭 되었는지 확인
+    @Binding var isAnimatingForStroke: Bool // 글이 써졌는지 확인 후 애니메이션을 위함
     
     @Binding var url: URL?
     
@@ -53,6 +54,7 @@ struct RotationView: View {
                     } label: {
                         MyContentEmojiView(isMainExposed: $isMainExposed,
                                            isPassed24Hours: $isPassed24Hours,
+                                           isAnimatingForStroke: $isAnimatingForStroke,
                                            previousState: userInfoStore.userInfo?.previousState ?? "",
                                            
                                            width: 134,
@@ -120,6 +122,7 @@ struct RotationView: View {
                                     isFriendsModalPresented: $isFriendsModalPresented,
                                     isDisplayEmojiPicker: $isDisplayEmojiPicker,
                                     isPassed24Hours: $isPassed24Hours,
+                                    isAnimatingForStroke: $isAnimatingForStroke,
                                     users: $sortedUsers,
                                     message: $message,
                                     selectedIndex: $selectedIndex,
