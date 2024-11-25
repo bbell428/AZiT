@@ -27,9 +27,6 @@ struct EditStoryView : View {
     @State var friendID: String = ""
     private let characterLimit = 20
     let screenBounds = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds
-    var isShareEnabled: Bool {
-        return storyDraft.emoji.isEmpty && storyDraft.content.isEmpty
-    }
     
     var body : some View{
         VStack {
@@ -48,9 +45,6 @@ struct EditStoryView : View {
                     // 공개 범위
                     Button(action: {
                         isShowingsheet.toggle()
-                        Task {
-                            friendID = try await userInfoStore.getUserNameById(id: storyDraft.publishedTargets[0])
-                        }
                     }) {
                         HStack {
                             Image(systemName: "person")
@@ -139,8 +133,9 @@ struct EditStoryView : View {
             } else {
                 print("위치 정보가 아직 준비되지 않았습니다.")
             }
-            // 공개 범위에 모두를 넣음
-            storyDraft.publishedTargets = userInfoStore.userInfo?.friends ?? []
+            Task {
+                friendID = try await userInfoStore.getUserNameById(id: storyDraft.publishedTargets[0])
+            }
             
             withAnimation(.easeInOut(duration: 0.3)) {
                 scale = 1.0
@@ -151,21 +146,6 @@ struct EditStoryView : View {
                 scale = 0.1
             }
         }
-    }
-    
-    // 저장 후 초기화 함수
-    func resetStory() {
-//        storyDraft.id = ""
-//        storyDraft.userId = ""
-        storyDraft.likes = []
-        storyDraft.latitude = 0.0
-        storyDraft.longitude = 0.0
-        storyDraft.address = ""
-        storyDraft.emoji = ""
-        storyDraft.image = ""
-        storyDraft.content = ""
-        storyDraft.publishedTargets = []
-        storyDraft.readUsers = []
     }
     
     private func fetchAddress() {

@@ -202,7 +202,7 @@ struct PhotoReviewView: View {
             emoji: storyDraft.emoji,
             image: storyDraft.id,
             content: storyDraft.content,
-            publishedTargets: []
+            publishedTargets: storyDraft.publishedTargets
         )
         //        isDisplayEmojiPicker = false
         // 유저의 새로운 상태, 위경도 값 저장

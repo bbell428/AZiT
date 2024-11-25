@@ -12,6 +12,7 @@ struct MyPageView: View {
     @EnvironmentObject var authManager: AuthManager
     @Environment(\.dismiss) var dismiss
     
+//    @Binding var currentIndex: Int
     @State var isPresented: Bool = false // 편집 뷰 띄움
     @State var showAllFriends = false // 친구 목록 더 보기
     @State var isQRPresented: Bool = false // QR 뷰
@@ -296,6 +297,23 @@ struct MyPageView: View {
                 }
                 .padding(.top, -10)
                 .frame(maxWidth: .infinity)
+//                .highPriorityGesture(
+//                            DragGesture()
+//                                .onEnded { value in
+//                                    let horizontalAmount = value.translation.width
+//                                    let verticalAmount = value.translation.height
+//
+//                                    if abs(horizontalAmount) > abs(verticalAmount), abs(horizontalAmount) > 50 {
+//                                        // 수평 또는 대각선 swipe 감지
+//                                        if horizontalAmount > 0 {
+//                                            // 오른쪽으로 swipe -> MainView로 이동
+//                                            withAnimation {
+//                                                currentIndex = 1 // MainView가 1번 인덱스라고 가정
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//                        )
             }
             .frame(width: 370)
             .onTapGesture {
@@ -336,6 +354,6 @@ struct MyPageView: View {
     }
 }
 
-#Preview {
-    MyPageView()
-}
+//#Preview {
+//    MyPageView()
+//}
