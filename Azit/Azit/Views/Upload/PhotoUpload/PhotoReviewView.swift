@@ -44,7 +44,6 @@ struct PhotoReviewView: View {
             }
             
             VStack {
-                
                 // 프로그래스 뷰
                 ZStack(alignment: .leading) {
                     // 회색 배경

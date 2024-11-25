@@ -114,18 +114,25 @@ struct MessageDetailView: View {
                         }
                         .zIndex(8)
                     
-                    VStack {
+                    VStack(spacing: 10) {
                         Image(uiImage: selectedImage!)
-                        Button {
-                            chatDetailViewStore.saveImageToPhotoLibrary(image: selectedImage!)
-                        } label: {
-                            Image(systemName: "tray.and.arrow.down.fill")
-                                .font(.title2)
-                                .frame(width: 60, height: 60)
-                                .background(Color.white.opacity(0.8))
-                                .cornerRadius(20)
+                        HStack(spacing: 8) {
+                            Button {
+                                chatDetailViewStore.saveImageToPhotoLibrary(image: selectedImage!)
+                            } label: {
+                                Image(systemName: "tray.and.arrow.down.fill")
+                                    .font(.title2)
+                                    .foregroundColor(.black)
+                            }
+
+                            Text("핸드폰에 저장")
+                                .font(.body)
+                                .foregroundColor(.black)
                         }
-                        
+                        .padding()
+                        .frame(width: 200, height: 50) // 원하는 크기로 조정
+                        .background(Color.white.opacity(0.8))
+                        .cornerRadius(15)
                     }
                     .frame(maxHeight: .infinity, alignment: .center)
                     .zIndex(9)
@@ -315,12 +322,12 @@ struct MessageSendField: View {
                     if text.isEmpty {
                         Text("\(nickname)에게 보내기")
                             .foregroundColor(Color.gray.opacity(0.3))
-                            .padding(.horizontal, 15)
+                            .padding(.horizontal, 10)
                             .zIndex(5)
                     }
                     
                     TextEditor(text: $text)
-                        .padding(.horizontal, 5)
+                        //.padding(.horizontal, 5)
                         .foregroundColor(Color.black)
                         .frame(height: textEditorHeight)
                         .scrollContentBackground(.hidden)
