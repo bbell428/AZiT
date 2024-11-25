@@ -112,7 +112,7 @@ struct FriendsContentsModalView: View {
                             .foregroundStyle(.accent)
                             .frame(width: 25, height: 25)
                     }
-                }
+                }   
             }
         }
        

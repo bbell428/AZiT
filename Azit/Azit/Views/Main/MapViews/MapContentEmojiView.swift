@@ -10,7 +10,9 @@ import MapKit
 import Kingfisher
 
 struct MapContentEmojiView: View {
+    @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var storyStore: StoryStore
+    
     let emojiManager = EmojiManager()
     
     @Binding var user: UserInfo // 선택 된 친구
@@ -18,6 +20,8 @@ struct MapContentEmojiView: View {
     @Binding var selectedIndex: Int
     
     @State var isPassed24Hours: Bool = false // 친구의 게시글 작성 후 24시간에 대한 판별 여부
+    
+    @State private var story: Story?
     
     var region: MKCoordinateRegion
     var index: Int
@@ -44,7 +48,7 @@ struct MapContentEmojiView: View {
                                         Circle()
                                             .stroke(isPassed24Hours ? AnyShapeStyle(Utility.createLinearGradient(colors: [.ellipseColor2.opacity(0.5), .ellipseColor2])) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 15)
                                             .frame(width: 90, height: 90)
-                                        if let codepoints = emojiManager.getCodepoints(forName: user.previousState) {
+                                        if let codepoints = emojiManager.getCodepoints(forName: story?.emoji ?? "") {
                                             KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
                                                 .resizable()
                                                 .scaledToFit()
@@ -52,10 +56,7 @@ struct MapContentEmojiView: View {
                                             
                                         }
                                     }
-                                    
-                                   
                                 }
-                                
                             )
                             .frame(width: 90, height: 90)
                         
@@ -84,6 +85,28 @@ struct MapContentEmojiView: View {
         }
         .onAppear {
             Task {
+                // 선택 된 친구의 story
+                var tempStories = await storyStore.loadStorysByIds(ids: [user.id])
+                
+                tempStories = tempStories.sorted { $0.date > $1.date }
+                
+                if tempStories.count > 0 {
+                    var tempStory = Story(userId: "", date: Date.now)
+                    
+                    for story in tempStories {
+                        tempStory = story
+                        
+                        if tempStory.publishedTargets.contains(userInfoStore.userInfo?.id ?? "") || tempStory.publishedTargets.isEmpty {
+                            
+                            self.story = tempStory
+                            
+                            break
+                        }
+                    }
+                }
+                // 24시간이 지났는 지 판별
+                isPassed24Hours = Utility.hasPassed24Hours(from: story?.date ?? Date.now)
+                
                 // 선택 된 친구의 story
                 let story = try await storyStore.loadRecentStoryById(id: user.id)
                 // 24시간이 지났는 지 판별

@@ -83,7 +83,6 @@ struct FriendsContentEmojiView: View {
         .animation(.easeInOut(duration: 0.5), value: rotation)
         .onAppear {
             Task {
-                print("interpolationRatio: \(interpolationRatio)")
                 // 선택 된 친구의 story
                 var tempStories = await storyStore.loadStorysByIds(ids: [userInfo.id])
                 
