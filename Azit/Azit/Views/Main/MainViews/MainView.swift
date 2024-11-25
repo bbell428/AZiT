@@ -61,11 +61,11 @@ struct MainView: View {
                 MainTopView(isMainExposed: $isMainExposed, isShowToast: $isShowToast)
                     .zIndex(1)
             }
-            .navigationDestination(isPresented: $isRightToLeftSwipe) {
-                MessageView(isShowToast: $isShowToast)
-            }
+//            .navigationDestination(isPresented: $isRightToLeftSwipe) {
+//                MessageView(isShowToast: $isShowToast)
+//            }
             
-            .ignoresSafeArea(.keyboard)
+            //.ignoresSafeArea(.keyboard)
 //            .navigationDestination(isPresented: $isLeftToRightSwipe) {
 //                MyPageView()
 //            }

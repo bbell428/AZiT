@@ -83,7 +83,7 @@ struct AlbumView: View {
                     if albumstore.loadingImage {
                         Color.gray.opacity(0.5)
                             .ignoresSafeArea()
-                            .padding(.top, 70)
+                            //.padding(.top, 70)
                             .zIndex(4)
                         
                         VStack(alignment: .center) {
@@ -91,16 +91,20 @@ struct AlbumView: View {
                             VStack {
                                 ProgressView()
                                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                Text("스토리 불러오는중...")
-                                    .foregroundStyle(Color.white)
+                                    .scaleEffect(1.5)
+                                //                                Text("스토리 불러오는중...")
+                                //                                    .foregroundStyle(Color.white)
                             }
-                            .padding(15)
-                            .background(Color.accent.opacity(0.8))
+                            .padding(30)
+                            .background(Color.black.opacity(0.5))
+                            .background(
+                                BlurView(style: .systemMaterial) // 사각형 블러
+                            )
                             .cornerRadius(15)
                             .frame(width: 250, height: 150)
                             Spacer()
                         }
-                        .zIndex(4)
+                        .zIndex(9)
                     }
                     
                     // 스크롤이 내려가지 않았거나, 위로 올렸을경우 (친구 리스트)

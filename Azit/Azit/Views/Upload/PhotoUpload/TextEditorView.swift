@@ -13,6 +13,8 @@ struct TextEditorView: View {
     @EnvironmentObject var editPhotoService: EditPhotoStore
     @State private var keyboardHeight: CGFloat = 0 // 키보드 높이를 저장할 상태 변수
     @State var textEditorHeight: CGFloat? // 초기 높이
+    @State var temporaryText: String = "" // 임시저장
+    @State var selectedColorIndex: Int = 0 // 선택된 색상 인덱스
     
     var body: some View {
         NavigationStack {
@@ -20,8 +22,12 @@ struct TextEditorView: View {
                 Color.black.opacity(0.4)
                     .ignoresSafeArea()
                     .onTapGesture {
+                        editPhotoService.textInput = temporaryText
+                        editPhotoService.selectedTextColor = selectedColorIndex
                         UIApplication.shared.endEditing()
                         isDisplayTextEditor.toggle()
+                        temporaryText = ""
+                        selectedColorIndex = 0
                     }
                     .zIndex(3)
                 
@@ -29,15 +35,17 @@ struct TextEditorView: View {
                     Spacer() // 키보드 감지 전 공간
                     
                     VStack {
-                        TextEditor(text: $editPhotoService.textInput)
-                            .cornerRadius(15)
-                            .padding(.horizontal, 5)
-                            .foregroundColor(Color.white)
-                            .frame(width: 300, height: textEditorHeight)
+                        TextEditor(text: $temporaryText)
+                            .multilineTextAlignment(.center)
+                            .font(.title3)
+                            .padding(.horizontal, 10)
+                            .foregroundColor(editPhotoService.isTextColor[selectedColorIndex])
+                            .frame(width: 270, height: textEditorHeight)
                             .scrollContentBackground(.hidden)
-                            .background(Color.gray.opacity(0.5))
+                            .background(editPhotoService.isTextColor[selectedColorIndex] == .white ? Color.black.opacity(0.8) : Color.white.opacity(0.8))
+                            .cornerRadius(15)
                             .zIndex(2)
-                            .onChange(of: editPhotoService.textInput) { _, _ in
+                            .onChange(of: temporaryText) { _, _ in
                                 adjustHeight() // 높이 조정
                             }
                     }
@@ -46,22 +54,41 @@ struct TextEditorView: View {
                     VStack {
                         HStack(alignment: .center, spacing: 10) {
                             Button {
-                                // 색상 변경
+                                selectedColorIndex = (selectedColorIndex + 1) % editPhotoService.isTextColor.count
                             } label: {
                                 Circle()
-                                    .fill(Color.black)
+                                    .fill(editPhotoService.isTextColor[selectedColorIndex])
                                     .frame(width: 30, height: 30)
                             }
                             
                             Button {
-                                // 배경 on/off
+                                editPhotoService.isBackgroundText.toggle()
                             } label: {
-                                Text("배경")
-                                    .padding(.horizontal, 20)
-                                    .padding(.vertical, 10)
-                                    .background(.gray)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(15)
+                                if editPhotoService.isBackgroundText {
+                                    HStack(spacing: 10) {
+                                        Image(systemName: "checkmark")
+                                            .padding(.leading, 10)
+                                            .padding(.vertical, 10)
+                                        Text("배경")
+                                            .padding(.trailing, 10)
+                                            .padding(.vertical, 10)
+                                    }
+                                    .font(.title3)
+                                    .foregroundStyle(.white)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 15) // 둥글게 만들기
+                                            .fill(Color.green) // 배경색
+                                    )
+                                    .clipShape(RoundedRectangle(cornerRadius: 15)) // 클리핑
+                                } else {
+                                    Text("배경")
+                                        .font(.title3)
+                                        .padding(.horizontal, 20)
+                                        .padding(.vertical, 10)
+                                        .background(.gray)
+                                        .foregroundColor(.white)
+                                        .cornerRadius(15)
+                                }
                             }
                         }
                     }
@@ -74,30 +101,32 @@ struct TextEditorView: View {
                 .animation(.easeInOut, value: keyboardHeight) // 부드러운 애니메이션
             }
             .onAppear {
+                temporaryText = editPhotoService.textInput // 불러온 값을 임시저장에 투입
+                selectedColorIndex = editPhotoService.selectedTextColor // 불러온 색상값을 임시저장에 투입
                 adjustHeight()
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        // 초기화
-                        editPhotoService.textInput = ""
-                    } label: {
-                        Text("Reset")
-                            .padding(.horizontal, 20) // 좌우 패딩을 추가하여 크기 조정
-                            .padding(.vertical, 10) // 상하 패딩을 추가하여 버튼 높이 설정
-                            .background(.accent) // 배경 색상 설정
-                            .foregroundColor(.white) // 텍스트 색상 설정
-                            .cornerRadius(15) // 둥근 모서리 적용
-                    }
+//                    Button {
+//                        // 초기화
+//                        editPhotoService.textInput = ""
+//                    } label: {
+//                        Text("Reset")
+//                            .padding(.horizontal, 20) // 좌우 패딩을 추가하여 크기 조정
+//                            .padding(.vertical, 10) // 상하 패딩을 추가하여 버튼 높이 설정
+//                            .background(.accent) // 배경 색상 설정
+//                            .foregroundColor(.white) // 텍스트 색상 설정
+//                            .cornerRadius(15) // 둥근 모서리 적용
+//                    }
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-                        // 저장
+                        editPhotoService.textInput = temporaryText
+                        temporaryText = ""
                         isDisplayTextEditor = false
-                        // 저장 로직 추가 가능
                     } label: {
-                        Text("Save")
+                        Text("Done")
                             .padding(.horizontal, 20) // 좌우 패딩을 추가하여 크기 조정
                             .padding(.vertical, 10) // 상하 패딩을 추가하여 버튼 높이 설정
                             .background(.accent) // 배경 색상 설정
@@ -132,9 +161,9 @@ struct TextEditorView: View {
     private func adjustHeight() {
         let width = UIScreen.main.bounds.width - 150 // 좌우 여백 포함
         let size = CGSize(width: width, height: .infinity)
-        let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 16)]
-        let boundingBox = editPhotoService.textInput.boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
-        textEditorHeight = max(50, boundingBox.height + 24) // 기본 높이 보장
+        let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 20)]
+        let boundingBox = temporaryText.boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+        textEditorHeight = max(20, boundingBox.height + 40) // 기본 높이 보장
     }
 }
 

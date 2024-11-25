@@ -40,9 +40,9 @@ struct PostMessage: View {
                                 .font(.caption2)
                                 .fontWeight(.light)
                         }
-                        .padding(5)
-                        .background(Color.gray.opacity(0.1))
-                        .cornerRadius(15)
+                        //.padding(5)
+                        //.background(Color.gray.opacity(0.1))
+                        //.cornerRadius(15)
                         
                         HStack {
                             Button {
@@ -54,7 +54,7 @@ struct PostMessage: View {
                                         if let image = image {
                                             Image(uiImage: image)
                                                 .resizable()
-                                                .aspectRatio(contentMode: .fill)
+                                                .aspectRatio(3/4, contentMode: .fit)
                                                 .frame(width: 90, height: 120)
                                                 .cornerRadius(15)
                                         } else if isLoadingImage {
@@ -129,7 +129,7 @@ struct PostMessage: View {
                                 } label: {
                                     Image(uiImage: loadedImage)
                                         .resizable()
-                                        .aspectRatio(contentMode: .fit)
+                                        .aspectRatio(3/4, contentMode: .fit)
                                         .frame(width: 180, height: 240)
                                         .cornerRadius(15)
                                 }

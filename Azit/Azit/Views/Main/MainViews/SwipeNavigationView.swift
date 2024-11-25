@@ -18,9 +18,9 @@ struct SwipeNavigationView: View {
 
     var views: [AnyView] {
         [
-            AnyView(MyPageView()),
+            AnyView(MyPageView(currentIndex: $currentIndex)),
             AnyView(MainView(url: $url)),
-            AnyView(MessageView(isShowToast: $isShowToast))
+            AnyView(MessageView(isShowToast: $isShowToast, currentIndex: $currentIndex))
         ]
     }
     
