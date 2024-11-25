@@ -16,7 +16,7 @@
 # 🧑🏻‍💻Team Members (팀원 및 팀 소개)
 | 홍지수 | 김종혁 | 박준영 | 신현우 |
 |:------:|:------:|:------:|:------:|
-| <img src="https://github.com/user-attachments/assets/1802267c-df6c-41cd-9b1d-5ca937cd198e" alt="홍지수" width="150"> | <img src="https://github.com/user-attachments/assets/eb95b9f2-8619-4de6-9b38-b427498616b8" alt="김종혁" width="150"> | <img src="https://github.com/user-attachments/assets/3b13575a-1875-4321-a83d-2f471565d094" alt="박준영" width="150"> | <img src="https://github.com/user-attachments/assets/7a04a031-af4e-4166-a30f-0a45b6101e94" alt="신현우" width="150"> |
+| <img src="https://github.com/user-attachments/assets/2dc5f59b-dbf9-4a3b-bcba-e39eb39c09e9" alt="홍지수" width="150"> | <img src="https://github.com/user-attachments/assets/8595069a-e433-4d7a-8902-7df506f99228" alt="김종혁" width="150"> | <img src="https://github.com/user-attachments/assets/0d97371c-e8eb-47d5-9dc8-f23dead9e067" alt="박준영" width="150"> | <img src="https://github.com/user-attachments/assets/83e8e853-67f4-4ff5-9f68-1486e143b7ee" alt="신현우" width="150"> |
 | PM | iOS | iOS | iOS |
 | [GitHub](https://github.com/jisooohh) | [GitHub](https://github.com/bbell428) | [GitHub](https://github.com/PlayTheApp) | [GitHub](https://github.com/show2633) |
 
@@ -24,7 +24,7 @@
 <br/>
 
 # 👤User Flow
-<img src="https://github.com/user-attachments/assets/68e0a6c3-c26d-44a3-abe4-3b814e0f3390" alt="배너" width="100%"/>
+<img src="https://github.com/user-attachments/assets/beb056a4-16fd-4536-af4f-c3f7a8c71dc3" alt="배너" width="100%"/>
 
 # 🚀 주요 기능
 - 🗂️ **기능 1**: [기능에 대한 간단 설명]
@@ -49,10 +49,10 @@
 
 <br/>
 
-## Backend
+## Backen
 | Firebase | Koyeb |
 |:------:|:------:|
-| <img src="https://firebase.google.com/static/images/brand-guidelines/logo-vertical.png?hl=ko" alt="Firebase" width="100"> | <img src="https://github.com/user-attachments/assets/18920bf9-b5f0-4fdf-92a4-2f16d23665ac" alt="Koyeb" width="100"> | 
+| <img src="https://firebase.google.com/static/images/brand-guidelines/logo-vertical.png?hl=ko" alt="Firebase" width="100"> | <img src="https://github.com/user-attachments/assets/e7912d56-040e-497b-b37c-91e2e9f10ca2" alt="Koyeb" width="100"> | 
 | 10.12.5 | 10.12.5 |
 
 <br/>
@@ -60,7 +60,7 @@
 ## Cooperation
 | Git | Discord | Notion | Figma |
 |:------:|:------:|:------:|:------:|
-| <img src="https://github.com/user-attachments/assets/bc7d7670-c448-41aa-98fd-ac61110f78ca" alt="git" width="100"> | <img src="https://github.com/user-attachments/assets/47bfea42-d3c7-46bf-82f3-7f419495a8c1" alt="git kraken" width="100"> |<img src="https://github.com/user-attachments/assets/bb3b4712-06e8-4377-8f7d-7f392ac37fb5" alt="Notion" width="100"> | <img src="https://github.com/user-attachments/assets/cf540b04-2e96-4593-9ad8-3881dc8d44fe" alt="Notion" width="100"> |
+| <img src="https://github.com/user-attachments/assets/03b7d917-65bb-4027-b1a2-630f4050f1a4" alt="git" width="100"> | <img src="https://github.com/user-attachments/assets/3f1e5dfd-c113-44a3-904a-c697d3fde997" alt="git kraken" width="100"> |<img src="https://github.com/user-attachments/assets/16703970-7713-49dd-a8fa-28301b884315" width="100"> | <img src="https://github.com/user-attachments/assets/c96f0599-089f-4b91-ab30-4efd1d7da2f4" alt="Notion" width="100"> |
 
 <br/>
 
