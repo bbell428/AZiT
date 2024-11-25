@@ -16,7 +16,7 @@ struct EditPhotoView: View {
     var body: some View {
         VStack(spacing: 0) {
 //            Text("스토리에 올리기 전에 이미지를 편집할 수 있습니다.")
-//                .font(.subheadline)
+//                .font(.caption)
             if cameraService.capturedImage != nil {
                 ZStack() {
                     ZStack(alignment: .topTrailing) {
@@ -87,19 +87,20 @@ struct EditPhotoView: View {
                     }
                     
                     // 사용자가 텍스트를 넣겠다고 하고, 공백이 없을때만 보여주기
-                    if isSelectText && !editPhotoService.textInput.isEmpty {
+                    if isSelectText && !editPhotoService.textInput.isEmpty && !isDisplayTextEditor {
                         Text(editPhotoService.textInput)
-                            .font(.largeTitle)
-                            .foregroundColor(.white)
+                            .font(.title3)
+                            .foregroundColor(editPhotoService.isTextColor[editPhotoService.selectedTextColor])
                             .shadow(radius: 5)
-                            .frame(maxWidth: 300, alignment: .center)
-                            .padding(10)
-                            //.background(Color.black.opacity(0.5))
-                            .cornerRadius(10)
+                            .frame(maxWidth: 250, alignment: .center)
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 15)
+                            .background(editPhotoService.isBackgroundText ? editPhotoService.isTextColor[editPhotoService.selectedTextColor] == .white ? Color.black.opacity(0.8) : Color.white.opacity(0.8) : Color.clear)
+                            .cornerRadius(15)
                             .scaleEffect(editPhotoService.scale)
                             .rotationEffect(editPhotoService.rotation)
                             .multilineTextAlignment(.center)
-                            .fixedSize(horizontal: false, vertical: true)
+                            .fixedSize(horizontal: true, vertical: true)
                             .offset(CGSize(width: editPhotoService.textPosition.width + editPhotoService.dragOffset.width,
                                            height: editPhotoService.textPosition.height + editPhotoService.dragOffset.height))
                             .gesture(
