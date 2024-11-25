@@ -1,6 +1,6 @@
 # 📱 AZiT
 
-<img src="https://github.com/user-attachments/assets/66f4cba6-2ae7-45aa-a307-ee9a236e8f30" alt="배너" width="70%"/>
+<img src="https://github.com/user-attachments/assets/6a658e08-fc3e-476b-9431-7dd4584597e2" alt="배너" width="100%"/>
 </a>
 
 <br/>
