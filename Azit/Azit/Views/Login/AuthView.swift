@@ -12,6 +12,7 @@ import GoogleSignIn
 struct AuthView: View {
     @EnvironmentObject private var authManager: AuthManager
     @EnvironmentObject private var userInfoStore: UserInfoStore
+    @EnvironmentObject private var locationManager: LocationManager
     
     @AppStorage("fcmToken") private var targetToken: String = ""
     
@@ -36,6 +37,9 @@ struct AuthView: View {
                             
                             // 로그인 후, 메시지 개수 알림 배지로 표시
                             await sendNotificationToServer(myNickname: "", message: "", fcmToken: userInfoStore.userInfo?.fcmToken ?? "", badge: userInfoStore.sumIntegerValuesContainingUserID(userID: authManager.userID))
+                            
+                            // 위치 권한 허용 check
+                            locationManager.checkAuthorization()
                         }
                     }
             case .profileExist:

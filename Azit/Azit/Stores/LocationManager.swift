@@ -12,8 +12,19 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     // 권한 허용 상태
     @Published var status: CLAuthorizationStatus?
 
-    override init() {
-        super.init()
+//    override init() {
+//        super.init()
+//        locationManager.delegate = self
+//        // 정확도 설정 (필요에 따라 조정)
+//        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+//        // 권한 요청
+//        locationManager.requestWhenInUseAuthorization()
+//        // 위치 업데이트 시작
+//        locationManager.startUpdatingLocation()
+//    }
+
+    // 권한 허용 check
+    func checkAuthorization() {
         locationManager.delegate = self
         // 정확도 설정 (필요에 따라 조정)
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -22,21 +33,6 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         // 위치 업데이트 시작
         locationManager.startUpdatingLocation()
     }
-
-    // 권한 허용 check
-    func checkAuthorization() {
-            switch locationManager.authorizationStatus {
-            case .notDetermined:
-                locationManager.requestWhenInUseAuthorization()
-            case .authorizedWhenInUse, .authorizedAlways:
-                locationManager.startUpdatingLocation()
-            case .restricted, .denied:
-                // 위치 접근이 거부된 경우 처리
-                break
-            @unknown default:
-                break
-            }
-        }
     
     // 위치 업데이트 시 호출되는 델리게이트 메서드
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
