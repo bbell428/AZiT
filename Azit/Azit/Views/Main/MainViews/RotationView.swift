@@ -82,7 +82,9 @@ struct RotationView: View {
                                                 index: index,
                                                 startEllipse: startEllipse,
                                                 endEllipse: endEllipse,
-                                                interpolationRatio: index != numberOfCircles - 1 ? interpolationRatio : 1.0 - CGFloat(1.0) / CGFloat(numberOfCircles - 1) / CGFloat(2.0))
+                                                interpolationRatio: (((index == numberOfCircles - 1 && numberOfCircles != 1)
+                                                                      ? 1.0 - (1.0 / CGFloat(numberOfCircles - 1) / 2.0)
+                                                                      : interpolationRatio)))
                         
                     }
                 }
