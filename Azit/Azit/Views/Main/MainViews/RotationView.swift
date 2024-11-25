@@ -50,6 +50,7 @@ struct RotationView: View {
                         MyContentEmojiView(isMainExposed: $isMainExposed,
                                            isPassed24Hours: $isPassed24Hours,
                                            previousState: userInfoStore.userInfo?.previousState ?? "",
+                                           
                                            width: 134,
                                            height: 134)
                     }

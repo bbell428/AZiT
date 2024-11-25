@@ -10,6 +10,7 @@ import Kingfisher
 
 // 사용자 본인의 Circle Button의 label
 struct MyContentEmojiView: View {
+    @EnvironmentObject var userInfoStore: UserInfoStore
     @Binding var isMainExposed: Bool // 메인 화면인지 맵 화면인지
     @Binding var isPassed24Hours: Bool
     let emojiManager = EmojiManager()
@@ -29,12 +30,16 @@ struct MyContentEmojiView: View {
                         Circle()
                             .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: isMainExposed ? 7 : 15)
                            
-                        
-                        if let codepoints = emojiManager.getCodepoints(forName: previousState) {
-                            KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: width * 0.75, height: width * 0.75)
+                        if previousState == "" {
+                            Text(userInfoStore.userInfo?.profileImageName ?? "")
+                                .font(.system(size: width * 0.55))
+                        } else {
+                            if let codepoints = emojiManager.getCodepoints(forName: previousState) {
+                                KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: width * 0.55, height: width * 0.55)
+                        }
                         }
                     }
                 )
