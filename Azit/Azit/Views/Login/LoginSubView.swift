@@ -305,8 +305,6 @@ struct EmojiSheetView: View {
     @Binding var show: Bool
     @Binding var txt: String
     
-    @State private var selectedEmoji: String? // 선택된 이모지
-    
     var body: some View {
         ZStack(alignment: .topLeading) {
             ScrollView(.vertical, showsIndicators: false) {
@@ -317,7 +315,6 @@ struct EmojiSheetView: View {
                                 Button(action: {
                                     let emoji = String(UnicodeScalar(codePoint)!)
                                     self.txt = emoji // 이모지를 바인딩에 전달
-                                    self.selectedEmoji = emoji // 선택된 이모지를 업데이트
                                 }) {
                                     ZStack {
                                         if let scalar = UnicodeScalar(codePoint),
@@ -325,7 +322,7 @@ struct EmojiSheetView: View {
                                             Text(String(scalar))
                                                 .font(.system(size: 55))
                                                 .frame(width: 70, height: 70)
-                                                .background(selectedEmoji == String(scalar) ? Color.accentColor.opacity(0.2) : Color.clear) // 선택 상태 배경색
+                                                .background(txt == String(scalar) ? Color.accentColor.opacity(0.2) : Color.clear) // 선택 상태 배경색
                                                 .cornerRadius(10)
                                         } else {
                                             Text("")
@@ -337,7 +334,7 @@ struct EmojiSheetView: View {
                         }
                     }
                 }
-                .padding(.top)
+                .padding(.top, 40)
             }
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 3)
             .background(Color.white)
