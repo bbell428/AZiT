@@ -23,7 +23,7 @@ struct AuthView: View {
             case .unauthenticated, .authenticating:
                 LoginView()
             case .authenticated:
-                MainView()
+                SwipeNavigationView()
                     .environmentObject(authManager)
                     .environmentObject(userInfoStore)
                     .onAppear {

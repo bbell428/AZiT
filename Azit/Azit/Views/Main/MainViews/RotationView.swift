@@ -38,22 +38,26 @@ struct RotationView: View {
     var body: some View {
         ZStack {
             ZStack {
-                // 사용자 본인의 Circle Button
-                Button {
-                    if isPassed24Hours {
-                        isDisplayEmojiPicker = true
-                    } else {
-                        isMyModalPresented = true
+                VStack {
+                    // 사용자 본인의 Circle Button
+                    Button {
+                        if isPassed24Hours {
+                            isDisplayEmojiPicker = true
+                        } else {
+                            isMyModalPresented = true
+                        }
+                    } label: {
+                        MyContentEmojiView(isMainExposed: $isMainExposed,
+                                           isPassed24Hours: $isPassed24Hours,
+                                           previousState: userInfoStore.userInfo?.previousState ?? "",
+                                           width: 134,
+                                           height: 134)
                     }
-                } label: {
-                    MyContentEmojiView(isMainExposed: $isMainExposed,
-                                       isPassed24Hours: $isPassed24Hours,
-                                       previousState: userInfoStore.userInfo?.previousState ?? "",
-                                       width: 134,
-                                       height: 134)
+                    
+                    RotationBar(rotation: $rotation)
                 }
                 .zIndex(1)
-                .offset(y: 300)
+                .offset(y: 270)
                 // 타원 생성
                 EllipsesView()
                 
@@ -80,13 +84,13 @@ struct RotationView: View {
                 }
             }
             // 타원 위의 Circle들 각도 설정
-            .gesture(
-                DragGesture()
-                    .onChanged { value in
-                        // 속도 설정 부
-                        rotation += Double(value.translation.width) * 0.005
-                    }
-            )
+//            .gesture(
+//                DragGesture()
+//                    .onChanged { value in
+//                        // 속도 설정 부
+//                        rotation += Double(value.translation.width) * 0.005
+//                    }
+//            )
             // 뷰의 크기 확대, 축소
             .gesture(
                 MagnificationGesture()
@@ -185,7 +189,7 @@ struct RotationView: View {
                 // 24시간이 지났는 지 판별
                 isPassed24Hours = Utility.hasPassed24Hours(from: story.date)
                 
-                //chatListStore.fetchChatRooms(userId: userInfoStore.userInfo?.id ?? "")
+                chatListStore.fetchChatRooms(userId: userInfoStore.userInfo?.id ?? "")
             }
         }
         .onChange(of: authManager.deepUserID) {

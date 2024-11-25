@@ -40,16 +40,16 @@ struct MainTopView: View {
                         //                                .frame(width: 25)
                         //                        }
                         //                        .disabled(isModalPresented ? true : false)
-                        
-                        NavigationLink {
-                            MessageView(isShowToast: $isShowToast)
-                        } label: {
-                            Image(systemName: "ellipsis.message.fill")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 30)
-                                .foregroundStyle(Utility.createLinearGradient(colors: [.accent, .gradation1]))
-                        }
+//                        
+//                        NavigationLink {
+//                            MessageView(isShowToast: $isShowToast)
+//                        } label: {
+//                            Image(systemName: "ellipsis.message.fill")
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fit)
+//                                .frame(width: 30)
+//                                .foregroundStyle(Utility.createLinearGradient(colors: [.accent, .gradation1]))
+//                        }
                         
                         NavigationLink {
                             AlbumView(isShowToast: $isShowToast)
@@ -61,17 +61,17 @@ struct MainTopView: View {
                                 .foregroundStyle(Utility.createLinearGradient(colors: [.accent, .gradation1]))
                         }
                         
-                        NavigationLink {
-                            MyPageView()
-                        } label: {
-                            Image(systemName: "person.fill")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 30)
-                                .foregroundStyle(Utility.createLinearGradient(colors: [.accent, .gradation1]))
-                        }
+//                        NavigationLink {
+//                            MyPageView()
+//                        } label: {
+//                            Image(systemName: "person.fill")
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fit)
+//                                .frame(width: 30)
+//                                .foregroundStyle(Utility.createLinearGradient(colors: [.accent, .gradation1]))
+//                        }
                     }
-                    .frame(width: 150, height: 50)
+                    .frame(width: 50, height: 50)
                     .background(isMainExposed ? Color.gray.opacity(0.1) : Color.subColor4.opacity(0.8))
                     .clipShape(RoundedRectangle(cornerRadius: 15))
                     .padding()
@@ -89,20 +89,23 @@ struct MainTopView: View {
                 Button {
                     isMainExposed.toggle()
                 } label: {
-                    Image(systemName: isMainExposed ? "map" : "house")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 30)
-                        .foregroundStyle(Utility.createLinearGradient(colors: [.accent, .gradation1]))
+                    if isMainExposed {
+                        Image(.personPinCircle)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30)
+                            .foregroundStyle(Utility.createLinearGradient(colors: [.accent, .gradation1]))
+                    } else {
+                        Image(systemName: "house.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30)
+                            .foregroundStyle(Utility.createLinearGradient(colors: [.accent, .gradation1]))
+                    }
                 }
                 .frame(width: 60, height: 60)
                 .background(Color.white)
-                .clipShape(RoundedRectangle(cornerRadius: 15))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 15)
-                        .stroke(Utility.createLinearGradient(colors: [.accent, .gradation1]), lineWidth: 2)
-                        
-                )
+                .clipShape(RoundedRectangle(cornerRadius: 25))
             }
             .padding()            
         }

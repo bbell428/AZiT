@@ -131,8 +131,12 @@ extension PhotoImageStore {
         // 리사이즈된 CGImage를 UIImage로 변환
         guard let resizedCGImage = context.makeImage() else { return nil }
         
+        let rotatedImage = UIImage(cgImage: resizedCGImage)
+        
         // 90도 회전 (오른쪽으로)
-        let rotatedImage = rotateImage(image: UIImage(cgImage: resizedCGImage))
+        if UIImage(cgImage: resizedCGImage).size.width > UIImage(cgImage: resizedCGImage).size.height {
+            let rotatedImage = rotateImage(image: UIImage(cgImage: resizedCGImage))
+        }
         
         return rotatedImage
     }

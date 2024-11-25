@@ -46,6 +46,8 @@
 		8E71EF7B2CE2EE8D00BA8F33 /* ContentsModalTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E71EF7A2CE2EE8D00BA8F33 /* ContentsModalTopView.swift */; };
 		8E71EF7D2CE2F59000BA8F33 /* ModalIdentificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E71EF7C2CE2F59000BA8F33 /* ModalIdentificationView.swift */; };
 		8E71EFE72CE348CA00BA8F33 /* LikesSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E71EFE62CE348CA00BA8F33 /* LikesSheetView.swift */; };
+		8E863A462CF03F8300057FF8 /* RotationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E863A452CF03F8300057FF8 /* RotationBar.swift */; };
+		8E863A482CF0513E00057FF8 /* SwipeNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E863A472CF0513E00057FF8 /* SwipeNavigationView.swift */; };
 		8E9402612CDAE99E0005C2BB /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9402602CDAE99E0005C2BB /* MapView.swift */; };
 		8EAFEFA92CD4528E00136348 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EAFEFA32CD4528E00136348 /* Preview Assets.xcassets */; };
 		8EAFEFAB2CD4528E00136348 /* AzitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFEFA62CD4528E00136348 /* AzitApp.swift */; };
@@ -216,6 +218,8 @@
 		8E71EF7A2CE2EE8D00BA8F33 /* ContentsModalTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsModalTopView.swift; sourceTree = "<group>"; };
 		8E71EF7C2CE2F59000BA8F33 /* ModalIdentificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalIdentificationView.swift; sourceTree = "<group>"; };
 		8E71EFE62CE348CA00BA8F33 /* LikesSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesSheetView.swift; sourceTree = "<group>"; };
+		8E863A452CF03F8300057FF8 /* RotationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotationBar.swift; sourceTree = "<group>"; };
+		8E863A472CF0513E00057FF8 /* SwipeNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeNavigationView.swift; sourceTree = "<group>"; };
 		8E9402602CDAE99E0005C2BB /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		8EAFEF762CD4524500136348 /* Azit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Azit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EAFEF862CD4524600136348 /* AzitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -470,6 +474,8 @@
 				8E71EF0C2CE2DF0D00BA8F33 /* MainTopView.swift */,
 				8E538EE02CD844700094ABD1 /* RotationView.swift */,
 				8E71EF762CE2E46200BA8F33 /* EllipsesView.swift */,
+				8E863A452CF03F8300057FF8 /* RotationBar.swift */,
+				8E863A472CF0513E00057FF8 /* SwipeNavigationView.swift */,
 			);
 			path = MainViews;
 			sourceTree = "<group>";
@@ -925,11 +931,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				EAF3D1022CEDA31800ABCB4F /* sendNotificationToServer.swift in Sources */,
+				8E863A482CF0513E00057FF8 /* SwipeNavigationView.swift in Sources */,
 				CE86A3B82CE6E1B4000B59B2 /* AlbumFriendListView.swift in Sources */,
 				8BDA11D52CDA769C004242DB /* EmojiPickerView.swift in Sources */,
 				EAB079722CDDAED700293C62 /* SplashView.swift in Sources */,
 				CE4865772CF03FAD00C30997 /* EditPhotoStore.swift in Sources */,
-				8E611FDF2CEC9E0D00DF40E4 /* AzitWidgetData.swift in Sources */,
+				CE4865772CF03FAD00C30997 /* EditPhotoStore.swift in Sources */,
+				8E863A462CF03F8300057FF8 /* RotationBar.swift in Sources */,
 				8BE42D522CF1B0E000AB21F4 /* FilterButtons.swift in Sources */,
 				EAF93B8E2CD4A50700116035 /* AuthView.swift in Sources */,
 				CE69CDCC2CE70C2800322E7A /* AlbumStoryImageView.swift in Sources */,
