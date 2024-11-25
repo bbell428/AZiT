@@ -140,14 +140,14 @@ extension AuthManager {
         }
     }
     
-    func deleteAccount() async -> Bool {
+    func deleteAccount() async {
         do {
             try await user?.delete()
-            return true
+            
+            authenticationState = .unauthenticated
         }
         catch {
             errorMessage = error.localizedDescription
-            return false
         }
     }
 }

@@ -10,6 +10,7 @@ import SwiftUI
 struct MyPageView: View {
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var authManager: AuthManager
+    @EnvironmentObject var friendsStore: FriendsStore
     @Environment(\.dismiss) var dismiss
     
     @State var isPresented: Bool = false // 편집 뷰 띄움
@@ -18,6 +19,7 @@ struct MyPageView: View {
     @State var isEditFriend: Bool = false // 친구 편집 뷰
     @State var friendID: String = ""      // 친구 id 담을 곳
     @State var isLogout: Bool = false // 로그아웃 알럿
+    @State var isResign: Bool = false // 회원탈퇴 알럿
     
     @State private var scale: CGFloat = 0.1
     
@@ -98,7 +100,7 @@ struct MyPageView: View {
                             HStack {
                                 Text("친구 리스트")
                                     .font(.headline)
-                                Text("\(userInfoStore.friendInfos.count)")
+                                Text("\(friendsStore.friendInfos.count)")
                                     .font(.headline)
                                     .padding(.leading, 6)
                             }
@@ -140,7 +142,7 @@ struct MyPageView: View {
                             
                             VStack(alignment: .center) {
                                 //MARK: 친구 목록
-                                ForEach(showAllFriends ? userInfoStore.friendInfos :  Array(userInfoStore.friendInfos.prefix(3)), id: \.id) { friend in
+                                ForEach(showAllFriends ? friendsStore.friendInfos :  Array(friendsStore.friendInfos.prefix(3)), id: \.id) { friend in
                                     HStack {
                                         ZStack {
                                             Circle()
@@ -189,7 +191,7 @@ struct MyPageView: View {
                                     Divider()
                                 }
                                 
-                                if userInfoStore.friendInfos.count > 3 {
+                                if friendsStore.friendInfos.count > 3 {
                                     Button {
                                         withAnimation(.easeInOut(duration: 0.3)) { // 애니메이션을 추가, 자연스러운 느낌쓰
                                             showAllFriends.toggle()
@@ -271,12 +273,12 @@ struct MyPageView: View {
                                     }, message: {
                                         Text("정말로 로그아웃을 하겠습니까?")
                                     })
-                                    
                                 }
                                 
                                 
                                 Button {
                                     // 계정 탈퇴
+                                    isResign = true
                                 } label: {
                                     HStack {
                                         Text("계정 탈퇴")
@@ -289,6 +291,33 @@ struct MyPageView: View {
                                     .background(RoundedRectangle(cornerRadius: 10)
                                         .stroke(Color.gray, lineWidth: 0.5))
                                 }
+                                .alert("계정 탈퇴", isPresented: $isResign, actions: {
+                                    Button("예") {
+                                        Task {
+                                            // 상대 친구 목록에 자신 삭제
+                                            if let friends = userInfoStore.userInfo?.friends {
+                                                for friend in friends {
+                                                    userInfoStore.removeFriend(friendID: friend, currentUserID: authManager.userID)
+                                                }
+                                            } else {
+                                                print("친구 목록이 없습니다.")
+                                            }
+                                            await friendsStore.deleteChatUser(userId: authManager.userID) // Chat컬렉션에서 자신 전부 삭제
+                                            await friendsStore.deleteStoryUser(userId: authManager.userID) // Story컬렉션에서 자신 전부 삭제
+                                            try await userInfoStore.deleteUserInfo(userID: authManager.userID) // User컬렉션에서 자신 계정 삭제
+                                            sendNotificationToServer(myNickname: "", message: "", fcmToken: userInfoStore.userInfo?.fcmToken ?? "", badge: 0)
+                                            
+                                            await authManager.deleteAccount() // Authentication에서 자신 계정 삭제
+                                        }
+                                        isResign = false
+                                    }
+                                    
+                                    Button("아니요", role: .cancel) {
+                                        isResign = false
+                                    }
+                                }, message: {
+                                    Text("정말로 계정 탈퇴 하겠습니까?")
+                                })
                                 
                                 Button {
                                     // 고객 지원
@@ -343,10 +372,13 @@ struct MyPageView: View {
             .onAppear {
                 Task {
                     await userInfoStore.loadUserInfo(userID: authManager.userID)
-                    userInfoStore.friendInfos = try await userInfoStore.loadUsersInfoByEmail(userID: userInfoStore.userInfo?.friends ?? [])
-                    
-                    userInfoStore.friendInfos = userInfoStore.friendInfos.sorted { $0.id > $1.id } // 오름차순
+                    // Firestore 실시간 리스너 설정
+                    friendsStore.listenToFriendsUpdates(userID: authManager.userID)
                 }
+            }
+            .onDisappear {
+                // 리스너 제거
+                friendsStore.removeListener()
             }
             .navigationBarBackButtonHidden(true)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
