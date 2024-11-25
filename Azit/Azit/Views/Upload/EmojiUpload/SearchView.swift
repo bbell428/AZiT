@@ -22,10 +22,12 @@ struct SearchView: View {
                 HStack {
                     ZStack {
                         RoundedRectangle(cornerSize: CGSize(width: 15.0, height: 15.0))
-                            .stroke(Color.gray, lineWidth: 0.5)
-                            .background(Color.white)
-                            .foregroundStyle(Color.white)
-                            .frame(width: 340, height: 40)
+                                .stroke(Color.gray, lineWidth: 0.5)
+                                .background(
+                                    RoundedRectangle(cornerSize: CGSize(width: 15.0, height: 15.0))
+                                        .fill(Color.white)
+                                )
+                                .frame(width: 340, height: 40)
                         HStack {
                             Image(systemName:"magnifyingglass")
                                 .foregroundStyle(.accent)
@@ -46,7 +48,7 @@ struct SearchView: View {
                         .frame(width: 340, height: 40)
                     }
                 }
-                .frame(width: 340, height: 40)
+//                .frame(width: 340, height: 40)
             }
         }
         .toolbarTitleDisplayMode(.automatic)
