@@ -66,52 +66,52 @@ struct FriendsContentsModalView: View {
                             .foregroundColor(.gray)
                     }
                 }
-            }
-            
-            HStack {
-                ZStack(alignment: .trailing) {
-                    TextField("message", text: $message, prompt: Text("\(selectedUserInfo.nickname)에게 메세지 보내기")
-                        .font(.caption))
-                    .padding(3)
-                    .padding(.leading, 10)
-                    .frame(height: 30)
-                    .background(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 15))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 15)
-                            .stroke(.accent, lineWidth: 1)
-                    )
-                    .onSubmit {
-                        sendMessage()
-                    }
-                }
                 
-                Spacer()
-                
-                Button(action: {
-                    if !message.isEmpty {
-                        sendMessage()
-                    } else {
-                        isLiked.toggle()
-                        
-                        if isLiked {
-                            Task {
-                                story?.likes.append(userInfoStore.userInfo?.id ?? "")
-                                await storyStore.addStory(story!)
-                            }
-                        } else {
-                            Task {
-                                story?.likes.removeAll(where: { $0 == userInfoStore.userInfo?.id ?? "" })
-                                await storyStore.addStory(story!)
-                            }
+                HStack {
+                    ZStack(alignment: .trailing) {
+                        TextField("message", text: $message, prompt: Text("\(selectedUserInfo.nickname)에게 메세지 보내기")
+                            .font(.caption))
+                        .padding(3)
+                        .padding(.leading, 10)
+                        .frame(height: 30)
+                        .background(.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 15))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(.accent, lineWidth: 1)
+                        )
+                        .onSubmit {
+                            sendMessage()
                         }
                     }
-                }) {
-                    Image(systemName: !message.isEmpty ? "paperplane.fill" : (isLiked ? "heart.fill" : "heart"))
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .foregroundStyle(.accent)
-                        .frame(width: 25, height: 25)
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        if !message.isEmpty {
+                            sendMessage()
+                        } else {
+                            isLiked.toggle()
+                            
+                            if isLiked {
+                                Task {
+                                    story?.likes.append(userInfoStore.userInfo?.id ?? "")
+                                    await storyStore.addStory(story!)
+                                }
+                            } else {
+                                Task {
+                                    story?.likes.removeAll(where: { $0 == userInfoStore.userInfo?.id ?? "" })
+                                    await storyStore.addStory(story!)
+                                }
+                            }
+                        }
+                    }) {
+                        Image(systemName: !message.isEmpty ? "paperplane.fill" : (isLiked ? "heart.fill" : "heart"))
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundStyle(.accent)
+                            .frame(width: 25, height: 25)
+                    }
                 }
             }
         }
