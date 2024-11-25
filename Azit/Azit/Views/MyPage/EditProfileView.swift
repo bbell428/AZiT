@@ -56,9 +56,10 @@ struct EditProfileView: View {
                 }
                 .onChange(of: emoji) {
                     // 이모지가 여러 개 입력된 경우 첫 번째 문자만 유지
-                    if emoji.count > 1 {
-                        emoji = String(emoji.suffix(1))
+                    if emoji != userInfoStore.userInfo?.profileImageName ?? "" {
                         isCancelEdit = true
+                    } else {
+                        isCancelEdit = false
                     }
                 }
                 .offset(x: 40, y: 60)
