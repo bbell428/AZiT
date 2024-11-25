@@ -1,7 +1,6 @@
-# 📱 **[AZiT]**
+# 📱 AZiT
 
-<a href="https://club-project-one.vercel.app/" target="_blank">
-<img src="이미지 들어갈거임" alt="배너" width="100%"/>
+<img src="https://github.com/user-attachments/assets/66f4cba6-2ae7-45aa-a307-ee9a236e8f30" alt="배너" width="70%"/>
 </a>
 
 <br/>
@@ -17,12 +16,15 @@
 # 🧑🏻‍💻Team Members (팀원 및 팀 소개)
 | 홍지수 | 김종혁 | 박준영 | 신현우 |
 |:------:|:------:|:------:|:------:|
-| <img src="프로필사진" alt="홍지수" width="150"> | <img src="프로필사진" alt="김종혁" width="150"> | <img src="프로필사진" alt="박준영" width="150"> | <img src="프로필사진" alt="신현우" width="150"> |
+| <img src="https://github.com/user-attachments/assets/1802267c-df6c-41cd-9b1d-5ca937cd198e" alt="홍지수" width="150"> | <img src="https://github.com/user-attachments/assets/eb95b9f2-8619-4de6-9b38-b427498616b8" alt="김종혁" width="150"> | <img src="https://github.com/user-attachments/assets/3b13575a-1875-4321-a83d-2f471565d094" alt="박준영" width="150"> | <img src="https://github.com/user-attachments/assets/7a04a031-af4e-4166-a30f-0a45b6101e94" alt="신현우" width="150"> |
 | PM | iOS | iOS | iOS |
 | [GitHub](https://github.com/jisooohh) | [GitHub](https://github.com/bbell428) | [GitHub](https://github.com/PlayTheApp) | [GitHub](https://github.com/show2633) |
 
 <br/>
 <br/>
+
+# 👤User Flow
+<img src="https://github.com/user-attachments/assets/dec98cf7-05e1-496f-9e26-6a4d6c2bc2af" alt="배너" width="100%"/>
 
 # 🚀 주요 기능
 - 🗂️ **기능 1**: [기능에 대한 간단 설명]
