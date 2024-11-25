@@ -16,6 +16,8 @@ import Firebase
 import FirebaseMessaging
 
 class AppDelegate: NSObject, UIApplicationDelegate {
+    static var receivedURL: URL?
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
         // Firebase 초기화
@@ -71,13 +73,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     
     // Google 로그인
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-        if url.scheme == "azit.widget" {
-            NotificationCenter.default.post(name: .didReceiveURL, object: url)
-            
-            return true
-        } else {
-            return GIDSignIn.sharedInstance.handle(url)
-        }
+        return GIDSignIn.sharedInstance.handle(url)
     }
 }
 

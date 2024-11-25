@@ -167,9 +167,6 @@ struct RotationView: View {
                 // 사용자 본인의 정보 받아오기
                 await userInfoStore.loadUserInfo(userID: authManager.userID)
                 
-//                let initialData = userInfoStore.userInfo
-//                userInfoStore.saveToUserDefaultsFirstLaunch(data: initialData!)
-                
                 // 사용자 본인의 친구 받아오기
                 userInfoStore.loadFriendsInfo(friendsIDs: userInfoStore.userInfo?.friends ?? [])
                 
@@ -239,14 +236,6 @@ struct RotationView: View {
                         isTappedWidget = true
                         url = URL(string: "")
                     }
-                }
-            }
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .didReceiveURL)) { notification in
-            if let url = notification.object as? URL {
-                print("앱이 켜졌을 때 URL: \(url)")
-                if let userID = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.first(where: { $0.name == "userId" })?.value {
-                    self.isTappedWidget = true
                 }
             }
         }

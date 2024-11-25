@@ -35,9 +35,6 @@ struct MyContentEmojiView: View {
                                 .stroke(isPassed24Hours ? AnyShapeStyle(Utility.createLinearGradient(colors: [.ellipseColor2.opacity(0.5), .ellipseColor2])) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 15)
                         }
                         
-                       
-                           
-                        
                         if let codepoints = emojiManager.getCodepoints(forName: previousState) {
                             KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
                                 .resizable()
