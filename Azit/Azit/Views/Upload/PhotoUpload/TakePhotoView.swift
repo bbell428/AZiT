@@ -106,6 +106,7 @@ struct TakePhotoView: View {
         }
         .onAppear {
             cameraService.capturedImage = nil
+            cameraService.checkPermission() // 카메라 들어갈 시 권한 부여 알림
         }
         .navigationBarTitle("사진 촬영", displayMode: .inline)
     }

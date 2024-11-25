@@ -20,10 +20,10 @@ class CameraService: NSObject, ObservableObject {
         session = AVCaptureSession()
         photoOutput = AVCapturePhotoOutput()
         super.init()
-        checkPermission()
+//        checkPermission() // 카메라 권한
     }
     
-    private func checkPermission() {
+    func checkPermission() {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
             configureSession()
