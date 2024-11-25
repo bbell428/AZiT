@@ -8,13 +8,13 @@
 <br/>
 
 
-# ADS
+# 🎯ADS
 > 이 앱은 [친한 친구들에게 서로 간 위치를 공유하며 일상을 공유하는 위치 기반 SNS]를 중심으로 사용자들에게 혁신적인 경험을 제공합니다.
 
 <br/>
 <br/>
 
-# Team Members (팀원 및 팀 소개)
+# 🧑🏻‍💻Team Members (팀원 및 팀 소개)
 | 홍지수 | 김종혁 | 박준영 | 신현우 |
 |:------:|:------:|:------:|:------:|
 | <img src="프로필사진" alt="홍지수" width="150"> | <img src="프로필사진" alt="김종혁" width="150"> | <img src="프로필사진" alt="박준영" width="150"> | <img src="프로필사진" alt="신현우" width="150"> |
@@ -41,32 +41,28 @@
 
 # Technology Stack (기술 스택)
 ## Language
-|  |  |
-|-----------------|-----------------|
-| Swift    |<img src="https://developer.apple.com/swift/images/swift-logo.svg" alt="Swift" width="100">| 
-| SwiftUI    |  <img src="https://developer.apple.com/assets/elements/icons/swiftui/swiftui-96x96_2x.png" alt="SwiftUI" width="100"> | 
+| Swift | SwiftUI |
+|:------:|:------:|
+| <img src="https://developer.apple.com/swift/images/swift-logo.svg" alt="Swift" width="100"> | <img src="https://developer.apple.com/assets/elements/icons/swiftui/swiftui-96x96_2x.png" alt="SwiftUI" width="100"> | 
 
 <br/>
 
 ## Backend
-|  |  |  |
-|-----------------|-----------------|-----------------|
-| Firebase    |  <img src="https://firebase.google.com/static/images/brand-guidelines/logo-vertical.png?hl=ko" alt="Firebase" width="100">    | 10.12.5    |
-| Koyeb    |  <img src="https://github.com/user-attachments/assets/18920bf9-b5f0-4fdf-92a4-2f16d23665ac" alt="Koyeb" width="100">    | 10.12.5    |
+| Firebase | Koyeb |
+|:------:|:------:|
+| <img src="https://firebase.google.com/static/images/brand-guidelines/logo-vertical.png?hl=ko" alt="Firebase" width="100"> | <img src="https://github.com/user-attachments/assets/18920bf9-b5f0-4fdf-92a4-2f16d23665ac" alt="Koyeb" width="100"> | 
+| 10.12.5 | 10.12.5 |
 
 <br/>
 
 ## Cooperation
-|  |  |
-|-----------------|-----------------|
-| Git    |  <img src="https://github.com/user-attachments/assets/bc7d7670-c448-41aa-98fd-ac61110f78ca" alt="git" width="100">    |
-| Discord    |  <img src="https://github.com/user-attachments/assets/47bfea42-d3c7-46bf-82f3-7f419495a8c1" alt="git kraken" width="100">    |
-| Notion    |  <img src="https://github.com/user-attachments/assets/bb3b4712-06e8-4377-8f7d-7f392ac37fb5" alt="Notion" width="100">    |
-| Figma    |  <img src="https://github.com/user-attachments/assets/cf540b04-2e96-4593-9ad8-3881dc8d44fe" alt="Notion" width="100">    |
+| Git | Discord | Notion | Figma |
+|:------:|:------:|:------:|:------:|
+| <img src="https://github.com/user-attachments/assets/bc7d7670-c448-41aa-98fd-ac61110f78ca" alt="git" width="100"> | <img src="https://github.com/user-attachments/assets/47bfea42-d3c7-46bf-82f3-7f419495a8c1" alt="git kraken" width="100"> |<img src="https://github.com/user-attachments/assets/bb3b4712-06e8-4377-8f7d-7f392ac37fb5" alt="Notion" width="100"> | <img src="https://github.com/user-attachments/assets/cf540b04-2e96-4593-9ad8-3881dc8d44fe" alt="Notion" width="100"> |
 
 <br/>
 
-# Project Structure (프로젝트 구조)
+# 📂 Project Structure (프로젝트 구조)
 ```plaintext
 Azit/
 ├── Azit.xcodeproj/
@@ -112,7 +108,52 @@ Azit/
 <br/>
 <br/>
 
+# 📂 Model (파이어베이스 구조)
+```plaintext
+Azit
+├── Chat
+│   └── id
+│       ├── createAt: Date
+│       ├── message: String
+│       ├── participants: [String] 
+│       ├── sender: String 
+│       ├── readBy: [String] 
+│       └── Messages
+│           └── id
+│               ├── lastMessage: String
+│               ├── lastMessageAt: Date
+│               ├── participants: [String] 
+│               ├── roomId: String
+│               └── unreadCount: [String: Int]
+├── Story
+│   └── UUID
+│       ├── userId: String
+│       ├── likes: [String]
+│       ├── date: Date
+│       ├── latitude: Double
+│       ├── longitude: Double
+│       ├── address: String
+│       ├── emoji: String
+│       ├── image: String
+│       ├── content: String
+│       ├── publishedTargets: [String]
+│       └── readUsers: [String]
+└── User
+    └── UserID
+        ├── id: String
+        ├── email: String
+        ├── nickname: String
+        ├── profileImageName: String
+        ├── previousState: String
+        ├── friends: [String]
+        ├── latitude: Double
+        ├── longitude: Double
+        ├── blockedFriends: [String]
+        └── fcmToken: String  
+```
 
+<br/>
+<br/>
 
 # 라이선스
 Licensed under the [MIT](LICENSE) license.
