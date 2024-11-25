@@ -15,8 +15,8 @@ struct EditPhotoView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            Text("스토리에 올리기 전에 이미지를 편집할 수 있습니다.")
-                .font(.subheadline)
+//            Text("스토리에 올리기 전에 이미지를 편집할 수 있습니다.")
+//                .font(.subheadline)
             if cameraService.capturedImage != nil {
                 ZStack() {
                     ZStack(alignment: .topTrailing) {
@@ -158,7 +158,7 @@ struct EditPhotoView: View {
                     RoundedRectangle(cornerRadius: 15)
                         .stroke(.accent, lineWidth: 2)
                 )
-                .padding()
+                .padding(.vertical, 10)
             }
         }
     }

@@ -38,7 +38,8 @@ struct PhotoReviewView: View {
     
     var body: some View {
         ZStack() {
-            if isDisplayTextEditor {                TextEditorView(isDisplayTextEditor: $isDisplayTextEditor)
+            if isDisplayTextEditor {
+                TextEditorView(isDisplayTextEditor: $isDisplayTextEditor)
                     .zIndex(2)
             }
             
