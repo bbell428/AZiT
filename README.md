@@ -24,7 +24,7 @@
 <br/>
 
 # 👤User Flow
-<img src="https://github.com/user-attachments/assets/dec98cf7-05e1-496f-9e26-6a4d6c2bc2af" alt="배너" width="100%"/>
+<img src="https://github.com/user-attachments/assets/68e0a6c3-c26d-44a3-abe4-3b814e0f3390" alt="배너" width="100%"/>
 
 # 🚀 주요 기능
 - 🗂️ **기능 1**: [기능에 대한 간단 설명]
