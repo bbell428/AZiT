@@ -71,19 +71,21 @@ struct MessageDetailView: View {
     var body: some View {
         NavigationStack {
             ZStack(alignment: .top) {
-                // 스토리 클릭시, 상세 정보
+                // 스토리 클릭시, 상세 정보 (상대방 스토리를 선택했을때)
                 if isFriendsContentModalPresented {
-                    Color.black.opacity(0.4)
-                        .ignoresSafeArea()
-                        .onTapGesture {
-                            isFriendsContentModalPresented = false
-                            message = ""
-                        }
-                        .zIndex(2)
-                    
-                    FriendsContentsModalView(message: $message, selectedUserInfo: friend, isShowToast: $isShowToast, story: selectedAlbum)
-                        .zIndex(3)
-                        .frame(maxHeight: .infinity, alignment: .center)
+                    if selectedAlbum?.userId == userId {
+                        Color.black.opacity(0.4)
+                            .ignoresSafeArea()
+                            .onTapGesture {
+                                isFriendsContentModalPresented = false
+                                message = ""
+                            }
+                            .zIndex(2)
+                        
+                        FriendsContentsModalView(message: $message, selectedUserInfo: friend, isShowToast: $isShowToast, story: selectedAlbum)
+                            .zIndex(3)
+                            .frame(maxHeight: .infinity, alignment: .center)
+                    }
                 }
                 
                 // 이미지 업로드 중일 때 ProgressView와 텍스트 표시
@@ -180,11 +182,11 @@ struct MessageDetailTopBar: View {
             
             ZStack(alignment: .center) {
                 Circle()
-                    .fill(.subColor3)
-                    .frame(width: 60, height: 60)
+                    .fill(.subColor4)
+                    .frame(width: 40, height: 40)
                 
                 Text(profileImageName)
-                    .font(.system(size: 40))
+                    .font(.title3)
             }
             .frame(alignment: .leading)
             .padding(.leading, 10)
