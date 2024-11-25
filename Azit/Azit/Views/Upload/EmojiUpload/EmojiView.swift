@@ -16,6 +16,7 @@ struct EmojiView : View {
     
     @Binding var isDisplayEmojiPicker: Bool // MainView에서 전달받은 바인딩 변수
     @Binding var isMyModalPresented: Bool // 내 스토리에 대한 모달
+    @Binding var isAnimatingForStroke: Bool
   
     @State var isShowingsheet: Bool = false
     @State var isPicture:Bool = false
@@ -117,6 +118,7 @@ struct EmojiView : View {
                 // 공유 버튼
                 Button (action:{
                     isMyModalPresented = false
+                    isAnimatingForStroke = true
                     
                     let newStory = Story(
                         userId: authManager.userID,

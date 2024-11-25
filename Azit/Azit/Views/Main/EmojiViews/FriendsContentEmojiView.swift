@@ -51,12 +51,18 @@ struct FriendsContentEmojiView: View {
                 
                 ZStack {
                     EllipticalGradient(
-                        gradient: Gradient(colors: [.black.opacity(0.7), .clear]),
+                        gradient: Gradient(colors: [
+                            .ellipseShadow0.opacity(0.8),
+                            .ellipseShadow0.opacity(0.5),
+                            .ellipseShadow1.opacity(0.3),
+                            .clear
+                        ]),
                         center: .center,
-                        startRadiusFraction: 0,
+                        startRadiusFraction: 0.05,
                         endRadiusFraction: 0.5
                     )
-                    .frame(width: 40 * (2.2 - interpolationRatio), height: 10 * (2.2 - interpolationRatio))
+                    .frame(width: 40 * (2.2 - interpolationRatio), height: 15 * (2.2 - interpolationRatio))
+                    .offset(y: 5)
                     
                     Circle()
                         .fill(.white.opacity(0.2))
@@ -71,8 +77,8 @@ struct FriendsContentEmojiView: View {
                                         .frame(width: 25 * (2.2 - interpolationRatio), height: 25 * (2.2 - interpolationRatio))
                                 }
                             }
+                                
                         )
-                        
                         .offset(x: 0, y: -25 * (2.2 - interpolationRatio))
                         .frame(width: 40 * (2.2 - interpolationRatio), height: 40 * (2.2 - interpolationRatio))
                 }

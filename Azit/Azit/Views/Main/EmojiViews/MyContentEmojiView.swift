@@ -13,6 +13,10 @@ struct MyContentEmojiView: View {
     @EnvironmentObject var userInfoStore: UserInfoStore
     @Binding var isMainExposed: Bool // 메인 화면인지 맵 화면인지
     @Binding var isPassed24Hours: Bool
+    
+    @State private var progress: CGFloat = 0
+    @Binding var isAnimatingForStroke: Bool
+    
     let emojiManager = EmojiManager()
     
     var previousState: String = ""
@@ -29,10 +33,32 @@ struct MyContentEmojiView: View {
                         // 24시간 지남 여부에 따라 색 변경, 24시간 이 전: 그레디언트, 24시간 이 후: 흰 색
                         if isMainExposed {
                             Circle()
+                                .trim(from: 0, to: isAnimatingForStroke ? progress : 1)
                                 .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 7)
+                                .rotationEffect(.degrees(-90))
+                                .animation(.easeInOut(duration: 1.2), value: progress)
+                                .onChange(of: isAnimatingForStroke) { _, _ in
+                                    withAnimation {
+                                        progress = 1.0
+                                    }
+                                    
+                                    isAnimatingForStroke = false
+                                    progress = 0
+                                }
                         } else {
                             Circle()
+                                .trim(from: 0, to: isAnimatingForStroke ? progress : 1)
                                 .stroke(isPassed24Hours ? AnyShapeStyle(Utility.createLinearGradient(colors: [.ellipseColor2.opacity(0.5), .ellipseColor2])) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 15)
+                                .rotationEffect(.degrees(-90))
+                                .animation(.easeInOut(duration: 1.2), value: progress)
+                                .onChange(of: isAnimatingForStroke) { _, _ in
+                                    withAnimation {
+                                        progress = 1.0
+                                    }
+                                    
+                                    isAnimatingForStroke = false
+                                    progress = 0
+                                }
                         }
                            
                         if previousState == "" {

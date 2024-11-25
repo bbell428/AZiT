@@ -19,6 +19,7 @@ struct MapView: View {
     @Binding var isDisplayEmojiPicker: Bool
     @Binding var isPassed24Hours: Bool
     @Binding var isShowToast: Bool
+    @Binding var isAnimatingForStroke: Bool // 글이 써졌는지 확인 후 애니메이션을 위함
     
     @State private var region = MKCoordinateRegion()
     @State var users: [UserInfo] = []
@@ -41,6 +42,7 @@ struct MapView: View {
                             ZStack {
                                 MyContentEmojiView(isMainExposed: $isMainExposed,
                                                    isPassed24Hours: $isPassed24Hours,
+                                                   isAnimatingForStroke: $isAnimatingForStroke,
                                                    previousState: userInfoStore.userInfo?.previousState ?? "",
                                                    width: 120,
                                                    height: 120)
@@ -69,6 +71,7 @@ struct MapView: View {
                                     isFriendsModalPresented: $isFriendsModalPresented,
                                     isDisplayEmojiPicker: $isDisplayEmojiPicker,
                                     isPassed24Hours: $isPassed24Hours,
+                                    isAnimatingForStroke: $isAnimatingForStroke,
                                     users: $users,
                                     message: $message,
                                     selectedIndex: $selectedIndex,
