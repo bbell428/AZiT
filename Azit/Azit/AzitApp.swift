@@ -71,7 +71,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     
     // Google 로그인
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-        return GIDSignIn.sharedInstance.handle(url)
+        if url.scheme == "azit.widget" {
+            NotificationCenter.default.post(name: .didReceiveURL, object: url)
+            
+            return true
+        } else {
+            return GIDSignIn.sharedInstance.handle(url)
+        }
     }
 }
 
@@ -115,10 +121,11 @@ struct AzitApp: App {
     @StateObject private var editPhotoStore = EditPhotoStore()
     
     @State private var timer: Timer?
+    @State private var url: URL?
     
     var body: some Scene {
         WindowGroup {
-            AuthView()
+            AuthView(url: $url)
                 .environmentObject(authManager)
                 .environmentObject(userInfoStore)
                 .environmentObject(chatListStore)
@@ -134,8 +141,14 @@ struct AzitApp: App {
                     if url.scheme == "azit", let userID = URLComponents(url: url, resolvingAgainstBaseURL: false)?.host {
                         authManager.deepUserID = userID
                         print("QR 코드로부터 받은 User ID:", userID)
+                    } else {
+                        self.url = url
                     }
                 }
         }
     }
+}
+
+extension Notification.Name {
+    static let didReceiveURL = Notification.Name("didReceiveURL")
 }

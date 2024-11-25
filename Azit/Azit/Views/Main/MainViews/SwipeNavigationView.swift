@@ -11,12 +11,15 @@ struct SwipeNavigationView: View {
     @State private var offset: CGFloat = 0 // 드래그 오프셋
     @State private var currentIndex: Int = 1
     @State private var isShowToast = false
+    
     private let animationDuration: Double = 0.25 // 애니메이션 지속 시간
+    
+    @Binding var url: URL?
 
     var views: [AnyView] {
         [
             AnyView(MyPageView()),
-            AnyView(MainView()),
+            AnyView(MainView(url: $url)),
             AnyView(MessageView(isShowToast: $isShowToast))
         ]
     }
@@ -66,8 +69,4 @@ struct SwipeNavigationView: View {
         }
 //        .edgesIgnoringSafeArea(.all)
     }
-}
-
-#Preview {
-    SwipeNavigationView()
 }

@@ -295,6 +295,7 @@ struct AzitWidgetEntryView : View {
             }
             .zIndex(1)
         }
+        .widgetURL(URL(string: "azit.widget://open?userId=\(entry.widgetData!.recentStory?.userId ?? "")"))
     }
 }
 

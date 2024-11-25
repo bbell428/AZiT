@@ -20,6 +20,9 @@ struct RotationView: View {
     @Binding var isDisplayEmojiPicker: Bool  // 사용자 자신의 게시글 작성 모달 컨트롤
     @Binding var isPassed24Hours: Bool // 사용자 자신의 게시글 작성 후 24시간에 대한 판별 여부
     @Binding var isShowToast: Bool
+    @Binding var isTappedWidget: Bool // 위젯이 클릭 되었는지 확인
+    
+    @Binding var url: URL?
     
     @State private var rotation: Double = 270.0
     @State private var sortedUsers: [UserInfo] = [] // 거리 순 친구 정렬
@@ -32,8 +35,9 @@ struct RotationView: View {
     @State private var numberOfCircles: Int = 0 // 친구 story 개수
     @State private var isShowInvaitaion = false // QR로 앱 -> 알림 띄움 (친구추가)
     @State private var isShowYes = false // QR로 인해 친구추가 알림에서 Yes를 누를 경우
-    @State private var isTappedWidget = false // 위젯이 클릭 되었는지 확인
     @State private var tappedWidgetUserInfo: UserInfo = UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0, blockedFriends: [], fcmToken: "")
+    
+    @State private var selectedWidgetUser: UserInfo?
   
     var body: some View {
         ZStack {
@@ -123,11 +127,12 @@ struct RotationView: View {
                 Color.black.opacity(0.4)
                     .ignoresSafeArea()
                     .onTapGesture {
-                        isFriendsModalPresented = false
+                        isTappedWidget = false
                     }
                     .zIndex(2)
                 
-                FriendsContentsModalView(message: $message, selectedUserInfo: tappedWidgetUserInfo, isShowToast: $isShowToast)
+                FriendsContentsModalView(message: $message, selectedUserInfo: selectedWidgetUser!, isShowToast: $isShowToast)
+                    .zIndex(3)
             }
             
             // 초대장을 띄어줌
@@ -220,6 +225,29 @@ struct RotationView: View {
                 let story = try await storyStore.loadRecentStoryById(id: userInfoStore.userInfo?.id ?? "")
                 isPassed24Hours = Utility.hasPassed24Hours(from: story.date)
                 
+            }
+        }
+        .onOpenURL { newURL in
+            if let components = URLComponents(url: newURL, resolvingAgainstBaseURL: false),
+               let queryItem = components.queryItems?.first(where: { $0.name == "userId" }),
+               let userId = queryItem.value {
+                Task {
+                    let selectedWidgetUsers = try await userInfoStore.loadUsersInfoByEmail(userID: [userId])
+                    
+                    if selectedWidgetUsers.count > 0 {
+                        selectedWidgetUser = selectedWidgetUsers.first!
+                        isTappedWidget = true
+                        url = URL(string: "")
+                    }
+                }
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .didReceiveURL)) { notification in
+            if let url = notification.object as? URL {
+                print("앱이 켜졌을 때 URL: \(url)")
+                if let userID = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.first(where: { $0.name == "userId" })?.value {
+                    self.isTappedWidget = true
+                }
             }
         }
     }

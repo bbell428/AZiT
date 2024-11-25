@@ -12,7 +12,10 @@ import GoogleSignIn
 struct AuthView: View {
     @EnvironmentObject private var authManager: AuthManager
     @EnvironmentObject private var userInfoStore: UserInfoStore
+    
     @AppStorage("fcmToken") private var targetToken: String = ""
+    
+    @Binding var url: URL?
     
     var body: some View {
         VStack {
@@ -23,7 +26,7 @@ struct AuthView: View {
             case .unauthenticated, .authenticating:
                 LoginView()
             case .authenticated:
-                SwipeNavigationView()
+                SwipeNavigationView(url: $url)
                     .environmentObject(authManager)
                     .environmentObject(userInfoStore)
                     .onAppear {

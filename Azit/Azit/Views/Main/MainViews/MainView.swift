@@ -30,23 +30,28 @@ struct MainView: View {
     @State private var isShowToast = false
     @State private var isRightToLeftSwipe = false // 오른쪽에서 왼쪽 스와이프 여부
     @State private var isLeftToRightSwipe = false // 왼쪽에서 오른쪽 스와이프 여부
+    @State private var isTappedWidget = false // 위젯이 클릭 되었는지 확인
+    
+    @Binding var url: URL?
     
     var body: some View {
         NavigationStack() {
             ZStack {
                 // 메인 화면일 때 타원 뷰
                 if isMainExposed {
-                    RotationView(isMainExposed: $isMainExposed, isMyModalPresented: $isMyModalPresented, isFriendsModalPresented: $isFriendsModalPresented, isDisplayEmojiPicker: $isDisplayEmojiPicker, isPassed24Hours: $isPassed24Hours, isShowToast: $isShowToast)
+                    RotationView(isMainExposed: $isMainExposed, isMyModalPresented: $isMyModalPresented, isFriendsModalPresented: $isFriendsModalPresented, isDisplayEmojiPicker: $isDisplayEmojiPicker, isPassed24Hours: $isPassed24Hours, isShowToast: $isShowToast, isTappedWidget: $isTappedWidget, url: $url)
                         .frame(width: 300, height: 300)
                         .zIndex(isMyModalPresented
                                 || isFriendsModalPresented
-                                || isDisplayEmojiPicker ? 2 : 1)
+                                || isDisplayEmojiPicker
+                                || isTappedWidget ? 2 : 1)
                 // 맵 화면일 때 맵 뷰
                 } else {
                     MapView(isMainExposed: $isMainExposed, isMyModalPresented: $isMyModalPresented, isFriendsModalPresented: $isFriendsModalPresented, isDisplayEmojiPicker: $isDisplayEmojiPicker, isPassed24Hours: $isPassed24Hours, isShowToast: $isShowToast)
                         .zIndex(isMyModalPresented
                                 || isFriendsModalPresented
-                                || isDisplayEmojiPicker ? 2 : 1)
+                                || isDisplayEmojiPicker
+                                || isTappedWidget ? 2 : 1)
                 }
                 
                 // 메인 화면의 메뉴들
