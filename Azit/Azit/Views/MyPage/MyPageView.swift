@@ -13,6 +13,7 @@ struct MyPageView: View {
     @EnvironmentObject var friendsStore: FriendsStore
     @Environment(\.dismiss) var dismiss
     
+//    @Binding var currentIndex: Int
     @State var isPresented: Bool = false // 편집 뷰 띄움
     @State var showAllFriends = false // 친구 목록 더 보기
     @State var isQRPresented: Bool = false // QR 뷰
@@ -386,6 +387,6 @@ struct MyPageView: View {
     }
 }
 
-#Preview {
-    MyPageView()
-}
+//#Preview {
+//    MyPageView()
+//}

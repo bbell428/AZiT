@@ -126,7 +126,7 @@ struct EmojiView : View {
                         address: storyDraft.address,
                         emoji: storyDraft.emoji,
                         content: storyDraft.content,
-                        publishedTargets: []
+                        publishedTargets: storyDraft.publishedTargets
                     )
                     isDisplayEmojiPicker = false
                     if let location = locationManager.currentLocation {
