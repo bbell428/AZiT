@@ -415,7 +415,7 @@ class UserInfoStore: ObservableObject {
         }
     }
     
-    //MARK: Chat문서 읽지 않는 값 전부 긁어오기
+    //MARK: Chat문서 읽지 않은 값 전부 긁어오기
     func sumIntegerValuesContainingUserID(userID: String) async -> Int {
         let db = Firestore.firestore()
         var totalSum = 0
