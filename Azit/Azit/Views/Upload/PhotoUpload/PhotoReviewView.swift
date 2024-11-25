@@ -17,7 +17,8 @@ struct PhotoReviewView: View {
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var locationManager: LocationManager
     @EnvironmentObject var userInfoStore: UserInfoStore
-    @EnvironmentObject private var photoImageStore: PhotoImageStore
+    @EnvironmentObject var photoImageStore: PhotoImageStore
+    @EnvironmentObject var editPhotoService: EditPhotoStore
     @Environment(\.dismiss) var dismiss
     @Binding var firstNaviLinkActive: Bool
     @Binding var isMainDisplay: Bool // MainView에서 전달받은 바인딩 변수
@@ -31,8 +32,15 @@ struct PhotoReviewView: View {
     @State private var progressValue: Double = 2.0
     let totalValue: Double = 2.0
     
+    @State var isDisplayTextEditor: Bool = false // 이미지 편집에 들어갈 텍스트 편집 뷰
+    @State var isSelectText: Bool = false // 이미지에 텍스트를 넣을것인가?
+    
     var body: some View {
-        ZStack {
+        ZStack() {
+            if isDisplayTextEditor {                TextEditorView(isDisplayTextEditor: $isDisplayTextEditor)
+                    .zIndex(2)
+            }
+            
             VStack {
                 // 프로그래스 뷰
                 ZStack(alignment: .leading) {
@@ -53,12 +61,8 @@ struct PhotoReviewView: View {
                 .padding()
                 
                 // 스토리 이미지
-                if let image = cameraService.capturedImage {
-                    Image(uiImage: image)
-                        .resizable()
-                    //                    .scaledToFill()
-                        .aspectRatio(3/4, contentMode: .fit)
-                        .frame(width: 360, height: 480)
+                if cameraService.capturedImage != nil {
+                    EditPhotoView(isDisplayTextEditor: $isDisplayTextEditor, isSelectText: $isSelectText)
                 } else {
                     Text("No Image Captured")
                 }
@@ -129,7 +133,8 @@ struct PhotoReviewView: View {
                 
                 // save 버튼
                 Button(action: {
-//                    savePhoto()
+                    //                    savePhoto()
+                    
                     shareStory()
                 }) {
                     RoundedRectangle(cornerSize: CGSize(width: 15.0, height: 15.0))
@@ -157,10 +162,11 @@ struct PhotoReviewView: View {
                 }
             }
         }
-//        .onAppear {
-//            isPhotoTaken = false
-//        }
         .navigationBarTitle("게시물 공유", displayMode: .inline)
+        .onDisappear {
+            isSelectText = false
+            editPhotoService.resetState()
+        }
     }
     
     // firebase storage에 저장
@@ -184,7 +190,7 @@ struct PhotoReviewView: View {
             content: storyDraft.content,
             publishedTargets: []
         )
-//        isDisplayEmojiPicker = false
+        //        isDisplayEmojiPicker = false
         // 유저의 새로운 상태, 위경도 값 저장
         if let location = locationManager.currentLocation {
             userInfoStore.userInfo?.latitude = location.coordinate.latitude
@@ -194,13 +200,15 @@ struct PhotoReviewView: View {
         Task {
             await storyStore.addStory(newStory)
             // 유저의 새로운 상태, 위경도 값 저장
+            
             if !(storyDraft.emoji == "") {
                 userInfoStore.userInfo?.previousState = storyDraft.emoji
             }
             
             if let image = cameraService.capturedImage {
-                photoImageStore.UploadImage(image: image, imageName: newStory.image)
+                await editPhotoService.saveImage(image: image, id: newStory.id) // 편집한 이미지로 변경
             }
+            
             await userInfoStore.updateUserInfo(userInfoStore.userInfo!)
             isDisplayEmojiPicker = false
             showUploadView = true
@@ -208,18 +216,18 @@ struct PhotoReviewView: View {
             isMainDisplay = false
             isMyModalPresented = false
             resetStory()
-//            cameraService.capturedImage = nil
+            //            cameraService.capturedImage = nil
         }
-//        showUploadView = true
-//        firstNaviLinkActive = false
-//        isMainDisplay = false
+        //        showUploadView = true
+        //        firstNaviLinkActive = false
+        //        isMainDisplay = false
         
-//        cameraService.capturedImage = nil
+        //        cameraService.capturedImage = nil
     }
     
     func resetStory() {
         storyDraft.id = UUID().uuidString
-//        storyDraft.userId = ""
+        //        storyDraft.userId = ""
         storyDraft.likes = []
         storyDraft.latitude = 0.0
         storyDraft.longitude = 0.0

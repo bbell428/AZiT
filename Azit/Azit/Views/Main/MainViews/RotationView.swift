@@ -12,6 +12,7 @@ struct RotationView: View {
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var storyStore: StoryStore
+    @EnvironmentObject var chatListStore: ChatListStore
     
     @Binding var isMainExposed: Bool // 메인 화면인지 맵 화면인지
     @Binding var isMyModalPresented: Bool // 사용자 자신의 모달 컨트롤
@@ -183,6 +184,8 @@ struct RotationView: View {
                 let story = try await storyStore.loadRecentStoryById(id: userInfoStore.userInfo?.id ?? "")
                 // 24시간이 지났는 지 판별
                 isPassed24Hours = Utility.hasPassed24Hours(from: story.date)
+                
+                //chatListStore.fetchChatRooms(userId: userInfoStore.userInfo?.id ?? "")
             }
         }
         .onChange(of: authManager.deepUserID) {

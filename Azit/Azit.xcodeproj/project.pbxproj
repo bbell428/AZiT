@@ -103,12 +103,15 @@
 		CE3A16E22CD85A5B0045DB52 /* MessageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A16E12CD85A5B0045DB52 /* MessageDetailView.swift */; };
 		CE4865692CF00A8500C30997 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE4865682CF00A8500C30997 /* GoogleService-Info.plist */; };
 		CE48656A2CF00A8500C30997 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE4865682CF00A8500C30997 /* GoogleService-Info.plist */; };
+		CE4865752CF0280C00C30997 /* EditPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4865742CF027F700C30997 /* EditPhotoView.swift */; };
+		CE4865772CF03FAD00C30997 /* EditPhotoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4865762CF03F9E00C30997 /* EditPhotoStore.swift */; };
 		CE5574652CE4666600266EBD /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5574642CE4666600266EBD /* ProfileDetailView.swift */; };
 		CE69CDCC2CE70C2800322E7A /* AlbumStoryImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE69CDCB2CE70C2800322E7A /* AlbumStoryImageView.swift */; };
 		CE86A3B62CE6DFE2000B59B2 /* AlbumDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE86A3B52CE6DFE2000B59B2 /* AlbumDetailView.swift */; };
 		CE86A3B82CE6E1B4000B59B2 /* AlbumFriendListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE86A3B72CE6E1B4000B59B2 /* AlbumFriendListView.swift */; };
 		CE86A3BA2CE6E4C6000B59B2 /* AlbumScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE86A3B92CE6E4C6000B59B2 /* AlbumScrollView.swift */; };
 		CE89D79E2CDA8D1600DC73A8 /* EmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = CE89D79D2CDA8D1600DC73A8 /* EmojiPicker */; };
+		CE8A3BAD2CF35E2100DDA2E8 /* TextEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8A3BAC2CF35E2100DDA2E8 /* TextEditorView.swift */; };
 		CE946B3D2CEC390400250F9E /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE946B3C2CEC390400250F9E /* KeyboardObserver.swift */; };
 		CED22B1B2CEA33600075F56C /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = CED22B1A2CEA33600075F56C /* AlertToast */; };
 		CEDFC2CE2CE1C814008C215A /* FriendSegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDFC2CD2CE1C814008C215A /* FriendSegmentView.swift */; };
@@ -238,11 +241,14 @@
 		CE374EAC2CD79F6300601AA7 /* ChatListStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListStore.swift; sourceTree = "<group>"; };
 		CE3A16E12CD85A5B0045DB52 /* MessageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailView.swift; sourceTree = "<group>"; };
 		CE4865682CF00A8500C30997 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CE4865742CF027F700C30997 /* EditPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPhotoView.swift; sourceTree = "<group>"; };
+		CE4865762CF03F9E00C30997 /* EditPhotoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPhotoStore.swift; sourceTree = "<group>"; };
 		CE5574642CE4666600266EBD /* ProfileDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailView.swift; sourceTree = "<group>"; };
 		CE69CDCB2CE70C2800322E7A /* AlbumStoryImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumStoryImageView.swift; sourceTree = "<group>"; };
 		CE86A3B52CE6DFE2000B59B2 /* AlbumDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailView.swift; sourceTree = "<group>"; };
 		CE86A3B72CE6E1B4000B59B2 /* AlbumFriendListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumFriendListView.swift; sourceTree = "<group>"; };
 		CE86A3B92CE6E4C6000B59B2 /* AlbumScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumScrollView.swift; sourceTree = "<group>"; };
+		CE8A3BAC2CF35E2100DDA2E8 /* TextEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditorView.swift; sourceTree = "<group>"; };
 		CE946B3C2CEC390400250F9E /* KeyboardObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
 		CEDFC2CD2CE1C814008C215A /* FriendSegmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendSegmentView.swift; sourceTree = "<group>"; };
 		CEDFC2ED2CE2EAB0008C215A /* AlbumStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumStore.swift; sourceTree = "<group>"; };
@@ -396,10 +402,12 @@
 		8E645D5B2CE484AC00F43836 /* PhotoUpload */ = {
 			isa = PBXGroup;
 			children = (
+				CE4865742CF027F700C30997 /* EditPhotoView.swift */,
 				8BD71F7D2CD4BB1A0030693B /* TakePhotoView.swift */,
 				8BD71F7F2CD89A860030693B /* CameraPreview.swift */,
 				8BD71F832CD89AE90030693B /* PhotoPicker.swift */,
 				8BD71F872CD8C62B0030693B /* PhotoReviewView.swift */,
+				CE8A3BAC2CF35E2100DDA2E8 /* TextEditorView.swift */,
 			);
 			path = PhotoUpload;
 			sourceTree = "<group>";
@@ -544,6 +552,7 @@
 		8EAFEFAF2CD452A600136348 /* Stores */ = {
 			isa = PBXGroup;
 			children = (
+				CE4865762CF03F9E00C30997 /* EditPhotoStore.swift */,
 				8B2FC1C62CEE48000078443F /* EmojiProvider.swift */,
 				8B2FC1BA2CEDC5A70078443F /* TwemojiHelper.swift */,
 				CEDFC2ED2CE2EAB0008C215A /* AlbumStore.swift */,
@@ -905,6 +914,7 @@
 				CE86A3B82CE6E1B4000B59B2 /* AlbumFriendListView.swift in Sources */,
 				8BDA11D52CDA769C004242DB /* EmojiPickerView.swift in Sources */,
 				EAB079722CDDAED700293C62 /* SplashView.swift in Sources */,
+				CE4865772CF03FAD00C30997 /* EditPhotoStore.swift in Sources */,
 				8E611FDF2CEC9E0D00DF40E4 /* AzitWidgetData.swift in Sources */,
 				EAF93B8E2CD4A50700116035 /* AuthView.swift in Sources */,
 				CE69CDCC2CE70C2800322E7A /* AlbumStoryImageView.swift in Sources */,
@@ -912,6 +922,7 @@
 				EAF93B8F2CD4A50700116035 /* SignupView.swift in Sources */,
 				EAAABB762CE6D0CA0003C250 /* QRInvitation.swift in Sources */,
 				EAAABB782CE6D2BE0003C250 /* QR.swift in Sources */,
+				CE8A3BAD2CF35E2100DDA2E8 /* TextEditorView.swift in Sources */,
 				8E645D552CE4784F00F43836 /* MyContentEmojiView.swift in Sources */,
 				EA3137212CE3322000AA4685 /* QRCodeView.swift in Sources */,
 				8EAFEFB82CD45CCE00136348 /* ChatRoom.swift in Sources */,
@@ -921,6 +932,7 @@
 				8EAFEFAB2CD4528E00136348 /* AzitApp.swift in Sources */,
 				8BD71F882CD8C6300030693B /* PhotoReviewView.swift in Sources */,
 				8BD71F822CD89AC20030693B /* CameraService.swift in Sources */,
+				CE4865752CF0280C00C30997 /* EditPhotoView.swift in Sources */,
 				EACABF212CE30E760042340D /* AuthApple.swift in Sources */,
 				8BCB83A02CDA2A3500C49011 /* PublishScopeView.swift in Sources */,
 				8BD71F7E2CD4BB280030693B /* TakePhotoView.swift in Sources */,
