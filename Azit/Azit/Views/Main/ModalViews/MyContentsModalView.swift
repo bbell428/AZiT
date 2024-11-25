@@ -48,16 +48,16 @@ struct MyContentsModalView: View {
                         isPresentedLikedSheet = true
                     } label: {
                         VStack {
-                            Image(systemName: "person.2.fill")
+                            Image(systemName: "heart.fill")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .foregroundStyle(.accent)
                                 .frame(width: 30)
                                 .fontWeight(.light)
                             
-                            Text("Likes")
-                                .font(.caption)
-                                .foregroundStyle(.gray)
+//                            Text("Likes")
+//                                .font(.caption)
+//                                .foregroundStyle(.gray)
                         }
                     }
                     
@@ -82,7 +82,7 @@ struct MyContentsModalView: View {
             }
             .padding()
             .background(.subColor4)
-            .cornerRadius(8)
+            .cornerRadius(15)
             .scaleEffect(scale)
             .onAppear {
                 withAnimation(.easeInOut(duration: 0.3)) {
