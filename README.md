@@ -34,14 +34,14 @@
 <br/>
 <br/>
 
-# ⚙️ 작동 환경
+# ⚙️ Setting
 - **Xcode 버전**: Xcode 16.0
 - **iOS 버전**: iOS 17.0
 
 <br/>
 <br/>
 
-# Technology Stack (기술 스택)
+# Technology Stack
 ## Language
 | Swift | SwiftUI |
 |:------:|:------:|
@@ -64,7 +64,7 @@
 
 <br/>
 
-# 📂 Project Structure (프로젝트 구조)
+# 📂 Project Structure
 ```plaintext
 Azit/
 ├── Azit.xcodeproj/
@@ -110,7 +110,7 @@ Azit/
 <br/>
 <br/>
 
-# 📂 Model (파이어베이스 구조)
+# 📂 Model
 ```plaintext
 Azit
 ├── Chat
