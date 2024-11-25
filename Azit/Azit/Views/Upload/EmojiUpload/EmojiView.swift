@@ -190,7 +190,7 @@ struct EmojiView : View {
             storyDraft.publishedTargets = userInfoStore.userInfo?.friends ?? []
             
             Task {
-                friendID = try await userInfoStore.getUserNameById(id: storyDraft.publishedTargets[0])
+                friendID = try await userInfoStore.getUserNameById(id: storyDraft.publishedTargets.isEmpty ? "ALL" : storyDraft.publishedTargets[0])
             }
             
             withAnimation(.easeInOut(duration: 0.3)) {
