@@ -1,13 +1,10 @@
-# 📱 AZiT
-
 <img src="https://github.com/user-attachments/assets/dad4facb-7cc6-4f3c-98a4-f8274162a963" alt="배너" width="100%"/>
 </a>
 
 <br/>
 <br/>
 
-
-# 🎯ADS
+# 📱 AZiT
 > 이 앱은 [친한 친구들에게 서로 간 위치를 공유하며 일상을 공유하는 위치 기반 SNS]를 중심으로 사용자들에게 혁신적인 경험을 제공합니다.
 
 <br/>
