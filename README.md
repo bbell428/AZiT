@@ -1,5 +1,16 @@
 <img src="https://github.com/user-attachments/assets/dad4facb-7cc6-4f3c-98a4-f8274162a963" alt="배너" width="100%"/>
-</a>
+
+<br/>
+<br/>
+
+# 🎞️AZiT 소개 영상
+<div align="center">
+    <img src="https://github.com/user-attachments/assets/a4826836-9984-4089-ad2b-274e102d54b7" alt="AZiT" style="width: 100%; margin-top: 20px;"/>  
+    <br/>
+    <a href="https://www.youtube.com/watch?v=BnNLWcvfCG0" style="font-size: 18px; font-weight: bold; text-decoration: none; display: block; margin-bottom: 20px;">
+        Click here to watch on YouTube
+    </a>
+</div>
 
 <br/>
 <br/>
@@ -192,18 +203,6 @@ Azit
         ├── blockedFriends: [String]
         └── fcmToken: String  
 ```
-
-<br/>
-<br/>
-
-# 🎞️AZiT 소개 영상
-<div align="center">
-    <img src="https://github.com/user-attachments/assets/a4826836-9984-4089-ad2b-274e102d54b7" alt="AZiT" style="width: 100%; margin-top: 20px;"/>  
-    <br/>
-    <a href="https://www.youtube.com/watch?v=BnNLWcvfCG0" style="font-size: 18px; font-weight: bold; text-decoration: none; display: block; margin-bottom: 20px;">
-        Click here to watch on YouTube
-    </a>
-</div>
 
 <br/>
 <br/>
