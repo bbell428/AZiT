@@ -72,14 +72,14 @@
 <br/>
 
 # Technology Stack
-## Language
+## Language and Framework
 | Swift | SwiftUI |
 |:------:|:------:|
 | <img src="https://developer.apple.com/swift/images/swift-logo.svg" alt="Swift" width="100"> | <img src="https://developer.apple.com/assets/elements/icons/swiftui/swiftui-96x96_2x.png" alt="SwiftUI" width="100"> | 
 
 <br/>
 
-## Backen
+## Backend
 | Firebase | Koyeb |
 |:------:|:------:|
 | <img src="https://firebase.google.com/static/images/brand-guidelines/logo-vertical.png?hl=ko" alt="Firebase" width="100"> | <img src="https://github.com/user-attachments/assets/d8a10ada-a8c7-4a76-9154-1dc308309c15" alt="Koyeb" width="100"> | 
