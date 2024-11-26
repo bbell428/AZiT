@@ -104,9 +104,14 @@
 <br/>
 
 # AZiT 소개 영상
-<img src="https://github.com/user-attachments/assets/53b1644c-5ddd-4e6d-8a77-6ee33ec89801" alt="AZiT" width="100%"/>
+<img src="https://github.com/user-attachments/assets/a4826836-9984-4089-ad2b-274e102d54b7" alt="AZiT" width="100%"/>
 
-[유튜브로 이동하기](https://www.youtube.com/watch?v=BnNLWcvfCG0)
+<a href="https://www.youtube.com/watch?v=BnNLWcvfCG0" style="display: inline-block; padding: 10px 20px; background-color: #ff0000; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">
+유튜브로 이동하기
+</a>
+
+<br/>
+<br/>
 
 # 📂 Project Structure
 ```plaintext
