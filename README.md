@@ -103,7 +103,9 @@
 <br/>
 <br/>
 
-[![Video Label](http://img.youtube.com/vi/BnNLWcvfCG0/0.jpg)](https://www.youtube.com/watch?v=BnNLWcvfCG0)
+# AZiT 소개 영상
+<img src="" alt="git" width="100">
+[유투브]([https://github.com/jisooohh](https://www.youtube.com/watch?v=BnNLWcvfCG0))
 
 # 📂 Project Structure
 ```plaintext
