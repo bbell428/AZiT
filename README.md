@@ -1,7 +1,5 @@
 <img src="https://github.com/user-attachments/assets/dad4facb-7cc6-4f3c-98a4-f8274162a963" alt="배너" width="100%"/>
 <img src="https://github.com/user-attachments/assets/a4826836-9984-4089-ad2b-274e102d54b7" alt="AZiT" style="width: 100%; margin-top: 20px;"/>  
-<br/>
-
 
 <div align="center">
     <br/>
