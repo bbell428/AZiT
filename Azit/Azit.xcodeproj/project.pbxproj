@@ -106,8 +106,6 @@
 		CE0B24C02CEEC35A002FE86D /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = CE0B24BF2CEEC35A002FE86D /* Kingfisher */; };
 		CE374EAD2CD79F6300601AA7 /* ChatListStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE374EAC2CD79F6300601AA7 /* ChatListStore.swift */; };
 		CE3A16E22CD85A5B0045DB52 /* MessageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A16E12CD85A5B0045DB52 /* MessageDetailView.swift */; };
-		CE4865692CF00A8500C30997 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE4865682CF00A8500C30997 /* GoogleService-Info.plist */; };
-		CE48656A2CF00A8500C30997 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE4865682CF00A8500C30997 /* GoogleService-Info.plist */; };
 		CE4865752CF0280C00C30997 /* EditPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4865742CF027F700C30997 /* EditPhotoView.swift */; };
 		CE4865772CF03FAD00C30997 /* EditPhotoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4865762CF03F9E00C30997 /* EditPhotoStore.swift */; };
 		CE5574652CE4666600266EBD /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5574642CE4666600266EBD /* ProfileDetailView.swift */; };
@@ -252,7 +250,6 @@
 		CE062BAF2CD91EE700CB5D4A /* ChatRoomListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomListView.swift; sourceTree = "<group>"; };
 		CE374EAC2CD79F6300601AA7 /* ChatListStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListStore.swift; sourceTree = "<group>"; };
 		CE3A16E12CD85A5B0045DB52 /* MessageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailView.swift; sourceTree = "<group>"; };
-		CE4865682CF00A8500C30997 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CE4865742CF027F700C30997 /* EditPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPhotoView.swift; sourceTree = "<group>"; };
 		CE4865762CF03F9E00C30997 /* EditPhotoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPhotoStore.swift; sourceTree = "<group>"; };
 		CE5574642CE4666600266EBD /* ProfileDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailView.swift; sourceTree = "<group>"; };
@@ -491,7 +488,6 @@
 				8EE014442CE5D33D003151F8 /* AzitWidget */,
 				8EE014742CE5D4EE003151F8 /* AzitWidgetExtension.entitlements */,
 				8EAFEFCF2CD45F0700136348 /* Frameworks */,
-				CE4865682CF00A8500C30997 /* GoogleService-Info.plist */,
 				8EAFEF772CD4524500136348 /* Products */,
 				CE48654A2CF008B400C30997 /* Recovered References */,
 			);
@@ -900,7 +896,6 @@
 				8B2FC1BD2CEDD1B30078443F /* icons.json in Resources */,
 				8B2FC1CB2CEE57560078443F /* metadata.json in Resources */,
 				8B2FC1C92CEE4CD90078443F /* chars.json in Resources */,
-				CE48656A2CF00A8500C30997 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -922,7 +917,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE4865692CF00A8500C30997 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
