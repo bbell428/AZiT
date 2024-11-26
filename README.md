@@ -27,10 +27,40 @@
 <img src="https://github.com/user-attachments/assets/54e2d3a1-f5f4-43a7-979b-3b110024d959" alt="배너" width="100%"/>
 
 # 🚀 주요 기능
-- 🗂️ **기능 1**: [기능에 대한 간단 설명]
-- 🛠️ **기능 2**: [기능에 대한 간단 설명]
-- 🌟 **기능 3**: [기능에 대한 간단 설명]
+- 🍎 **소셜 로그인**
+    - 애플 /  구글 / 이메일을 통해 회원가입 절차 진행
+- ⚙️ **홈 로테이션**
+    - 나와 가까운 친구들을 거리 순으로 정렬
+    - 홈 화면 회전으로 친구 확인
+    - 게시물 업로드 시 사용자 테두리 변화
+- 👥 **실시간 채팅**:
+    - [채팅방 리스트]
+        - 마지막에 온 메시지 시간 / 내용 확인 가능
+        - 마지막으로 읽고나서 안 읽은 메시지 개수 카운팅
+        - 실시간 리스너
+    - [채팅방]
+        - 스토리 답장에 대한 내용 확인 가능
+        - 이미지 업로드
+        - 읽음 / 미읽음 (숫자 1)
+        - 실시간 리스너
 
+- 🏞️ **이미지 에디터 업로드**
+    - 텍스트 넣기
+    - 글자 배경 on/off
+    - 글자 색상 흰색/검정색
+    - 텍스트 (확대/축소/회전)
+    - 이미지 (확대/축소/회전)
+- 🗣️ **게시물 공개 범위 설정**
+    - 사진,이모지 등 게시물을 공개 범위를 설정하여 업로드 가능
+- 💌 **QR코드&링크 친구 추가**
+    - 딥링크를 활용하여 친구 추가 QR코드 및 링크 생성&공유
+- 📬 **APNs**
+    -  Koyeb를 사용한 Node.js서버 구축 및 FCM 활용(채팅 알림)
+- 📱 **위젯**
+    - 친구들의 가장 최근 게시물을 위젯에 표기하고 위젯 터치 시 해당 게시물을 앱에 표기
+- 🗓️ **앨범**
+    - 전체 및 친구 게시물 확인
+    - 달력을 통한 날짜별 게시물 확인
 <br/>
 <br/>
 
@@ -42,14 +72,14 @@
 <br/>
 
 # Technology Stack
-## Language
+## Language and Framework
 | Swift | SwiftUI |
 |:------:|:------:|
 | <img src="https://developer.apple.com/swift/images/swift-logo.svg" alt="Swift" width="100"> | <img src="https://developer.apple.com/assets/elements/icons/swiftui/swiftui-96x96_2x.png" alt="SwiftUI" width="100"> | 
 
 <br/>
 
-## Backen
+## Backend
 | Firebase | Koyeb |
 |:------:|:------:|
 | <img src="https://firebase.google.com/static/images/brand-guidelines/logo-vertical.png?hl=ko" alt="Firebase" width="100"> | <img src="https://github.com/user-attachments/assets/d8a10ada-a8c7-4a76-9154-1dc308309c15" alt="Koyeb" width="100"> | 
