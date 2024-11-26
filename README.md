@@ -104,8 +104,9 @@
 <br/>
 
 # AZiT 소개 영상
-<img src="" alt="git" width="100">
-[유투브]([https://github.com/jisooohh](https://www.youtube.com/watch?v=BnNLWcvfCG0))
+<img src="https://github.com/user-attachments/assets/53b1644c-5ddd-4e6d-8a77-6ee33ec89801" alt="AZiT" width="100%"/>
+
+[유튜브로 이동하기](https://www.youtube.com/watch?v=BnNLWcvfCG0)
 
 # 📂 Project Structure
 ```plaintext
