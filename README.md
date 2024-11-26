@@ -101,6 +101,9 @@
 | <img src="https://github.com/user-attachments/assets/03b7d917-65bb-4027-b1a2-630f4050f1a4" alt="git" width="100"> | <img src="https://github.com/user-attachments/assets/b256c308-3e77-4e8c-9101-53f4bf6dc8f2" alt="Discord" width="100"> |<img src="https://github.com/user-attachments/assets/16703970-7713-49dd-a8fa-28301b884315" width="100"> | <img src="https://github.com/user-attachments/assets/c96f0599-089f-4b91-ab30-4efd1d7da2f4" alt="Notion" width="100"> |
 
 <br/>
+<br/>
+
+[![Video Label](http://img.youtube.com/vi/BnNLWcvfCG0/0.jpg)](https://www.youtube.com/watch?v=BnNLWcvfCG0)
 
 # 📂 Project Structure
 ```plaintext
