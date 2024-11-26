@@ -103,12 +103,14 @@
 <br/>
 <br/>
 
-# AZiT 소개 영상
-<img src="https://github.com/user-attachments/assets/a4826836-9984-4089-ad2b-274e102d54b7" alt="AZiT" width="100%"/>
-
-<a href="https://www.youtube.com/watch?v=BnNLWcvfCG0" style="display: inline-block; padding: 10px 20px; background-color: #ff0000; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">
-유튜브로 이동하기
-</a>
+# 🎞️AZiT 소개 영상
+<div align="center">
+  <a href="https://www.youtube.com/watch?v=BnNLWcvfCG0" style="font-size: 18px; font-weight: bold; text-decoration: none; display: block; margin-bottom: 20px;">
+    Click here to watch on YouTube
+  </a>
+    <br/>
+  <img src="https://github.com/user-attachments/assets/a4826836-9984-4089-ad2b-274e102d54b7" alt="AZiT" style="width: 100%; margin-top: 20px;"/>  
+</div>
 
 <br/>
 <br/>
