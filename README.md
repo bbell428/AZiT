@@ -22,9 +22,10 @@
 
 # 🐰PERSONA
 
-| <img src="https://github.com/user-attachments/assets/67f705de-e67c-403b-a59c-4f628e80c970" alt="페르소나" width="100%"> | <img src="https://github.com/user-attachments/assets/1f2a6998-36f6-48be-a7e2-86e761d4342d" alt="페르소나" width="100%"> |
-|:------:|:------:|
-| <img src="https://github.com/user-attachments/assets/5f3f2ff5-d309-4f65-9c94-0dc30cc34c78" alt="페르소나" width="100%"> | <img src="https://github.com/user-attachments/assets/86434196-c153-48f7-ae22-bd0dce9ad034" alt="페르소나" width="100%"> |
+<img src="https://github.com/user-attachments/assets/67f705de-e67c-403b-a59c-4f628e80c970" alt="페르소나" width="100%"> 
+<img src="https://github.com/user-attachments/assets/1f2a6998-36f6-48be-a7e2-86e761d4342d" alt="페르소나" width="100%">
+<img src="https://github.com/user-attachments/assets/5f3f2ff5-d309-4f65-9c94-0dc30cc34c78" alt="페르소나" width="100%"> 
+<img src="https://github.com/user-attachments/assets/86434196-c153-48f7-ae22-bd0dce9ad034" alt="페르소나" width="100%"> 
 
 <br/>
 <br/>
