@@ -13,7 +13,7 @@
 <br/>
 <br/>
 
-# 🧑🏻‍💻Team Members (팀원 및 팀 소개)
+# 🧑🏻‍💻Team Members
 | 홍지수 | 김종혁 | 박준영 | 신현우 |
 |:------:|:------:|:------:|:------:|
 | <img src="https://github.com/user-attachments/assets/2dc5f59b-dbf9-4a3b-bcba-e39eb39c09e9" alt="홍지수" width="150"> | <img src="https://github.com/user-attachments/assets/8595069a-e433-4d7a-8902-7df506f99228" alt="김종혁" width="150"> | <img src="https://github.com/user-attachments/assets/0d97371c-e8eb-47d5-9dc8-f23dead9e067" alt="박준영" width="150"> | <img src="https://github.com/user-attachments/assets/83e8e853-67f4-4ff5-9f68-1486e143b7ee" alt="신현우" width="150"> |
