@@ -25,7 +25,8 @@ class WidgetViewModel: ObservableObject {
     }
     
     func loadUserInfo() -> UserInfo {
-        let userDefaults = UserDefaults(suiteName: "group.education.techit.Azit.AzitWidget")
+        //group.benear.azit.AzitWidget
+        let userDefaults = UserDefaults(suiteName: "group.benear.azit.group")
         if let data = userDefaults?.data(forKey: "userInfo"),
            let userInfo = try? JSONDecoder().decode(UserInfo.self, from: data) {
             return userInfo
@@ -184,7 +185,7 @@ struct Provider: TimelineProvider {
     }
     
     func loadUserInfo() -> UserInfo {
-        let userDefaults = UserDefaults(suiteName: "group.education.techit.Azit.AzitWidget")
+        let userDefaults = UserDefaults(suiteName: "group.benear.azit.group")
         if let data = userDefaults?.data(forKey: "userInfo"),
            let userInfo = try? JSONDecoder().decode(UserInfo.self, from: data) {
             return userInfo
@@ -193,7 +194,7 @@ struct Provider: TimelineProvider {
     }
     
     func loadStory() -> Story {
-        let userDefaults = UserDefaults(suiteName: "group.education.techit.Azit.AzitWidget")
+        let userDefaults = UserDefaults(suiteName: "group.benear.azit.group")
         if let data = userDefaults?.data(forKey: "recentStory"),
            let recentStory = try? JSONDecoder().decode(Story.self, from: data) {
             return recentStory
@@ -202,7 +203,7 @@ struct Provider: TimelineProvider {
     }
     
     func loadStoryImage() -> UIImage? {
-        if let sharedDefaults = UserDefaults(suiteName: "group.education.techit.Azit.AzitWidget"),
+        if let sharedDefaults = UserDefaults(suiteName: "group.benear.azit.group"),
            let imageData = sharedDefaults.data(forKey: "storyImage") {
             print("Loaded Image Data Size: \(imageData.count) bytes")
             return UIImage(data: imageData)

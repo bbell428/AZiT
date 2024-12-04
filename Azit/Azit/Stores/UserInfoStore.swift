@@ -341,7 +341,7 @@ class UserInfoStore: ObservableObject {
     
     // MARK: - story 데이터 UserDefault에 전달
     func updateSharedUserDefaults(user: UserInfo) {
-        if let sharedDefaults = UserDefaults(suiteName: "group.education.techit.Azit.AzitWidget") {
+        if let sharedDefaults = UserDefaults(suiteName: "group.benear.azit.group") {
             // User 객체를 Data로 변환
             do {
                 let encoder = JSONEncoder()
