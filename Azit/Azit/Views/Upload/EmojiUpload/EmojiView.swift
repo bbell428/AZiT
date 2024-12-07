@@ -17,6 +17,7 @@ struct EmojiView : View {
     @Binding var isDisplayEmojiPicker: Bool // MainView에서 전달받은 바인딩 변수
     @Binding var isMyModalPresented: Bool // 내 스토리에 대한 모달
     @Binding var isAnimatingForStroke: Bool
+    @Binding var currentIndex: Int // 메인화면으로 돌아가기 위한
   
     @State var isShowingsheet: Bool = false
     @State var isPicture:Bool = false
@@ -24,7 +25,8 @@ struct EmojiView : View {
     @State private var isLimitExceeded: Bool = false
     @State private var scale: CGFloat = 0.1
     @State var friendID: String = ""
-    private let characterLimit = 20
+    
+    private let characterLimit = 24
     let screenBounds = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds
     var isShareEnabled: Bool {
         return storyDraft.emoji.isEmpty && storyDraft.content.isEmpty
@@ -101,7 +103,7 @@ struct EmojiView : View {
             }
             
             // 카메라 촬영 버튼
-            NavigationLink(destination: TakePhotoView(firstNaviLinkActive: $firstNaviLinkActive, isMainDisplay: $isDisplayEmojiPicker, isMyModalPresented: $isMyModalPresented), isActive: $firstNaviLinkActive) {
+            NavigationLink(destination: TakePhotoView(firstNaviLinkActive: $firstNaviLinkActive, isMainDisplay: $isDisplayEmojiPicker, isMyModalPresented: $isMyModalPresented, currentIndex: $currentIndex), isActive: $firstNaviLinkActive) {
                 RoundedRectangle(cornerSize: CGSize(width: 15.0, height: 15.0))
                     .background(RoundedRectangle(cornerSize: CGSize(width: 15.0, height: 15.0))
                         .fill(Color.accentColor))
@@ -115,7 +117,6 @@ struct EmojiView : View {
             
             // 공유 버튼
             if !isShareEnabled {
-                // 공유 버튼
                 Button (action:{
                     isMyModalPresented = false
                     isAnimatingForStroke = true

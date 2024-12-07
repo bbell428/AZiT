@@ -7,16 +7,20 @@
 
 import Foundation
 
+// Emoji 배열을 전달하는 규칙 프로토콜
 public protocol EmojiProvider {
     func getAll() -> [Emoji]
 }
 
+// EmojiPicker에 이모지 제공
 public final class DefaultEmojiProvider: EmojiProvider {
+    
     private let emojis: [Emoji]
     
     public init() {
-        // icons.json 파싱 (현재는 사용되지 않음)
+        // icons.json 파싱 결과 name - icon 딕셔너리
         var nameToIconBody: [String: String] = [:]
+        // icons.json 파싱
         if let iconsURL = Bundle.main.url(forResource: "icons", withExtension: "json"),
            let iconsData = try? Data(contentsOf: iconsURL),
            let icons = try? JSONDecoder().decode(Icons.self, from: iconsData) {
@@ -25,8 +29,9 @@ public final class DefaultEmojiProvider: EmojiProvider {
             print("Failed to load or parse icons.json")
         }
         
-        // chars.json 파싱
+        // chars.json 파싱 결과 code - name 딕셔너리
         var codeToName: [String: String] = [:]
+        // chars.json 파싱
         if let charsURL = Bundle.main.url(forResource: "chars", withExtension: "json"),
            let charsData = try? Data(contentsOf: charsURL),
            let chars = try? JSONDecoder().decode([String: String].self, from: charsData) {

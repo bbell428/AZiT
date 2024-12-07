@@ -15,6 +15,7 @@ struct TakePhotoView: View {
     @Binding var firstNaviLinkActive: Bool
     @Binding var isMainDisplay: Bool // MainView에서 전달받은 바인딩 변수
     @Binding var isMyModalPresented: Bool // 내 스토리에 대한 모달
+    @Binding var currentIndex: Int // 메인화면으로 돌아가기 위한
     @State private var progressValue: Double = 1.0
     let totalValue: Double = 2.0
     
@@ -98,7 +99,7 @@ struct TakePhotoView: View {
             
             // PhotoReviewView 전환
             NavigationLink(
-                destination: PhotoReviewView(firstNaviLinkActive: $firstNaviLinkActive,isMainDisplay: $isMainDisplay , isMyModalPresented: $isMyModalPresented, isPhotoTaken: $isPhotoTaken, image: cameraService.capturedImage),
+                destination: UploadPhotoStoryView(firstNaviLinkActive: $firstNaviLinkActive,isMainDisplay: $isMainDisplay , isMyModalPresented: $isMyModalPresented, isPhotoTaken: $isPhotoTaken, currentIndex: $currentIndex, image: cameraService.capturedImage),
                 isActive: $isPhotoTaken,
                 label: { EmptyView() }
             )
