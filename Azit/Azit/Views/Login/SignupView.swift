@@ -179,7 +179,7 @@ struct SignupView: View {
             LoginButton(
                 inputText: "회원가입",
                 isLoading: authManager.authenticationState == .authenticating,
-                isValid: authManager.isValid,
+                isValid: authManager.isValid && !authManager.confirmPassword.isEmpty,
                 action: signUpWithEmailPassword,
                 focus: $focus
             )
