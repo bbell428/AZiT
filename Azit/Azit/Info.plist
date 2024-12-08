@@ -20,7 +20,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>education.techit.Azit</string>
+			<string>benear.azit.group</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>azit</string>

@@ -255,15 +255,20 @@ class UserInfoStore: ObservableObject {
     }
     
     // MARK: - 사용자 ID로 UserInfo 가져오기
-    func getUserInfoById(id: String) async throws -> UserInfo? {
+    func getUserInfoById(id: String, completion: @escaping (UserInfo?) -> Void) {
         let db = Firestore.firestore()
         
-        do {
-            let document = try await db.collection("User").document(id).getDocument()
+        db.collection("User").document(id).addSnapshotListener { snapshot, error in
+            if let error = error {
+                print("Error listening to user info: \(error)")
+                completion(nil) // 에러 발생 시 nil 반환
+                return
+            }
             
-            guard let docData = document.data() else {
+            guard let snapshot = snapshot, let docData = snapshot.data() else {
                 print("No user data found for id: \(id)")
-                return nil
+                completion(nil) // 데이터가 없을 경우 nil 반환
+                return
             }
             
             let id = docData["id"] as? String ?? ""
@@ -290,10 +295,7 @@ class UserInfoStore: ObservableObject {
                 fcmToken: fcmToken
             )
             
-            return userInfo
-        } catch {
-            print("Error fetching user info by id: \(error)")
-            return nil
+            completion(userInfo) // 실시간 업데이트된 데이터를 반환
         }
     }
     

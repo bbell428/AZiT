@@ -206,7 +206,7 @@ struct SignupView: View {
     
 }
 
-#Preview {
-    SignupView()
-        .environmentObject(AuthManager())
-}
+//#Preview {
+//    SignupView()
+//        .environmentObject(AuthManager())
+//}

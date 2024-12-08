@@ -88,6 +88,32 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         
         completionHandler([.banner, .sound, .badge])
     }
+    
+    // 알림을 클릭했을 때 전달받는 값
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        
+        // 데이터 파싱
+        if let viewType = userInfo["viewType"] as? String,
+           let friendNickname = userInfo["friendNickname"] as? String,
+           let friendProfileImage = userInfo["friendProfileImage"] as? String,
+           let chatId = userInfo["chatId"] as? String {
+            
+            // 알림 데이터를 NotificationCenter로 전달
+            NotificationCenter.default.post(
+                name: .didReceiveNotification,
+                object: nil,
+                userInfo: ["viewType": viewType, "friendNickname": friendNickname, "friendProfileImage": friendProfileImage, "chatId": chatId]
+            )
+        } else {
+            print("Missing keys in notification payload")
+        }
+        completionHandler()
+    }
+}
+
+extension Notification.Name {
+    static let didReceiveNotification = Notification.Name("didReceiveNotification")
 }
 
 // 파이어베이스 MessagingDelegate 설정

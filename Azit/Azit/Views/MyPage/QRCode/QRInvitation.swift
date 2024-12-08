@@ -122,8 +122,15 @@ struct QRInvitation: View {
         }
         .frame(maxWidth: 350, maxHeight: 450)
         .onAppear {
-            Task {
-                otherFriend = try await userInfoStore.getUserInfoById(id: authManager.deepUserID) ?? UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0, blockedFriends: [], fcmToken: "")
+            userInfoStore.getUserInfoById(id: authManager.deepUserID) { userInfo in
+                if let userInfo = userInfo {
+                    DispatchQueue.main.async {
+                        self.otherFriend = userInfo
+                        print("Updated User Info: \(userInfo.nickname)")
+                    }
+                } else {
+                    print("No user data available or error occurred.")
+                }
             }
         }
     }

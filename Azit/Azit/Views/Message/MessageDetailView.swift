@@ -124,7 +124,7 @@ struct MessageDetailView: View {
                                     .font(.title2)
                                     .foregroundColor(.black)
                             }
-
+                            
                             Text("핸드폰에 저장")
                                 .font(.body)
                                 .foregroundColor(.black)
@@ -327,7 +327,7 @@ struct MessageSendField: View {
                     }
                     
                     TextEditor(text: $text)
-                        //.padding(.horizontal, 5)
+                    //.padding(.horizontal, 5)
                         .foregroundColor(Color.black)
                         .frame(height: textEditorHeight)
                         .scrollContentBackground(.hidden)
@@ -346,7 +346,9 @@ struct MessageSendField: View {
                         print("메시지 전송: \(text)")
                         await chatDetailViewStore.sendMessage(text: text, myId: userInfoStore.userInfo?.id ?? "", friendId: userId)
                         
-                        sendNotificationToServer(myNickname: userInfoStore.userInfo?.nickname ?? "", message: text, fcmToken: otherUserInfo?.fcmToken ?? "", badge: await userInfoStore.sumIntegerValuesContainingUserID(userID: otherUserInfo?.id ?? "")) // 푸시 알림-메시지
+                        if otherUserInfo?.fcmToken != nil {
+                            sendNotificationToServer(myNickname: userInfoStore.userInfo?.nickname ?? "", message: text, fcmToken: otherUserInfo?.fcmToken ?? "", badge: await userInfoStore.sumIntegerValuesContainingUserID(userID: otherUserInfo?.id ?? ""), friendUserInfo: otherUserInfo!, chatId: roomId, viewType: "chatDetail") // 푸시 알림-메시지
+                        }
                         
                         text = "" // 메시지 전송 후 입력 필드를 초기화
                         adjustHeight() // 높이 리셋
@@ -369,12 +371,20 @@ struct MessageSendField: View {
             .zIndex(2)
         }
         .onAppear {
+            // 상대방의 UserInfo 가져옴, 상대방 토큰을 위해 사용함
+            userInfoStore.getUserInfoById(id: userId) { userInfo in
+                if let userInfo = userInfo {
+                    DispatchQueue.main.async {
+                        self.otherUserInfo = userInfo
+                        print("Updated User Info: \(userInfo.nickname)")
+                    }
+                } else {
+                    print("No user data available or error occurred.")
+                }
+            }
             Task {
-                // 상대방의 UserInfo 가져옴, 상대방 토큰을 위해 사용함
-                otherUserInfo = try await userInfoStore.getUserInfoById(id: userId) ?? UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0, blockedFriends: [], fcmToken: "")
-                
                 // 해당 채팅방으로 들어가면 배지 업데이트(읽음 메시지는 배지 알림 개수 전체에서 빼기)
-                await sendNotificationToServer(myNickname: "", message: "", fcmToken: userInfoStore.userInfo?.fcmToken ?? "", badge: userInfoStore.sumIntegerValuesContainingUserID(userID: authManager.userID))
+                await sendNotificationToServer(myNickname: "", message: "", fcmToken: userInfoStore.userInfo?.fcmToken ?? "", badge: userInfoStore.sumIntegerValuesContainingUserID(userID: authManager.userID), friendUserInfo: UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0, longitude: 0, blockedFriends: [], fcmToken: ""), chatId: roomId, viewType: "chatDetail")
             }
         }
         //.frame(maxHeight: 80) // 높이 제한 설정
