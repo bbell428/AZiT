@@ -31,7 +31,6 @@ struct UploadPhotoStoryView: View {
     @Binding var isMainDisplay: Bool
     @Binding var isMyModalPresented: Bool
     @Binding var isPhotoTaken: Bool
-    @Binding var currentIndex: Int // 메인화면으로 돌아가기 위한
     
     // 뷰 내부 상태 변수
     var image: UIImage? // 이미지 데이터
@@ -48,30 +47,6 @@ struct UploadPhotoStoryView: View {
     
     var body: some View {
         ZStack {
-            // 상단바
-            HStack {
-                Color.clear
-                    .frame(maxWidth: .infinity)
-                
-                Text("My Page")
-                    .font(.title3)
-                    .fontWeight(.bold)
-                    .frame(maxWidth: .infinity, alignment: .center)
-                
-                Button {
-                    withAnimation(.easeInOut) {
-                        currentIndex = 1
-                    }
-                    //dismiss()
-                } label: {
-                    Image(systemName: "chevron.right")
-                        .font(.system(size: 25))
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                }
-                .padding(.horizontal, 20)
-                
-            }
-            .frame(height: 70)
             
             if isDisplayTextEditor {
                 TextEditorView(isDisplayTextEditor: $isDisplayTextEditor)
