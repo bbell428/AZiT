@@ -61,6 +61,31 @@ struct MainView: View {
                 MainTopView(isMainExposed: $isMainExposed, isShowToast: $isShowToast)
                     .zIndex(1)
             }
+            // 알림 클릭 시, 해당 뷰로 이동
+            .navigationDestination(isPresented: Binding(\.navigateToChatDetail, on: FriendsStore.shared)) {
+                if let roomId = FriendsStore.shared.chatRoomId {
+                    MessageDetailView(
+                        friend: UserInfo(
+                            id: roomId,
+                            email: "", // Replace with actual data
+                            nickname: "", // Replace with actual data
+                            profileImageName: "", // Default profile image
+                            previousState: "",
+                            friends: [],
+                            latitude: 0.0,
+                            longitude: 0.0,
+                            blockedFriends: [],
+                            fcmToken: ""
+                        ),
+                        roomId: roomId,
+                        nickname: FriendsStore.shared.nicknameFriend ?? "",
+                        userId: roomId,
+                        profileImageName: FriendsStore.shared.profileImageFriend ?? "",
+                        isShowToast: .constant(false)
+                    )
+                }
+            }
+            
 //            .navigationDestination(isPresented: $isRightToLeftSwipe) {
 //                MessageView(isShowToast: $isShowToast)
 //            }
