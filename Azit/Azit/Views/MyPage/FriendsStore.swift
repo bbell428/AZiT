@@ -8,9 +8,17 @@
 import Observation
 import FirebaseCore
 import FirebaseFirestore
+import SwiftUI
 
 @MainActor
 class FriendsStore: ObservableObject {
+    static let shared = FriendsStore() // 단일 클래스로 바꿈
+    
+    @Published var nicknameFriend: String?
+    @Published var profileImageFriend: String?
+    @Published var chatRoomId: String?
+    @Published var navigateToChatDetail: Bool = false
+    
     @Published var friendInfos: [UserInfo] = [] // 친구 정보 목록
         private var listener: ListenerRegistration? // Firestore 리스너
         
@@ -145,5 +153,14 @@ class FriendsStore: ObservableObject {
             print("Messages 하위 컬렉션 삭제 중 오류 발생: \(error.localizedDescription)")
             throw error
         }
+    }
+}
+
+extension Binding {
+    init<T>(_ keyPath: ReferenceWritableKeyPath<T, Value>, on object: T) {
+        self.init(
+            get: { object[keyPath: keyPath] },
+            set: { object[keyPath: keyPath] = $0 }
+        )
     }
 }
