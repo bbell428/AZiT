@@ -23,8 +23,6 @@ struct RotationView: View {
     @Binding var isTappedWidget: Bool // 위젯이 클릭 되었는지 확인
     @Binding var isAnimatingForStroke: Bool // 글이 써졌는지 확인 후 애니메이션을 위함
     
-    @Binding var url: URL?
-    
     @State private var rotation: Double = 270.0
     @State private var sortedUsers: [UserInfo] = [] // 거리 순 친구 정렬
     @State private var selectedIndex: Int = 0 // 선택 된 친구 스토리
@@ -251,23 +249,9 @@ struct RotationView: View {
             // Widget control
             controlWidgetSheet()
         }
-//        .onOpenURL { newURL in
-//            if let components = URLComponents(url: newURL, resolvingAgainstBaseURL: false),
-//               let queryItem = components.queryItems?.first(where: { $0.name == "userId" }),
-//               let userId = queryItem.value {
-//                Task {
-//                    let selectedWidgetUsers = try await userInfoStore.loadUsersInfoByEmail(userID: [userId])
-//                    
-//                    if selectedWidgetUsers.count > 0 {
-//                        selectedWidgetUser = selectedWidgetUsers.first!
-//                        isTappedWidget = true
-//                        url = URL(string: "")
-//                    }
-//                }
-//            }
-//        }
     }
     
+    // widgetUserID에 따라 Widget control 함수
     func controlWidgetSheet() {
         if let widgetUserID = userInfoStore.widgetUserID {
             if !widgetUserID.isEmpty {

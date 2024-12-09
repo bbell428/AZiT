@@ -21,10 +21,9 @@ struct MyPageView: View {
     @State var friendID: String = ""      // 친구 id 담을 곳
     @State var isLogout: Bool = false // 로그아웃 알럿
     @State var isResign: Bool = false // 회원탈퇴 알럿
-    
     @State private var scale: CGFloat = 0.1
     
-    @Binding var currentIndex: Int // 메인화면으로 돌아가기 위한
+    @Binding var isShowingMyPageView: Bool // MyPageView Control 변수
     
     var body: some View {
         NavigationStack {
@@ -41,9 +40,8 @@ struct MyPageView: View {
                         
                         Button {
                             withAnimation(.easeInOut) {
-                                currentIndex = 1
+                                isShowingMyPageView = false
                             }
-                            //dismiss()
                         } label: {
                             Image(systemName: "chevron.right")
                                 .font(.system(size: 25))
@@ -389,6 +387,17 @@ struct MyPageView: View {
             .navigationBarBackButtonHidden(true)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+        .transition(.move(edge: .leading)) // 왼쪽에서 오른쪽으로 전환
+        .gesture(
+            DragGesture()
+                .onEnded { value in
+                    if value.translation.width < -100 { // 왼쪽으로 스와이프 -> 메인 화면으로 복귀
+                        withAnimation(.easeInOut) {
+                            isShowingMyPageView = false
+                        }
+                    }
+                }
+        )
     }
 }
 

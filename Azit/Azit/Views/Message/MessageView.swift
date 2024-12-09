@@ -14,7 +14,7 @@ struct MessageView: View {
     @EnvironmentObject var chatListStore: ChatListStore
     @Environment(\.dismiss) var dismiss
     @Binding var isShowToast: Bool
-    @Binding var currentIndex: Int // 메인화면으로 돌아가기 위한
+    @Binding var isShowingMessageView: Bool // MessageView Control 변수
     
     var body: some View {
         NavigationStack {
@@ -24,9 +24,8 @@ struct MessageView: View {
                         HStack {
                             Button {
                                 withAnimation(.easeInOut) {
-                                    currentIndex = 1
+                                    isShowingMessageView = false
                                 }
-                                //dismiss()
                             } label: {
                                 Image(systemName: "chevron.left")
                                     .font(.system(size: 25))
@@ -80,6 +79,17 @@ struct MessageView: View {
         .onDisappear {
             chatListStore.removeChatRoomsListener()
         }
+        .transition(.move(edge: .trailing)) // 오른쪽에서 왼쪽으로 전환
+        .gesture(
+            DragGesture()
+                .onEnded { value in
+                    if value.translation.width > 100 { // 오른쪽으로 스와이프 -> 메인 화면으로 복귀
+                        withAnimation(.easeInOut) {
+                            isShowingMessageView = false
+                        }
+                    }
+                }
+        )
     }
 }
 
