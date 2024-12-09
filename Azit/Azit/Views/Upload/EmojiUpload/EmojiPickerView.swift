@@ -10,26 +10,13 @@ import Foundation
 import Kingfisher
 
 public struct EmojiPickerView: View {
-    @Binding public var selectedEmoji: String
-    
     @State private var search: String = ""
-    
-    private var selectedColor: Color
     @State private var searchEnabled: Bool
     
-    public init(selectedEmoji: Binding<String>, searchEnabled: Bool = false, selectedColor: Color = Color.accentColor.opacity(0.5), emojiProvider: any EmojiProvider = DefaultEmojiProvider()) {
-        self._selectedEmoji = selectedEmoji
-        self.selectedColor = selectedColor
-        self.searchEnabled = searchEnabled
-        self.emojis = emojiProvider.getAll()
-    }
+    @Binding public var selectedEmoji: String
     
-    let columns = [
-        GridItem(.adaptive(minimum: 45))
-    ]
-    
+    private var selectedColor: Color
     let emojis: [Emoji]
-    
     private var searchResults: [Emoji] {
         if search.isEmpty {
             return emojis
@@ -37,6 +24,16 @@ public struct EmojiPickerView: View {
             return emojis
                 .filter { $0.name.lowercased().contains(search.lowercased()) }
         }
+    }
+    let columns = [
+        GridItem(.adaptive(minimum: 45))
+    ]
+    
+    public init(selectedEmoji: Binding<String>, searchEnabled: Bool = false, selectedColor: Color = Color.accentColor.opacity(0.5), emojiProvider: any EmojiProvider = DefaultEmojiProvider()) {
+        self._selectedEmoji = selectedEmoji
+        self.selectedColor = selectedColor
+        self.searchEnabled = searchEnabled
+        self.emojis = emojiProvider.getAll()
     }
     
     public var body: some View {
@@ -47,7 +44,6 @@ public struct EmojiPickerView: View {
             LazyVGrid(columns: columns, spacing: 20) {
                 ForEach(searchResults, id: \.self) { emoji in
                     RoundedRectangle(cornerRadius: 15)
-//                        .fill((EmojiManager.getTwemojiURL(for: emoji.code) == emoji.code ? selectedColor : Color.subColor2).opacity(0.3))
                         .fill((selectedEmoji == emoji.name ? selectedColor : Color.subColor2).opacity(0.3))
                         .frame(width: 40, height: 40)
                         .overlay {

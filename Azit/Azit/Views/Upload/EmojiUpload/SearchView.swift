@@ -17,7 +17,7 @@ struct SearchView: View {
     @State private var searchResults: [Emoji] = []
     
     var body: some View {
-        NavigationStack {
+//        NavigationStack {
             VStack {
                 HStack {
                     ZStack {
@@ -28,6 +28,7 @@ struct SearchView: View {
                                         .fill(Color.white)
                                 )
                                 .frame(width: 340, height: 40)
+                        
                         HStack {
                             Image(systemName:"magnifyingglass")
                                 .foregroundStyle(.accent)
@@ -48,10 +49,9 @@ struct SearchView: View {
                         .frame(width: 340, height: 40)
                     }
                 }
-//                .frame(width: 340, height: 40)
             }
-        }
-        .toolbarTitleDisplayMode(.automatic)
+//        }
+//        .toolbarTitleDisplayMode(.automatic)
     }
 }
 
