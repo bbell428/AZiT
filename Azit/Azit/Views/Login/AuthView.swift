@@ -70,6 +70,7 @@ struct AuthView: View {
                                 )
                             }
                         }
+                        // 알림을 클릭 시, 서버에서 받는 값들
                         .onReceive(NotificationCenter.default.publisher(for: .didReceiveNotification)) { notification in
                             if let userInfo = notification.userInfo,
                                let viewType = userInfo["viewType"] as? String,
