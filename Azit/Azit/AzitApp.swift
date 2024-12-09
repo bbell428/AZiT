@@ -140,7 +140,10 @@ struct AzitApp: App {
                         authManager.deepUserID = userID
                         print("QR 코드로부터 받은 User ID:", userID)
                     } else {
-                        self.url = url
+                        if let userID = URLComponents(url: url, resolvingAgainstBaseURL: false)?.host {
+                            userInfoStore.widgetUserID = userID
+                            print("위젯으로부터 받은 User ID:", userID)
+                        }
                     }
                 }
         }

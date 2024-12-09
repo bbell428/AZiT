@@ -18,6 +18,7 @@ class UserInfoStore: ObservableObject {
     @Published var friendInfo: [String: UserInfo] = [:] // UID를 키로 사용하는 딕셔너리 형태
     @Published var friendInfos: [UserInfo] = []
     @Published var blockedFriends: [UserInfo] = []
+    @Published var widgetUserID: String? = nil
     
     // MARK: - 사용자 정보 Firestore에 추가
     func addUserInfo(_ user: UserInfo) async {

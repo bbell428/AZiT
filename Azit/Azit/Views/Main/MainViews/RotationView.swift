@@ -170,6 +170,9 @@ struct RotationView: View {
                     isShowInvaitaion = true
                 }
                 
+                // Widget control
+                controlWidgetSheet()
+                
                 // 사용자 본인의 정보 받아오기
                 await userInfoStore.loadUserInfo(userID: authManager.userID)
                 
@@ -244,18 +247,38 @@ struct RotationView: View {
                 
             }
         }
-        .onOpenURL { newURL in
-            if let components = URLComponents(url: newURL, resolvingAgainstBaseURL: false),
-               let queryItem = components.queryItems?.first(where: { $0.name == "userId" }),
-               let userId = queryItem.value {
+        .onChange(of: userInfoStore.widgetUserID) {
+            // Widget control
+            controlWidgetSheet()
+        }
+//        .onOpenURL { newURL in
+//            if let components = URLComponents(url: newURL, resolvingAgainstBaseURL: false),
+//               let queryItem = components.queryItems?.first(where: { $0.name == "userId" }),
+//               let userId = queryItem.value {
+//                Task {
+//                    let selectedWidgetUsers = try await userInfoStore.loadUsersInfoByEmail(userID: [userId])
+//                    
+//                    if selectedWidgetUsers.count > 0 {
+//                        selectedWidgetUser = selectedWidgetUsers.first!
+//                        isTappedWidget = true
+//                        url = URL(string: "")
+//                    }
+//                }
+//            }
+//        }
+    }
+    
+    func controlWidgetSheet() {
+        if let widgetUserID = userInfoStore.widgetUserID {
+            if !widgetUserID.isEmpty {
                 Task {
-                    let selectedWidgetUsers = try await userInfoStore.loadUsersInfoByEmail(userID: [userId])
+                    let tempUser = try await userInfoStore.getUserInfoById(id: widgetUserID)
                     
-                    if selectedWidgetUsers.count > 0 {
-                        selectedWidgetUser = selectedWidgetUsers.first!
-                        isTappedWidget = true
-                        url = URL(string: "")
-                    }
+                    selectedWidgetUser = tempUser
+                    
+                    isTappedWidget = true
+                    
+                    userInfoStore.widgetUserID = ""
                 }
             }
         }
