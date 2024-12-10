@@ -11,7 +11,7 @@ struct MainTopView: View {
     private let screenBounds = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds
     
     @Binding var isMainExposed: Bool // 메인 화면인지 맵 화면인지
-    @Binding var isShowToast: Bool
+    @Binding var isSendFriendStoryToast: Bool // 상대방 게시물에 메시지를 전송했는가? (Toast Message)
     
     var body: some View {
         VStack {
@@ -52,7 +52,7 @@ struct MainTopView: View {
 //                        }
                         
                         NavigationLink {
-                            AlbumView(isShowToast: $isShowToast)
+                            AlbumView(isSendFriendStoryToast: $isSendFriendStoryToast)
                         } label: {
                             Image(systemName: "photo.stack")
                                 .resizable()

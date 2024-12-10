@@ -13,91 +13,51 @@ struct MessageView: View {
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var chatListStore: ChatListStore
     @Environment(\.dismiss) var dismiss
-    @Binding var isShowToast: Bool
-    @Binding var isShowingMessageView: Bool // MessageView Control 변수
+    @Binding var isSendFriendStoryToast: Bool // 상대방 게시물에 메시지를 전송했는가? (Toast Message)
+    @Binding var currentIndex: Int // 메인화면으로 돌아가기 위한
     
     var body: some View {
         NavigationStack {
-                VStack {
-                    ZStack(alignment: .top) {
-                        // 상단바
-                        HStack {
-                            Button {
-                                withAnimation(.easeInOut) {
-                                    isShowingMessageView = false
-                                }
-                            } label: {
-                                Image(systemName: "chevron.left")
-                                    .font(.system(size: 25))
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                            }
-                            .padding(.horizontal, 30)
-
-                            // 가운데 텍스트 영역
-                            Text("Messages")
-                                .font(.title3)
+            VStack {
+                ZStack(alignment: .top) {
+                    // MARK: 상단바
+                    MessageListTopBarView(currentIndex: $currentIndex)
+                    
+                    // 만약, 생성된 채팅방 리스트가 없다면?
+                    if chatListStore.chatRoomList.isEmpty {
+                        VStack(alignment: .center) {
+                            Spacer()
+                            Image(systemName: "ellipsis.message.fill")
+                                .font(.system(size: 30))
+                                .foregroundStyle(Color.gray)
+                                .padding(.bottom, 10)
+                            Text("친구 스토리에 답장을 하면 채팅방이 생성됩니다.")
+                                .font(.subheadline)
                                 .fontWeight(.bold)
-                                .frame(maxWidth: .infinity, alignment: .center)
-                            
-                            Color.clear
-                                .frame(maxWidth: .infinity)
+                                .foregroundStyle(Color.gray)
+                            Spacer()  // 아래쪽 Spacer
                         }
-                            .frame(height: 70)
-                        
-                        if chatListStore.chatRoomList.isEmpty {
-                            VStack(alignment: .center) {
-                                Spacer()  // 위쪽 Spacer
-                                Image(systemName: "ellipsis.message.fill")
-                                    .font(.system(size: 30))
-                                    .foregroundStyle(Color.gray)
-                                    .padding(.bottom, 10)
-                                Text("친구 스토리에 답장을 하면 채팅방이 생성됩니다.")
-                                    .font(.subheadline)
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(Color.gray)
-                                Spacer()  // 아래쪽 Spacer
-                            }
+                        .padding(.top, 70)
+                        .frame(maxHeight: .infinity)
+                        // 생성된 채팅방 리스트가 1개 이상 존재
+                    } else {
+                        // MARK: 채팅방 리스트
+                        ChatRoomListView(isSendFriendStoryToast: $isSendFriendStoryToast)
                             .padding(.top, 70)
-                            .frame(maxHeight: .infinity)  // 화면 중앙에 오도록 설정
-                        } else {
-                            ChatRoomListView(isShowToast: $isShowToast) // 메시지 목록
-                                .padding(.top, 70)
-                                .frame(maxHeight: .infinity)
-                                .refreshable {
-                                    // 메시지 새로 고침 로직
-                                }
-                        }
+                            .frame(maxHeight: .infinity)
                     }
+                }
             }
         }
         .navigationBarBackButtonHidden(true)
-        .onAppear {
-            Task {
-                chatListStore.fetchChatRooms(userId: userInfoStore.userInfo?.id ?? "")
-            }
-        }
-        .onDisappear {
-            chatListStore.removeChatRoomsListener()
-        }
-        .transition(.move(edge: .trailing)) // 오른쪽에서 왼쪽으로 전환
-        .gesture(
-            DragGesture()
-                .onEnded { value in
-                    if value.translation.width > 100 { // 오른쪽으로 스와이프 -> 메인 화면으로 복귀
-                        withAnimation(.easeInOut) {
-                            isShowingMessageView = false
-                        }
-                    }
-                }
-        )
+/// 메인화면에서 호출중으로, 메시지 View에서 추가적으로 호출하지 않음.
+//        .onAppear {
+//            Task {
+//                chatListStore.fetchChatRooms(userId: userInfoStore.userInfo?.id ?? "")
+//            }
+//        }
+//        .onDisappear {
+//            chatListStore.removeChatRoomsListener()
+//        }
     }
 }
-
-//#Preview {
-//    NavigationStack {
-//        MessageView()
-//            .environmentObject(ChatListStore())
-//            .environmentObject(AuthManager())
-//            .environmentObject(UserInfoStore())
-//    }
-//}

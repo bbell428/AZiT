@@ -33,7 +33,7 @@ struct AlbumView: View {
     @State var selectedIndex: Int = 0
     @State var selectedAlbum: Story?
     
-    @Binding var isShowToast: Bool
+    @Binding var isSendFriendStoryToast: Bool
     
     // 계산형 프로퍼티로 리스트 생성
     private var friendList: [String] {
@@ -91,7 +91,7 @@ struct AlbumView: View {
                     
                     // 스토리 클릭시, 상세 정보
                     if isFriendsContentModalPresented {
-                        AlbumDetailView(isFriendsContentModalPresented: $isFriendsContentModalPresented, message: $message, selectedIndex: $selectedIndex, isShowToast: $isShowToast, selectedAlbum: selectedAlbum, list: combinedFriendList)
+                        AlbumDetailView(isFriendsContentModalPresented: $isFriendsContentModalPresented, message: $message, selectedIndex: $selectedIndex, isSendFriendStoryToast: $isSendFriendStoryToast, selectedAlbum: selectedAlbum, list: combinedFriendList)
                             .zIndex(7)
                     }
                     

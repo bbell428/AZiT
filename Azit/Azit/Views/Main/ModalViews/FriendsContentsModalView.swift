@@ -43,7 +43,7 @@ struct FriendsContentsModalView: View {
     
     @Binding var message: String
     var selectedUserInfo: UserInfo
-    @Binding var isShowToast: Bool
+    @Binding var isSendFriendStoryToast: Bool // 상대방의 게시물을 open 했는가?
     
     @State var story: Story? = nil
     @State private var isLiked: Bool = false
@@ -195,7 +195,7 @@ struct FriendsContentsModalView: View {
             )
             print("메시지 전송에 성공했습니다!")
             message = ""
-            isShowToast.toggle()
+            isSendFriendStoryToast.toggle()
         }
     }
 }

@@ -33,7 +33,7 @@ struct StoryContentsView: View {
                     ProgressView()
                         .frame(height: 200)
                 } else {
-                    PlaceholderView()
+                    LoadFailView()
                 }
             } else if !story.emoji.isEmpty {
                 if !story.content.isEmpty {

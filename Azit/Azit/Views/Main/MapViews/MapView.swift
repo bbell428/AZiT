@@ -18,7 +18,7 @@ struct MapView: View {
     @Binding var isFriendsModalPresented: Bool
     @Binding var isDisplayEmojiPicker: Bool
     @Binding var isPassed24Hours: Bool
-    @Binding var isShowToast: Bool
+    @Binding var isSendFriendStoryToast: Bool // 상대방 게시물에 메시지를 전송했는가? (Toast Message)
     @Binding var isAnimatingForStroke: Bool // 글이 써졌는지 확인 후 애니메이션을 위함
     
     @State private var region = MKCoordinateRegion()
@@ -75,7 +75,7 @@ struct MapView: View {
                                     users: $users,
                                     message: $message,
                                     selectedIndex: $selectedIndex,
-                                    isShowToast: $isShowToast)
+                                    isSendFriendStoryToast: $isSendFriendStoryToast)
         }
         .ignoresSafeArea()
         .onAppear {

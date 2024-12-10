@@ -16,7 +16,7 @@ struct AlbumDetailView: View {
     @Binding var isFriendsContentModalPresented: Bool
     @Binding var message: String
     @Binding var selectedIndex: Int
-    @Binding var isShowToast: Bool
+    @Binding var isSendFriendStoryToast: Bool
     var selectedAlbum: Story?
     var list: [UserInfo]
     
@@ -34,7 +34,7 @@ struct AlbumDetailView: View {
                 FriendsContentsModalView(
                     message: $message,
                     selectedUserInfo: matchingUserInfo,
-                    isShowToast: $isShowToast,
+                    isSendFriendStoryToast: $isSendFriendStoryToast,
                     story: selectedAlbum
                 )
                 .zIndex(2)

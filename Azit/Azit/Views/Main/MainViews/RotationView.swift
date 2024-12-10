@@ -19,7 +19,7 @@ struct RotationView: View {
     @Binding var isFriendsModalPresented: Bool // 친구의 모달 컨트롤
     @Binding var isDisplayEmojiPicker: Bool  // 사용자 자신의 게시글 작성 모달 컨트롤
     @Binding var isPassed24Hours: Bool // 사용자 자신의 게시글 작성 후 24시간에 대한 판별 여부
-    @Binding var isShowToast: Bool
+    @Binding var isSendFriendStoryToast: Bool // 상대방 게시물에 메시지를 전송했는가? (Toast Message)
     @Binding var isTappedWidget: Bool // 위젯이 클릭 되었는지 확인
     @Binding var isAnimatingForStroke: Bool // 글이 써졌는지 확인 후 애니메이션을 위함
     
@@ -124,7 +124,7 @@ struct RotationView: View {
                                     users: $sortedUsers,
                                     message: $message,
                                     selectedIndex: $selectedIndex,
-                                    isShowToast: $isShowToast)
+                                    isSendFriendStoryToast: $isSendFriendStoryToast)
             
             
             if isTappedWidget {
@@ -135,7 +135,7 @@ struct RotationView: View {
                     }
                     .zIndex(2)
                 
-                FriendsContentsModalView(message: $message, selectedUserInfo: selectedWidgetUser!, isShowToast: $isShowToast)
+                FriendsContentsModalView(message: $message, selectedUserInfo: selectedWidgetUser!, isSendFriendStoryToast: $isSendFriendStoryToast)
                     .zIndex(3)
             }
             

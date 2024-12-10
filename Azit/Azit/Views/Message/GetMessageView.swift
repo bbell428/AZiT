@@ -4,26 +4,28 @@ import FirebaseFirestore
 import FirebaseStorage
 import Kingfisher
 
+// 받은 메시지
 struct GetMessage: View {
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var albumStore: AlbumStore
-    var chat: Chat
-    var profileImageName: String // 상대방 프로필 아이콘
     
-    @State private var shareStory: Story?
-    @State private var isLoading: Bool = false
-    @State private var errorMessage: String?
-    @State private var image: UIImage?
-    @State private var isLoadingImage: Bool = true
-    @State private var loadFailed: Bool = false
+    @State private var isLoadingStory: Bool = false // 스토리를 불러오는중인가?
+    @State private var isLoadingImage: Bool = true // 이미지를 불러오는중인가?
+    @State private var isLoadFailed: Bool = false // 불러오는데 실패했는가?
     
-    @Binding var isFriendsContentModalPresented: Bool
-    @Binding var selectedAlbum: Story?
+    @State private var shareStory: Story? // 메시지 형태 : 스토리
+    @State private var errorMessage: String? // 불러오는데 실패한 오류 내용
+    @State private var image: UIImage? // 스토리 이미지
+    
+    @Binding var isFriendsContentModalPresented: Bool // 스토리를 open 했는가?
+    @Binding var selectedAlbum: Story? // 친구 스토리
     
     @Binding var isSelectedImage: Bool // 이미지를 선택했을때
     @Binding var selectedImage: UIImage? // 선택된 이미지
     
+    var chat: Chat // 채팅
+    var profileImageName: String // 상대방 프로필 아이콘
     let emojiManager = EmojiManager()
     
     var body: some View {
@@ -35,8 +37,8 @@ struct GetMessage: View {
             // 받은 메시지 내용
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 5) {
+                    // 메시지 타입이 "Story" 라면
                     if let story = shareStory {
-                        // Story가 존재하는 경우
                         HStack(spacing: 0) {
                             Text("\(userInfoStore.userInfo!.nickname)")
                                 .font(.caption2)
@@ -46,9 +48,6 @@ struct GetMessage: View {
                                 .font(.caption2)
                                 .fontWeight(.light)
                         }
-                        //.padding(5)
-                        //.background(.accent.opacity(0.1))
-                        //.cornerRadius(15)
                         
                         HStack {
                             Rectangle()
@@ -57,10 +56,11 @@ struct GetMessage: View {
                                 .foregroundStyle(Color.gray.opacity(0.07))
                             
                             Button {
-                                isFriendsContentModalPresented = true
-                                selectedAlbum = story
+                                isFriendsContentModalPresented = true // 스토리 open
+                                selectedAlbum = story // 선택된 스토리 내용
                             } label: {
                                 VStack {
+                                    // 선택된 스토리에 Image가 포함되어 있다면
                                     if !story.image.isEmpty {
                                         if let image = image {
                                             Image(uiImage: image)
@@ -68,21 +68,25 @@ struct GetMessage: View {
                                                 .aspectRatio(3/4, contentMode: .fit)
                                                 .frame(width: 90, height: 120)
                                                 .cornerRadius(15)
+                                            // 이미지를 불러오는중이라면 progressView
                                         } else if isLoadingImage {
                                             ProgressView()
                                                 .frame(width: 90, height: 120)
+                                            // 로드 실패 시 대체 뷰
                                         } else {
-                                            PlaceholderView() // 로드 실패 시 대체 뷰
+                                            LoadFailView()
                                         }
+                                        // 선택된 스토리에 이모지 & 텍스트만 있다면
                                     } else {
-                                        // 이모지와 텍스트만 표시
                                         VStack {
                                             Spacer()
+                                            // 텍스트가 존재한다면
                                             if !story.content.isEmpty {
                                                 SpeechBubbleView(text: story.content)
                                                     .font(.caption)
                                                     .padding(.bottom, 5)
                                             }
+                                            // 이모지가 존재한다면
                                             if let codepoints = emojiManager.getCodepoints(forName: story.emoji) {
                                                 KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
                                                     .resizable()
@@ -102,10 +106,12 @@ struct GetMessage: View {
                                 }
                             }
                         }
-                    } else if isLoading {
+                        // 스토리를 불러오는중이라면
+                    } else if isLoadingStory {
                         Text("Loading story...")
                             .font(.caption)
                             .foregroundStyle(Color.gray)
+                        // 스토리를 불러오는중에 에러가 발생했다면
                     } else if let errorMessage = errorMessage {
                         Text(errorMessage)
                             .font(.caption)
@@ -114,7 +120,7 @@ struct GetMessage: View {
                     
                     HStack(alignment: .bottom) {
                         VStack(alignment: .leading) {
-                            // Check if chat has an uploaded image and load it if available
+                            // 메시지 타입이 "UploadImage" 라면
                             if let uploadImage = chat.uploadImage, !uploadImage.isEmpty {
                                 if let loadedImage = image {
                                     Button {
@@ -127,12 +133,15 @@ struct GetMessage: View {
                                             .frame(width: 180, height: 240)
                                             .cornerRadius(15)
                                     }
+                                    // 이미지를 불러오는중이라면
                                 } else if isLoadingImage {
                                     ProgressView()
                                         .frame(width: 90, height: 120)
+                                    // 이미지 불러오는중에 에러가 발생했다면
                                 } else {
-                                    PlaceholderView() // Placeholder if the image load fails
+                                    LoadFailView()
                                 }
+                                // 메시지 타입이 "Text" 라면
                             } else {
                                 Text(chat.message)
                                     .font(.subheadline)
@@ -147,12 +156,15 @@ struct GetMessage: View {
                             }
                         }
                         
+                        // 읽음/미읽음 처리
                         if !chat.readBy.contains(where: { $0 != authManager.userID }) {
                             Text("1")
                                 .font(.caption2)
                                 .fontWeight(.bold)
                                 .foregroundStyle(Color.green)
                         }
+                        
+                        // 메시지를 보낸 시간
                         Text(chat.formattedCreateAt)
                             .font(.caption2)
                             .foregroundStyle(Color.gray)
@@ -165,7 +177,7 @@ struct GetMessage: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .onAppear {
-            loadStoryAndImage()
+            loadStoryAndImage() // 스토리와 이미지 불러오기
         }
     }
     
@@ -174,7 +186,7 @@ struct GetMessage: View {
         Task {
             // 1. 스토리 로드
             if let storyId = chat.storyId, !storyId.isEmpty {
-                isLoading = true
+                isLoadingStory = true
                 errorMessage = nil
                 
                 do {
@@ -189,7 +201,7 @@ struct GetMessage: View {
                     errorMessage = "Failed to load story: \(error.localizedDescription)"
                 }
                 
-                isLoading = false
+                isLoadingStory = false
             }
             
             // 2. chat.uploadImage 로드
@@ -238,7 +250,7 @@ struct GetMessage: View {
     // Firebase Storage에서 이미지를 비동기적으로 가져오기
     private func loadImage(imageStoreID: String) async {
         isLoadingImage = true
-        loadFailed = false
+        isLoadFailed = false
 
         // 캐시 확인
         if let cachedImage = albumStore.cacheImages[imageStoreID] {
@@ -258,7 +270,7 @@ struct GetMessage: View {
                 albumStore.cacheImages[imageStoreID] = downloadedImage
             }
         } catch {
-            loadFailed = true
+            isLoadFailed = true
             print("이미지 로드 실패: \(error.localizedDescription)")
         }
 
