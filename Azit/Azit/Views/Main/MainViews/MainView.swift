@@ -34,7 +34,11 @@ struct MainView: View {
     @State private var isAnimatingForStroke = false // 글이 써졌는지 확인 후 애니메이션을 위함
     
     @Binding var url: URL?
-    
+    @State private var navigateToChatDetail = false
+    @State private var chatRoomId: String?
+    @State private var profileImageFriend: String?
+    @State private var nicknameFriend: String?
+
     var body: some View {
         NavigationStack() {
             ZStack {
@@ -62,8 +66,8 @@ struct MainView: View {
                     .zIndex(1)
             }
             // 알림 클릭 시, 해당 뷰로 이동
-            .navigationDestination(isPresented: Binding(\.navigateToChatDetail, on: FriendsStore.shared)) {
-                if let roomId = FriendsStore.shared.chatRoomId {
+            .navigationDestination(isPresented: $navigateToChatDetail) {
+                if let roomId = chatRoomId {
                     MessageDetailView(
                         friend: UserInfo(
                             id: roomId,
@@ -78,12 +82,42 @@ struct MainView: View {
                             fcmToken: ""
                         ),
                         roomId: roomId,
-                        nickname: FriendsStore.shared.nicknameFriend ?? "",
+                        nickname: nicknameFriend ?? "",
                         userId: roomId,
-                        profileImageName: FriendsStore.shared.profileImageFriend ?? "",
+                        profileImageName: profileImageFriend ?? "",
                         isShowToast: .constant(false)
                     )
                 }
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .didReceiveNotification)) { notification in
+                if let userInfo = notification.userInfo,
+                   let viewType = userInfo["viewType"] as? String,
+                   let friendNickname = userInfo["friendNickname"] as? String,
+                   let friendProfileImage = userInfo["friendProfileImage"] as? String,
+                   let chatId = userInfo["chatId"] as? String,
+                   
+                   viewType == "chatDetail" {
+                    self.nicknameFriend = friendNickname
+                    self.profileImageFriend = friendProfileImage
+                    self.chatRoomId = chatId
+                    self.navigateToChatDetail = true
+                }
+            }
+            .onAppear {
+                if ((FriendsStore.shared.nicknameFriend?.isEmpty) != nil) {
+                    self.navigateToChatDetail = FriendsStore.shared.navigateToChatDetail
+                    self.nicknameFriend = FriendsStore.shared.nicknameFriend
+                    self.profileImageFriend = FriendsStore.shared.profileImageFriend
+                    self.chatRoomId = FriendsStore.shared.chatRoomId
+                }
+                
+//                FriendsStore.shared.navigateToChatDetail = false
+//                FriendsStore.shared.nicknameFriend = nil
+//                FriendsStore.shared.profileImageFriend = nil
+//                FriendsStore.shared.chatRoomId = nil
+                
+                print("존나 모르 겠어:\(FriendsStore.shared.nicknameFriend ?? "")")
+                print("존나 모르 겠어:\(navigateToChatDetail)")
             }
             
 //            .navigationDestination(isPresented: $isRightToLeftSwipe) {
