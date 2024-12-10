@@ -14,14 +14,14 @@ struct MessageView: View {
     @EnvironmentObject var chatListStore: ChatListStore
     @Environment(\.dismiss) var dismiss
     @Binding var isSendFriendStoryToast: Bool // 상대방 게시물에 메시지를 전송했는가? (Toast Message)
-    @Binding var currentIndex: Int // 메인화면으로 돌아가기 위한
+    @Binding var isShowingMessageView: Bool
     
     var body: some View {
         NavigationStack {
             VStack {
                 ZStack(alignment: .top) {
                     // MARK: 상단바
-                    MessageListTopBarView(currentIndex: $currentIndex)
+                    MessageListTopBarView(isShowingMessageView: $isShowingMessageView)
                     
                     // 만약, 생성된 채팅방 리스트가 없다면?
                     if chatListStore.chatRoomList.isEmpty {
@@ -49,6 +49,17 @@ struct MessageView: View {
                 }
             }
         }
+        .transition(.move(edge: .trailing))
+        .gesture(
+            DragGesture()
+                .onEnded { value in
+                    if value.translation.width > 100 {
+                        withAnimation(.easeInOut) {
+                            isShowingMessageView = false
+                        }
+                    }
+                }
+        )
         .navigationBarBackButtonHidden(true)
 /// 메인화면에서 호출중으로, 메시지 View에서 추가적으로 호출하지 않음.
 //        .onAppear {

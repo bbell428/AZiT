@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct MessageListTopBarView: View {
-    @Binding var currentIndex: Int // 메인화면으로 돌아가기 위한
+    @Binding var isShowingMessageView: Bool
     
     var body: some View {
         HStack(alignment: .center) {
             Button {
                 withAnimation(.easeInOut) {
-                    currentIndex = 1
+                    isShowingMessageView = false
                 }
             } label: {
                 Image(systemName: "chevron.left")
