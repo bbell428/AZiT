@@ -31,11 +31,14 @@ struct MainView: View {
     @State private var isTappedWidget = false // 위젯이 클릭 되었는지 확인
     @State private var isAnimatingForStroke = false // 글이 써졌는지 확인 후 애니메이션을 위함
     
-//    @State private var isRightToLeftSwipe = false // 오른쪽에서 왼쪽 스와이프 여부
-//    @State private var isLeftToRightSwipe = false // 왼쪽에서 오른쪽 스와이프 여부
     @State private var isShowingMessageView = false
     @State private var isShowingMyPageView = false
     @State private var offset: CGFloat = 0.0 // 스와이프 감지를 위한 값
+    
+    @State private var navigateToChatDetail = false
+    @State private var chatRoomId: String?
+    @State private var profileImageFriend: String?
+    @State private var nicknameFriend: String?
     
     var body: some View {
         if !isShowingMessageView && !isShowingMyPageView {
@@ -113,8 +116,60 @@ struct MainView: View {
                 AlertToast(displayMode: .banner(.pop), type: .systemImage("envelope.open", Color.white), title: "전송 완료", style: .style(backgroundColor: .subColor1, titleColor: Color.white))
             })
             
-    //        .gesture (
-    //            DragGesture()
+            .navigationDestination(isPresented: $navigateToChatDetail) {
+                if let roomId = chatRoomId {
+                    MessageDetailView(
+                        friend: UserInfo(
+                            id: roomId,
+                            email: "", // Replace with actual data
+                            nickname: "", // Replace with actual data
+                            profileImageName: "", // Default profile image
+                            previousState: "",
+                            friends: [],
+                            latitude: 0.0,
+                            longitude: 0.0,
+                            blockedFriends: [],
+                            fcmToken: ""
+                        ),
+                        roomId: roomId,
+                        nickname: nicknameFriend ?? "",
+                        userId: roomId,
+                        profileImageName: profileImageFriend ?? "",
+                        isShowToast: .constant(false)
+                    )
+                }
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .didReceiveNotification)) { notification in
+                if let userInfo = notification.userInfo,
+                   let viewType = userInfo["viewType"] as? String,
+                   let friendNickname = userInfo["friendNickname"] as? String,
+                   let friendProfileImage = userInfo["friendProfileImage"] as? String,
+                   let chatId = userInfo["chatId"] as? String,
+                   
+                   viewType == "chatDetail" {
+                    self.nicknameFriend = friendNickname
+                    self.profileImageFriend = friendProfileImage
+                    self.chatRoomId = chatId
+                    self.navigateToChatDetail = true
+                }
+            }
+            .onAppear {
+                if ((FriendsStore.shared.nicknameFriend?.isEmpty) != nil) {
+                    self.navigateToChatDetail = FriendsStore.shared.navigateToChatDetail
+                    self.nicknameFriend = FriendsStore.shared.nicknameFriend
+                    self.profileImageFriend = FriendsStore.shared.profileImageFriend
+                    self.chatRoomId = FriendsStore.shared.chatRoomId
+                }
+                
+//                FriendsStore.shared.navigateToChatDetail = false
+//                FriendsStore.shared.nicknameFriend = nil
+//                FriendsStore.shared.profileImageFriend = nil
+//                FriendsStore.shared.chatRoomId = nil
+                
+                print("존나 모르 겠어:\(FriendsStore.shared.nicknameFriend ?? "")")
+                print("존나 모르 겠어:\(navigateToChatDetail)")
+            }
+            
     //                .onEnded { value in
     //                    if value.translation.width < -50 { // 왼쪽으로 드래그
     //                        isRightToLeftSwipe = true

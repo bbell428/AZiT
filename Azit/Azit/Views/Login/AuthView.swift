@@ -35,8 +35,7 @@ struct AuthView: View {
                             // 로그인 후, 해당 디바이스로 UserInfo에 토큰 저장
                             await userInfoStore.updateFCMToken(authManager.userID, fcmToken: targetToken)
                             
-                            // 로그인 후, 메시지 개수 알림 배지로 표시
-                            await sendNotificationToServer(myNickname: "", message: "", fcmToken: userInfoStore.userInfo?.fcmToken ?? "", badge: userInfoStore.sumIntegerValuesContainingUserID(userID: authManager.userID))
+                            await sendNotificationToServer(myNickname: "", message: "", fcmToken: userInfoStore.userInfo?.fcmToken ?? "", badge: userInfoStore.sumIntegerValuesContainingUserID(userID: authManager.userID), friendUserInfo: UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0, longitude: 0, blockedFriends: [], fcmToken: ""), chatId: "", viewType: "chatDetail")
                             
                             // 위치 권한 허용 check
                             locationManager.checkAuthorization()

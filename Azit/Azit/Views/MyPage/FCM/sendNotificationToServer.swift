@@ -8,7 +8,7 @@
 import Foundation
 
 //MARK: 서버로 메시지 알림 전송 (제목, 메시지, 토큰, 배지) & 공백으로 제목, 메시지 보낼 시 배지 업데이트
-func sendNotificationToServer(myNickname: String, message: String, fcmToken: String, badge: Int) {
+func sendNotificationToServer(myNickname: String, message: String, fcmToken: String, badge: Int, friendUserInfo: UserInfo, chatId: String, viewType: String) {
     // Node.js 서버 URL
     let url = URL(string: "https://deafening-delinda-bbell428-f7f2eaff.koyeb.app/send-notification")!
     
@@ -19,10 +19,14 @@ func sendNotificationToServer(myNickname: String, message: String, fcmToken: Str
     
     // 요청 본문 설정
     let payload: [String: Any] = [
-        "title": myNickname,
-        "body": message,
-        "token": fcmToken,
-        "badge": badge // 서버로 전달할 배지 값
+        "title": myNickname, // 자기 닉네임
+        "body": message,  // 보낼 메시지 내용
+        "token": fcmToken, // 상대방 토큰값
+        "badge": badge, // 서버로 전달할 배지 값
+        "friendNickname": friendUserInfo.nickname,
+        "friendProfileImage": friendUserInfo.profileImageName,
+        "chatId": chatId,
+        "viewType": viewType
     ]
     request.httpBody = try? JSONSerialization.data(withJSONObject: payload, options: [])
     

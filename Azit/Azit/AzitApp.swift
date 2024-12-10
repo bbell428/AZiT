@@ -77,7 +77,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     }
 }
 
-// 앱이 포그라운드(실행 중) 상태일 때 푸시 알림이 도착했을 경우
+// 푸시 알림이 도착했을 경우
 extension AppDelegate: UNUserNotificationCenterDelegate {
     // foreground 상에서 알림이 보이게끔 해준다.
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
@@ -88,6 +88,41 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         
         completionHandler([.banner, .sound, .badge])
     }
+    
+    // background 알림을 클릭했을 때 전달받는 값, 백그라운드
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        let userInfo = response.notification.request.content.userInfo
+        
+        // 데이터 파싱
+        if let viewType = userInfo["viewType"] as? String,
+           let friendNickname = userInfo["friendNickname"] as? String,
+           let friendProfileImage = userInfo["friendProfileImage"] as? String,
+           let chatId = userInfo["chatId"] as? String {
+            
+            // 알림 데이터를 NotificationCenter로 전달
+            NotificationCenter.default.post(
+                name: .didReceiveNotification,
+                object: nil,
+                userInfo: ["viewType": viewType, "friendNickname": friendNickname, "friendProfileImage": friendProfileImage, "chatId": chatId]
+            )
+            
+            // 백그라운드에서 알림 클릭 시, 받아오는 값을 변수에 할당
+            DispatchQueue.main.async {
+                FriendsStore.shared.nicknameFriend = friendNickname
+                FriendsStore.shared.profileImageFriend = friendProfileImage
+                FriendsStore.shared.chatRoomId = chatId
+                FriendsStore.shared.navigateToChatDetail = true
+            }
+        } else {
+            print("Missing keys in notification payload")
+        }
+        completionHandler()
+    }
+}
+
+extension Notification.Name {
+    static let didReceiveNotification = Notification.Name("didReceiveNotification")
 }
 
 // 파이어베이스 MessagingDelegate 설정
@@ -134,7 +169,6 @@ struct AzitApp: App {
                 .environmentObject(albumStore)
                 .environmentObject(cameraService)
                 .environmentObject(editPhotoStore)
-                .environmentObject(friendsStore)
                 .onOpenURL { url in
                     if url.scheme == "azit", let userID = URLComponents(url: url, resolvingAgainstBaseURL: false)?.host {
                         authManager.deepUserID = userID
