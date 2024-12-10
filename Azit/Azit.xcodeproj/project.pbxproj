@@ -26,7 +26,7 @@
 		8BD71F802CD89A8C0030693B /* CameraPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F7F2CD89A860030693B /* CameraPreview.swift */; };
 		8BD71F822CD89AC20030693B /* CameraService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F812CD89ABD0030693B /* CameraService.swift */; };
 		8BD71F842CD89AEA0030693B /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F832CD89AE90030693B /* PhotoPicker.swift */; };
-		8BD71F882CD8C6300030693B /* PhotoReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F872CD8C62B0030693B /* PhotoReviewView.swift */; };
+		8BD71F882CD8C6300030693B /* UploadPhotoStoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD71F872CD8C62B0030693B /* UploadPhotoStoryView.swift */; };
 		8BDA11D52CDA769C004242DB /* EmojiPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDA11D42CDA7696004242DB /* EmojiPickerView.swift */; };
 		8BE42D402CF0B8B900AB21F4 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE42D3F2CF0B8B600AB21F4 /* BlurView.swift */; };
 		8BE42D422CF0B8C300AB21F4 /* BlurView.swift in Resources */ = {isa = PBXBuildFile; fileRef = 8BE42D412CF0B8C300AB21F4 /* BlurView.swift */; };
@@ -98,6 +98,7 @@
 		8EE014732CE5D4DB003151F8 /* StoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFF00E2CD4A31300136348 /* StoryStore.swift */; };
 		8EE014752CE5D6C9003151F8 /* AlbumStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDFC2ED2CE2EAB0008C215A /* AlbumStore.swift */; };
 		8EE014762CE5D830003151F8 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFF0172CD4A36B00136348 /* AuthManager.swift */; };
+		A7013EC02D0606E900AF0A43 /* EmojiTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7013EBF2D0606C500AF0A43 /* EmojiTopView.swift */; };
 		CE062B9E2CD8DB8100CB5D4A /* ChatDetailViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062B9D2CD8DB8100CB5D4A /* ChatDetailViewStore.swift */; };
 		CE062BAC2CD91E2B00CB5D4A /* PostMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062BAB2CD91E2500CB5D4A /* PostMessageView.swift */; };
 		CE062BAE2CD91E6C00CB5D4A /* GetMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062BAD2CD91E6600CB5D4A /* GetMessageView.swift */; };
@@ -207,7 +208,7 @@
 		8BD71F7F2CD89A860030693B /* CameraPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreview.swift; sourceTree = "<group>"; };
 		8BD71F812CD89ABD0030693B /* CameraService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraService.swift; sourceTree = "<group>"; };
 		8BD71F832CD89AE90030693B /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
-		8BD71F872CD8C62B0030693B /* PhotoReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoReviewView.swift; sourceTree = "<group>"; };
+		8BD71F872CD8C62B0030693B /* UploadPhotoStoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPhotoStoryView.swift; sourceTree = "<group>"; };
 		8BDA11D42CDA7696004242DB /* EmojiPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiPickerView.swift; sourceTree = "<group>"; };
 		8BE42D3F2CF0B8B600AB21F4 /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		8BE42D412CF0B8C300AB21F4 /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
@@ -251,6 +252,7 @@
 		8EE014402CE5D33D003151F8 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		8EE014422CE5D33D003151F8 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		8EE014742CE5D4EE003151F8 /* AzitWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AzitWidgetExtension.entitlements; sourceTree = "<group>"; };
+		A7013EBF2D0606C500AF0A43 /* EmojiTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiTopView.swift; sourceTree = "<group>"; };
 		CE062B9D2CD8DB8100CB5D4A /* ChatDetailViewStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailViewStore.swift; sourceTree = "<group>"; };
 		CE062BAB2CD91E2500CB5D4A /* PostMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMessageView.swift; sourceTree = "<group>"; };
 		CE062BAD2CD91E6600CB5D4A /* GetMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMessageView.swift; sourceTree = "<group>"; };
@@ -434,7 +436,7 @@
 				8BD71F7D2CD4BB1A0030693B /* TakePhotoView.swift */,
 				8BD71F7F2CD89A860030693B /* CameraPreview.swift */,
 				8BD71F832CD89AE90030693B /* PhotoPicker.swift */,
-				8BD71F872CD8C62B0030693B /* PhotoReviewView.swift */,
+				8BD71F872CD8C62B0030693B /* UploadPhotoStoryView.swift */,
 				CE8A3BAC2CF35E2100DDA2E8 /* TextEditorView.swift */,
 			);
 			path = PhotoUpload;
@@ -446,6 +448,7 @@
 				8BA5D4B32CDD3A6D00B03843 /* EditStoryView.swift */,
 				8BDA11D42CDA7696004242DB /* EmojiPickerView.swift */,
 				8B3FE8AD2CD9E239000A4519 /* EmojiView.swift */,
+				A7013EBF2D0606C500AF0A43 /* EmojiTopView.swift */,
 				8BCB839F2CDA2A3300C49011 /* PublishScopeView.swift */,
 				8BA5D4A12CDAFC7500B03843 /* SearchView.swift */,
 			);
@@ -975,7 +978,7 @@
 				8E9402612CDAE99E0005C2BB /* MapView.swift in Sources */,
 				8E71EF7B2CE2EE8D00BA8F33 /* ContentsModalTopView.swift in Sources */,
 				8EAFEFAB2CD4528E00136348 /* AzitApp.swift in Sources */,
-				8BD71F882CD8C6300030693B /* PhotoReviewView.swift in Sources */,
+				8BD71F882CD8C6300030693B /* UploadPhotoStoryView.swift in Sources */,
 				CE7877622D02CFA1000184D6 /* MessageSendFieldView.swift in Sources */,
 				8BD71F822CD89AC20030693B /* CameraService.swift in Sources */,
 				CE4865752CF0280C00C30997 /* EditPhotoView.swift in Sources */,
@@ -1033,6 +1036,7 @@
 				8EAFF0152CD4A33E00136348 /* AlbumView.swift in Sources */,
 				8BA5D4A22CDAFC7900B03843 /* SearchView.swift in Sources */,
 				8E538EE32CD844A50094ABD1 /* FriendsContentsModalView.swift in Sources */,
+				A7013EC02D0606E900AF0A43 /* EmojiTopView.swift in Sources */,
 				8B2FC1BB2CEDC5B30078443F /* TwemojiHelper.swift in Sources */,
 				8EAFEFB42CD4582200136348 /* Story.swift in Sources */,
 				8B2FC1C42CEE47CC0078443F /* Emoji.swift in Sources */,

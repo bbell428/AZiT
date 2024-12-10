@@ -1,5 +1,5 @@
 //
-//  PhotoReviewView.swift
+//  UploadPhotoStoryView.swift
 //  Azit
 //
 //  Created by 홍지수 on 11/4/24.
@@ -10,34 +10,44 @@ import AVFoundation
 import PhotosUI
 import Kingfisher
 
-struct PhotoReviewView: View {
+struct UploadPhotoStoryView: View {
+    
+    // 프로젝트 상태 및 서비스 관리
     @EnvironmentObject var cameraService: CameraService
-    @EnvironmentObject var storyStore: StoryStore
-    @EnvironmentObject var storyDraft: StoryDraft
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var locationManager: LocationManager
-    @EnvironmentObject var userInfoStore: UserInfoStore
-    @EnvironmentObject var photoImageStore: PhotoImageStore
-    @EnvironmentObject var editPhotoService: EditPhotoStore
+    
+    @EnvironmentObject var userInfoStore: UserInfoStore // 사용자 정보 - 이전 상태, 위경도 업데이트
     @Environment(\.dismiss) var dismiss
+    
+    // 스토리 데이터 관련 객체
+    @EnvironmentObject var storyStore: StoryStore
+    @EnvironmentObject var storyDraft: StoryDraft // EmojiView에서 생성한 Story 임시 저장
+    @EnvironmentObject var photoImageStore: PhotoImageStore
+    @EnvironmentObject var editPhotoService: EditPhotoStore // 편집한 이미지 저장
+    
+    // 부모 뷰에서 전달받은 상태 변수
     @Binding var firstNaviLinkActive: Bool
-    @Binding var isMainDisplay: Bool // MainView에서 전달받은 바인딩 변수
-    @Binding var isMyModalPresented: Bool // 내 스토리에 대한 모달
+    @Binding var isMainDisplay: Bool
+    @Binding var isMyModalPresented: Bool
     @Binding var isPhotoTaken: Bool
-    var image: UIImage?
-    let emojiManager = EmojiManager()
+    
+    // 뷰 내부 상태 변수
+    var image: UIImage? // 이미지 데이터
+    let emojiManager = EmojiManager() // 이모지 관리 객체
     
     @State private var showUploadView = false
     @State var isDisplayEmojiPicker: Bool = false
+    @State var isDisplayTextEditor: Bool = false
+    @State var isSelectText: Bool = false
+    
     @State private var progressValue: Double = 2.0
     let totalValue: Double = 2.0
-    
-    @State var isDisplayTextEditor: Bool = false // 이미지 편집에 들어갈 텍스트 편집 뷰
-    @State var isSelectText: Bool = false // 이미지에 텍스트를 넣을것인가?
     @State var friendID: String = ""
     
     var body: some View {
-        ZStack() {
+        ZStack {
+            
             if isDisplayTextEditor {
                 TextEditorView(isDisplayTextEditor: $isDisplayTextEditor)
                     .zIndex(2)
@@ -80,6 +90,7 @@ struct PhotoReviewView: View {
                     .overlay(
                         HStack {
                             VStack(alignment: .leading) {
+                                
                                 // 이모지 + 매시지
                                 HStack{
                                     if let codepoints = emojiManager.getCodepoints(forName: storyDraft.emoji) {
@@ -144,8 +155,7 @@ struct PhotoReviewView: View {
                 
                 // save 버튼
                 Button(action: {
-                    //                    savePhoto()
-                    
+                    // savePhoto()
                     shareStory()
                 }) {
                     RoundedRectangle(cornerSize: CGSize(width: 15.0, height: 15.0))
@@ -162,6 +172,8 @@ struct PhotoReviewView: View {
                 }
                 .padding(.bottom, 20)
             }
+            
+            // MARK: - 이모지 선택 뷰
             if isDisplayEmojiPicker {
                 ZStack {
                     Color.black.opacity(0.4)
@@ -174,6 +186,7 @@ struct PhotoReviewView: View {
             }
         }
         .navigationBarTitle("게시물 공유", displayMode: .inline)
+        .navigationBarBackButtonHidden(true)
         .onDisappear {
             isSelectText = false
             editPhotoService.resetState()
@@ -183,15 +196,16 @@ struct PhotoReviewView: View {
     
     // MARK: - 함수들
     
-    // firebase storage에 저장
+    // 이미지 저장 함수
     func savePhoto() {
         guard let image = image else { return }
-        // 찐 앨범에 저장
+        // 디바이스 앨범에 저장
         UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
     }
     
+    // 스토리 공유 함수
     private func shareStory() {
-        // 스토리 객체 생성
+    
         let newStory = Story(
             id: storyDraft.id,
             userId: authManager.userID,
@@ -204,21 +218,23 @@ struct PhotoReviewView: View {
             content: storyDraft.content,
             publishedTargets: storyDraft.publishedTargets
         )
-        //        isDisplayEmojiPicker = false
-        // 유저의 새로운 상태, 위경도 값 저장
+        
+        // 현재 위치를 사용자 정보에 저장
         if let location = locationManager.currentLocation {
             userInfoStore.userInfo?.latitude = location.coordinate.latitude
             userInfoStore.userInfo?.longitude = location.coordinate.longitude
         }
         
         Task {
+            // 스토리 추가
             await storyStore.addStory(newStory)
-            // 유저의 새로운 상태, 위경도 값 저장
             
+            // 사용자 상태 업데이트
             if !(storyDraft.emoji == "") {
                 userInfoStore.userInfo?.previousState = storyDraft.emoji
             }
             
+            // 이미지 저장
             if let image = cameraService.capturedImage {
                 await editPhotoService.saveImage(image: image, id: newStory.id) // 편집한 이미지로 변경
             }
@@ -230,18 +246,12 @@ struct PhotoReviewView: View {
             isMainDisplay = false
             isMyModalPresented = false
             resetStory()
-            //            cameraService.capturedImage = nil
         }
-        //        showUploadView = true
-        //        firstNaviLinkActive = false
-        //        isMainDisplay = false
-        
-        //        cameraService.capturedImage = nil
     }
     
+    // 스토리 초기화 함수
     func resetStory() {
         storyDraft.id = UUID().uuidString
-        //        storyDraft.userId = ""
         storyDraft.likes = []
         storyDraft.latitude = 0.0
         storyDraft.longitude = 0.0
@@ -253,4 +263,6 @@ struct PhotoReviewView: View {
         storyDraft.readUsers = []
         cameraService.capturedImage = nil
     }
+    
 }
+

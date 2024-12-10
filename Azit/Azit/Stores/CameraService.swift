@@ -7,7 +7,6 @@
 import SwiftUI
 import AVFoundation
 
-// MARK: - Camera Service to handle camera functionality
 class CameraService: NSObject, ObservableObject {
     @Published var capturedImage: UIImage?
     
@@ -36,6 +35,7 @@ class CameraService: NSObject, ObservableObject {
         default:
             print("Camera access denied")
         }
+        print("카메라 권한이 확인됩니다.")
     }
     
     private func configureSession() {
