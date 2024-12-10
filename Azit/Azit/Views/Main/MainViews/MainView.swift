@@ -49,6 +49,24 @@ struct MainView: View {
                                     || isFriendsModalPresented
                                     || isDisplayEmojiPicker
                                     || isTappedWidget ? 2 : 1)
+                            .gesture(
+                                DragGesture()
+                                    .onChanged { value in
+                                        offset = value.translation.width
+                                    }
+                                    .onEnded { value in
+                                        if offset < -100 { // 왼쪽으로 스와이프
+                                            withAnimation(.easeInOut) {
+                                                isShowingMessageView = true
+                                            }
+                                        } else if offset > 100 { // 오른쪽으로 스와이프
+                                            withAnimation(.easeInOut) {
+                                                isShowingMyPageView = true
+                                            }
+                                        }
+                                        offset = 0 // 초기화
+                                    }
+                            )
                         
                         //.ignoresSafeArea(.keyboard)
                     // 맵 화면일 때 맵 뷰
@@ -58,6 +76,24 @@ struct MainView: View {
                                     || isFriendsModalPresented
                                     || isDisplayEmojiPicker
                                     || isTappedWidget ? 2 : 1)
+                            .gesture(
+                                DragGesture()
+                                    .onChanged { value in
+                                        offset = value.translation.width
+                                    }
+                                    .onEnded { value in
+                                        if offset < -100 { // 왼쪽으로 스와이프
+                                            withAnimation(.easeInOut) {
+                                                isShowingMessageView = true
+                                            }
+                                        } else if offset > 100 { // 오른쪽으로 스와이프
+                                            withAnimation(.easeInOut) {
+                                                isShowingMyPageView = true
+                                            }
+                                        }
+                                        offset = 0 // 초기화
+                                    }
+                            )
                     }
                     
                     // 메인 화면의 메뉴들
@@ -76,24 +112,6 @@ struct MainView: View {
             .toast(isPresenting: $isShowToast, alert: {
                 AlertToast(displayMode: .banner(.pop), type: .systemImage("envelope.open", Color.white), title: "전송 완료", style: .style(backgroundColor: .subColor1, titleColor: Color.white))
             })
-            .gesture(
-                DragGesture()
-                    .onChanged { value in
-                        offset = value.translation.width
-                    }
-                    .onEnded { value in
-                        if offset < -100 { // 왼쪽으로 스와이프
-                            withAnimation(.easeInOut) {
-                                isShowingMessageView = true
-                            }
-                        } else if offset > 100 { // 오른쪽으로 스와이프
-                            withAnimation(.easeInOut) {
-                                isShowingMyPageView = true
-                            }
-                        }
-                        offset = 0 // 초기화
-                    }
-            )
             
     //        .gesture (
     //            DragGesture()
