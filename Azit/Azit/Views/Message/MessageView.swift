@@ -62,13 +62,13 @@ struct MessageView: View {
         )
         .navigationBarBackButtonHidden(true)
 /// 메인화면에서 호출중으로, 메시지 View에서 추가적으로 호출하지 않음.
-//        .onAppear {
-//            Task {
-//                chatListStore.fetchChatRooms(userId: userInfoStore.userInfo?.id ?? "")
-//            }
-//        }
-//        .onDisappear {
-//            chatListStore.removeChatRoomsListener()
-//        }
+        .onAppear {
+            Task {
+                chatListStore.fetchChatRooms(userId: userInfoStore.userInfo?.id ?? "")
+            }
+        }
+        .onDisappear {
+            chatListStore.removeChatRoomsListener()
+        }
     }
 }

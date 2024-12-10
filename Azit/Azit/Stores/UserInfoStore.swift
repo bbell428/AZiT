@@ -256,7 +256,50 @@ class UserInfoStore: ObservableObject {
     }
     
     // MARK: - 사용자 ID로 UserInfo 가져오기
-    func getUserInfoById(id: String, completion: @escaping (UserInfo?) -> Void) {
+    func getUserInfoById(id: String) async throws -> UserInfo? {
+        let db = Firestore.firestore()
+        
+        do {
+            let document = try await db.collection("User").document(id).getDocument()
+            
+            guard let docData = document.data() else {
+                print("No user data found for id: \(id)")
+                return nil
+            }
+            
+            let id = docData["id"] as? String ?? ""
+            let email = docData["email"] as? String ?? ""
+            let nickname = docData["nickname"] as? String ?? ""
+            let profileImageName = docData["profileImageName"] as? String ?? ""
+            let previousState = docData["previousState"] as? String ?? ""
+            let friends = docData["friends"] as? [String] ?? []
+            let latitude = docData["latitude"] as? Double ?? 0.0
+            let longitude = docData["longitude"] as? Double ?? 0.0
+            let blockedFriends = docData["blockedFriends"] as? [String] ?? []
+            let fcmToken = docData["fcmToken"] as? String ?? ""
+            
+            let userInfo = UserInfo(
+                id: id,
+                email: email,
+                nickname: nickname,
+                profileImageName: profileImageName,
+                previousState: previousState,
+                friends: friends,
+                latitude: latitude,
+                longitude: longitude,
+                blockedFriends: blockedFriends,
+                fcmToken: fcmToken
+            )
+            
+            return userInfo
+        } catch {
+            print("Error fetching user info by id: \(error)")
+            return nil
+        }
+    }
+    
+    // MARK: - 사용자 ID로 UserInfo 가져오기(completion)
+    func getUserInfoByIdWithCompletion(id: String, completion: @escaping (UserInfo?) -> Void) {
         let db = Firestore.firestore()
         
         db.collection("User").document(id).addSnapshotListener { snapshot, error in

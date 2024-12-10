@@ -70,9 +70,7 @@ struct MainView: View {
                                         offset = 0 // 초기화
                                     }
                             )
-                        
-                        //.ignoresSafeArea(.keyboard)
-                    // 맵 화면일 때 맵 뷰
+                        // 맵 화면일 때 맵 뷰
                     } else {
                         MapView(isMainExposed: $isMainExposed, isMyModalPresented: $isMyModalPresented, isFriendsModalPresented: $isFriendsModalPresented, isDisplayEmojiPicker: $isDisplayEmojiPicker, isPassed24Hours: $isPassed24Hours, isSendFriendStoryToast: $isShowToast, isAnimatingForStroke: $isAnimatingForStroke)
                             .zIndex(isMyModalPresented
@@ -103,14 +101,6 @@ struct MainView: View {
                     MainTopView(isMainExposed: $isMainExposed, isSendFriendStoryToast: $isShowToast)
                         .zIndex(1)
                 }
-    //            .navigationDestination(isPresented: $isRightToLeftSwipe) {
-    //                MessageView(isShowToast: $isShowToast)
-    //            }
-                
-                //.ignoresSafeArea(.keyboard)
-    //            .navigationDestination(isPresented: $isLeftToRightSwipe) {
-    //                MyPageView()
-    //            }
             }
             .toast(isPresenting: $isShowToast, alert: {
                 AlertToast(displayMode: .banner(.pop), type: .systemImage("envelope.open", Color.white), title: "전송 완료", style: .style(backgroundColor: .subColor1, titleColor: Color.white))
@@ -131,11 +121,11 @@ struct MainView: View {
                             blockedFriends: [],
                             fcmToken: ""
                         ),
+                        isSendFriendStoryToast: $isShowToast,
                         roomId: roomId,
                         nickname: nicknameFriend ?? "",
-                        userId: roomId,
-                        profileImageName: profileImageFriend ?? "",
-                        isShowToast: .constant(false)
+                        friendId: roomId,
+                        profileImageName: profileImageFriend ?? ""
                     )
                 }
             }
@@ -146,7 +136,7 @@ struct MainView: View {
                    let friendProfileImage = userInfo["friendProfileImage"] as? String,
                    let chatId = userInfo["chatId"] as? String,
                    
-                   viewType == "chatDetail" {
+                    viewType == "chatDetail" {
                     self.nicknameFriend = friendNickname
                     self.profileImageFriend = friendProfileImage
                     self.chatRoomId = chatId
@@ -161,24 +151,10 @@ struct MainView: View {
                     self.chatRoomId = FriendsStore.shared.chatRoomId
                 }
                 
-//                FriendsStore.shared.navigateToChatDetail = false
-//                FriendsStore.shared.nicknameFriend = nil
-//                FriendsStore.shared.profileImageFriend = nil
-//                FriendsStore.shared.chatRoomId = nil
-                
                 print("존나 모르 겠어:\(FriendsStore.shared.nicknameFriend ?? "")")
                 print("존나 모르 겠어:\(navigateToChatDetail)")
             }
-            
-    //                .onEnded { value in
-    //                    if value.translation.width < -50 { // 왼쪽으로 드래그
-    //                        isRightToLeftSwipe = true
-    //                    }
-    //                    else if value.translation.width > 50 { // 오른쪽으로 드래그
-    //                        isLeftToRightSwipe = true
-    //                    }
-    //                }
-    //        )
+
             .onChange(of: scenePhase) {
                 switch scenePhase {
                 case .background:

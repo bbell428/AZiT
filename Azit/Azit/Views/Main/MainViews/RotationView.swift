@@ -212,7 +212,7 @@ struct RotationView: View {
                 // 24시간이 지났는 지 판별
                 isPassed24Hours = Utility.hasPassed24Hours(from: story.date)
                 
-                chatListStore.fetchChatRooms(userId: userInfoStore.userInfo?.id ?? "")
+                //chatListStore.fetchChatRooms(userId: userInfoStore.userInfo?.id ?? "")
             }
         }
         .onChange(of: authManager.deepUserID) {

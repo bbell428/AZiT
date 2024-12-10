@@ -122,7 +122,7 @@ struct QRInvitation: View {
         }
         .frame(maxWidth: 350, maxHeight: 450)
         .onAppear {
-            userInfoStore.getUserInfoById(id: authManager.deepUserID) { userInfo in
+            userInfoStore.getUserInfoByIdWithCompletion(id: authManager.deepUserID) { userInfo in
                 if let userInfo = userInfo {
                     DispatchQueue.main.async {
                         self.otherFriend = userInfo

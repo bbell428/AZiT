@@ -101,7 +101,7 @@ struct MessageDetailView: View {
             .onAppear {
                 Task {
                     // 채팅방 리스트 리스너 off
-                    chatListStore.removeChatRoomsListener()
+                     chatListStore.removeChatRoomsListener()
                     // 해당 채팅방 데이터 리스너 on
                     chatDetailViewStore.getChatMessages(roomId: roomId, userId: authManager.userID)
                 }
@@ -109,45 +109,13 @@ struct MessageDetailView: View {
             .onDisappear {
                 Task {
                     // 채팅방 리스트 리스너 on
-                    chatListStore.fetchChatRooms(userId: userInfoStore.userInfo?.id ?? "")
+                     chatListStore.fetchChatRooms(userId: userInfoStore.userInfo?.id ?? "")
                     // 해당 채팅방 데이터 리스너 off
                     chatDetailViewStore.removeChatMessagesListener()
                 }
-                .padding(.bottom, 3)
-                .disabled(text.isEmpty)
-                
-                Spacer()
-            }
-            .padding(10)
-            .zIndex(2)
-        }
-        .onAppear {
-            // 상대방의 UserInfo 가져옴, 상대방 토큰을 위해 사용함
-            userInfoStore.getUserInfoById(id: userId) { userInfo in
-                if let userInfo = userInfo {
-                    DispatchQueue.main.async {
-                        self.otherUserInfo = userInfo
-                        print("Updated User Info: \(userInfo.nickname)")
-                    }
-                } else {
-                    print("No user data available or error occurred.")
-                }
-            }
-            Task {
-                // 해당 채팅방으로 들어가면 배지 업데이트(읽음 메시지는 배지 알림 개수 전체에서 빼기)
-                await sendNotificationToServer(myNickname: "", message: "", fcmToken: userInfoStore.userInfo?.fcmToken ?? "", badge: userInfoStore.sumIntegerValuesContainingUserID(userID: authManager.userID), friendUserInfo: UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0, longitude: 0, blockedFriends: [], fcmToken: ""), chatId: roomId, viewType: "chatDetail")
             }
             .navigationBarBackButtonHidden(true)
         }
-        //.frame(maxHeight: 80) // 높이 제한 설정
-    }
-    
-    // 텍스트 에디터 높이를 동적으로 조정하는 함수
-    private func adjustHeight() {
-        let width = UIScreen.main.bounds.width - 150 // 좌우 여백 포함
-        let size = CGSize(width: width, height: .infinity)
-        let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 16)]
-        let boundingBox = text.boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
-        textEditorHeight = max(40, boundingBox.height + 20) // 기본 높이 보장
     }
 }
+
