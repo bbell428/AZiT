@@ -15,10 +15,9 @@ struct AlbumScrollView : View {
     let emojiManager = EmojiManager()
     
     @Binding var lastOffsetY: CGFloat
-    @Binding var isShowHorizontalScroll: Bool
+    @Binding var isShowVerticalScroll: Bool
     @Binding var isFriendsContentModalPresented: Bool
-    
-    @Binding var selectedAlbum: Story?
+    @Binding var selectedStory: Story? // 선택된 스토리
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -37,7 +36,7 @@ struct AlbumScrollView : View {
             .onPreferenceChange(ScrollPreferenceKey.self) { value in
                 if abs(value - lastOffsetY) > 120 && lastOffsetY < 400 {
                     withAnimation {
-                        isShowHorizontalScroll = value > lastOffsetY
+                        isShowVerticalScroll = value > lastOffsetY
                     }
                     lastOffsetY = value
                 }
@@ -57,18 +56,19 @@ struct AlbumScrollView : View {
                                 .foregroundStyle(Color.gray)
                             Spacer()
                         }
-                        .padding(.top, 20)
+                            .padding(.top, 20)
                     ) {
                         ForEach(group.stories) { story in
                             VStack(alignment: .center) { // 가운데 정렬
                                 Button {
-                                    selectedAlbum = story
+                                    selectedStory = story
                                     isFriendsContentModalPresented = true
                                 } label: {
                                     VStack {
+                                        // 스토리에 이미지가 포함되어있을때,
                                         if !story.image.isEmpty {
-                                            // 이미지가 있을 경우
                                             if let cachedImage = albumstore.cacheImages[story.image] {
+                                                // MARK: 이미지 스토리 View
                                                 AlbumStoryImageView(imageStoreID: story.image, image: cachedImage)
                                                     .frame(width: 110, height: 150)
                                                     .cornerRadius(15)
@@ -76,15 +76,18 @@ struct AlbumScrollView : View {
                                                 ProgressView()
                                                     .frame(width: 110, height: 150)
                                             }
+                                            // 스토리에 이모지 or 텍스트가 포함되어있을때,
                                         } else {
-                                            // 이모지와 텍스트만 표시
                                             VStack {
                                                 Spacer()
+                                                // 스토리에 텍스트가 포함되어있다면,
                                                 if !story.content.isEmpty {
+                                                    // MARK: 말풍선 View
                                                     SpeechBubbleView(text: story.content)
                                                         .font(.caption)
                                                         .padding(.bottom, 5)
                                                 }
+                                                // 스토리에 이모지가 포함되어있다면,
                                                 if let codepoints = emojiManager.getCodepoints(forName: story.emoji) {
                                                     KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
                                                         .resizable()

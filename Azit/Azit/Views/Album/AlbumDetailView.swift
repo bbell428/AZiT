@@ -17,6 +17,7 @@ struct AlbumDetailView: View {
     @Binding var message: String
     @Binding var selectedIndex: Int
     @Binding var isSendFriendStoryToast: Bool
+    
     var selectedAlbum: Story?
     var list: [UserInfo]
     

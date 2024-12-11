@@ -1,6 +1,7 @@
 import SwiftUI
 import FirebaseStorage
 
+// 이미지 스토리 View
 struct AlbumStoryImageView: View {
     var imageStoreID: String?
     var image: UIImage
@@ -9,9 +10,9 @@ struct AlbumStoryImageView: View {
         VStack {
             Image(uiImage: image)
                 .resizable()
+                .aspectRatio(3/4, contentMode: .fit)
                 .cornerRadius(15)
                 .padding(.horizontal, 2.5)
-                //.background(.subColor4.opacity(0.95))
                 .frame(width: 115, height: 155)
         }
     }

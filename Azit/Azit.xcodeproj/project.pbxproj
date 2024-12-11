@@ -110,6 +110,10 @@
 		CE4865772CF03FAD00C30997 /* EditPhotoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4865762CF03F9E00C30997 /* EditPhotoStore.swift */; };
 		CE5574652CE4666600266EBD /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5574642CE4666600266EBD /* ProfileDetailView.swift */; };
 		CE69CDCC2CE70C2800322E7A /* AlbumStoryImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE69CDCB2CE70C2800322E7A /* AlbumStoryImageView.swift */; };
+		CE6CD66C2D096AE700EC3CE7 /* AlbumNavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6CD66B2D096AE700EC3CE7 /* AlbumNavigationBarView.swift */; };
+		CE6CD66F2D096EEF00EC3CE7 /* UnderlineModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6CD66E2D096EEF00EC3CE7 /* UnderlineModifier.swift */; };
+		CE6CD6712D096F1600EC3CE7 /* RectPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6CD6702D096F1600EC3CE7 /* RectPreferenceKey.swift */; };
+		CE6CD6732D0970ED00EC3CE7 /* SegmentedControlButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6CD6722D0970ED00EC3CE7 /* SegmentedControlButtonView.swift */; };
 		CE7877542D02B7D5000184D6 /* MessageListTopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7877532D02B7D5000184D6 /* MessageListTopBarView.swift */; };
 		CE7877562D02C3B3000184D6 /* KeyboardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7877552D02C3B3000184D6 /* KeyboardExtension.swift */; };
 		CE7877582D02C580000184D6 /* NavigationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7877572D02C580000184D6 /* NavigationExtension.swift */; };
@@ -263,6 +267,10 @@
 		CE4865762CF03F9E00C30997 /* EditPhotoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPhotoStore.swift; sourceTree = "<group>"; };
 		CE5574642CE4666600266EBD /* ProfileDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailView.swift; sourceTree = "<group>"; };
 		CE69CDCB2CE70C2800322E7A /* AlbumStoryImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumStoryImageView.swift; sourceTree = "<group>"; };
+		CE6CD66B2D096AE700EC3CE7 /* AlbumNavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumNavigationBarView.swift; sourceTree = "<group>"; };
+		CE6CD66E2D096EEF00EC3CE7 /* UnderlineModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineModifier.swift; sourceTree = "<group>"; };
+		CE6CD6702D096F1600EC3CE7 /* RectPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectPreferenceKey.swift; sourceTree = "<group>"; };
+		CE6CD6722D0970ED00EC3CE7 /* SegmentedControlButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlButtonView.swift; sourceTree = "<group>"; };
 		CE7877532D02B7D5000184D6 /* MessageListTopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageListTopBarView.swift; sourceTree = "<group>"; };
 		CE7877552D02C3B3000184D6 /* KeyboardExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardExtension.swift; sourceTree = "<group>"; };
 		CE7877572D02C580000184D6 /* NavigationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationExtension.swift; sourceTree = "<group>"; };
@@ -680,9 +688,29 @@
 				CE86A3B92CE6E4C6000B59B2 /* AlbumScrollView.swift */,
 				CE69CDCB2CE70C2800322E7A /* AlbumStoryImageView.swift */,
 				8EAFF0142CD4A33E00136348 /* AlbumView.swift */,
-				CEDFC2CD2CE1C814008C215A /* FriendSegmentView.swift */,
+				CE6CD66D2D096EB700EC3CE7 /* FriendSegments */,
+				CE6CD66A2D096AC600EC3CE7 /* Topbar */,
 			);
 			path = Album;
+			sourceTree = "<group>";
+		};
+		CE6CD66A2D096AC600EC3CE7 /* Topbar */ = {
+			isa = PBXGroup;
+			children = (
+				CE6CD66B2D096AE700EC3CE7 /* AlbumNavigationBarView.swift */,
+			);
+			path = Topbar;
+			sourceTree = "<group>";
+		};
+		CE6CD66D2D096EB700EC3CE7 /* FriendSegments */ = {
+			isa = PBXGroup;
+			children = (
+				CEDFC2CD2CE1C814008C215A /* FriendSegmentView.swift */,
+				CE6CD6702D096F1600EC3CE7 /* RectPreferenceKey.swift */,
+				CE6CD6722D0970ED00EC3CE7 /* SegmentedControlButtonView.swift */,
+				CE6CD66E2D096EEF00EC3CE7 /* UnderlineModifier.swift */,
+			);
+			path = FriendSegments;
 			sourceTree = "<group>";
 		};
 		CE78775C2D02CCB6000184D6 /* Topbar */ = {
@@ -954,6 +982,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EAF3D1022CEDA31800ABCB4F /* sendNotificationToServer.swift in Sources */,
+				CE6CD66F2D096EEF00EC3CE7 /* UnderlineModifier.swift in Sources */,
 				CE86A3B82CE6E1B4000B59B2 /* AlbumFriendListView.swift in Sources */,
 				8BDA11D52CDA769C004242DB /* EmojiPickerView.swift in Sources */,
 				EAB079722CDDAED700293C62 /* SplashView.swift in Sources */,
@@ -992,6 +1021,7 @@
 				8BA5D4B42CDD3A7400B03843 /* EditStoryView.swift in Sources */,
 				EA3F965E2CD8B19C009904C0 /* (null) in Sources */,
 				8B067A032CE45A6200ABD942 /* PhotoImageStore.swift in Sources */,
+				CE6CD6712D096F1600EC3CE7 /* RectPreferenceKey.swift in Sources */,
 				8EAFF0132CD4A33600136348 /* MessageView.swift in Sources */,
 				CEDFC2CE2CE1C814008C215A /* FriendSegmentView.swift in Sources */,
 				CE374EAD2CD79F6300601AA7 /* ChatListStore.swift in Sources */,
@@ -1038,7 +1068,9 @@
 				8E538EE32CD844A50094ABD1 /* FriendsContentsModalView.swift in Sources */,
 				A7013EC02D0606E900AF0A43 /* EmojiTopView.swift in Sources */,
 				8B2FC1BB2CEDC5B30078443F /* TwemojiHelper.swift in Sources */,
+				CE6CD6732D0970ED00EC3CE7 /* SegmentedControlButtonView.swift in Sources */,
 				8EAFEFB42CD4582200136348 /* Story.swift in Sources */,
+				CE6CD66C2D096AE700EC3CE7 /* AlbumNavigationBarView.swift in Sources */,
 				8B2FC1C42CEE47CC0078443F /* Emoji.swift in Sources */,
 				CE062BAE2CD91E6C00CB5D4A /* GetMessageView.swift in Sources */,
 				CE3A16E22CD85A5B0045DB52 /* MessageDetailView.swift in Sources */,

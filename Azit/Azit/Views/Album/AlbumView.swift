@@ -19,23 +19,23 @@ struct ScrollPreferenceKey: PreferenceKey {
 struct AlbumView: View {
     @EnvironmentObject var albumstore: AlbumStore
     @EnvironmentObject var userInfoStore: UserInfoStore
-    @Environment(\.dismiss) var dismiss
+    
     @State private var offsetY: CGFloat = .zero
     @State private var lastOffsetY: CGFloat = .zero
     @State private var items = Array(0..<10)
-    @State private var isShowHorizontalScroll = true
+    @State private var isShowVerticalScroll = true // 밑으로 스크롤되어서 화면이 숨겨져 있는가?
     @State private var isLoading = false
     @State var isOpenCalendar: Bool = false
     @State var isFriendsContentModalPresented: Bool = false // 게시물 선택시,
     @State var message: String = ""
-    
     @State var isShowCalendar: Bool = false
-    @State var selectedIndex: Int = 0
+    @State var selectedIndex: Int = 0 // 선택된 친구 (순서, index)
+    
     @State var selectedAlbum: Story?
     
     @Binding var isSendFriendStoryToast: Bool
     
-    // 계산형 프로퍼티로 리스트 생성
+    // 계산형 프로퍼티로 친구 리스트 생성
     private var friendList: [String] {
         guard let userInfo = userInfoStore.userInfo else { return [] }
         var list = userInfo.friends
@@ -55,51 +55,21 @@ struct AlbumView: View {
         NavigationStack {
             VStack {
                 ZStack(alignment: .top) {
-                    HStack {
-                        Button {
-                            dismiss()
-                        } label: {
-                            Image(systemName: "chevron.left")
-                                .font(.system(size: 25))
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                        }
-                        .padding(.horizontal, 20)
-                        
-                        Color.clear
-                            .frame(maxWidth: .infinity)
-                        
-                        Text("Album")
-                            .font(.title3)
-                            .fontWeight(.bold)
-                            .frame(maxWidth: .infinity, alignment: .center)
-                        
-                        Color.clear
-                            .frame(maxWidth: .infinity)
-                        
-                        Button {
-                            isShowCalendar = true
-                        } label: {
-                            Image(systemName: "calendar")
-                                .font(.system(size: 25))
-                        }
-                        .padding(.horizontal, 20)
-                        
-                    }
-                    .zIndex(4)
-                    .frame(height: 70)
-                    .background(Color.white)
+                    // MARK: 앨범 상단바
+                    AlbumNavigationBarView(isShowCalendar: $isShowCalendar)
+                        .zIndex(4)
                     
                     // 스토리 클릭시, 상세 정보
                     if isFriendsContentModalPresented {
+                        // MARK: 스토리 상세 View
                         AlbumDetailView(isFriendsContentModalPresented: $isFriendsContentModalPresented, message: $message, selectedIndex: $selectedIndex, isSendFriendStoryToast: $isSendFriendStoryToast, selectedAlbum: selectedAlbum, list: combinedFriendList)
                             .zIndex(7)
                     }
                     
-                    // 이미지를 불러오는중이라면
+                    // 이미지를 불러오는중이라면, 로딩화면이 뜨게 함
                     if albumstore.loadingImage {
                         Color.gray.opacity(0.5)
                             .ignoresSafeArea()
-                        //.padding(.top, 70)
                             .zIndex(4)
                         
                         VStack(alignment: .center) {
@@ -108,8 +78,6 @@ struct AlbumView: View {
                                 ProgressView()
                                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
                                     .scaleEffect(1.5)
-                                //                                Text("스토리 불러오는중...")
-                                //                                    .foregroundStyle(Color.white)
                             }
                             .padding(30)
                             .background(Color.black.opacity(0.5))
@@ -124,18 +92,17 @@ struct AlbumView: View {
                     }
                     
                     // 스크롤이 내려가지 않았거나, 위로 올렸을경우 (친구 리스트)
-                    if isShowHorizontalScroll {
-                        AlbumFriendListView(isShowHorizontalScroll:
-                                                $isShowHorizontalScroll, selectedIndex: $selectedIndex, combinedFriendList: combinedFriendList)
-                        .background(Color.white)
-                        .padding(.top, 70)
+                    if isShowVerticalScroll {
+                        // MARK: 친구 리스트
+                        AlbumFriendListView(isShowVerticalScroll:
+                                                $isShowVerticalScroll, selectedIndex: $selectedIndex, combinedFriendList: combinedFriendList)
                         .zIndex(3)
                     }
                     
                     // 만약 친구가 없으면,
                     if userInfoStore.friendInfos.isEmpty {
                         VStack(alignment: .center) {
-                            Spacer()  // 위쪽 Spacer
+                            Spacer()
                             Image(systemName: "photo.badge.plus.fill")
                                 .font(.system(size: 30))
                                 .foregroundStyle(Color.gray)
@@ -144,21 +111,23 @@ struct AlbumView: View {
                                 .font(.subheadline)
                                 .fontWeight(.bold)
                                 .foregroundStyle(Color.gray)
-                            Spacer()  // 아래쪽 Spacer
+                            Spacer()
                         }
-                        .frame(maxHeight: .infinity)  // 화면 중앙에 오도록 설정
-                    } else {
+                        .frame(maxHeight: .infinity)
                         // 선택된 친구가 storys 값에 포함되고 있을경우 (= 스토리가 있을 경우)
+                    } else {
                         if (albumstore.storys.contains(where: { $0.userId == albumstore.filterUserID }) && !albumstore.getTimeGroupedStories().isEmpty) || albumstore.filterUserID == "000AzitALLFriends" {
-                            AlbumScrollView(lastOffsetY: $lastOffsetY, isShowHorizontalScroll: $isShowHorizontalScroll, isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedAlbum: $selectedAlbum)
+                            // MARK: 친구 스토리 리스트
+                            AlbumScrollView(lastOffsetY: $lastOffsetY, isShowVerticalScroll: $isShowVerticalScroll, isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedStory: $selectedAlbum)
                                 .padding(.horizontal, 20)
                                 .onPreferenceChange(ScrollPreferenceKey.self, perform: { value in
                                     self.offsetY = value
                                 })
                                 .zIndex(1)
+                            // 친구는 있지만, 친구가 올린 게시물이 없을경우
                         } else {
                             VStack(alignment: .center) {
-                                Spacer()  // 위쪽 Spacer
+                                Spacer()
                                 Image(systemName: "doc.text.fill")
                                     .font(.system(size: 30))
                                     .foregroundStyle(Color.gray)
@@ -167,9 +136,9 @@ struct AlbumView: View {
                                     .font(.subheadline)
                                     .fontWeight(.bold)
                                     .foregroundStyle(Color.gray)
-                                Spacer()  // 아래쪽 Spacer
+                                Spacer()
                             }
-                            .frame(maxHeight: .infinity)  // 화면 중앙에 오도록 설정
+                            .frame(maxHeight: .infinity)
                         }
                     }
                     
@@ -178,9 +147,11 @@ struct AlbumView: View {
             .onAppear {
                 Task {
                     await albumstore.loadStorysByIds(ids: friendList)
-                    albumstore.filterUserID = "000AzitALLFriends"
+                    albumstore.filterUserID = "000AzitALLFriends" // 처음에 전체를 보여주게 함
+                    // 000AzitALLFriends = "전체" 를 의미합니다.
                 }
             }
+            // MARK: 특정 날짜 선택
             .sheet(isPresented: $isShowCalendar) {
                 DatePicker("Select Date", selection: $albumstore.selectedDate, displayedComponents: [.date])
                     .datePickerStyle(GraphicalDatePickerStyle())
@@ -194,16 +165,14 @@ struct AlbumView: View {
         }
     }
     
-    func loadMoreItems() {
-        isLoading = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            let newItems = Array(items.count..<(items.count + 10))
-            items.append(contentsOf: newItems)
-            isLoading = false
-        }
-    }
+    // 현재로써는 아직 사용하지 않음.
+    // 스크롤 할때마다 리스트를 추가해서 보여주는 함수
+    //    func loadMoreItems() {
+    //        isLoading = true
+    //        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+    //            let newItems = Array(items.count..<(items.count + 10))
+    //            items.append(contentsOf: newItems)
+    //            isLoading = false
+    //        }
+    //    }
 }
-
-//#Preview {
-//    AlbumView()
-//}
