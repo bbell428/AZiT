@@ -98,6 +98,7 @@
 		8EE014732CE5D4DB003151F8 /* StoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFF00E2CD4A31300136348 /* StoryStore.swift */; };
 		8EE014752CE5D6C9003151F8 /* AlbumStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDFC2ED2CE2EAB0008C215A /* AlbumStore.swift */; };
 		8EE014762CE5D830003151F8 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAFF0172CD4A36B00136348 /* AuthManager.swift */; };
+		8EF6B0CF2D09C9DD00004E6A /* View+Swipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF6B0CE2D09C9DD00004E6A /* View+Swipe.swift */; };
 		A7013EC02D0606E900AF0A43 /* EmojiTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7013EBF2D0606C500AF0A43 /* EmojiTopView.swift */; };
 		CE062B9E2CD8DB8100CB5D4A /* ChatDetailViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062B9D2CD8DB8100CB5D4A /* ChatDetailViewStore.swift */; };
 		CE062BAC2CD91E2B00CB5D4A /* PostMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062BAB2CD91E2500CB5D4A /* PostMessageView.swift */; };
@@ -252,6 +253,7 @@
 		8EE014402CE5D33D003151F8 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		8EE014422CE5D33D003151F8 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		8EE014742CE5D4EE003151F8 /* AzitWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AzitWidgetExtension.entitlements; sourceTree = "<group>"; };
+		8EF6B0CE2D09C9DD00004E6A /* View+Swipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Swipe.swift"; sourceTree = "<group>"; };
 		A7013EBF2D0606C500AF0A43 /* EmojiTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiTopView.swift; sourceTree = "<group>"; };
 		CE062B9D2CD8DB8100CB5D4A /* ChatDetailViewStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailViewStore.swift; sourceTree = "<group>"; };
 		CE062BAB2CD91E2500CB5D4A /* PostMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMessageView.swift; sourceTree = "<group>"; };
@@ -416,6 +418,7 @@
 				8E645D582CE47C0700F43836 /* AzitExtension.swift */,
 				CE7877552D02C3B3000184D6 /* KeyboardExtension.swift */,
 				CE7877572D02C580000184D6 /* NavigationExtension.swift */,
+				8EF6B0CE2D09C9DD00004E6A /* View+Swipe.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1002,6 +1005,7 @@
 				8EAFEFB22CD4580800136348 /* UserInfo.swift in Sources */,
 				8B3FE8AE2CD9E23E000A4519 /* EmojiView.swift in Sources */,
 				8EC52DDC2CE1E81D00DC8190 /* Constants.swift in Sources */,
+				8EF6B0CF2D09C9DD00004E6A /* View+Swipe.swift in Sources */,
 				CE062BAC2CD91E2B00CB5D4A /* PostMessageView.swift in Sources */,
 				CE946B3D2CEC390400250F9E /* KeyboardObserver.swift in Sources */,
 				CE7877562D02C3B3000184D6 /* KeyboardExtension.swift in Sources */,

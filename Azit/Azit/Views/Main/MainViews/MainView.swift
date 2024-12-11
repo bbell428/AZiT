@@ -30,12 +30,11 @@ struct MainView: View {
     @State private var isShowToast = false
     @State private var isTappedWidget = false // 위젯이 클릭 되었는지 확인
     @State private var isAnimatingForStroke = false // 글이 써졌는지 확인 후 애니메이션을 위함
-    
-    @State private var isShowingMessageView = false
-    @State private var isShowingMyPageView = false
+    @State private var isShowingMessageView = false // MessageView 노출 판별 여부
+    @State private var isShowingMyPageView = false // MyPageView 노출 판별 여부
     @State private var offset: CGFloat = 0.0 // 스와이프 감지를 위한 값
-    
     @State private var navigateToChatDetail = false
+    
     @State private var chatRoomId: String?
     @State private var profileImageFriend: String?
     @State private var nicknameFriend: String?
@@ -52,49 +51,15 @@ struct MainView: View {
                                     || isFriendsModalPresented
                                     || isDisplayEmojiPicker
                                     || isTappedWidget ? 2 : 1)
-                            .gesture(
-                                DragGesture()
-                                    .onChanged { value in
-                                        offset = value.translation.width
-                                    }
-                                    .onEnded { value in
-                                        if offset < -100 { // 왼쪽으로 스와이프
-                                            withAnimation(.easeInOut) {
-                                                isShowingMessageView = true
-                                            }
-                                        } else if offset > 100 { // 오른쪽으로 스와이프
-                                            withAnimation(.easeInOut) {
-                                                isShowingMyPageView = true
-                                            }
-                                        }
-                                        offset = 0 // 초기화
-                                    }
-                            )
-                        // 맵 화면일 때 맵 뷰
+                            .swipe(offset: $offset, isShowingMessageView: $isShowingMessageView, isShowingMyPageView: $isShowingMyPageView)
+                    // 맵 화면일 때 맵 뷰
                     } else {
                         MapView(isMainExposed: $isMainExposed, isMyModalPresented: $isMyModalPresented, isFriendsModalPresented: $isFriendsModalPresented, isDisplayEmojiPicker: $isDisplayEmojiPicker, isPassed24Hours: $isPassed24Hours, isSendFriendStoryToast: $isShowToast, isAnimatingForStroke: $isAnimatingForStroke)
                             .zIndex(isMyModalPresented
                                     || isFriendsModalPresented
                                     || isDisplayEmojiPicker
                                     || isTappedWidget ? 2 : 1)
-                            .gesture(
-                                DragGesture()
-                                    .onChanged { value in
-                                        offset = value.translation.width
-                                    }
-                                    .onEnded { value in
-                                        if offset < -100 { // 왼쪽으로 스와이프
-                                            withAnimation(.easeInOut) {
-                                                isShowingMessageView = true
-                                            }
-                                        } else if offset > 100 { // 오른쪽으로 스와이프
-                                            withAnimation(.easeInOut) {
-                                                isShowingMyPageView = true
-                                            }
-                                        }
-                                        offset = 0 // 초기화
-                                    }
-                            )
+                            .swipe(offset: $offset, isShowingMessageView: $isShowingMessageView, isShowingMyPageView: $isShowingMyPageView)
                     }
                     
                     // 메인 화면의 메뉴들
@@ -105,7 +70,6 @@ struct MainView: View {
             .toast(isPresenting: $isShowToast, alert: {
                 AlertToast(displayMode: .banner(.pop), type: .systemImage("envelope.open", Color.white), title: "전송 완료", style: .style(backgroundColor: .subColor1, titleColor: Color.white))
             })
-            
             .navigationDestination(isPresented: $navigateToChatDetail) {
                 if let roomId = chatRoomId {
                     MessageDetailView(
@@ -154,7 +118,6 @@ struct MainView: View {
                 print("존나 모르 겠어:\(FriendsStore.shared.nicknameFriend ?? "")")
                 print("존나 모르 겠어:\(navigateToChatDetail)")
             }
-
             .onChange(of: scenePhase) {
                 switch scenePhase {
                 case .background:
@@ -192,3 +155,30 @@ struct MainView: View {
     }
 }
 
+struct SwipeModifier: ViewModifier {
+    @Binding var offset: CGFloat
+    @Binding var isShowingMessageView: Bool
+    @Binding var isShowingMyPageView: Bool
+    
+    func body(content: Content) -> some View {
+        content
+            .gesture(
+                DragGesture()
+                    .onChanged { value in
+                        offset = value.translation.width
+                    }
+                    .onEnded { value in
+                        if offset < -100 { // 왼쪽으로 스와이프
+                            withAnimation(.easeInOut) {
+                                isShowingMessageView = true
+                            }
+                        } else if offset > 100 { // 오른쪽으로 스와이프
+                            withAnimation(.easeInOut) {
+                                isShowingMyPageView = true
+                            }
+                        }
+                        offset = 0 // 초기화
+                    }
+            )
+    }
+}
