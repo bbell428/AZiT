@@ -10,6 +10,7 @@ import SwiftUI
 struct MyPageView: View {
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var authManager: AuthManager
+    @EnvironmentObject var firendsStore: FriendsStore
     @Environment(\.dismiss) var dismiss
     
 //    @Binding var currentIndex: Int
@@ -103,7 +104,7 @@ struct MyPageView: View {
                             HStack {
                                 Text("친구 리스트")
                                     .font(.headline)
-                                Text("\(FriendsStore.shared.friendInfos.count)")
+                                Text("\(firendsStore.friendInfos.count)")
                                     .font(.headline)
                                     .padding(.leading, 6)
                             }
@@ -145,7 +146,7 @@ struct MyPageView: View {
                             
                             VStack(alignment: .center) {
                                 //MARK: 친구 목록
-                                ForEach(showAllFriends ? FriendsStore.shared.friendInfos :  Array(FriendsStore.shared.friendInfos.prefix(3)), id: \.id) { friend in
+                                ForEach(showAllFriends ? firendsStore.friendInfos :  Array(firendsStore.friendInfos.prefix(3)), id: \.id) { friend in
                                     HStack {
                                         ZStack {
                                             Circle()
@@ -194,7 +195,7 @@ struct MyPageView: View {
                                     Divider()
                                 }
                                 
-                                if FriendsStore.shared.friendInfos.count > 3 {
+                                if firendsStore.friendInfos.count > 3 {
                                     Button {
                                         withAnimation(.easeInOut(duration: 0.3)) { // 애니메이션을 추가, 자연스러운 느낌쓰
                                             showAllFriends.toggle()
@@ -305,8 +306,8 @@ struct MyPageView: View {
                                             } else {
                                                 print("친구 목록이 없습니다.")
                                             }
-                                            await FriendsStore.shared.deleteChatUser(userId: authManager.userID) // Chat컬렉션에서 자신 전부 삭제
-                                            await FriendsStore.shared.deleteStoryUser(userId: authManager.userID) // Story컬렉션에서 자신 전부 삭제
+                                            await firendsStore.deleteChatUser(userId: authManager.userID) // Chat컬렉션에서 자신 전부 삭제
+                                            await firendsStore.deleteStoryUser(userId: authManager.userID) // Story컬렉션에서 자신 전부 삭제
                                             try await userInfoStore.deleteUserInfo(userID: authManager.userID) // User컬렉션에서 자신 계정 삭제
                                             sendNotificationToServer(myNickname: "", message: "", fcmToken: userInfoStore.userInfo?.fcmToken ?? "", badge: 0, friendUserInfo: UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0, longitude: 0, blockedFriends: [], fcmToken: ""), chatId: "", viewType: "")
                                             
@@ -376,12 +377,12 @@ struct MyPageView: View {
                 Task {
                     await userInfoStore.loadUserInfo(userID: authManager.userID)
                     // Firestore 실시간 리스너 설정
-                    FriendsStore.shared.listenToFriendsUpdates(userID: authManager.userID)
+                    firendsStore.listenToFriendsUpdates(userID: authManager.userID)
                 }
             }
             .onDisappear {
                 // 리스너 제거
-                FriendsStore.shared.removeListener()
+                firendsStore.removeListener()
             }
             .navigationBarBackButtonHidden(true)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
