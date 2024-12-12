@@ -14,7 +14,7 @@ struct MessageView: View {
     @EnvironmentObject var chatListStore: ChatListStore
     @Environment(\.dismiss) var dismiss
     @Binding var isSendFriendStoryToast: Bool // 상대방 게시물에 메시지를 전송했는가? (Toast Message)
-    @Binding var isShowingMessageView: Bool
+    @Binding var isShowingMessageView: Bool // MessageView 노출 판별 여부
     
     var body: some View {
         NavigationStack {

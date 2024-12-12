@@ -60,16 +60,6 @@ struct MainTopView: View {
                                 .frame(width: 30)
                                 .foregroundStyle(Utility.createLinearGradient(colors: [.accent, .gradation1]))
                         }
-                        
-//                        NavigationLink {
-//                            MyPageView()
-//                        } label: {
-//                            Image(systemName: "person.fill")
-//                                .resizable()
-//                                .aspectRatio(contentMode: .fit)
-//                                .frame(width: 30)
-//                                .foregroundStyle(Utility.createLinearGradient(colors: [.accent, .gradation1]))
-//                        }
                     }
                     .frame(width: 50, height: 50)
                     .background(isMainExposed ? Color.gray.opacity(0.1) : Color.subColor4.opacity(0.8))

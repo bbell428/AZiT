@@ -22,7 +22,7 @@ struct MyPageView: View {
     @State var isResign: Bool = false // 회원탈퇴 알럿
     @State private var scale: CGFloat = 0.1
     
-    @Binding var isShowingMyPageView: Bool // MyPageView Control 변수
+    @Binding var isShowingMyPageView: Bool // MyPageView 노출 판별 여부
     
     var body: some View {
         NavigationStack {
