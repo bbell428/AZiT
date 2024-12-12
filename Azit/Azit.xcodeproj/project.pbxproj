@@ -122,6 +122,7 @@
 		CE78775E2D02CCE0000184D6 /* MessageDetailTopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE78775D2D02CCE0000184D6 /* MessageDetailTopBarView.swift */; };
 		CE7877602D02CF69000184D6 /* RoomMessageListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE78775F2D02CF69000184D6 /* RoomMessageListView.swift */; };
 		CE7877622D02CFA1000184D6 /* MessageSendFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7877612D02CFA1000184D6 /* MessageSendFieldView.swift */; };
+		CE7D27D12D0AA8CA00025F9F /* SwipeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7D27D02D0AA8C200025F9F /* SwipeModifier.swift */; };
 		CE86A3B62CE6DFE2000B59B2 /* AlbumDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE86A3B52CE6DFE2000B59B2 /* AlbumDetailView.swift */; };
 		CE86A3B82CE6E1B4000B59B2 /* AlbumFriendListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE86A3B72CE6E1B4000B59B2 /* AlbumFriendListView.swift */; };
 		CE86A3BA2CE6E4C6000B59B2 /* AlbumScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE86A3B92CE6E4C6000B59B2 /* AlbumScrollView.swift */; };
@@ -280,6 +281,7 @@
 		CE78775D2D02CCE0000184D6 /* MessageDetailTopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailTopBarView.swift; sourceTree = "<group>"; };
 		CE78775F2D02CF69000184D6 /* RoomMessageListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomMessageListView.swift; sourceTree = "<group>"; };
 		CE7877612D02CFA1000184D6 /* MessageSendFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSendFieldView.swift; sourceTree = "<group>"; };
+		CE7D27D02D0AA8C200025F9F /* SwipeModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeModifier.swift; sourceTree = "<group>"; };
 		CE86A3B52CE6DFE2000B59B2 /* AlbumDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailView.swift; sourceTree = "<group>"; };
 		CE86A3B72CE6E1B4000B59B2 /* AlbumFriendListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumFriendListView.swift; sourceTree = "<group>"; };
 		CE86A3B92CE6E4C6000B59B2 /* AlbumScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumScrollView.swift; sourceTree = "<group>"; };
@@ -544,7 +546,6 @@
 		8EAFEFA82CD4528E00136348 /* Azit */ = {
 			isa = PBXGroup;
 			children = (
-				CE9443232CFECFB0005E5C5F /* GoogleService-Info.plist */,
 				8EC52DC12CE18FB900DC8190 /* Assets.xcassets */,
 				8EAFEFEB2CD47A0700136348 /* Auth */,
 				EA31371F2CE331AA00AA4685 /* Azit.entitlements */,
@@ -553,10 +554,12 @@
 				8E645D5A2CE47C1200F43836 /* Constants */,
 				8E645D572CE47BE900F43836 /* Extension */,
 				8EAFEFB02CD4571D00136348 /* Fonts */,
+				CE9443232CFECFB0005E5C5F /* GoogleService-Info.plist */,
 				8B2FC1BC2CEDD1B30078443F /* icons.json */,
 				8E42C9FA2CE6E5270006CAA5 /* Info.plist */,
 				8B2FC1CA2CEE57560078443F /* metadata.json */,
 				8EAFEFAD2CD4529300136348 /* Models */,
+				CE7D27CF2D0AA89600025F9F /* Modifiers */,
 				8EAFEFA42CD4528E00136348 /* Preview Content */,
 				8EAFEFAF2CD452A600136348 /* Stores */,
 				8E645D562CE47BDA00F43836 /* Utility */,
@@ -723,6 +726,14 @@
 				CE78775D2D02CCE0000184D6 /* MessageDetailTopBarView.swift */,
 			);
 			path = Topbar;
+			sourceTree = "<group>";
+		};
+		CE7D27CF2D0AA89600025F9F /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				CE7D27D02D0AA8C200025F9F /* SwipeModifier.swift */,
+			);
+			path = Modifiers;
 			sourceTree = "<group>";
 		};
 		EA3137222CE337A600AA4685 /* QRCode */ = {
@@ -991,6 +1002,7 @@
 				EAB079722CDDAED700293C62 /* SplashView.swift in Sources */,
 				CE78775A2D02CB76000184D6 /* SelectedUploadImageView.swift in Sources */,
 				CE4865772CF03FAD00C30997 /* EditPhotoStore.swift in Sources */,
+				CE7D27D12D0AA8CA00025F9F /* SwipeModifier.swift in Sources */,
 				CE4865772CF03FAD00C30997 /* EditPhotoStore.swift in Sources */,
 				8E863A462CF03F8300057FF8 /* RotationBar.swift in Sources */,
 				8BE42D522CF1B0E000AB21F4 /* FilterButtons.swift in Sources */,
