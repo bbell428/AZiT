@@ -185,7 +185,7 @@ struct SignupView: View {
             }
             .frame(width: 330)
             .onAppear {
-                self.exPasswordString = "비밀번호는 영문 대소문자, 숫자를 혼합하여 8~12자로 입력해주세요."
+                self.exPasswordString = "비밀번호는 숫자, 영문, 특수문자를 혼합하여 8~12자로 입력해주세요."
             }
             
             Spacer()
