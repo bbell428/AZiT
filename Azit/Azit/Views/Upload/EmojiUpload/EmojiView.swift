@@ -49,22 +49,22 @@ struct EmojiView : View {
                 
                 // 메시지 입력
                 TextField("상태 메시지를 입력하세요.", text: $storyDraft.content)
-                    .padding(.leading, 10)
                     .frame(width: 340, height: 40)
+                    .padding(.bottom, 5)
+                    .padding(.leading, 10)
                     .background(
                         RoundedRectangle(cornerRadius: 15)
                             .stroke(Color.subColor1, lineWidth: 0.5)
                             .background(Color.white.clipShape(RoundedRectangle(cornerRadius: 15)))
                     )
-                    .padding(.bottom, 5)
-                    .onChange(of: storyDraft.content) { newValue in
-                        if newValue.count >= characterLimit {
-                            storyDraft.content = String(newValue.prefix(characterLimit))
-                            isLimitExceeded = true
-                        } else {
-                            isLimitExceeded = false
-                        }
-                    }
+//                    .onChange(of: storyDraft.content) { newValue in
+//                        if newValue.count >= characterLimit {
+//                            storyDraft.content = String(newValue.prefix(characterLimit))
+//                            isLimitExceeded = true
+//                        } else {
+//                            isLimitExceeded = false
+//                        }
+//                    }
                 
                 if isLimitExceeded {
                     Text("최대 25자까지 입력할 수 있습니다.")
@@ -169,7 +169,6 @@ struct EmojiView : View {
                 } else {
                     friendID = "All"
                 }
-                
             }
             
             withAnimation(.easeInOut(duration: 0.3)) {

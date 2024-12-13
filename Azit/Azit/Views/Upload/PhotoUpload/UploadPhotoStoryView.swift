@@ -93,7 +93,20 @@ struct UploadPhotoStoryView: View {
                                 
                                 // 이모지 + 매시지
                                 HStack{
-                                    if let codepoints = emojiManager.getCodepoints(forName: storyDraft.emoji) {
+//                                    if let codepoints = emojiManager.getCodepoints(forName: storyDraft.emoji.components(separatedBy: "*")[0]) {
+//                                                                        if let url = URL(string: EmojiManager.getTwemojiURL(for: codepoints)) {
+//                                                                            KFImage(url)
+//                                                                                .resizable()
+//                                                                                .scaledToFit()
+//                                                                                .frame(width: 40, height: 40)
+//                                                                                .placeholder {
+//                                                                                    // 이미지 로드 전 기본 이모지 표시
+//                                                                                    Text(emojiManager.getCodepoints(forName: storyDraft.emoji.components(separatedBy: "*")[1]))
+//                                                                                        .font(.title)
+//                                                                                }
+//                                                                        }
+//                                                                    }
+                                                                    if let codepoints = emojiManager.getCodepoints(forName: storyDraft.emoji) {
                                         KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
                                             .resizable()
                                             .scaledToFit()
@@ -125,7 +138,14 @@ struct UploadPhotoStoryView: View {
                                 }
                                 .onAppear() {
                                     Task {
-                                        friendID = try await userInfoStore.getUserNameById(id: storyDraft.publishedTargets[0])
+                                        if let firstTarget = storyDraft.publishedTargets.first {
+                                            do {
+                                                friendID = try await userInfoStore.getUserNameById(id: firstTarget)
+                                            } catch {
+                                                print("Failed to fetch user name: \(error)")
+                                                friendID = "" // 실패 시 빈 값 설정
+                                            }
+                                        }
                                     }
                                 }
                                 .padding([.leading, .bottom], 5)
