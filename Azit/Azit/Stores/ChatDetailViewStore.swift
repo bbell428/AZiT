@@ -19,6 +19,7 @@ class ChatDetailViewStore: ObservableObject {
     @Published var imageSelection: PhotosPickerItem? = nil // 갤러리에서 선택한 이미지
     @Published var selectedImage: UIImage? = nil          // 선택된 이미지를 UIImage로 변환
     @Published var isUploading: Bool = false              // 업로드 상태
+    @Published var isLoadChatList: Bool = false           // 채팅방 리스트를 불러오는중인가?
     
     // MARK: - 이미지 선택 및 처리
     func handleImageSelection() async {
@@ -101,6 +102,7 @@ class ChatDetailViewStore: ObservableObject {
     func getChatMessages(roomId: String, userId: String) {
         // 기존 리스너 제거
         listener?.remove()
+        self.isLoadChatList = true
         
         listener = db.collection("Chat")
             .document(roomId)
@@ -147,6 +149,8 @@ class ChatDetailViewStore: ObservableObject {
                 if let id = newLastMessageId {
                     self.lastMessageId = id
                 }
+                
+                self.isLoadChatList = false
             }
     }
     

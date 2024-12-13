@@ -74,6 +74,24 @@ struct MessageDetailView: View {
                     .zIndex(9)
                 }
                 
+                // 이미지 업로드 중일 때 ProgressView와 텍스트 표시
+                if chatDetailViewStore.isLoadChatList {
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                            Text("채팅 불러오는중..")
+                                .foregroundStyle(Color.white)
+                            Spacer()
+                        }
+                        Spacer()
+                    }
+                    .background(Color.black.opacity(0.3))
+                    .zIndex(9)
+                }
+                
                 // 이미지를 클릭했을때,
                 if isSelectedImage {
                     // MARK: 이미지 상세 View
@@ -88,7 +106,7 @@ struct MessageDetailView: View {
                         .zIndex(1)
                     
                     // MARK: 채팅방 메시지 내용
-                    RoomMessageListView(isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedAlbum: $selectedAlbum, isSelectedImage: $isSelectedImage, selectedImage: $selectedImage, nickname: nickname, profileImageName: profileImageName)
+                    RoomMessageListView(isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedAlbum: $selectedAlbum, isSelectedImage: $isSelectedImage, selectedImage: $selectedImage, nickname: nickname, profileImageName: profileImageName, roomId: roomId)
                         .zIndex(1)
                     
                     // MARK: 메시지 입력 공간
@@ -101,17 +119,13 @@ struct MessageDetailView: View {
             .onAppear {
                 Task {
                     // 채팅방 리스트 리스너 off
-                     chatListStore.removeChatRoomsListener()
-                    // 해당 채팅방 데이터 리스너 on
-                    chatDetailViewStore.getChatMessages(roomId: roomId, userId: authManager.userID)
+                    chatListStore.removeChatRoomsListener()
                 }
             }
             .onDisappear {
                 Task {
                     // 채팅방 리스트 리스너 on
                      chatListStore.fetchChatRooms(userId: userInfoStore.userInfo?.id ?? "")
-                    // 해당 채팅방 데이터 리스너 off
-                    chatDetailViewStore.removeChatMessagesListener()
                 }
             }
             .navigationBarBackButtonHidden(true)

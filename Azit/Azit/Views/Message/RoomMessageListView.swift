@@ -20,6 +20,7 @@ struct RoomMessageListView: View {
     
     var nickname: String
     var profileImageName: String
+    var roomId: String
     
     var body: some View {
         ScrollViewReader { proxy in
@@ -40,12 +41,28 @@ struct RoomMessageListView: View {
                         .frame(height: 1)
                         .id("Bottom")
                 }
-                // 초기에 가장 하단 스크롤으로 이동
                 .onAppear {
-                    proxy.scrollTo("Bottom", anchor: .bottom)
+                    Task {
+                        // 해당 채팅방 데이터 리스너 on
+                        chatDetailViewStore.getChatMessages(roomId: roomId, userId: authManager.userID)
+                    }
+                }
+                .onDisappear {
+                    Task {
+                        // 해당 채팅방 데이터 리스너 off
+                        chatDetailViewStore.removeChatMessagesListener()
+                    }
+                }
+                .onChange(of: chatDetailViewStore.isLoadChatList) { _, isLoadChatList in
+                    if !isLoadChatList {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            print("하단으로 이동")
+                            proxy.scrollTo("Bottom", anchor: .bottom)
+                        }
+                    }
                 }
                 // 메시지가 전송/전달 되면 하단 스크롤으로 이동
-                .onChange(of: chatDetailViewStore.lastMessageId) { id, _ in
+                .onChange(of: chatDetailViewStore.lastMessageId) { _, _ in
                     proxy.scrollTo("Bottom", anchor: .bottom)
                 }
                 // 키보드가 올라오면 하단 스크롤로 이동
@@ -57,7 +74,7 @@ struct RoomMessageListView: View {
                             }
                         }
                     } else {
-                        proxy.scrollTo("Bottom", anchor: .bottom)
+                            proxy.scrollTo("Bottom", anchor: .bottom)
                     }
                 }
             }
