@@ -20,6 +20,18 @@ class ChatDetailViewStore: ObservableObject {
     @Published var selectedImage: UIImage? = nil          // 선택된 이미지를 UIImage로 변환
     @Published var isUploading: Bool = false              // 업로드 상태
     @Published var isLoadChatList: Bool = false           // 채팅방 리스트를 불러오는중인가?
+    @Published var isChoicePhoto: Bool = false            // 사진에서 이미지를 선택했는가?
+    
+    // MARK: - 메시지를 날짜별로 그룹화
+    func groupMessagesByDate(_ messages: [Chat]) -> [String: [Chat]] {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYY년 M월 d일"
+        formatter.locale = Locale(identifier: "ko_KR")
+        
+        return Dictionary(grouping: messages) { chat in
+            formatter.string(from: chat.createAt)
+        }
+    }
     
     // MARK: - 이미지 선택 및 처리
     func handleImageSelection() async {

@@ -56,6 +56,13 @@ struct MessageDetailView: View {
                     }
                 }
                 
+                // 사진에서 이미지를 선택했는가?
+                if chatDetailViewStore.isChoicePhoto {
+                    // MARK: 업로드 전 선택한 이미지가 맞는지 선택하는 View
+                    CheckUploadImageView(friendId: friendId)
+                        .zIndex(2)
+                }
+                
                 // 이미지 업로드 중일 때 ProgressView와 텍스트 표시
                 if chatDetailViewStore.isUploading {
                     VStack {
@@ -110,7 +117,7 @@ struct MessageDetailView: View {
                         .zIndex(1)
                     
                     // MARK: 메시지 입력 공간
-                    MessageSendFieldView(isOpenGallery: $isOpenGallery, textEditorHeight: $textEditorHeight, roomId: roomId, nickname: nickname, friendId: friendId)
+                    MessageSendFieldView(isOpenGallery: $isOpenGallery, textEditorHeight: $textEditorHeight, roomId: roomId, nickname: nickname  ,friendId: friendId)
                         .frame(height: textEditorHeight)
                         .padding(.bottom, 10)
                         .zIndex(1)

@@ -136,7 +136,7 @@ struct GetMessage: View {
                                     // 이미지를 불러오는중이라면
                                 } else if isLoadingImage {
                                     ProgressView()
-                                        .frame(width: 90, height: 120)
+                                        .frame(width: 180, height: 240)
                                     // 이미지 불러오는중에 에러가 발생했다면
                                 } else {
                                     LoadFailView()
@@ -198,7 +198,8 @@ struct GetMessage: View {
                     
                     self.shareStory = fetchedStory
                 } catch {
-                    errorMessage = "Failed to load story: \(error.localizedDescription)"
+                    // error.localizedDescription
+                    errorMessage = "로딩 중 문제가 발생했습니다."
                 }
                 
                 isLoadingStory = false

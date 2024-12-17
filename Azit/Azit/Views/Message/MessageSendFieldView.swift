@@ -37,7 +37,7 @@ struct MessageSendFieldView: View {
             HStack(alignment: .bottom) {
                 Spacer()
                 
-                // 사진 업로드
+                // 사진에서 이미지 가져오기
                 PhotosPicker(
                     selection: $chatDetailViewStore.imageSelection,
                     matching: .images,
@@ -47,12 +47,9 @@ struct MessageSendFieldView: View {
                             .foregroundColor(.accentColor)
                     }
                     .onChange(of: chatDetailViewStore.imageSelection) { _, _ in
+                        // 사진에서 이미지를 골랐다면,
                         if chatDetailViewStore.imageSelection != nil {
-                            Task {
-                                // 이미지 처리 및 업로드 로직 호출
-                                await chatDetailViewStore.handleImageSelection()
-                                await chatDetailViewStore.uploadImage(myId: userInfoStore.userInfo?.id ?? "", friendId: friendId)
-                            }
+                            chatDetailViewStore.isChoicePhoto = true
                         }
                     }
                     .padding(.bottom, 5)
@@ -87,8 +84,8 @@ struct MessageSendFieldView: View {
                             await chatDetailViewStore.sendMessage(text: text, myId: userInfoStore.userInfo?.id ?? "", friendId: friendId)
                             
                             if otherUserInfo?.fcmToken != nil {
-                                                        sendNotificationToServer(myNickname: userInfoStore.userInfo?.nickname ?? "", message: text, fcmToken: otherUserInfo?.fcmToken ?? "", badge: await userInfoStore.sumIntegerValuesContainingUserID(userID: otherUserInfo?.id ?? ""), friendUserInfo: otherUserInfo!, chatId: roomId, viewType: "chatDetail") // 푸시 알림-메시지
-                                                    }
+                                sendNotificationToServer(myNickname: userInfoStore.userInfo?.nickname ?? "", message: text, fcmToken: otherUserInfo?.fcmToken ?? "", badge: await userInfoStore.sumIntegerValuesContainingUserID(userID: otherUserInfo?.id ?? ""), friendUserInfo: otherUserInfo!, chatId: roomId, viewType: "chatDetail") // 푸시 알림-메시지
+                            }
                             
                             text = "" // 메시지 전송 후 입력 필드를 초기화
                             adjustHeight() // 높이 리셋
@@ -111,22 +108,22 @@ struct MessageSendFieldView: View {
             .zIndex(2)
         }
         .onAppear {
-                    // 상대방의 UserInfo 가져옴, 상대방 토큰을 위해 사용함
-                    userInfoStore.getUserInfoByIdWithCompletion(id: friendId) { userInfo in
-                        if let userInfo = userInfo {
-                            DispatchQueue.main.async {
-                                self.otherUserInfo = userInfo
-                                print("Updated User Info: (userInfo.nickname)")
-                            }
-                        } else {
-                            print("No user data available or error occurred.")
-                        }
+            // 상대방의 UserInfo 가져옴, 상대방 토큰을 위해 사용함
+            userInfoStore.getUserInfoByIdWithCompletion(id: friendId) { userInfo in
+                if let userInfo = userInfo {
+                    DispatchQueue.main.async {
+                        self.otherUserInfo = userInfo
+                        print("Updated User Info: (userInfo.nickname)")
                     }
-                    Task {
-                        // 해당 채팅방으로 들어가면 배지 업데이트(읽음 메시지는 배지 알림 개수 전체에서 빼기)
-                        await sendNotificationToServer(myNickname: "", message: "", fcmToken: userInfoStore.userInfo?.fcmToken ?? "", badge: userInfoStore.sumIntegerValuesContainingUserID(userID: authManager.userID), friendUserInfo: UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0, longitude: 0, blockedFriends: [], fcmToken: ""), chatId: roomId, viewType: "chatDetail")
-                    }
+                } else {
+                    print("No user data available or error occurred.")
                 }
+            }
+            Task {
+                // 해당 채팅방으로 들어가면 배지 업데이트(읽음 메시지는 배지 알림 개수 전체에서 빼기)
+                await sendNotificationToServer(myNickname: "", message: "", fcmToken: userInfoStore.userInfo?.fcmToken ?? "", badge: userInfoStore.sumIntegerValuesContainingUserID(userID: authManager.userID), friendUserInfo: UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0, longitude: 0, blockedFriends: [], fcmToken: ""), chatId: roomId, viewType: "chatDetail")
+            }
+        }
     }
     
     // 텍스트 에디터 높이를 동적으로 조정하는 함수

@@ -122,6 +122,7 @@
 		CE78775E2D02CCE0000184D6 /* MessageDetailTopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE78775D2D02CCE0000184D6 /* MessageDetailTopBarView.swift */; };
 		CE7877602D02CF69000184D6 /* RoomMessageListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE78775F2D02CF69000184D6 /* RoomMessageListView.swift */; };
 		CE7877622D02CFA1000184D6 /* MessageSendFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7877612D02CFA1000184D6 /* MessageSendFieldView.swift */; };
+		CE7959362D115D16008E9E57 /* CheckUploadImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7959352D115D16008E9E57 /* CheckUploadImageView.swift */; };
 		CE7D27D12D0AA8CA00025F9F /* SwipeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7D27D02D0AA8C200025F9F /* SwipeModifier.swift */; };
 		CE86A3B62CE6DFE2000B59B2 /* AlbumDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE86A3B52CE6DFE2000B59B2 /* AlbumDetailView.swift */; };
 		CE86A3B82CE6E1B4000B59B2 /* AlbumFriendListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE86A3B72CE6E1B4000B59B2 /* AlbumFriendListView.swift */; };
@@ -281,6 +282,7 @@
 		CE78775D2D02CCE0000184D6 /* MessageDetailTopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailTopBarView.swift; sourceTree = "<group>"; };
 		CE78775F2D02CF69000184D6 /* RoomMessageListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomMessageListView.swift; sourceTree = "<group>"; };
 		CE7877612D02CFA1000184D6 /* MessageSendFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSendFieldView.swift; sourceTree = "<group>"; };
+		CE7959352D115D16008E9E57 /* CheckUploadImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckUploadImageView.swift; sourceTree = "<group>"; };
 		CE7D27D02D0AA8C200025F9F /* SwipeModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeModifier.swift; sourceTree = "<group>"; };
 		CE86A3B52CE6DFE2000B59B2 /* AlbumDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailView.swift; sourceTree = "<group>"; };
 		CE86A3B72CE6E1B4000B59B2 /* AlbumFriendListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumFriendListView.swift; sourceTree = "<group>"; };
@@ -651,6 +653,7 @@
 			isa = PBXGroup;
 			children = (
 				CE062BAF2CD91EE700CB5D4A /* ChatRoomListView.swift */,
+				CE7959352D115D16008E9E57 /* CheckUploadImageView.swift */,
 				CE062BAD2CD91E6600CB5D4A /* GetMessageView.swift */,
 				CED8BD3C2D06C72900A9A7D3 /* LoadFailView.swift */,
 				CE3A16E12CD85A5B0045DB52 /* MessageDetailView.swift */,
@@ -1041,6 +1044,7 @@
 				CEDFC2CE2CE1C814008C215A /* FriendSegmentView.swift in Sources */,
 				CE374EAD2CD79F6300601AA7 /* ChatListStore.swift in Sources */,
 				EAC5F7082CF43AF5005D1C8A /* FriendsStore.swift in Sources */,
+				CE7959362D115D16008E9E57 /* CheckUploadImageView.swift in Sources */,
 				CE86A3BA2CE6E4C6000B59B2 /* AlbumScrollView.swift in Sources */,
 				8EC52DDA2CE1DA3A00DC8190 /* MyContentsModalView.swift in Sources */,
 				8EC52DD82CE1C93C00DC8190 /* Utility.swift in Sources */,
