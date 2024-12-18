@@ -151,6 +151,7 @@ struct AzitApp: App {
     @StateObject private var cameraService = CameraService()
     @StateObject private var editPhotoStore = EditPhotoStore()
     @StateObject private var friendsStore = FriendsStore()
+    @StateObject private var photoStore = PhotoManagerStore()
     
     @State private var timer: Timer?
     @State private var url: URL?
@@ -169,6 +170,7 @@ struct AzitApp: App {
                 .environmentObject(albumStore)
                 .environmentObject(cameraService)
                 .environmentObject(editPhotoStore)
+                .environmentObject(photoStore)
                 .onOpenURL { url in
                     if url.scheme == "azit", let userID = URLComponents(url: url, resolvingAgainstBaseURL: false)?.host {
                         authManager.deepUserID = userID

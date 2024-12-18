@@ -8,66 +8,110 @@
 import SwiftUI
 import Photos
 
+// Custom PhotoPicker View
 struct PhotoGalleryView: View {
-    @StateObject private var photoManager = PhotoManager()
+    @EnvironmentObject var chatDetailViewStore: ChatDetailViewStore
+    @EnvironmentObject var userInfoStore: UserInfoStore
+    @EnvironmentObject var photoStore: PhotoManagerStore
 
+    @State private var selectedImage: UIImage? // 선택된 이미지 저장
+    
+    @Binding var isOpenGallery: Bool // 갤러리 열림 상태
+    var friendId: String // 상대방 ID
+    
     var body: some View {
-        NavigationView {
-            ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))]) {
-                    ForEach(photoManager.photos, id: \.self) { image in
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 100, height: 100)
-                            //.clipped()
-                    }
-                }
-            }
-            .navigationTitle("Gallery")
-            .onAppear {
-                photoManager.requestPhotos()
-            }
-        }
-    }
-}
-
-class PhotoManager: ObservableObject {
-    @Published var photos: [UIImage] = []
-
-    func requestPhotos() {
-        // 사진 접근 권한 요청
-        PHPhotoLibrary.requestAuthorization { status in
-            if status == .authorized {
-                self.fetchPhotos()
-            } else {
-                print("Photo Library access denied")
-            }
-        }
-    }
-
-    private func fetchPhotos() {
-        let fetchOptions = PHFetchOptions()
-        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        fetchOptions.fetchLimit = 50 // 최근 50개의 사진만 가져오기
-
-        let assets = PHAsset.fetchAssets(with: .image, options: fetchOptions)
-
-        let imageManager = PHCachingImageManager()
-        let targetSize = CGSize(width: 200, height: 200) // 원하는 이미지 크기
-
-        assets.enumerateObjects { asset, _, _ in
-            let options = PHImageRequestOptions()
-            options.deliveryMode = .highQualityFormat
-            options.isSynchronous = true
-
-            imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFill, options: options) { image, _ in
-                if let image = image {
-                    DispatchQueue.main.async {
-                        self.photos.append(image)
-                    }
+        VStack(alignment: .leading, spacing: 20) {
+            headerView
+            
+            ZStack(alignment: .bottom) {
+                photoGridView
+                
+                if selectedImage != nil {
+                    sendButtonBar
                 }
             }
         }
+        .edgesIgnoringSafeArea(.bottom)
+        .onAppear {
+            Task {
+                await photoStore.requestPhotos()
+            }
+        }
+    }
+    
+    private var headerView: some View {
+        Text("업로드할 이미지 선택")
+            .font(.title3)
+            .fontWeight(.bold)
+            .padding([.leading, .top], 20)
+    }
+    
+    private var photoGridView: some View {
+        ScrollView {
+            LazyVGrid(
+                columns: Array(repeating: GridItem(.flexible(), spacing: 3), count: 3),
+                spacing: 3
+            ) {
+                ForEach(photoStore.photos, id: \.self) { image in
+                    ZStack(alignment: .topTrailing) {
+                        Button {
+                            selectedImage = image
+                        } label: {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: (UIScreen.main.bounds.width - 12) / 3,
+                                       height: (UIScreen.main.bounds.width - 12) / 3)
+                                .clipped()
+                                .cornerRadius(5)
+                                .overlay(
+                                    selectedImage == image
+                                    ? Color.black.opacity(0.3)
+                                    : Color.clear
+                                )
+                        }
+                        
+                        if selectedImage == image {
+                            Image(systemName: "checkmark.circle.fill")
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                                .foregroundColor(.white)
+                                .background(Color.orange)
+                                .clipShape(Circle())
+                                .padding(7)
+                        }
+                    }
+                }
+            }
+            .padding(3)
+        }
+    }
+    
+    private var sendButtonBar: some View {
+        BlurView(style: .systemMaterial)
+            .frame(height: 80)
+            .overlay(
+                HStack {
+                    Spacer()
+                    Button {
+                        isOpenGallery = false
+                        Task {
+                            await sendSelectedImage()
+                        }
+                    } label: {
+                        Text("이미지 전송")
+                            .font(.headline)
+                            .foregroundColor(.blue)
+                            .padding(.trailing, 20)
+                            .padding(.bottom, 20)
+                    }
+                }
+            )
+    }
+    
+    private func sendSelectedImage() async {
+        guard let selectedImage = selectedImage else { return }
+        let myId = userInfoStore.userInfo?.id ?? ""
+        await chatDetailViewStore.uploadImage(myId: myId, friendId: friendId, selectedImage: selectedImage)
     }
 }

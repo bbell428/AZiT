@@ -37,22 +37,15 @@ struct MessageSendFieldView: View {
             HStack(alignment: .bottom) {
                 Spacer()
                 
-                // 사진에서 이미지 가져오기
-                PhotosPicker(
-                    selection: $chatDetailViewStore.imageSelection,
-                    matching: .images,
-                    photoLibrary: .shared()) {
-                        Image(systemName: "plus.circle.fill")
-                            .font(.largeTitle)
-                            .foregroundColor(.accentColor)
-                    }
-                    .onChange(of: chatDetailViewStore.imageSelection) { _, _ in
-                        // 사진에서 이미지를 골랐다면,
-                        if chatDetailViewStore.imageSelection != nil {
-                            chatDetailViewStore.isChoicePhoto = true
-                        }
-                    }
-                    .padding(.bottom, 5)
+                Button {
+                    // 갤러리 open
+                    isOpenGallery = true
+                } label: {
+                    Image(systemName: "plus.circle.fill")
+                        .font(.largeTitle)
+                        .foregroundColor(.accentColor)
+                }
+                .padding(.bottom, 5)
                 
                 // 텍스트 입력 필드
                 ZStack(alignment: .leading) {

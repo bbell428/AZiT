@@ -56,13 +56,6 @@ struct MessageDetailView: View {
                     }
                 }
                 
-                // 사진에서 이미지를 선택했는가?
-                if chatDetailViewStore.isChoicePhoto {
-                    // MARK: 업로드 전 선택한 이미지가 맞는지 선택하는 View
-                    CheckUploadImageView(friendId: friendId)
-                        .zIndex(2)
-                }
-                
                 // 이미지 업로드 중일 때 ProgressView와 텍스트 표시
                 if chatDetailViewStore.isUploading {
                     VStack {
@@ -123,6 +116,11 @@ struct MessageDetailView: View {
                         .zIndex(1)
                 }
             }
+            // MessageSendFieldView에 있는 좌측 버튼을 누르면 사진 리스트 오픈
+            .sheet(isPresented: $isOpenGallery, content: {
+                // MARK: Custom PhotoPicker View
+                PhotoGalleryView(isOpenGallery: $isOpenGallery, friendId: friendId)
+            })
             .onAppear {
                 Task {
                     // 채팅방 리스트 리스너 off

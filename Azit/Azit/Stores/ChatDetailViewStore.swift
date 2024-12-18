@@ -17,7 +17,7 @@ class ChatDetailViewStore: ObservableObject {
     private var listener: ListenerRegistration?
     
     @Published var imageSelection: PhotosPickerItem? = nil // 갤러리에서 선택한 이미지
-    @Published var selectedImage: UIImage? = nil          // 선택된 이미지를 UIImage로 변환
+    //@Published var selectedImage: UIImage? = nil          // 선택된 이미지를 UIImage로 변환
     @Published var isUploading: Bool = false              // 업로드 상태
     @Published var isLoadChatList: Bool = false           // 채팅방 리스트를 불러오는중인가?
     @Published var isChoicePhoto: Bool = false            // 사진에서 이미지를 선택했는가?
@@ -34,20 +34,20 @@ class ChatDetailViewStore: ObservableObject {
     }
     
     // MARK: - 이미지 선택 및 처리
-    func handleImageSelection() async {
-        guard let selectedItem = imageSelection else { return }
-        
-        do {
-            // 선택한 이미지를 로드
-            if let data = try await selectedItem.loadTransferable(type: Data.self), let uiImage = UIImage(data: data) {
-                // 이미지 크기 조정
-                self.selectedImage = resizeImage(image: uiImage, targetSize: CGSize(width: 300, height: 400))
-                print("이미지 로드 성공")
-            }
-        } catch {
-            print("이미지를 로드할 수 없습니다: \(error.localizedDescription)")
-        }
-    }
+//    func handleImageSelection() async {
+//        guard let selectedItem = imageSelection else { return }
+//        
+//        do {
+//            // 선택한 이미지를 로드
+//            if let data = try await selectedItem.loadTransferable(type: Data.self), let uiImage = UIImage(data: data) {
+//                // 이미지 크기 조정
+//                self.selectedImage = resizeImage(image: uiImage, targetSize: CGSize(width: 300, height: 400))
+//                print("이미지 로드 성공")
+//            }
+//        } catch {
+//            print("이미지를 로드할 수 없습니다: \(error.localizedDescription)")
+//        }
+//    }
     
     // MARK: - 이미지 크기 조정
     private func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage? {
@@ -62,7 +62,7 @@ class ChatDetailViewStore: ObservableObject {
     }
     
     // MARK: - Firebase Storage에 이미지 업로드
-    func uploadImage(myId: String, friendId: String) async {
+    func uploadImage(myId: String, friendId: String, selectedImage: UIImage?) async {
         guard let image = selectedImage else {
             print("업로드할 이미지가 없습니다.")
             return

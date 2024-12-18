@@ -123,7 +123,6 @@
 		CE78775E2D02CCE0000184D6 /* MessageDetailTopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE78775D2D02CCE0000184D6 /* MessageDetailTopBarView.swift */; };
 		CE7877602D02CF69000184D6 /* RoomMessageListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE78775F2D02CF69000184D6 /* RoomMessageListView.swift */; };
 		CE7877622D02CFA1000184D6 /* MessageSendFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7877612D02CFA1000184D6 /* MessageSendFieldView.swift */; };
-		CE7959362D115D16008E9E57 /* CheckUploadImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7959352D115D16008E9E57 /* CheckUploadImageView.swift */; };
 		CE7D27D12D0AA8CA00025F9F /* SwipeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7D27D02D0AA8C200025F9F /* SwipeModifier.swift */; };
 		CE86A3B62CE6DFE2000B59B2 /* AlbumDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE86A3B52CE6DFE2000B59B2 /* AlbumDetailView.swift */; };
 		CE86A3B82CE6E1B4000B59B2 /* AlbumFriendListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE86A3B72CE6E1B4000B59B2 /* AlbumFriendListView.swift */; };
@@ -133,6 +132,7 @@
 		CE9443242CFECFB0005E5C5F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE9443232CFECFB0005E5C5F /* GoogleService-Info.plist */; };
 		CE9443252CFECFB0005E5C5F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE9443232CFECFB0005E5C5F /* GoogleService-Info.plist */; };
 		CE946B3D2CEC390400250F9E /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE946B3C2CEC390400250F9E /* KeyboardObserver.swift */; };
+		CE9AB8D62D132504006D2C96 /* PhotoManagerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9AB8D52D132504006D2C96 /* PhotoManagerStore.swift */; };
 		CE9BB1132CF40AF70048C755 /* AzitWidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E611FDE2CEC9E0D00DF40E4 /* AzitWidgetData.swift */; };
 		CED22B1B2CEA33600075F56C /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = CED22B1A2CEA33600075F56C /* AlertToast */; };
 		CED8BD3D2D06C72900A9A7D3 /* LoadFailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED8BD3C2D06C72900A9A7D3 /* LoadFailView.swift */; };
@@ -284,7 +284,6 @@
 		CE78775D2D02CCE0000184D6 /* MessageDetailTopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailTopBarView.swift; sourceTree = "<group>"; };
 		CE78775F2D02CF69000184D6 /* RoomMessageListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomMessageListView.swift; sourceTree = "<group>"; };
 		CE7877612D02CFA1000184D6 /* MessageSendFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSendFieldView.swift; sourceTree = "<group>"; };
-		CE7959352D115D16008E9E57 /* CheckUploadImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckUploadImageView.swift; sourceTree = "<group>"; };
 		CE7D27D02D0AA8C200025F9F /* SwipeModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeModifier.swift; sourceTree = "<group>"; };
 		CE86A3B52CE6DFE2000B59B2 /* AlbumDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailView.swift; sourceTree = "<group>"; };
 		CE86A3B72CE6E1B4000B59B2 /* AlbumFriendListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumFriendListView.swift; sourceTree = "<group>"; };
@@ -292,6 +291,7 @@
 		CE8A3BAC2CF35E2100DDA2E8 /* TextEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditorView.swift; sourceTree = "<group>"; };
 		CE9443232CFECFB0005E5C5F /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CE946B3C2CEC390400250F9E /* KeyboardObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
+		CE9AB8D52D132504006D2C96 /* PhotoManagerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoManagerStore.swift; sourceTree = "<group>"; };
 		CED8BD3C2D06C72900A9A7D3 /* LoadFailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadFailView.swift; sourceTree = "<group>"; };
 		CEDFC2CD2CE1C814008C215A /* FriendSegmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendSegmentView.swift; sourceTree = "<group>"; };
 		CEDFC2ED2CE2EAB0008C215A /* AlbumStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumStore.swift; sourceTree = "<group>"; };
@@ -615,6 +615,7 @@
 				8EAFF00E2CD4A31300136348 /* StoryStore.swift */,
 				8B2FC1BA2CEDC5A70078443F /* TwemojiHelper.swift */,
 				EAF840732CD9B56200F23839 /* UserInfoStore.swift */,
+				CE9AB8D52D132504006D2C96 /* PhotoManagerStore.swift */,
 			);
 			path = Stores;
 			sourceTree = "<group>";
@@ -655,7 +656,6 @@
 			isa = PBXGroup;
 			children = (
 				CE062BAF2CD91EE700CB5D4A /* ChatRoomListView.swift */,
-				CE7959352D115D16008E9E57 /* CheckUploadImageView.swift */,
 				CE062BAD2CD91E6600CB5D4A /* GetMessageView.swift */,
 				CED8BD3C2D06C72900A9A7D3 /* LoadFailView.swift */,
 				CE3A16E12CD85A5B0045DB52 /* MessageDetailView.swift */,
@@ -1037,6 +1037,7 @@
 				CE7877602D02CF69000184D6 /* RoomMessageListView.swift in Sources */,
 				8BD71F7E2CD4BB280030693B /* TakePhotoView.swift in Sources */,
 				8BD71F842CD89AEA0030693B /* PhotoPicker.swift in Sources */,
+				CE9AB8D62D132504006D2C96 /* PhotoManagerStore.swift in Sources */,
 				8EAFEFAC2CD4528E00136348 /* MainView.swift in Sources */,
 				CE86A3B62CE6DFE2000B59B2 /* AlbumDetailView.swift in Sources */,
 				8BA5D4B42CDD3A7400B03843 /* EditStoryView.swift in Sources */,
@@ -1047,7 +1048,6 @@
 				CEDFC2CE2CE1C814008C215A /* FriendSegmentView.swift in Sources */,
 				CE374EAD2CD79F6300601AA7 /* ChatListStore.swift in Sources */,
 				EAC5F7082CF43AF5005D1C8A /* FriendsStore.swift in Sources */,
-				CE7959362D115D16008E9E57 /* CheckUploadImageView.swift in Sources */,
 				CE86A3BA2CE6E4C6000B59B2 /* AlbumScrollView.swift in Sources */,
 				8EC52DDA2CE1DA3A00DC8190 /* MyContentsModalView.swift in Sources */,
 				8EC52DD82CE1C93C00DC8190 /* Utility.swift in Sources */,
@@ -1294,7 +1294,8 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "앱에서 사진을 촬영하기 위해 카메라 접근이 필요합니다.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "앱이 백그라운드에서도 위치를 접근합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "스토리에 위치 정보를 추가하기 위해 위치 접근이 필요합니다.";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "사진 저장을 위해 권한이 필요합니다.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진에서 이미지를 가져오기 위해 접근합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1337,7 +1338,8 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "앱에서 사진을 촬영하기 위해 카메라 접근이 필요합니다.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "앱이 백그라운드에서도 위치를 접근합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "스토리에 위치 정보를 추가하기 위해 위치 접근이 필요합니다.";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "사진 저장을 위해 권한이 필요합니다.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진에서 이미지를 가져오기 위해 접근합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
