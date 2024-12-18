@@ -145,6 +145,9 @@
 		EAF3D1022CEDA31800ABCB4F /* sendNotificationToServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF3D1012CEDA31800ABCB4F /* sendNotificationToServer.swift */; };
 		EAF840742CD9B56200F23839 /* UserInfoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF840732CD9B56200F23839 /* UserInfoStore.swift */; };
 		EAF840B32CD9FA0E00F23839 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF840B22CD9FA0E00F23839 /* MyPageView.swift */; };
+		EAF8B20C2D134D9E00CB8D68 /* SignInFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF8B20B2D134D9500CB8D68 /* SignInFunctions.swift */; };
+		EAF8B20E2D13502200CB8D68 /* ErrorMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF8B20D2D13501A00CB8D68 /* ErrorMessages.swift */; };
+		EAF8B2102D1352B700CB8D68 /* LoginTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF8B20F2D1352B200CB8D68 /* LoginTitleView.swift */; };
 		EAF8BB1B2CDB368F00B67AAF /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF8BB1A2CDB368F00B67AAF /* EditProfileView.swift */; };
 		EAF93B852CD4A4D600116035 /* AuthManager+Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF93B842CD4A4D600116035 /* AuthManager+Email.swift */; };
 		EAF93B872CD4A4DC00116035 /* AuthManager+Google.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF93B862CD4A4DC00116035 /* AuthManager+Google.swift */; };
@@ -294,6 +297,9 @@
 		EAF3D1012CEDA31800ABCB4F /* sendNotificationToServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sendNotificationToServer.swift; sourceTree = "<group>"; };
 		EAF840732CD9B56200F23839 /* UserInfoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoStore.swift; sourceTree = "<group>"; };
 		EAF840B22CD9FA0E00F23839 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
+		EAF8B20B2D134D9500CB8D68 /* SignInFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInFunctions.swift; sourceTree = "<group>"; };
+		EAF8B20D2D13501A00CB8D68 /* ErrorMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessages.swift; sourceTree = "<group>"; };
+		EAF8B20F2D1352B200CB8D68 /* LoginTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTitleView.swift; sourceTree = "<group>"; };
 		EAF8BB1A2CDB368F00B67AAF /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
 		EAF93B842CD4A4D600116035 /* AuthManager+Email.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthManager+Email.swift"; sourceTree = "<group>"; };
 		EAF93B862CD4A4DC00116035 /* AuthManager+Google.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthManager+Google.swift"; sourceTree = "<group>"; };
@@ -654,8 +660,8 @@
 			isa = PBXGroup;
 			children = (
 				EAF93B8C2CD4A50700116035 /* AuthView.swift */,
+				EAF8B20A2D134D1300CB8D68 /* LoginView */,
 				EAD18AE42CD6719600AF3013 /* LoginSubView.swift */,
-				8EAFF0192CD4A37900136348 /* LoginView.swift */,
 				CE5574642CE4666600266EBD /* ProfileDetailView.swift */,
 				EAF93B8D2CD4A50700116035 /* SignupView.swift */,
 				EAB079712CDDAED700293C62 /* SplashView.swift */,
@@ -726,6 +732,17 @@
 				EABA948B2CEC303500193C1E /* FCM */,
 			);
 			path = MyPage;
+			sourceTree = "<group>";
+		};
+		EAF8B20A2D134D1300CB8D68 /* LoginView */ = {
+			isa = PBXGroup;
+			children = (
+				EAF8B20F2D1352B200CB8D68 /* LoginTitleView.swift */,
+				8EAFF0192CD4A37900136348 /* LoginView.swift */,
+				EAF8B20B2D134D9500CB8D68 /* SignInFunctions.swift */,
+				EAF8B20D2D13501A00CB8D68 /* ErrorMessages.swift */,
+			);
+			path = LoginView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -970,9 +987,11 @@
 				EAAABB762CE6D0CA0003C250 /* QRInvitation.swift in Sources */,
 				EAAABB782CE6D2BE0003C250 /* QR.swift in Sources */,
 				CE8A3BAD2CF35E2100DDA2E8 /* TextEditorView.swift in Sources */,
+				EAF8B20E2D13502200CB8D68 /* ErrorMessages.swift in Sources */,
 				8BE42D402CF0B8B900AB21F4 /* BlurView.swift in Sources */,
 				8E645D552CE4784F00F43836 /* MyContentEmojiView.swift in Sources */,
 				EA3137212CE3322000AA4685 /* QRCodeView.swift in Sources */,
+				EAF8B20C2D134D9E00CB8D68 /* SignInFunctions.swift in Sources */,
 				8EAFEFB82CD45CCE00136348 /* ChatRoom.swift in Sources */,
 				EAAABB7A2CE70BF40003C250 /* EditFriend.swift in Sources */,
 				8E9402612CDAE99E0005C2BB /* MapView.swift in Sources */,
@@ -1020,6 +1039,7 @@
 				EAF840B32CD9FA0E00F23839 /* MyPageView.swift in Sources */,
 				CE5574652CE4666600266EBD /* ProfileDetailView.swift in Sources */,
 				8EAFEFB62CD45CB100136348 /* Chat.swift in Sources */,
+				EAF8B2102D1352B700CB8D68 /* LoginTitleView.swift in Sources */,
 				CE7877542D02B7D5000184D6 /* MessageListTopBarView.swift in Sources */,
 				EAD18AE52CD6719600AF3013 /* LoginSubView.swift in Sources */,
 				EAF93B872CD4A4DC00116035 /* AuthManager+Google.swift in Sources */,
