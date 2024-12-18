@@ -67,21 +67,10 @@ struct RoomMessageListView: View {
                             }
                             // 날짜 구분선
                         } header: {
-                            HStack(alignment: .center) {
-                                Divider()
-                                    .frame(width: 100, height: 1)
-                                    .background(Color.gray)
-
-                                Text(date)
-                                    .font(.caption)
-                                    .foregroundStyle(Color.gray)
-                                    .padding(.vertical, 10)
-
-                                Divider()
-                                    .frame(width: 100, height: 1)
-                                    .background(Color.gray)
-                            }
-                            .frame(maxWidth: .infinity)
+                            Text(date)
+                                .font(.caption)
+                                .foregroundStyle(Color.gray)
+                                .padding(8)
                         }
                     }
                     

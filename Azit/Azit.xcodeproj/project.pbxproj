@@ -105,6 +105,7 @@
 		CE062BAE2CD91E6C00CB5D4A /* GetMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062BAD2CD91E6600CB5D4A /* GetMessageView.swift */; };
 		CE062BB02CD91EEE00CB5D4A /* ChatRoomListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE062BAF2CD91EE700CB5D4A /* ChatRoomListView.swift */; };
 		CE0B24C02CEEC35A002FE86D /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = CE0B24BF2CEEC35A002FE86D /* Kingfisher */; };
+		CE25CCF82D129B36008A73C6 /* PhotoGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE25CCF72D129B36008A73C6 /* PhotoGalleryView.swift */; };
 		CE374EAD2CD79F6300601AA7 /* ChatListStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE374EAC2CD79F6300601AA7 /* ChatListStore.swift */; };
 		CE3A16E22CD85A5B0045DB52 /* MessageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3A16E12CD85A5B0045DB52 /* MessageDetailView.swift */; };
 		CE4865752CF0280C00C30997 /* EditPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4865742CF027F700C30997 /* EditPhotoView.swift */; };
@@ -265,6 +266,7 @@
 		CE062BAB2CD91E2500CB5D4A /* PostMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMessageView.swift; sourceTree = "<group>"; };
 		CE062BAD2CD91E6600CB5D4A /* GetMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMessageView.swift; sourceTree = "<group>"; };
 		CE062BAF2CD91EE700CB5D4A /* ChatRoomListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomListView.swift; sourceTree = "<group>"; };
+		CE25CCF72D129B36008A73C6 /* PhotoGalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGalleryView.swift; sourceTree = "<group>"; };
 		CE374EAC2CD79F6300601AA7 /* ChatListStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListStore.swift; sourceTree = "<group>"; };
 		CE3A16E12CD85A5B0045DB52 /* MessageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDetailView.swift; sourceTree = "<group>"; };
 		CE4865742CF027F700C30997 /* EditPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPhotoView.swift; sourceTree = "<group>"; };
@@ -659,6 +661,7 @@
 				CE3A16E12CD85A5B0045DB52 /* MessageDetailView.swift */,
 				CE7877612D02CFA1000184D6 /* MessageSendFieldView.swift */,
 				8EAFF0122CD4A33600136348 /* MessageView.swift */,
+				CE25CCF72D129B36008A73C6 /* PhotoGalleryView.swift */,
 				CE062BAB2CD91E2500CB5D4A /* PostMessageView.swift */,
 				CE78775F2D02CF69000184D6 /* RoomMessageListView.swift */,
 				CE7877592D02CB76000184D6 /* SelectedUploadImageView.swift */,
@@ -1069,6 +1072,7 @@
 				EAAABB9C2CE890AB0003C250 /* BlockedFriendView.swift in Sources */,
 				EAF840B32CD9FA0E00F23839 /* MyPageView.swift in Sources */,
 				CE5574652CE4666600266EBD /* ProfileDetailView.swift in Sources */,
+				CE25CCF82D129B36008A73C6 /* PhotoGalleryView.swift in Sources */,
 				8EAFEFB62CD45CB100136348 /* Chat.swift in Sources */,
 				CE7877542D02B7D5000184D6 /* MessageListTopBarView.swift in Sources */,
 				EAD18AE52CD6719600AF3013 /* LoginSubView.swift in Sources */,

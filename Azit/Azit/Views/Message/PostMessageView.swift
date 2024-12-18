@@ -123,7 +123,7 @@ struct PostMessage: View {
                             // 메시지를 보낸 시간
                             Text(chat.formattedCreateAt)
                                 .font(.caption2)
-                                .foregroundStyle(Color.gray)
+                                .foregroundStyle(Color.gray.opacity(0.7))
                         }
                         
                         // 메시지 타입이 "UploadImage" 라면
