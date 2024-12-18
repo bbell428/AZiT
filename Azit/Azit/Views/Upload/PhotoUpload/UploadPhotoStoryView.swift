@@ -40,6 +40,7 @@ struct UploadPhotoStoryView: View {
     @State var isDisplayEmojiPicker: Bool = false
     @State var isDisplayTextEditor: Bool = false
     @State var isSelectText: Bool = false
+    @State private var isImageLoadFailed = false
     
     @State private var progressValue: Double = 2.0
     let totalValue: Double = 2.0
@@ -92,26 +93,18 @@ struct UploadPhotoStoryView: View {
                             VStack(alignment: .leading) {
                                 
                                 // 이모지 + 매시지
-                                HStack{
-//                                    if let codepoints = emojiManager.getCodepoints(forName: storyDraft.emoji.components(separatedBy: "*")[0]) {
-//                                                                        if let url = URL(string: EmojiManager.getTwemojiURL(for: codepoints)) {
-//                                                                            KFImage(url)
-//                                                                                .resizable()
-//                                                                                .scaledToFit()
-//                                                                                .frame(width: 40, height: 40)
-//                                                                                .placeholder {
-//                                                                                    // 이미지 로드 전 기본 이모지 표시
-//                                                                                    Text(emojiManager.getCodepoints(forName: storyDraft.emoji.components(separatedBy: "*")[1]))
-//                                                                                        .font(.title)
-//                                                                                }
-//                                                                        }
-//                                                                    }
-                                                                    if let codepoints = emojiManager.getCodepoints(forName: storyDraft.emoji) {
-                                        KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
+                                HStack {
+                                    let emojiComponents = storyDraft.emoji.components(separatedBy: "*")
+                                    if let codepoints = emojiManager.getCodepoints(forName: emojiComponents[0]) {
+                                        let urlString = EmojiManager.getTwemojiURL(for: codepoints)
+                                        
+                                        KFImage(URL(string: urlString))
+                                            .placeholder { Text(emojiComponents[1]) }
                                             .resizable()
                                             .scaledToFit()
-                                            .frame(width: 20, height: 20)
+                                            .frame(width: 40, height: 40)
                                     }
+                                    
                                     Text(storyDraft.content)
                                 }
                                 .padding([.leading, .bottom], 5)

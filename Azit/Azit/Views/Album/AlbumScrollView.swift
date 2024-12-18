@@ -85,26 +85,16 @@ struct AlbumScrollView : View {
                                                         .font(.caption)
                                                         .padding(.bottom, 5)
                                                 }
-//                                                if let codepoints = emojiManager.getCodepoints(forName: story.emoji.components(separatedBy: "*")[0]) {
-//                                                    if let url = URL(string: EmojiManager.getTwemojiURL(for: codepoints)) {
-//                                                        KFImage(url)
-//                                                            .resizable()
-//                                                            .scaledToFit()
-//                                                            .frame(width: 40, height: 40)
-//                                                            .placeholder {
-//                                                                // 이미지 로드 전 기본 이모지 표시
-//                                                                Text(emojiManager.getCodepoints(forName: story.emoji.components(separatedBy: "*")[1]))
-//                                                                    .font(.title)
-//                                                            }
-//                                                    }
-//                                                }
-                                                if let codepoints = emojiManager.getCodepoints(forName: story.emoji) {
-                    KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 20, height: 20)
-                }
-                                                Spacer()
+                                                let emojiComponents = story.emoji.components(separatedBy: "*")
+                                                if let codepoints = emojiManager.getCodepoints(forName: emojiComponents[0]) {
+                                                    let urlString = EmojiManager.getTwemojiURL(for: codepoints)
+                                                    
+                                                    KFImage(URL(string: urlString))
+                                                        .placeholder { Text(emojiComponents[1]) }
+                                                        .resizable()
+                                                        .scaledToFit()
+                                                        .frame(width: 40, height: 40)
+                                                }
                                             }
                                             .frame(width: 110, height: 150) // 고정된 크기
                                             .background(

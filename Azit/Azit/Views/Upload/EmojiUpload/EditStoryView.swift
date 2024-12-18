@@ -25,6 +25,7 @@ struct EditStoryView : View {
     @State private var isLimitExceeded: Bool = false
     @State private var scale: CGFloat = 0.1
     @State var friendID: String = ""
+    
     private let characterLimit = 20
     let screenBounds = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds
     

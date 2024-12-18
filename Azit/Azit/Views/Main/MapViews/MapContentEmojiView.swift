@@ -48,12 +48,16 @@ struct MapContentEmojiView: View {
                                         Circle()
                                             .stroke(isPassed24Hours ? AnyShapeStyle(Utility.createLinearGradient(colors: [.ellipseColor2.opacity(0.5), .ellipseColor2])) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 15)
                                             .frame(width: 90, height: 90)
-                                        if let codepoints = emojiManager.getCodepoints(forName: story?.emoji ?? "") {
-                                            KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
+                                        
+                                        let emojiComponents = story?.emoji.components(separatedBy: "*")
+                                        if let codepoints = emojiManager.getCodepoints(forName: emojiComponents?[0] ?? "") {
+                                            let urlString = EmojiManager.getTwemojiURL(for: codepoints)
+                                            
+                                            KFImage(URL(string: urlString))
+                                                .placeholder { Text(emojiComponents?[1] ?? "") }
                                                 .resizable()
                                                 .scaledToFit()
                                                 .frame(width: 60, height: 60)
-                                            
                                         }
                                     }
                                 }

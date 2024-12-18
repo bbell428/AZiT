@@ -43,8 +43,12 @@ struct StoryContentsView: View {
                     .padding(.bottom, -50)
                 }
                 
-                if let codepoints = emojiManager.getCodepoints(forName: story.emoji) {
-                    KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
+                let emojiComponents = story.emoji.components(separatedBy: "*")
+                if let codepoints = emojiManager.getCodepoints(forName: emojiComponents[0]) {
+                    let urlString = EmojiManager.getTwemojiURL(for: codepoints)
+                    
+                    KFImage(URL(string: urlString))
+                        .placeholder { Text(emojiComponents[1]) }
                         .resizable()
                         .scaledToFit()
                         .frame(width: 70, height: 70)

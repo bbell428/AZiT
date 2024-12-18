@@ -65,11 +65,15 @@ struct MyContentEmojiView: View {
                             Text(userInfoStore.userInfo?.profileImageName ?? "")
                                 .font(.system(size: width * 0.55))
                         } else {
-                            if let codepoints = emojiManager.getCodepoints(forName: previousState) {
-                                KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
+                            let emojiComponents = previousState.components(separatedBy: "*")
+                            if let codepoints = emojiManager.getCodepoints(forName: emojiComponents[0]) {
+                                let urlString = EmojiManager.getTwemojiURL(for: codepoints)
+                                
+                                KFImage(URL(string: urlString))
+                                    .placeholder { Text(emojiComponents[1]) }
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: width * 0.55, height: width * 0.55)
+                                    .frame(width: 40, height: 40)
                             }
                         }
                     }
