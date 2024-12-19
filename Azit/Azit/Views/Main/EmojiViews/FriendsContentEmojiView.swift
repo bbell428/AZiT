@@ -76,7 +76,7 @@ struct FriendsContentEmojiView: View {
                                     let urlString = EmojiManager.getTwemojiURL(for: codepoints)
                                     
                                     KFImage(URL(string: urlString))
-                                        .placeholder { Text(emojiComponents?[1] ?? "") }
+                                        //.placeholder { Text(emojiComponents?[1] ?? "") }
                                         .resizable()
                                         .scaledToFit()
                                         .frame(width: 25 * (2.2 - interpolationRatio), height: 25 * (2.2 - interpolationRatio))
