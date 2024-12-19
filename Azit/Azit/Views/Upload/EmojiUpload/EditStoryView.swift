@@ -25,6 +25,7 @@ struct EditStoryView : View {
     @State private var isLimitExceeded: Bool = false
     @State private var scale: CGFloat = 0.1
     @State var friendID: String = ""
+    
     private let characterLimit = 20
     let screenBounds = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds
     
@@ -134,7 +135,14 @@ struct EditStoryView : View {
                 print("위치 정보가 아직 준비되지 않았습니다.")
             }
             Task {
-                friendID = try await userInfoStore.getUserNameById(id: storyDraft.publishedTargets[0])
+                if let firstTarget = storyDraft.publishedTargets.first {
+                    do {
+                        friendID = try await userInfoStore.getUserNameById(id: firstTarget)
+                    } catch {
+                        print("Failed to fetch user name: \(error)")
+                        friendID = "" // 실패 시 빈 값 설정
+                    }
+                }
             }
             
             withAnimation(.easeInOut(duration: 0.3)) {

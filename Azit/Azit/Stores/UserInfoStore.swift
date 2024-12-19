@@ -46,27 +46,35 @@ class UserInfoStore: ObservableObject {
     
     // MARK: - 사용자 정보 업데이트 (위치나 상태 변경 등)
     func updateUserInfo(_ user: UserInfo) async {
-        do {
-            let db = Firestore.firestore()
-            
-            try await db.collection("User").document(user.id).setData([
-                "id": user.id,
-                "email": user.email,
-                "nickname": user.nickname,
-                "profileImageName": user.profileImageName,
-                "previousState": user.previousState,
-                "friends": user.friends,
-                "latitude": user.latitude,
-                "longitude": user.longitude,
-                "blockedFriends": user.blockedFriends,
-                "fcmToken": user.fcmToken
+            do {
+                let db = Firestore.firestore()
+                let documentRef = db.collection("User").document(user.id)
                 
-            ], merge: true) // 기존 데이터에 덮어쓰기
-            print("Document successfully updated!")
-        } catch {
-            print("Error updating document: \(error)")
+                // Firestore에서 기존 데이터를 가져오기
+                let existingData = try await documentRef.getDocument().data()
+                
+                // 기존 Firestore 데이터에서 email 필드 가져오기
+                let existingEmail = existingData?["email"] as? String ?? user.email ?? "unknown"
+                
+                // Firestore에 업데이트
+                try await documentRef.setData([
+                    "id": user.id,
+                    "email": existingEmail,  // 기존 Firestore에서 가져온 값을 사용
+                    "nickname": user.nickname,
+                    "profileImageName": user.profileImageName,
+                    "previousState": user.previousState,
+                    "friends": user.friends,
+                    "latitude": user.latitude,
+                    "longitude": user.longitude,
+                    "blockedFriends": user.blockedFriends,
+                    "fcmToken": user.fcmToken
+                ], merge: true)
+                
+                print("Document successfully updated!")
+            } catch {
+                print("Error updating document: \(error)")
+            }
         }
-    }
     
     // MARK: - 사용자 정보 로드
     func loadUserInfo(userID: String) async {

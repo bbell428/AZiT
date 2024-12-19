@@ -75,8 +75,12 @@ struct PostMessage: View {
                                                     .padding(.bottom, 5)
                                             }
                                             // 이모지가 존재한다면
-                                            if let codepoints = emojiManager.getCodepoints(forName: story.emoji) {
-                                                KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
+                                            let emojiComponents = story.emoji.components(separatedBy: "*")
+                                            if let codepoints = emojiManager.getCodepoints(forName: emojiComponents[0]) {
+                                                let urlString = EmojiManager.getTwemojiURL(for: codepoints)
+                                                
+                                                KFImage(URL(string: urlString))
+                                                    .placeholder { Text(emojiComponents[1]) }
                                                     .resizable()
                                                     .scaledToFit()
                                                     .frame(width: 40, height: 40)

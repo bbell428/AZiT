@@ -70,8 +70,13 @@ struct FriendsContentEmojiView: View {
                             ZStack {
                                 Circle()
                                     .stroke(isPassed24Hours ? AnyShapeStyle(Color.white) : AnyShapeStyle(Utility.createLinearGradient(colors: [.accent, .gradation1, .gradation2])), lineWidth: 5)
-                                if let codepoints = emojiManager.getCodepoints(forName: story?.emoji ?? "") {
-                                    KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
+                                
+                                let emojiComponents = story?.emoji.components(separatedBy: "*")
+                                if let codepoints = emojiManager.getCodepoints(forName: emojiComponents?[0] ?? "") {
+                                    let urlString = EmojiManager.getTwemojiURL(for: codepoints)
+                                    
+                                    KFImage(URL(string: urlString))
+                                        .placeholder { Text(emojiComponents?[1] ?? "") }
                                         .resizable()
                                         .scaledToFit()
                                         .frame(width: 25 * (2.2 - interpolationRatio), height: 25 * (2.2 - interpolationRatio))
