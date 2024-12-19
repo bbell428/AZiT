@@ -170,6 +170,7 @@ struct AzitApp: App {
                 .environmentObject(albumStore)
                 .environmentObject(cameraService)
                 .environmentObject(editPhotoStore)
+                .environmentObject(friendsStore)
                 .environmentObject(photoStore)
                 .onOpenURL { url in
                     if url.scheme == "azit", let userID = URLComponents(url: url, resolvingAgainstBaseURL: false)?.host {

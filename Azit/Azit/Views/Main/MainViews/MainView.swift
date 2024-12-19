@@ -66,33 +66,38 @@ struct MainView: View {
                     MainTopView(isMainExposed: $isMainExposed, isSendFriendStoryToast: $isShowToast)
                         .zIndex(1)
                 }
+                // 메인 뷰에서 알림을 받을 시, 해당 채팅방으로 이동
+                .navigationDestination(isPresented: $navigateToChatDetail) {
+                    if let roomId = chatRoomId {
+                        MessageDetailView(
+                            friend: UserInfo(
+                                id: roomId,
+                                email: "", // Replace with actual data
+                                nickname: "", // Replace with actual data
+                                profileImageName: "", // Default profile image
+                                previousState: "",
+                                friends: [],
+                                latitude: 0.0,
+                                longitude: 0.0,
+                                blockedFriends: [],
+                                fcmToken: ""
+                            ),
+                            isSendFriendStoryToast: $isShowToast,
+                            roomId: roomId,
+                            nickname: nicknameFriend ?? "",
+                            friendId: roomId,
+                            profileImageName: profileImageFriend ?? ""
+                        )
+                        .onDisappear {
+                            FriendsStore.shared.navigateToChatDetail = false
+                        }
+                    }
+                }
             }
             .toast(isPresenting: $isShowToast, alert: {
                 AlertToast(displayMode: .banner(.pop), type: .systemImage("envelope.open", Color.white), title: "전송 완료", style: .style(backgroundColor: .subColor1, titleColor: Color.white))
             })
-            .navigationDestination(isPresented: $navigateToChatDetail) {
-                if let roomId = chatRoomId {
-                    MessageDetailView(
-                        friend: UserInfo(
-                            id: roomId,
-                            email: "", // Replace with actual data
-                            nickname: "", // Replace with actual data
-                            profileImageName: "", // Default profile image
-                            previousState: "",
-                            friends: [],
-                            latitude: 0.0,
-                            longitude: 0.0,
-                            blockedFriends: [],
-                            fcmToken: ""
-                        ),
-                        isSendFriendStoryToast: $isShowToast,
-                        roomId: roomId,
-                        nickname: nicknameFriend ?? "",
-                        friendId: roomId,
-                        profileImageName: profileImageFriend ?? ""
-                    )
-                }
-            }
+            // 포그라운드 상태에서 알림을 받아 클릭 시, 알림에서 받아온 값들을 할당
             .onReceive(NotificationCenter.default.publisher(for: .didReceiveNotification)) { notification in
                 if let userInfo = notification.userInfo,
                    let viewType = userInfo["viewType"] as? String,
@@ -107,6 +112,7 @@ struct MainView: View {
                     self.navigateToChatDetail = true
                 }
             }
+            // 백그라운드에서 알림을 클릭 시, 앱 처음 실행하여 알림에서 얻게 된 값들을 할당하여 뷰 이동
             .onAppear {
                 if ((FriendsStore.shared.nicknameFriend?.isEmpty) != nil) {
                     self.navigateToChatDetail = FriendsStore.shared.navigateToChatDetail
@@ -114,9 +120,6 @@ struct MainView: View {
                     self.profileImageFriend = FriendsStore.shared.profileImageFriend
                     self.chatRoomId = FriendsStore.shared.chatRoomId
                 }
-                
-                print("존나 모르 겠어:\(FriendsStore.shared.nicknameFriend ?? "")")
-                print("존나 모르 겠어:\(navigateToChatDetail)")
             }
             .onChange(of: scenePhase) {
                 switch scenePhase {

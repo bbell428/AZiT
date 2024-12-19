@@ -25,8 +25,14 @@ struct SignupView: View {
     
     private func signUpWithEmailPassword() {
         Task {
-            // 정규식을 사용하여 비밀번호 형식 검사 (대문자 혹은 소문자, 숫자 포함)
-            let passwordRegex = "^(?=.*[a-zA-Z])(?=.*\\d)[A-Za-z\\d]{8,12}$"
+            // 숫자를 포함하는 정규식
+            let numberRegex = ".*\\d.*"
+            
+            // 문자를 포함하는 정규식
+            let letterRegex = ".*[a-zA-Z].*"
+            
+            // 특수문자 포함하는 정규식
+            let specialCharacterRegex = ".*[!@#$%^&*(),.?\":{}|<>].*"
             
             // 도메인 선택 작성 혹은 '@' 입력하여 직접 이메일 작성
             let fullEmail: String
@@ -46,8 +52,18 @@ struct SignupView: View {
                 isErrorPassword = true
                 errorMessageEmail = ""
                 isErrorEmail = false
-            } else if !NSPredicate(format: "SELF MATCHES %@", passwordRegex).evaluate(with: authManager.password) {
+            } else if !NSPredicate(format: "SELF MATCHES %@", numberRegex).evaluate(with: authManager.password) {
+                errorMessagePassword = "비밀번호는 숫자 1개 이상 포함해주세요."
+                isErrorPassword = true
+                errorMessageEmail = ""
+                isErrorEmail = false
+            } else if !NSPredicate(format: "SELF MATCHES %@", letterRegex).evaluate(with: authManager.password) {
                 errorMessagePassword = "비밀번호는 영문 대소문자 1개 이상 포함해주세요."
+                isErrorPassword = true
+                errorMessageEmail = ""
+                isErrorEmail = false
+            } else if !NSPredicate(format: "SELF MATCHES %@", specialCharacterRegex).evaluate(with: authManager.password) {
+                errorMessagePassword = "비밀번호는 특수문자 1개 이상 포함해주세요."
                 isErrorPassword = true
                 errorMessageEmail = ""
                 isErrorEmail = false
@@ -69,7 +85,6 @@ struct SignupView: View {
                 errorMessageEmail = "이미 존재한 이메일입니다."
             }
         }
-        
     }
     
     // 포커스를 비밀번호 확인으로
@@ -170,7 +185,7 @@ struct SignupView: View {
             }
             .frame(width: 330)
             .onAppear {
-                self.exPasswordString = "비밀번호는 영문 대소문자, 숫자를 혼합하여 8~12자로 입력해주세요."
+                self.exPasswordString = "비밀번호는 숫자, 영문, 특수문자를 혼합하여 8~12자로 입력해주세요."
             }
             
             Spacer()

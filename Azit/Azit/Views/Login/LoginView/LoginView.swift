@@ -22,62 +22,19 @@ struct LoginView: View {
     @State private var isErrorPassword = false // 비밀번호 틀리면 테두리색 빨갛게
     @State private var isErrorEmail = false // 이메일 틀리면 테두리색 빨갛게
     
-    private func signInWithEmailPassword() {
-        Task {
-            if await authManager.signInWithEmailPassword() == true {
-                dismiss()
-            }
-        }
-    }
-    
-    private func signInWithGoogle() {
-        Task {
-            if await authManager.signInWithGoogle() == true {
-                dismiss()
-            }
-        }
-    }
-    
     var body: some View {
         NavigationStack {
             GeometryReader { _ in // 키보드 올리면 화면 찌부되어갖고 ignoresSafeArea 사용할려고 사용
                 VStack(alignment: .center) {
-                    VStack {
-                        Text("Hello,")
-                            .font(.system(size: 20))
-                        Text("AZiT")
-                            .font(.system(size: 60))
-                            .fontWeight(.black)
-                    }
-                    .foregroundStyle(.accent)
-                    .padding(.bottom, 100)
+                    
+                    // 로그인 타이틀
+                    LoginTitleView()
                     
                     // 로그인 에러 메시지
-                    if authManager.errorMessage == "The email address is badly formatted." {
-                        VStack {
-                            Text("이메일 형식이 아닙니다.")
-                                .font(.caption)
-                                .foregroundColor(Color.red)
-                                .fontWeight(.heavy)
-                        }
-                        .onAppear {
-                            isErrorEmail = true
-                        }
-                        .frame(width: 330)
-                    } else if authManager.errorMessage == "The supplied auth credential is malformed or has expired." {
-                        VStack {
-                            Text("이메일 혹은 비밀번호를 확인해주세요")
-                                .font(.caption)
-                                .foregroundColor(Color.red)
-                                .fontWeight(.heavy)
-                        }
-                        .onAppear {
-                            isErrorEmail = false
-                            isErrorPassword = true
-                        }
-                        .frame(width: 330)
+                    if let errorMessage = handleErrorMessages(authManager: authManager) {
+                        ErrorMessageView(message: errorMessage, isErrorEmail: $isErrorEmail, isErrorPassword: $isErrorPassword)
+                            .frame(width: 330)
                     }
-                    
                     
                     // MARK: 이메일로 로그인
                     EmailTextField(
@@ -94,7 +51,9 @@ struct LoginView: View {
                         password: $authManager.password,
                         focus: $focus,
                         focusType: .password,
-                        onSubmit: signInWithEmailPassword,
+                        onSubmit: {
+                            signInWithEmailPassword(authManager: authManager, dismiss: dismiss)
+                        },
                         isErrorPassword: $isErrorPassword
                     )
                     .frame(width: 330)
@@ -105,7 +64,9 @@ struct LoginView: View {
                         inputText: "이메일로 로그인",
                         isLoading: authManager.authenticationState == .authenticating,
                         isValid: authManager.isValid,
-                        action: signInWithEmailPassword,
+                        action: {
+                            signInWithEmailPassword(authManager: authManager, dismiss: dismiss)
+                        },
                         focus: $focus
                     )
                     .frame(width: 330)
@@ -139,7 +100,7 @@ struct LoginView: View {
                     
                     HStack(spacing: 30) {
                         SignInButton(imageName: "GoogleLogo", backColor: .white) {
-                            signInWithGoogle()
+                            signInWithGoogle(authManager: authManager, dismiss: dismiss)
                         }
                         SignInButton(imageName: "AppleLogo", backColor: .black) {
                             authApple.startSignInWithAppleFlow()
@@ -170,8 +131,8 @@ struct LoginView: View {
     }
 }
 
-#Preview {
-    LoginView()
-        .environmentObject(AuthManager())
-}
+//#Preview {
+//    LoginView()
+//        .environmentObject(AuthManager())
+//}
 
