@@ -65,8 +65,9 @@ struct GetMessage: View {
                                         if let image = image {
                                             Image(uiImage: image)
                                                 .resizable()
-                                                .aspectRatio(3/4, contentMode: .fit)
+                                                .aspectRatio((image.size.width > image.size.height) ? 4/3 : 3/4, contentMode: (image.size.width > image.size.height) ? .fit : .fill)
                                                 .frame(width: 90, height: 120)
+                                                .background(Color.black)
                                                 .cornerRadius(15)
                                             // 이미지를 불러오는중이라면 progressView
                                         } else if isLoadingImage {
@@ -133,8 +134,9 @@ struct GetMessage: View {
                                     } label: {
                                         Image(uiImage: loadedImage)
                                             .resizable()
-                                            .aspectRatio(3/4, contentMode: .fit)
+                                            .aspectRatio((loadedImage.size.width > loadedImage.size.height) ? 4/3 : 3/4, contentMode: (loadedImage.size.width > loadedImage.size.height) ? .fit : .fill)
                                             .frame(width: 180, height: 240)
+                                            .background(Color.black)
                                             .cornerRadius(15)
                                     }
                                     // 이미지를 불러오는중이라면

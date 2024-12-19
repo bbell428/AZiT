@@ -99,11 +99,19 @@ struct PhotoGalleryView: View {
                             await sendSelectedImage()
                         }
                     } label: {
-                        Text("이미지 전송")
-                            .font(.headline)
-                            .foregroundColor(.blue)
-                            .padding(.trailing, 20)
-                            .padding(.bottom, 20)
+                        HStack(alignment: .center) {
+                            Image(systemName: "paperplane.fill")
+                                .foregroundStyle(.white)
+                                .padding(10)
+                            Text("전송")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .padding(.trailing, 20)
+                        }
+                        .background(.blue)
+                        .cornerRadius(20)
+                        .padding(.trailing, 20)
+                        .padding(.bottom, 20)
                     }
                 }
             )

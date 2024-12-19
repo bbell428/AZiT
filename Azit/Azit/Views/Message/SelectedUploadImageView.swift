@@ -26,8 +26,9 @@ struct SelectedUploadImageView: View {
             VStack(spacing: 50) {
                 Image(uiImage: selectedImage!)
                     .resizable()
-                    .aspectRatio(3/4, contentMode: .fit)
+                    .aspectRatio((selectedImage!.size.width > selectedImage!.size.height) ? 4/3 : 3/4, contentMode: (selectedImage!.size.width > selectedImage!.size.height) ? .fit : .fill)
                     .frame(maxWidth: 360, maxHeight: 480)
+                    .background(Color.black)
                     .cornerRadius(15)
                 
                 Button {
