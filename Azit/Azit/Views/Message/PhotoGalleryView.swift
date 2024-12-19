@@ -20,7 +20,7 @@ struct PhotoGalleryView: View {
     var friendId: String // 상대방 ID
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
+        VStack(alignment: .center, spacing: 20) {
             headerView
             
             ZStack(alignment: .bottom) {
@@ -40,7 +40,7 @@ struct PhotoGalleryView: View {
     }
     
     private var headerView: some View {
-        Text("업로드할 이미지 선택")
+        Text("사진")
             .font(.title3)
             .fontWeight(.bold)
             .padding([.leading, .top], 20)
