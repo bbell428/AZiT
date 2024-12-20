@@ -197,12 +197,11 @@ struct MyPageView: View {
                                 
                                 if firendsStore.friendInfos.count > 3 {
                                     Button {
-                                        withAnimation(.easeInOut(duration: 0.3)) { // 애니메이션을 추가, 자연스러운 느낌쓰
+//                                        withAnimation(.easeInOut(duration: 0.3)) { // 애니메이션을 추가, 자연스러운 느낌쓰
                                             showAllFriends.toggle()
-                                        }
+//                                        }
                                     } label: {
-                                        //                                    Image(systemName: showAllFriends ? "chevron.up" : "chevron.down")
-                                        Image(systemName: "chevron.down")
+                                        Image(systemName: showAllFriends ? "chevron.up" : "chevron.down")
                                             .font(.caption)
                                             .fontWeight(.light)
                                             .padding(.horizontal, 20)
