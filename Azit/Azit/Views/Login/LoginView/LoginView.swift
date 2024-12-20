@@ -109,7 +109,7 @@ struct LoginView: View {
                 }
                 .contentShape(Rectangle())  // 빈 영역 터치 가능
                 .onTapGesture {             // 빈 영역 터치시 함수 호출 -> 키보드 내려감
-                    self.endTextEditing()
+                    UIApplication.shared.endEditing()
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .padding(.horizontal, 20)

@@ -124,7 +124,7 @@ struct EditStoryView : View {
                 .presentationDetents([.medium, .large])
         }
         .onTapGesture {
-            self.endTextEditing()
+            UIApplication.shared.endEditing()
         }
         .contentShape(Rectangle()) // 전체 뷰가 터치 가능하도록 설정
         .scaleEffect(scale)
