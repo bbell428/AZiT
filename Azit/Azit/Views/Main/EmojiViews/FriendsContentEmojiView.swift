@@ -75,8 +75,10 @@ struct FriendsContentEmojiView: View {
                                 if let codepoints = emojiManager.getCodepoints(forName: emojiComponents?[0] ?? "") {
                                     let urlString = EmojiManager.getTwemojiURL(for: codepoints)
                                     
+                                    let placeholderText = emojiComponents?.count ?? 1 > 1 ? emojiComponents?[1] : "" // 안전한 인덱스 접근
+                                    
                                     KFImage(URL(string: urlString))
-                                        //.placeholder { Text(emojiComponents?[1] ?? "") }
+                                        .placeholder { Text(placeholderText ?? "") }
                                         .resizable()
                                         .scaledToFit()
                                         .frame(width: 25 * (2.2 - interpolationRatio), height: 25 * (2.2 - interpolationRatio))

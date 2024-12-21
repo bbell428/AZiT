@@ -92,7 +92,13 @@ struct AlbumScrollView : View {
                                                     let urlString = EmojiManager.getTwemojiURL(for: codepoints)
                                                     
                                                     KFImage(URL(string: urlString))
-                                                        //.placeholder { Text(emojiComponents[1]) }
+                                                        .placeholder {
+                                                                if emojiComponents.count > 1 {
+                                                                    Text(emojiComponents[1])
+                                                                } else {
+                                                                    Text("User")
+                                                                }
+                                                            }
                                                         .resizable()
                                                         .scaledToFit()
                                                         .frame(width: 40, height: 40)
