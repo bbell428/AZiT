@@ -13,7 +13,7 @@ struct MyPageView: View {
     @EnvironmentObject var firendsStore: FriendsStore
     @Environment(\.dismiss) var dismiss
     
-//    @Binding var currentIndex: Int
+    //    @Binding var currentIndex: Int
     @State var isPresented: Bool = false // 편집 뷰 띄움
     @State var showAllFriends = false // 친구 목록 더 보기
     @State var isQRPresented: Bool = false // QR 뷰
@@ -197,9 +197,9 @@ struct MyPageView: View {
                                 
                                 if firendsStore.friendInfos.count > 3 {
                                     Button {
-//                                        withAnimation(.easeInOut(duration: 0.3)) { // 애니메이션을 추가, 자연스러운 느낌쓰
-                                            showAllFriends.toggle()
-//                                        }
+                                        // withAnimation(.easeInOut(duration: 0.3)) { // 애니메이션을 추가, 자연스러운 느낌쓰
+                                        showAllFriends.toggle()
+                                        // }
                                     } label: {
                                         Image(systemName: showAllFriends ? "chevron.up" : "chevron.down")
                                             .font(.caption)
@@ -228,100 +228,6 @@ struct MyPageView: View {
                                 .padding(.bottom, 15)
                             
                             VStack(spacing: 15) {
-                                // 차단 유저 목록
-                                NavigationLink {
-                                    BlockedFriendView()
-                                } label: {
-                                    HStack {
-                                        Text("차단 유저 목록")
-                                            .foregroundStyle(Color.gray)
-                                            .font(.system(size: 15))
-                                            .bold()
-                                        Spacer()
-                                    }
-                                    .padding()
-                                    .background(RoundedRectangle(cornerRadius: 10)
-                                        .stroke(Color.gray, lineWidth: 0.5))
-                                }
-                                
-                                Button {
-                                    isLogout = true
-                                } label: {
-                                    HStack {
-                                        Text("로그아웃")
-                                            .foregroundStyle(Color.gray)
-                                            .font(.system(size: 15))
-                                            .bold()
-                                        Spacer()
-                                    }
-                                    .padding()
-                                    .background(RoundedRectangle(cornerRadius: 10)
-                                        .stroke(Color.gray, lineWidth: 0.5))
-                                    .alert("로그아웃", isPresented: $isLogout, actions: {
-                                        Button("예") {
-                                            Task {
-                                                // 로그아웃 시, 토근 값 빈문자열 + 알림배지 개수 0으로 초기화
-                                                await userInfoStore.updateFCMToken(authManager.userID, fcmToken: "")
-                                                sendNotificationToServer(myNickname: "", message: "", fcmToken: userInfoStore.userInfo?.fcmToken ?? "", badge: 0, friendUserInfo: UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0, longitude: 0, blockedFriends: [], fcmToken: ""), chatId: "", viewType: "")
-                                                
-                                                authManager.signOut()
-                                            }
-                                            
-                                            isLogout = false
-                                        }
-                                        
-                                        Button("아니요", role: .cancel) {
-                                            isLogout = false
-                                        }
-                                    }, message: {
-                                        Text("정말로 로그아웃을 하겠습니까?")
-                                    })
-                                }
-                                
-                                
-                                Button {
-                                    // 계정 탈퇴
-                                    isResign = true
-                                } label: {
-                                    HStack {
-                                        Text("계정 탈퇴")
-                                            .foregroundStyle(Color.gray)
-                                            .font(.system(size: 15))
-                                            .bold()
-                                        Spacer()
-                                    }
-                                    .padding()
-                                    .background(RoundedRectangle(cornerRadius: 10)
-                                        .stroke(Color.gray, lineWidth: 0.5))
-                                }
-                                .alert("계정 탈퇴", isPresented: $isResign, actions: {
-                                    Button("예") {
-                                        Task {
-                                            // 상대 친구 목록에 자신 삭제
-                                            if let friends = userInfoStore.userInfo?.friends {
-                                                for friend in friends {
-                                                    userInfoStore.removeFriend(friendID: friend, currentUserID: authManager.userID)
-                                                }
-                                            } else {
-                                                print("친구 목록이 없습니다.")
-                                            }
-                                            await firendsStore.deleteChatUser(userId: authManager.userID) // Chat컬렉션에서 자신 전부 삭제
-                                            await firendsStore.deleteStoryUser(userId: authManager.userID) // Story컬렉션에서 자신 전부 삭제
-                                            try await userInfoStore.deleteUserInfo(userID: authManager.userID) // User컬렉션에서 자신 계정 삭제
-                                            sendNotificationToServer(myNickname: "", message: "", fcmToken: userInfoStore.userInfo?.fcmToken ?? "", badge: 0, friendUserInfo: UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0, longitude: 0, blockedFriends: [], fcmToken: ""), chatId: "", viewType: "")
-                                            
-                                            await authManager.deleteAccount() // Authentication에서 자신 계정 삭제
-                                        }
-                                        isResign = false
-                                    }
-                                    
-                                    Button("아니요", role: .cancel) {
-                                        isResign = false
-                                    }
-                                }, message: {
-                                    Text("정말로 계정 탈퇴 하겠습니까?")
-                                })
-                                
                                 Button {
                                     // 고객 지원
                                 } label: {
@@ -338,6 +244,100 @@ struct MyPageView: View {
                                 }
                             }
                             .foregroundStyle(Color.black)
+                            
+                            // 차단 유저 목록
+                            NavigationLink {
+                                BlockedFriendView()
+                            } label: {
+                                HStack {
+                                    Text("차단 유저 목록")
+                                        .foregroundStyle(Color.gray)
+                                        .font(.system(size: 15))
+                                        .bold()
+                                    Spacer()
+                                }
+                                .padding()
+                                .background(RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.gray, lineWidth: 0.5))
+                            }
+                            
+                            Button {
+                                isLogout = true
+                            } label: {
+                                HStack {
+                                    Text("로그아웃")
+                                        .foregroundStyle(Color.accentColor)
+                                        .font(.system(size: 15))
+                                        .bold()
+                                    Spacer()
+                                }
+                                .padding()
+                                .background(RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.accentColor, lineWidth: 0.5))
+                                .alert("로그아웃", isPresented: $isLogout, actions: {
+                                    Button("예") {
+                                        Task {
+                                            // 로그아웃 시, 토근 값 빈문자열 + 알림배지 개수 0으로 초기화
+                                            await userInfoStore.updateFCMToken(authManager.userID, fcmToken: "")
+                                            sendNotificationToServer(myNickname: "", message: "", fcmToken: userInfoStore.userInfo?.fcmToken ?? "", badge: 0, friendUserInfo: UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0, longitude: 0, blockedFriends: [], fcmToken: ""), chatId: "", viewType: "")
+                                            
+                                            authManager.signOut()
+                                        }
+                                        
+                                        isLogout = false
+                                    }
+                                    
+                                    Button("아니요", role: .cancel) {
+                                        isLogout = false
+                                    }
+                                }, message: {
+                                    Text("정말로 로그아웃을 하겠습니까?")
+                                })
+                            }
+                            
+                            
+                            Button {
+                                // 계정 탈퇴
+                                isResign = true
+                            } label: {
+                                HStack {
+                                    Text("계정 탈퇴")
+                                        .foregroundStyle(Color.accentColor)
+                                        .font(.system(size: 15))
+                                        .bold()
+                                    Spacer()
+                                }
+                                .padding()
+                                .background(RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.accentColor, lineWidth: 0.5))
+                            }
+                            .alert("계정 탈퇴", isPresented: $isResign, actions: {
+                                Button("예") {
+                                    Task {
+                                        // 상대 친구 목록에 자신 삭제
+                                        if let friends = userInfoStore.userInfo?.friends {
+                                            for friend in friends {
+                                                userInfoStore.removeFriend(friendID: friend, currentUserID: authManager.userID)
+                                            }
+                                        } else {
+                                            print("친구 목록이 없습니다.")
+                                        }
+                                        await firendsStore.deleteChatUser(userId: authManager.userID) // Chat컬렉션에서 자신 전부 삭제
+                                        await firendsStore.deleteStoryUser(userId: authManager.userID) // Story컬렉션에서 자신 전부 삭제
+                                        try await userInfoStore.deleteUserInfo(userID: authManager.userID) // User컬렉션에서 자신 계정 삭제
+                                        sendNotificationToServer(myNickname: "", message: "", fcmToken: userInfoStore.userInfo?.fcmToken ?? "", badge: 0, friendUserInfo: UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0, longitude: 0, blockedFriends: [], fcmToken: ""), chatId: "", viewType: "")
+                                        
+                                        await authManager.deleteAccount() // Authentication에서 자신 계정 삭제
+                                    }
+                                    isResign = false
+                                }
+                                
+                                Button("아니요", role: .cancel) {
+                                    isResign = false
+                                }
+                            }, message: {
+                                Text("정말로 계정 탈퇴 하겠습니까?")
+                            })
                         }
                         .padding(.horizontal)
                         
