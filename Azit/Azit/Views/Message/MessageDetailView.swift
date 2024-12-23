@@ -22,13 +22,13 @@ struct MessageDetailView: View {
     @State var isOpenGallery: Bool = false // 업로드 할 이미지를 선택하기 위해 갤러리를 open 했을때
     @State var isSelectedImage: Bool = false // 이미지를 선택했을때
     @State var textEditorHeight: CGFloat = 40 // 키보드 초기 높이
+    @State var selectedMessage: Chat? // 선택된 채팅
     
     @State var selectedAlbum: Story? // 선택된 스토리 정보
     @State var friend: UserInfo // 상대방 정보
     @State var selectedImage: UIImage? // 선택된 이미지
     
     @Binding var isSendFriendStoryToast: Bool // 상대방의 게시물을 open 했는가?
-    
     
     var roomId: String // 메시지방 id
     var nickname: String // 상대방 닉네임
@@ -106,13 +106,13 @@ struct MessageDetailView: View {
                         .zIndex(1)
                     
                     // MARK: 채팅방 메시지 내용
-                    RoomMessageListView(isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedAlbum: $selectedAlbum, isSelectedImage: $isSelectedImage, selectedImage: $selectedImage, nickname: nickname, profileImageName: profileImageName, roomId: roomId)
+                    RoomMessageListView(isFriendsContentModalPresented: $isFriendsContentModalPresented, selectedAlbum: $selectedAlbum, isSelectedImage: $isSelectedImage, selectedImage: $selectedImage, selectedMessage: $selectedMessage, nickname: nickname, profileImageName: profileImageName, roomId: roomId)
                         .zIndex(1)
                     
                     // MARK: 메시지 입력 공간
-                    MessageSendFieldView(isOpenGallery: $isOpenGallery, textEditorHeight: $textEditorHeight, roomId: roomId, nickname: nickname  ,friendId: friendId)
-                        .frame(height: textEditorHeight)
-                        .padding(.bottom, 10)
+                    MessageSendFieldView(isOpenGallery: $isOpenGallery, textEditorHeight: $textEditorHeight, selectedMessage: $selectedMessage, roomId: roomId, nickname: nickname  ,friendId: friendId)
+                        .frame(height: (selectedMessage != nil) ? textEditorHeight + 50 : textEditorHeight, alignment: .bottom)
+                        .padding(.top, 10)
                         .zIndex(1)
                 }
             }

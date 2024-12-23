@@ -20,86 +20,101 @@ struct MessageSendFieldView: View {
     
     @Binding var isOpenGallery: Bool
     @Binding var textEditorHeight: CGFloat // 초기 높이
+    @Binding var selectedMessage: Chat? // 선택된 채팅
     
     var roomId: String // 채팅방 ID
     var nickname: String // 상대방 닉네임
     var friendId: String // 상대방 ID
     
     var body: some View {
-        ZStack(alignment: .center) {
-            Rectangle()
-                .frame(height: textEditorHeight + 10)
-                .cornerRadius(20)
-                .padding(.horizontal, 10)
-                .foregroundStyle(Color.gray.opacity(0.1))
-                .zIndex(1)
+        VStack(alignment: .leading) {
+            if selectedMessage != nil {
+                if selectedMessage?.sender != userInfoStore.userInfo?.id {
+                    Text("\(nickname)님에게 답장 보내기")
+                        .padding(.horizontal, 10)
+                } else {
+                    Text("\(userInfoStore.userInfo!.nickname)님에게 답장 보내기")
+                        .padding(.horizontal, 10)
+                }
+                Text(selectedMessage?.message ?? "")
+                    .padding(.horizontal, 10)
+            }
             
-            HStack(alignment: .bottom) {
-                Spacer()
+            ZStack(alignment: .center) {
+                Rectangle()
+                    .frame(height: textEditorHeight + 10)
+                    .cornerRadius(20)
+                    .padding(.horizontal, 10)
+                    .foregroundStyle(Color.gray.opacity(0.1))
+                    .zIndex(1)
                 
-                Button {
-                    // 갤러리 open
-                    isOpenGallery = true
-                } label: {
-                    Image(systemName: "plus.circle.fill")
-                        .font(.largeTitle)
-                        .foregroundColor(.accentColor)
-                }
-                .padding(.bottom, 5)
-                
-                // 텍스트 입력 필드
-                ZStack(alignment: .leading) {
-                    if text.isEmpty {
-                        Text("\(nickname)에게 보내기")
-                            .foregroundColor(Color.gray.opacity(0.3))
-                            .padding(.horizontal, 10)
-                            .zIndex(5)
-                    }
+                HStack(alignment: .bottom) {
+                    Spacer()
                     
-                    TextEditor(text: $text)
-                        .foregroundColor(Color.black)
-                        .frame(height: textEditorHeight)
-                        .scrollContentBackground(.hidden)
-                        .cornerRadius(15)
-                        .onChange(of: text) { _, _ in
-                            adjustHeight() // 높이 조정
-                        }
-                        .padding(.top, 5)
-                }
-                
-                // 전송 버튼
-                if !text.isEmpty {
-                    Button(action: {
-                        Task {
-                            guard !text.isEmpty else { return }
-                            print("메시지 내용: \(text)")
-                            
-                            await chatDetailViewStore.sendMessage(text: text, myId: userInfoStore.userInfo?.id ?? "", friendId: friendId)
-                            
-                            // 상대방이 로그아웃 한 상태가 아니라면 메시지 입력하여 전송 시, 알림을 보냄
-                            if otherUserInfo?.fcmToken != nil {
-                                sendNotificationToServer(myNickname: userInfoStore.userInfo?.nickname ?? "", message: text, fcmToken: otherUserInfo?.fcmToken ?? "", badge: await userInfoStore.sumIntegerValuesContainingUserID(userID: otherUserInfo?.id ?? ""), friendUserInfo: otherUserInfo!, chatId: roomId, viewType: "chatDetail") // 푸시 알림-메시지
-                            }
-                            
-                            text = "" // 메시지 전송 후 입력 필드를 초기화
-                            adjustHeight() // 높이 리셋
-                        }
-                    }) {
-                        Image(systemName: "paperplane.fill")
-                            .padding(.horizontal, 12.5)
-                            .padding(.vertical, 7)
-                            .font(.title3)
-                            .foregroundColor(.white)
-                            .background(text.isEmpty ? .gray : .accent)
-                            .cornerRadius(15)
+                    Button {
+                        // 갤러리 open
+                        isOpenGallery = true
+                    } label: {
+                        Image(systemName: "plus.circle.fill")
+                            .font(.largeTitle)
+                            .foregroundColor(.accentColor)
                     }
                     .padding(.bottom, 5)
+                    
+                    // 텍스트 입력 필드
+                    ZStack(alignment: .leading) {
+                        if text.isEmpty {
+                            Text("\(nickname)에게 보내기")
+                                .foregroundColor(Color.gray.opacity(0.3))
+                                .padding(.horizontal, 10)
+                                .zIndex(5)
+                        }
+                        
+                        TextEditor(text: $text)
+                            .foregroundColor(Color.black)
+                            .frame(height: textEditorHeight)
+                            .scrollContentBackground(.hidden)
+                            .cornerRadius(15)
+                            .onChange(of: text) { _, _ in
+                                adjustHeight() // 높이 조정
+                            }
+                            .padding(.top, 5)
+                    }
+                    
+                    // 전송 버튼
+                    if !text.isEmpty {
+                        Button(action: {
+                            Task {
+                                guard !text.isEmpty else { return }
+                                print("메시지 내용: \(text)")
+                                
+                                await chatDetailViewStore.sendMessage(text: text, myId: userInfoStore.userInfo?.id ?? "", friendId: friendId)
+                                
+                                // 상대방이 로그아웃 한 상태가 아니라면 메시지 입력하여 전송 시, 알림을 보냄
+                                if otherUserInfo?.fcmToken != nil {
+                                    sendNotificationToServer(myNickname: userInfoStore.userInfo?.nickname ?? "", message: text, fcmToken: otherUserInfo?.fcmToken ?? "", badge: await userInfoStore.sumIntegerValuesContainingUserID(userID: otherUserInfo?.id ?? ""), friendUserInfo: otherUserInfo!, chatId: roomId, viewType: "chatDetail") // 푸시 알림-메시지
+                                }
+                                
+                                text = "" // 메시지 전송 후 입력 필드를 초기화
+                                adjustHeight() // 높이 리셋
+                            }
+                        }) {
+                            Image(systemName: "paperplane.fill")
+                                .padding(.horizontal, 12.5)
+                                .padding(.vertical, 7)
+                                .font(.title3)
+                                .foregroundColor(.white)
+                                .background(text.isEmpty ? .gray : .accent)
+                                .cornerRadius(15)
+                        }
+                        .padding(.bottom, 5)
+                    }
+                    
+                    Spacer()
                 }
-                
-                Spacer()
+                .padding(10)
+                .zIndex(2)
             }
-            .padding(10)
-            .zIndex(2)
         }
         .onAppear {
             // 상대방의 UserInfo 가져옴, 상대방 토큰을 위해 사용함

@@ -17,6 +17,7 @@ struct RoomMessageListView: View {
     @Binding var selectedAlbum: Story?
     @Binding var isSelectedImage: Bool // 이미지를 선택했을때
     @Binding var selectedImage: UIImage? // 선택된 이미지
+    @Binding var selectedMessage: Chat? // 선택된 채팅
     
     var nickname: String
     var profileImageName: String
@@ -55,6 +56,9 @@ struct RoomMessageListView: View {
                                                 selectedImage: $selectedImage,
                                                 chat: chat,
                                                 nickname: nickname)
+                                    .onLongPressGesture {
+                                        selectedMessage = chat
+                                    }
                                 } else {
                                     // 받은 메시지
                                     GetMessage(isFriendsContentModalPresented: $isFriendsContentModalPresented,
@@ -63,9 +67,9 @@ struct RoomMessageListView: View {
                                                selectedImage: $selectedImage,
                                                chat: chat,
                                                profileImageName: profileImageName)
-//                                    .onLongPressGesture(minimumDuration: 1.5) {
-//                                            print("선택")
-//                                        }
+                                    .onLongPressGesture {
+                                        selectedMessage = chat
+                                    }
                                 }
                             }
                             // 날짜 구분선
