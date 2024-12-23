@@ -18,6 +18,7 @@ class FriendsStore: ObservableObject {
     @Published var profileImageFriend: String?
     @Published var chatRoomId: String?
     @Published var navigateToChatDetail: Bool = false
+    @Published var friendId: String?
     
     @Published var friendInfos: [UserInfo] = [] // 친구 정보 목록
         private var listener: ListenerRegistration? // Firestore 리스너

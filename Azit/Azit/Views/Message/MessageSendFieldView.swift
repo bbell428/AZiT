@@ -78,7 +78,7 @@ struct MessageSendFieldView: View {
                             
                             // 상대방이 로그아웃 한 상태가 아니라면 메시지 입력하여 전송 시, 알림을 보냄
                             if otherUserInfo?.fcmToken != nil {
-                                sendNotificationToServer(myNickname: userInfoStore.userInfo?.nickname ?? "", message: text, fcmToken: otherUserInfo?.fcmToken ?? "", badge: await userInfoStore.sumIntegerValuesContainingUserID(userID: otherUserInfo?.id ?? ""), friendUserInfo: otherUserInfo!, chatId: roomId, viewType: "chatDetail") // 푸시 알림-메시지
+                                sendNotificationToServer(myNickname: userInfoStore.userInfo?.nickname ?? "", message: text, fcmToken: otherUserInfo?.fcmToken ?? "", badge: await userInfoStore.sumIntegerValuesContainingUserID(userID: otherUserInfo?.id ?? ""), myUserInfo: userInfoStore.userInfo!, chatId: roomId, viewType: "chatDetail") // 푸시 알림-메시지
                             }
                             
                             text = "" // 메시지 전송 후 입력 필드를 초기화
@@ -117,7 +117,7 @@ struct MessageSendFieldView: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 Task {
                     // 해당 채팅방으로 들어간다면 읽지 않는 알림 개수를 계산하여 서버로 전송 후, 앱 뱃지 알림 개수 계산하고 업데이트
-                    await sendNotificationToServer(myNickname: "", message: "", fcmToken: userInfoStore.userInfo?.fcmToken ?? "", badge: userInfoStore.sumIntegerValuesContainingUserID(userID: authManager.userID), friendUserInfo: UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0, longitude: 0, blockedFriends: [], fcmToken: ""), chatId: "", viewType: "")
+                    await sendNotificationToServer(myNickname: "", message: "", fcmToken: userInfoStore.userInfo?.fcmToken ?? "", badge: userInfoStore.sumIntegerValuesContainingUserID(userID: authManager.userID), myUserInfo: UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0, longitude: 0, blockedFriends: [], fcmToken: ""), chatId: "", viewType: "")
                 }
             }
         }

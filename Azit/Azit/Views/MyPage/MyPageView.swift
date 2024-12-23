@@ -279,7 +279,7 @@ struct MyPageView: View {
                                         Task {
                                             // 로그아웃 시, 토근 값 빈문자열 + 알림배지 개수 0으로 초기화
                                             await userInfoStore.updateFCMToken(authManager.userID, fcmToken: "")
-                                            sendNotificationToServer(myNickname: "", message: "", fcmToken: userInfoStore.userInfo?.fcmToken ?? "", badge: 0, friendUserInfo: UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0, longitude: 0, blockedFriends: [], fcmToken: ""), chatId: "", viewType: "")
+                                            sendNotificationToServer(myNickname: "", message: "", fcmToken: userInfoStore.userInfo?.fcmToken ?? "", badge: 0, myUserInfo: UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0, longitude: 0, blockedFriends: [], fcmToken: ""), chatId: "", viewType: "")
                                             
                                             authManager.signOut()
                                         }
@@ -325,7 +325,7 @@ struct MyPageView: View {
                                         await firendsStore.deleteChatUser(userId: authManager.userID) // Chat컬렉션에서 자신 전부 삭제
                                         await firendsStore.deleteStoryUser(userId: authManager.userID) // Story컬렉션에서 자신 전부 삭제
                                         try await userInfoStore.deleteUserInfo(userID: authManager.userID) // User컬렉션에서 자신 계정 삭제
-                                        sendNotificationToServer(myNickname: "", message: "", fcmToken: userInfoStore.userInfo?.fcmToken ?? "", badge: 0, friendUserInfo: UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0, longitude: 0, blockedFriends: [], fcmToken: ""), chatId: "", viewType: "")
+                                        sendNotificationToServer(myNickname: "", message: "", fcmToken: userInfoStore.userInfo?.fcmToken ?? "", badge: 0, myUserInfo: UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0, longitude: 0, blockedFriends: [], fcmToken: ""), chatId: "", viewType: "")
                                         
                                         await authManager.deleteAccount() // Authentication에서 자신 계정 삭제
                                     }
