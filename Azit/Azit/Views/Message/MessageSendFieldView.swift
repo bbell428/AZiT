@@ -21,7 +21,7 @@ struct MessageSendFieldView: View {
     @Binding var isOpenGallery: Bool
     @Binding var textEditorHeight: CGFloat // 초기 높이
     
-    var roomId: String // 채팅방 ID
+    var roomId: String   // 채팅방 ID
     var nickname: String // 상대방 닉네임
     var friendId: String // 상대방 ID
     

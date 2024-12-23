@@ -36,10 +36,10 @@ struct MainView: View {
     @State private var offset: CGFloat = 0.0 // 스와이프 감지를 위한 값
     @State private var navigateToChatDetail = false
     
-    @State private var chatRoomId: String? // APNs 알림에서 받는 채팅방id
-    @State private var profileImageFriend: String?
-    @State private var nicknameFriend: String?
-    @State private var friendId: String?
+    @State private var chatRoomId: String?          // APNs 알림에서 받는 채팅방id
+    @State private var profileImageFriend: String?  // APNs 알림에서 받는 친구 프로필
+    @State private var nicknameFriend: String?      // APNs 알림에서 받는 친구 닉네임
+    @State private var friendId: String?            // APNs 알림에서 받는 친구 id
     
     var body: some View {
         if !isShowingMessageView && !isShowingMyPageView {
