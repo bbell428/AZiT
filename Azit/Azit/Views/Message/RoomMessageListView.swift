@@ -63,6 +63,9 @@ struct RoomMessageListView: View {
                                                selectedImage: $selectedImage,
                                                chat: chat,
                                                profileImageName: profileImageName)
+//                                    .onLongPressGesture(minimumDuration: 1.5) {
+//                                            print("선택")
+//                                        }
                                 }
                             }
                             // 날짜 구분선

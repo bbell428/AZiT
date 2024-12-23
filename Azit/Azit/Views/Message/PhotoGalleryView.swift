@@ -13,7 +13,7 @@ struct PhotoGalleryView: View {
     @EnvironmentObject var chatDetailViewStore: ChatDetailViewStore
     @EnvironmentObject var userInfoStore: UserInfoStore
     @EnvironmentObject var photoStore: PhotoManagerStore
-
+    
     @State private var selectedImage: UIImage? // 선택된 이미지 저장
     
     @Binding var isOpenGallery: Bool // 갤러리 열림 상태
@@ -85,6 +85,10 @@ struct PhotoGalleryView: View {
             }
             .padding(3)
         }
+        .overlay(
+            ProgressView("사진 불러오는 중...")
+                .opacity(photoStore.photos.isEmpty ? 1 : 0)
+        )
     }
     
     private var sendButtonBar: some View {
