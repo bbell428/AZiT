@@ -98,21 +98,23 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         if let viewType = userInfo["viewType"] as? String,
            let friendNickname = userInfo["friendNickname"] as? String,
            let friendProfileImage = userInfo["friendProfileImage"] as? String,
-           let chatId = userInfo["chatId"] as? String {
+           let chatId = userInfo["chatId"] as? String,
+           let friendId = userInfo["friendId"] as? String {
             
             // 알림 데이터를 NotificationCenter로 전달
             NotificationCenter.default.post(
                 name: .didReceiveNotification,
                 object: nil,
-                userInfo: ["viewType": viewType, "friendNickname": friendNickname, "friendProfileImage": friendProfileImage, "chatId": chatId]
+                userInfo: ["viewType": viewType, "friendNickname": friendNickname, "friendProfileImage": friendProfileImage, "chatId": chatId, "friendId": friendId]
             )
             
             // 백그라운드에서 알림 클릭 시, 받아오는 값을 변수에 할당
             DispatchQueue.main.async {
-                FriendsStore.shared.nicknameFriend = friendNickname
-                FriendsStore.shared.profileImageFriend = friendProfileImage
-                FriendsStore.shared.chatRoomId = chatId
-                FriendsStore.shared.navigateToChatDetail = true
+                FriendsStore.shared.nicknameFriend = friendNickname         // 친구닉네임
+                FriendsStore.shared.profileImageFriend = friendProfileImage //친구프로필
+                FriendsStore.shared.chatRoomId = chatId                     // 이동할 채팅방id
+                FriendsStore.shared.navigateToChatDetail = true             // 뷰 이동 bool값
+                FriendsStore.shared.friendId = friendId                     // 친구id
             }
         } else {
             print("Missing keys in notification payload")

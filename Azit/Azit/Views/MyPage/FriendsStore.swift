@@ -14,10 +14,11 @@ import SwiftUI
 class FriendsStore: ObservableObject {
     static let shared = FriendsStore() // 단일 클래스로 바꿈
     
-    @Published var nicknameFriend: String?
-    @Published var profileImageFriend: String?
-    @Published var chatRoomId: String?
-    @Published var navigateToChatDetail: Bool = false
+    @Published var nicknameFriend: String?              // APNs 알림에서 받는 친구 닉네임
+    @Published var profileImageFriend: String?          // APNs 알림에서 받는 친구 프로필
+    @Published var chatRoomId: String?                  // APNs 알림에서 받는 채팅방id
+    @Published var navigateToChatDetail: Bool = false   // APNs 알림을 클릭 후, 채팅방 뷰 이동을 위해 사용
+    @Published var friendId: String?                    // APNs 알림에서 받는 친구id
     
     @Published var friendInfos: [UserInfo] = [] // 친구 정보 목록
         private var listener: ListenerRegistration? // Firestore 리스너

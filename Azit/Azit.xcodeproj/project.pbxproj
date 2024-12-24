@@ -140,6 +140,14 @@
 		CEDFC2EE2CE2EAB0008C215A /* AlbumStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEDFC2ED2CE2EAB0008C215A /* AlbumStore.swift */; };
 		EA3137212CE3322000AA4685 /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA3137202CE3322000AA4685 /* QRCodeView.swift */; };
 		EA3F965E2CD8B19C009904C0 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		EA4914D32D15A6F200EC6D6C /* SignUpTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4914D22D15A6EB00EC6D6C /* SignUpTitleView.swift */; };
+		EA4914DA2D15AF1000EC6D6C /* EmojiSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4914D92D15AF0F00EC6D6C /* EmojiSheetView.swift */; };
+		EA4914DC2D15AF6700EC6D6C /* StartButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4914DB2D15AF6600EC6D6C /* StartButtonView.swift */; };
+		EA4914DE2D15B07600EC6D6C /* SelectedEmojiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4914DD2D15B06F00EC6D6C /* SelectedEmojiView.swift */; };
+		EA4914E02D15B37C00EC6D6C /* NicknameTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4914DF2D15B37A00EC6D6C /* NicknameTextFieldView.swift */; };
+		EA4914E22D15B3BA00EC6D6C /* SignInButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4914E12D15B3B800EC6D6C /* SignInButtonView.swift */; };
+		EA4914E42D15B41B00EC6D6C /* FocusableField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4914E32D15B41A00EC6D6C /* FocusableField.swift */; };
+		EA4914E62D15B46200EC6D6C /* SignUpEmailTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4914E52D15B45E00EC6D6C /* SignUpEmailTextFieldView.swift */; };
 		EAAABB662CE5E25F0003C250 /* QRCodeContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAABB652CE5E25F0003C250 /* QRCodeContent.swift */; };
 		EAAABB6E2CE5ECD30003C250 /* QRShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAABB6D2CE5ECD30003C250 /* QRShareSheet.swift */; };
 		EAAABB762CE6D0CA0003C250 /* QRInvitation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAABB752CE6D0CA0003C250 /* QRInvitation.swift */; };
@@ -160,7 +168,7 @@
 		EAF93B852CD4A4D600116035 /* AuthManager+Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF93B842CD4A4D600116035 /* AuthManager+Email.swift */; };
 		EAF93B872CD4A4DC00116035 /* AuthManager+Google.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF93B862CD4A4DC00116035 /* AuthManager+Google.swift */; };
 		EAF93B8E2CD4A50700116035 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF93B8C2CD4A50700116035 /* AuthView.swift */; };
-		EAF93B8F2CD4A50700116035 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF93B8D2CD4A50700116035 /* SignupView.swift */; };
+		EAF93B8F2CD4A50700116035 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF93B8D2CD4A50700116035 /* SignUpView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -300,6 +308,14 @@
 		CEDFC2ED2CE2EAB0008C215A /* AlbumStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumStore.swift; sourceTree = "<group>"; };
 		EA31371F2CE331AA00AA4685 /* Azit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Azit.entitlements; sourceTree = "<group>"; };
 		EA3137202CE3322000AA4685 /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
+		EA4914D22D15A6EB00EC6D6C /* SignUpTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpTitleView.swift; sourceTree = "<group>"; };
+		EA4914D92D15AF0F00EC6D6C /* EmojiSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiSheetView.swift; sourceTree = "<group>"; };
+		EA4914DB2D15AF6600EC6D6C /* StartButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartButtonView.swift; sourceTree = "<group>"; };
+		EA4914DD2D15B06F00EC6D6C /* SelectedEmojiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedEmojiView.swift; sourceTree = "<group>"; };
+		EA4914DF2D15B37A00EC6D6C /* NicknameTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameTextFieldView.swift; sourceTree = "<group>"; };
+		EA4914E12D15B3B800EC6D6C /* SignInButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInButtonView.swift; sourceTree = "<group>"; };
+		EA4914E32D15B41A00EC6D6C /* FocusableField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusableField.swift; sourceTree = "<group>"; };
+		EA4914E52D15B45E00EC6D6C /* SignUpEmailTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpEmailTextFieldView.swift; sourceTree = "<group>"; };
 		EAAABB652CE5E25F0003C250 /* QRCodeContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeContent.swift; sourceTree = "<group>"; };
 		EAAABB6D2CE5ECD30003C250 /* QRShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRShareSheet.swift; sourceTree = "<group>"; };
 		EAAABB752CE6D0CA0003C250 /* QRInvitation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRInvitation.swift; sourceTree = "<group>"; };
@@ -320,7 +336,7 @@
 		EAF93B842CD4A4D600116035 /* AuthManager+Email.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthManager+Email.swift"; sourceTree = "<group>"; };
 		EAF93B862CD4A4DC00116035 /* AuthManager+Google.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthManager+Google.swift"; sourceTree = "<group>"; };
 		EAF93B8C2CD4A50700116035 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
-		EAF93B8D2CD4A50700116035 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
+		EAF93B8D2CD4A50700116035 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -681,9 +697,10 @@
 			children = (
 				EAF93B8C2CD4A50700116035 /* AuthView.swift */,
 				EAF8B20A2D134D1300CB8D68 /* LoginView */,
+				EA4914D12D15A69D00EC6D6C /* SignupView */,
+				EA4914D82D15AEFD00EC6D6C /* ProfileDetailView */,
+				EA4914E32D15B41A00EC6D6C /* FocusableField.swift */,
 				EAD18AE42CD6719600AF3013 /* LoginSubView.swift */,
-				CE5574642CE4666600266EBD /* ProfileDetailView.swift */,
-				EAF93B8D2CD4A50700116035 /* SignupView.swift */,
 				EAB079712CDDAED700293C62 /* SplashView.swift */,
 			);
 			path = Login;
@@ -760,6 +777,28 @@
 			path = QRCode;
 			sourceTree = "<group>";
 		};
+		EA4914D12D15A69D00EC6D6C /* SignupView */ = {
+			isa = PBXGroup;
+			children = (
+				EAF93B8D2CD4A50700116035 /* SignUpView.swift */,
+				EA4914D22D15A6EB00EC6D6C /* SignUpTitleView.swift */,
+				EA4914E52D15B45E00EC6D6C /* SignUpEmailTextFieldView.swift */,
+			);
+			path = SignupView;
+			sourceTree = "<group>";
+		};
+		EA4914D82D15AEFD00EC6D6C /* ProfileDetailView */ = {
+			isa = PBXGroup;
+			children = (
+				CE5574642CE4666600266EBD /* ProfileDetailView.swift */,
+				EA4914DD2D15B06F00EC6D6C /* SelectedEmojiView.swift */,
+				EA4914D92D15AF0F00EC6D6C /* EmojiSheetView.swift */,
+				EA4914DF2D15B37A00EC6D6C /* NicknameTextFieldView.swift */,
+				EA4914DB2D15AF6600EC6D6C /* StartButtonView.swift */,
+			);
+			path = ProfileDetailView;
+			sourceTree = "<group>";
+		};
 		EABA948B2CEC303500193C1E /* FCM */ = {
 			isa = PBXGroup;
 			children = (
@@ -785,8 +824,9 @@
 		EAF8B20A2D134D1300CB8D68 /* LoginView */ = {
 			isa = PBXGroup;
 			children = (
-				EAF8B20F2D1352B200CB8D68 /* LoginTitleView.swift */,
 				8EAFF0192CD4A37900136348 /* LoginView.swift */,
+				EAF8B20F2D1352B200CB8D68 /* LoginTitleView.swift */,
+				EA4914E12D15B3B800EC6D6C /* SignInButtonView.swift */,
 				EAF8B20B2D134D9500CB8D68 /* SignInFunctions.swift */,
 				EAF8B20D2D13501A00CB8D68 /* ErrorMessages.swift */,
 			);
@@ -1020,11 +1060,14 @@
 			files = (
 				EAF3D1022CEDA31800ABCB4F /* sendNotificationToServer.swift in Sources */,
 				CE6CD66F2D096EEF00EC3CE7 /* UnderlineModifier.swift in Sources */,
+				EA4914E02D15B37C00EC6D6C /* NicknameTextFieldView.swift in Sources */,
 				CE86A3B82CE6E1B4000B59B2 /* AlbumFriendListView.swift in Sources */,
+				EA4914E22D15B3BA00EC6D6C /* SignInButtonView.swift in Sources */,
 				8BDA11D52CDA769C004242DB /* EmojiPickerView.swift in Sources */,
 				EAB079722CDDAED700293C62 /* SplashView.swift in Sources */,
 				CE78775A2D02CB76000184D6 /* SelectedUploadImageView.swift in Sources */,
 				CE4865772CF03FAD00C30997 /* EditPhotoStore.swift in Sources */,
+				EA4914DA2D15AF1000EC6D6C /* EmojiSheetView.swift in Sources */,
 				CE7D27D12D0AA8CA00025F9F /* SwipeModifier.swift in Sources */,
 				CE4865772CF03FAD00C30997 /* EditPhotoStore.swift in Sources */,
 				8E863A462CF03F8300057FF8 /* RotationBar.swift in Sources */,
@@ -1033,7 +1076,7 @@
 				EAF93B8E2CD4A50700116035 /* AuthView.swift in Sources */,
 				CE69CDCC2CE70C2800322E7A /* AlbumStoryImageView.swift in Sources */,
 				CEDFC2EE2CE2EAB0008C215A /* AlbumStore.swift in Sources */,
-				EAF93B8F2CD4A50700116035 /* SignupView.swift in Sources */,
+				EAF93B8F2CD4A50700116035 /* SignUpView.swift in Sources */,
 				EAAABB762CE6D0CA0003C250 /* QRInvitation.swift in Sources */,
 				EAAABB782CE6D2BE0003C250 /* QR.swift in Sources */,
 				CE8A3BAD2CF35E2100DDA2E8 /* TextEditorView.swift in Sources */,
@@ -1064,6 +1107,7 @@
 				8B067A032CE45A6200ABD942 /* PhotoImageStore.swift in Sources */,
 				CE6CD6712D096F1600EC3CE7 /* RectPreferenceKey.swift in Sources */,
 				8EAFF0132CD4A33600136348 /* MessageView.swift in Sources */,
+				EA4914DC2D15AF6700EC6D6C /* StartButtonView.swift in Sources */,
 				CEDFC2CE2CE1C814008C215A /* FriendSegmentView.swift in Sources */,
 				CE374EAD2CD79F6300601AA7 /* ChatListStore.swift in Sources */,
 				EAC5F7082CF43AF5005D1C8A /* FriendsStore.swift in Sources */,
@@ -1085,6 +1129,7 @@
 				EAF840742CD9B56200F23839 /* UserInfoStore.swift in Sources */,
 				EAF8BB1B2CDB368F00B67AAF /* EditProfileView.swift in Sources */,
 				8E71EF7D2CE2F59000BA8F33 /* ModalIdentificationView.swift in Sources */,
+				EA4914D32D15A6F200EC6D6C /* SignUpTitleView.swift in Sources */,
 				8E71EFE72CE348CA00BA8F33 /* LikesSheetView.swift in Sources */,
 				8EAFF01A2CD4A37900136348 /* LoginView.swift in Sources */,
 				8E71EF792CE2ECAE00BA8F33 /* StoryContentsView.swift in Sources */,
@@ -1094,10 +1139,12 @@
 				CE25CCF82D129B36008A73C6 /* PhotoGalleryView.swift in Sources */,
 				8EAFEFB62CD45CB100136348 /* Chat.swift in Sources */,
 				EAF8B2102D1352B700CB8D68 /* LoginTitleView.swift in Sources */,
+				EA4914DE2D15B07600EC6D6C /* SelectedEmojiView.swift in Sources */,
 				CE7877542D02B7D5000184D6 /* MessageListTopBarView.swift in Sources */,
 				EAD18AE52CD6719600AF3013 /* LoginSubView.swift in Sources */,
 				EAF93B872CD4A4DC00116035 /* AuthManager+Google.swift in Sources */,
 				8EAFF00F2CD4A31300136348 /* StoryStore.swift in Sources */,
+				EA4914E42D15B41B00EC6D6C /* FocusableField.swift in Sources */,
 				8EAFF0182CD4A36B00136348 /* AuthManager.swift in Sources */,
 				8BD71F802CD89A8C0030693B /* CameraPreview.swift in Sources */,
 				EAAABB6E2CE5ECD30003C250 /* QRShareSheet.swift in Sources */,
@@ -1118,6 +1165,7 @@
 				8B2FC1C42CEE47CC0078443F /* Emoji.swift in Sources */,
 				CE062BAE2CD91E6C00CB5D4A /* GetMessageView.swift in Sources */,
 				CE3A16E22CD85A5B0045DB52 /* MessageDetailView.swift in Sources */,
+				EA4914E62D15B46200EC6D6C /* SignUpEmailTextFieldView.swift in Sources */,
 				8E71EF732CE2E27500BA8F33 /* MapContentEmojiView.swift in Sources */,
 				CE78775E2D02CCE0000184D6 /* MessageDetailTopBarView.swift in Sources */,
 				8EC52DD62CE19C8300DC8190 /* FriendsContentEmojiView.swift in Sources */,

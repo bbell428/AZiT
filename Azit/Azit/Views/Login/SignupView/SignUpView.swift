@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct SignupView: View {
-    @State var exEamilString: String = "" // 이메일 작성 예시
-    @State var exPasswordString: String = "" // 비밀번호 작성 예시
-    @State private var errorMessageEmail: String?
+    @State private var errorMessageEmail: String? // 이메일 확인 에러메시지
     @State private var errorMessagePassword: String? // 비밀번호 확인 에러메시지
     @State private var selectedDomain: String? = "naver.com" // 도메인 전달 -> SignUpEmailTextField
     
@@ -23,6 +21,120 @@ struct SignupView: View {
     
     @FocusState private var focus: FocusableField?
     
+    var body: some View {
+        // 타이틀 뷰
+        SignUpTitleView()
+        .frame(width: 330)
+        
+        VStack(alignment: .center) {
+            // 로그인 에러 메시지
+            if !authManager.errorMessage.isEmpty {
+                HStack {
+                    Spacer()
+                    
+                    Text(errorMessageEmail ?? "")
+                        .font(.caption)
+                        .foregroundColor(Color.red)
+                        .fontWeight(.heavy)
+                        .onChange(of: errorMessageEmail) {
+                            self.errorMessageEmail = errorMessageEmail
+                        }
+                }
+                .frame(width: 330)
+            }
+            
+            
+            // MARK: 이메일로 로그인
+            VStack(alignment: .leading) {
+                SignUpEmailTextField(
+                    inputText: "이메일",
+                    email: $authManager.email,
+                    focus: $focus,
+                    selectedDomain: $selectedDomain,
+                    isErrorEmail: $isErrorEmail
+                )
+                
+                Text("(예시. AZIT@naver.com)")
+                    .font(.caption2)
+                    .foregroundStyle(.gray)
+            }
+            .frame(width: 330)
+            .padding(.bottom, 30)
+            
+            // 비밀번호가 서로 같지 않으면
+            if let message = errorMessagePassword {
+                HStack {
+                    Spacer()
+                    Text(message)
+                        .font(.caption)
+                        .foregroundColor(Color.red)
+                        .fontWeight(.heavy)
+                }
+                .frame(width: 330)
+            }
+            
+            VStack(alignment: .leading) {
+                PasswordTextField(
+                    inputText: "비밀번호",
+                    password: $authManager.password,
+                    focus: $focus,
+                    focusType: .password,
+                    onSubmit: confirmPassword,
+                    isErrorPassword: $isErrorPassword
+                )
+                
+                PasswordTextField(
+                    inputText: "비밀번호 확인",
+                    password: $authManager.confirmPassword,
+                    focus: $focus,
+                    focusType: .confirmPassword,
+                    onSubmit: signUpWithEmailPassword,
+                    isErrorPassword: $isErrorPasswordConfirm
+                )
+                
+                Text("비밀번호는 숫자, 영문, 특수문자를 혼합하여 8~12자로 입력해주세요.")
+                    .font(.caption2)
+                    .foregroundStyle(.gray)
+            }
+            .frame(width: 330)
+            
+            Spacer()
+            
+            //MARK: 회원가입 버튼
+            LoginButton(
+                inputText: "회원가입",
+                isLoading: authManager.authenticationState == .authenticating,
+                isValid: authManager.isValid && !authManager.confirmPassword.isEmpty,
+                action: signUpWithEmailPassword,
+                focus: $focus
+            )
+            .frame(width: 330)
+            .padding(.bottom, 10)
+        }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            UIApplication.shared.endEditing()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        //        .ignoresSafeArea(.keyboard)
+        .navigationTitle("회원가입")
+        .onAppear {
+            authManager.email = ""
+            authManager.password = ""
+            authManager.confirmPassword = ""
+            authManager.errorMessage = ""
+            errorMessagePassword = ""
+            isErrorPassword = false
+            isErrorEmail = false
+        }
+    }
+    
+    // 포커스를 비밀번호 확인으로
+    private func confirmPassword() {
+        self.focus = .confirmPassword
+    }
+    
+    // 회원가입 유효성 검사
     private func signUpWithEmailPassword() {
         Task {
             // 숫자를 포함하는 정규식
@@ -36,6 +148,7 @@ struct SignupView: View {
             
             // 도메인 선택 작성 혹은 '@' 입력하여 직접 이메일 작성
             let fullEmail: String
+            
             if authManager.email.contains("@") {
                 fullEmail = authManager.email
             } else {
@@ -86,139 +199,6 @@ struct SignupView: View {
             }
         }
     }
-    
-    // 포커스를 비밀번호 확인으로
-    private func confirmPassword() {
-        self.focus = .confirmPassword
-    }
-    
-    var body: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                Text("Welcome")
-                    .font(.system(size: 30))
-                    .fontWeight(.thin)
-                    .padding(.bottom, -20)
-                Text("AZiT")
-                    .font(.system(size: 38))
-                    .fontWeight(.black)
-            }
-            .foregroundStyle(.accent)
-            .padding(.top, 30)
-            
-            Spacer()
-        }
-        .frame(width: 330)
-        
-        VStack(alignment: .center) {
-            // 로그인 에러 메시지
-            if !authManager.errorMessage.isEmpty {
-                HStack {
-                    Spacer()
-                    
-                    Text(errorMessageEmail ?? "")
-                        .font(.caption)
-                        .foregroundColor(Color.red)
-                        .fontWeight(.heavy)
-                        .onChange(of: errorMessageEmail) {
-                            self.errorMessageEmail = errorMessageEmail
-                        }
-                }
-                .frame(width: 330)
-            }
-            
-            
-            // MARK: 이메일로 로그인
-            VStack(alignment: .leading) {
-                SignUpEmailTextField(
-                    inputText: "이메일",
-                    email: $authManager.email,
-                    focus: $focus,
-                    selectedDomain: $selectedDomain,
-                    isErrorEmail: $isErrorEmail
-                )
-                
-                Text(exEamilString)
-                    .font(.caption2)
-                    .foregroundStyle(.gray)
-            }
-            .frame(width: 330)
-            .padding(.bottom, 30)
-            .onAppear {
-                self.exEamilString = "(예시. AZIT@naver.com)"
-            }
-            
-            // 비밀번호가 서로 같지 않으면
-            if let message = errorMessagePassword {
-                HStack {
-                    Spacer()
-                    Text(message)
-                        .font(.caption)
-                        .foregroundColor(Color.red)
-                        .fontWeight(.heavy)
-                }
-                .frame(width: 330)
-            }
-            
-            VStack(alignment: .leading) {
-                PasswordTextField(
-                    inputText: "비밀번호",
-                    password: $authManager.password,
-                    focus: $focus,
-                    focusType: .password,
-                    onSubmit: confirmPassword,
-                    isErrorPassword: $isErrorPassword
-                )
-                
-                PasswordTextField(
-                    inputText: "비밀번호 확인",
-                    password: $authManager.confirmPassword,
-                    focus: $focus,
-                    focusType: .confirmPassword,
-                    onSubmit: signUpWithEmailPassword,
-                    isErrorPassword: $isErrorPasswordConfirm
-                )
-                
-                Text(exPasswordString)
-                    .font(.caption2)
-                    .foregroundStyle(.gray)
-            }
-            .frame(width: 330)
-            .onAppear {
-                self.exPasswordString = "비밀번호는 숫자, 영문, 특수문자를 혼합하여 8~12자로 입력해주세요."
-            }
-            
-            Spacer()
-            
-            //MARK: 회원가입 버튼
-            LoginButton(
-                inputText: "회원가입",
-                isLoading: authManager.authenticationState == .authenticating,
-                isValid: authManager.isValid && !authManager.confirmPassword.isEmpty,
-                action: signUpWithEmailPassword,
-                focus: $focus
-            )
-            .frame(width: 330)
-            .padding(.bottom, 10)
-        }
-        .contentShape(Rectangle())
-        .onTapGesture {
-            self.endTextEditing()
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        //        .ignoresSafeArea(.keyboard)
-        .navigationTitle("회원가입")
-        .onAppear {
-            authManager.email = ""
-            authManager.password = ""
-            authManager.confirmPassword = ""
-            authManager.errorMessage = ""
-            errorMessagePassword = ""
-            isErrorPassword = false
-            isErrorEmail = false
-        }
-    }
-    
 }
 
 //#Preview {

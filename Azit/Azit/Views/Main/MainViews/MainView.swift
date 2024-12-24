@@ -20,6 +20,7 @@ struct MainView: View {
     @EnvironmentObject var storyStore: StoryStore
     @EnvironmentObject var storyDraft: StoryDraft
     @EnvironmentObject var locationManager: LocationManager
+    @EnvironmentObject var chatListStore: ChatListStore // 백그라운드 알림 -> 채팅방 이동 시, 리스너 사용
     
     @State private var isMainExposed: Bool = true // 메인 화면인지 맵 화면인지
     @State private var isMyModalPresented: Bool = false // 사용자 자신의 모달 컨트롤
@@ -35,9 +36,10 @@ struct MainView: View {
     @State private var offset: CGFloat = 0.0 // 스와이프 감지를 위한 값
     @State private var navigateToChatDetail = false
     
-    @State private var chatRoomId: String?
-    @State private var profileImageFriend: String?
-    @State private var nicknameFriend: String?
+    @State private var chatRoomId: String?          // APNs 알림에서 받는 채팅방id
+    @State private var profileImageFriend: String?  // APNs 알림에서 받는 친구 프로필
+    @State private var nicknameFriend: String?      // APNs 알림에서 받는 친구 닉네임
+    @State private var friendId: String?            // APNs 알림에서 받는 친구 id
     
     var body: some View {
         if !isShowingMessageView && !isShowingMyPageView {
@@ -85,11 +87,21 @@ struct MainView: View {
                             isSendFriendStoryToast: $isShowToast,
                             roomId: roomId,
                             nickname: nicknameFriend ?? "",
-                            friendId: roomId,
+                            friendId: friendId ?? "",
                             profileImageName: profileImageFriend ?? ""
                         )
+                        .onAppear {
+                            Task {
+                                // 채팅방 리스트 리스너 off
+                                chatListStore.removeChatRoomsListener()
+                            }
+                        }
                         .onDisappear {
                             FriendsStore.shared.navigateToChatDetail = false
+                            Task {
+                                // 채팅방 리스트 리스너 on
+                                 chatListStore.fetchChatRooms(userId: userInfoStore.userInfo?.id ?? "")
+                            }
                         }
                     }
                 }
@@ -104,12 +116,14 @@ struct MainView: View {
                    let friendNickname = userInfo["friendNickname"] as? String,
                    let friendProfileImage = userInfo["friendProfileImage"] as? String,
                    let chatId = userInfo["chatId"] as? String,
+                   let chatWithFriendId = userInfo["friendId"] as? String,
                    
                     viewType == "chatDetail" {
                     self.nicknameFriend = friendNickname
                     self.profileImageFriend = friendProfileImage
                     self.chatRoomId = chatId
                     self.navigateToChatDetail = true
+                    self.friendId = chatWithFriendId
                 }
             }
             // 백그라운드에서 알림을 클릭 시, 앱 처음 실행하여 알림에서 얻게 된 값들을 할당하여 뷰 이동
@@ -119,6 +133,7 @@ struct MainView: View {
                     self.nicknameFriend = FriendsStore.shared.nicknameFriend
                     self.profileImageFriend = FriendsStore.shared.profileImageFriend
                     self.chatRoomId = FriendsStore.shared.chatRoomId
+                    self.friendId = FriendsStore.shared.friendId
                 }
             }
             .onChange(of: scenePhase) {

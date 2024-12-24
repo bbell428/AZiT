@@ -126,7 +126,7 @@ struct FriendsContentsModalView: View {
         .scaleEffect(scale)
         .animation(.easeOut(duration: 0.3), value: keyboardObservers.keyboardHeight)
         .onTapGesture {
-            self.endTextEditing()
+            UIApplication.shared.endEditing()
         }
         .onAppear {
             message = ""

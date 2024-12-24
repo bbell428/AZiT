@@ -185,7 +185,7 @@ struct EditProfileView: View {
         }
         .contentShape(Rectangle())
         .onTapGesture {
-            self.endTextEditing()
+            UIApplication.shared.endEditing()
         }
         .onAppear {
             Task {
