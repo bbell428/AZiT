@@ -145,7 +145,7 @@ struct MyPageView: View {
                                 .background(Color.oldAccent)
                             
                             VStack(alignment: .center) {
-                                //MARK: 친구 목록
+                                //MARK: 친구 설정
                                 ForEach(showAllFriends ? firendsStore.friendInfos :  Array(firendsStore.friendInfos.prefix(3)), id: \.id) { friend in
                                     HStack {
                                         ZStack {

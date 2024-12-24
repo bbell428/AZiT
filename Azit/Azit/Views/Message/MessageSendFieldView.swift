@@ -92,7 +92,7 @@ struct MessageSendFieldView: View {
                                 
                                 // 상대방이 로그아웃 한 상태가 아니라면 메시지 입력하여 전송 시, 알림을 보냄
                                 if otherUserInfo?.fcmToken != nil {
-                                    sendNotificationToServer(myNickname: userInfoStore.userInfo?.nickname ?? "", message: text, fcmToken: otherUserInfo?.fcmToken ?? "", badge: await userInfoStore.sumIntegerValuesContainingUserID(userID: otherUserInfo?.id ?? ""), friendUserInfo: otherUserInfo!, chatId: roomId, viewType: "chatDetail") // 푸시 알림-메시지
+                                    sendNotificationToServer(myNickname: userInfoStore.userInfo?.nickname ?? "", message: text, fcmToken: otherUserInfo?.fcmToken ?? "", badge: await userInfoStore.sumIntegerValuesContainingUserID(userID: otherUserInfo?.id ?? ""), myUserInfo: userInfoStore.userInfo!, chatId: roomId, viewType: "chatDetail") // 푸시 알림-메시지
                                 }
                                 
                                 text = "" // 메시지 전송 후 입력 필드를 초기화
