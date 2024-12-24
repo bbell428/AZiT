@@ -73,14 +73,14 @@ struct MyContentEmojiView: View {
                                     .placeholder {
                                         if emojiComponents.count > 1 {
                                             Text(emojiComponents[1])
-                                                .font(.system(size: 80))
+                                                .font(.system(size: 70))
                                         } else {
                                             Text("User")
                                         }
                                     }
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 60, height: 60)
+                                    .frame(width: 70, height: 70)
                             }
                         }
                     }

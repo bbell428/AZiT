@@ -78,7 +78,7 @@ struct FriendsContentEmojiView: View {
                                     let placeholderText = emojiComponents?.count ?? 1 > 1 ? emojiComponents?[1] : "" // 안전한 인덱스 접근
                                     
                                     KFImage(URL(string: urlString))
-                                        .placeholder { Text(placeholderText ?? "") }
+                                        .placeholder { Text(placeholderText ?? "").font(.system(size: 24 * (2.2 - interpolationRatio))) }
                                         .resizable()
                                         .scaledToFit()
                                         .frame(width: 25 * (2.2 - interpolationRatio), height: 25 * (2.2 - interpolationRatio))
