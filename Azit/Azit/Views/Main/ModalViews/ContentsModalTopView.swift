@@ -24,13 +24,14 @@ struct ContentsModalTopView: View {
                     .placeholder {
                             if emojiComponents.count > 1 {
                                 Text(emojiComponents[1])
+                                    .font(.system(size: 20))
                             } else {
                                 Text("User")
                             }
                         }
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 40, height: 40)
+                    .frame(width: 20, height: 20)
             }
             
             Text(selectedUserInfo.nickname)

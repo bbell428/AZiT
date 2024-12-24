@@ -49,12 +49,13 @@ struct StoryContentsView: View {
                     
                     KFImage(URL(string: urlString))
                         .placeholder {
-                                if emojiComponents.count > 1 {
-                                    Text(emojiComponents[1])
-                                } else {
-                                    Text("User")
-                                }
+                            if emojiComponents.count > 1 {
+                                Text(emojiComponents[1])
+                                    .font(.system(size: 70))
+                            } else {
+                                Text("User")
                             }
+                        }
                         .resizable()
                         .scaledToFit()
                         .frame(width: 70, height: 70)
