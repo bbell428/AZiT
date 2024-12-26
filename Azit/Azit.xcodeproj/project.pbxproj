@@ -32,6 +32,7 @@
 		8BE42D422CF0B8C300AB21F4 /* BlurView.swift in Resources */ = {isa = PBXBuildFile; fileRef = 8BE42D412CF0B8C300AB21F4 /* BlurView.swift */; };
 		8BE42D522CF1B0E000AB21F4 /* FilterButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE42D512CF1B0D800AB21F4 /* FilterButtons.swift */; };
 		8BE42D552CF1B23200AB21F4 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 8BE42D542CF1B23200AB21F4 /* OrderedCollections */; };
+		8E13D2122D1DAC670090EEFD /* AzitWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 8E13D2052D1DAC660090EEFD /* AzitWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8E538EE12CD844700094ABD1 /* RotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E538EE02CD844700094ABD1 /* RotationView.swift */; };
 		8E538EE32CD844A50094ABD1 /* FriendsContentsModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E538EE22CD844A50094ABD1 /* FriendsContentsModalView.swift */; };
 		8E611FE02CEC9E0D00DF40E4 /* AzitWidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E611FDE2CEC9E0D00DF40E4 /* AzitWidgetData.swift */; };
@@ -172,6 +173,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		8E13D2102D1DAC670090EEFD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8EAFEF6E2CD4524500136348 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8E13D2042D1DAC660090EEFD;
+			remoteInfo = "AzitWatch Watch App";
+		};
 		8EAFEF872CD4524600136348 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8EAFEF6E2CD4524500136348 /* Project object */;
@@ -196,6 +204,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		8E13D2132D1DAC670090EEFD /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				8E13D2122D1DAC670090EEFD /* AzitWatch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8EE014532CE5D33E003151F8 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -232,6 +251,7 @@
 		8BE42D3F2CF0B8B600AB21F4 /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		8BE42D412CF0B8C300AB21F4 /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		8BE42D512CF1B0D800AB21F4 /* FilterButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterButtons.swift; sourceTree = "<group>"; };
+		8E13D2052D1DAC660090EEFD /* AzitWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AzitWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E42C9FA2CE6E5270006CAA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E538EE02CD844700094ABD1 /* RotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotationView.swift; sourceTree = "<group>"; };
 		8E538EE22CD844A50094ABD1 /* FriendsContentsModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsContentsModalView.swift; sourceTree = "<group>"; };
@@ -350,6 +370,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		8E13D2062D1DAC660090EEFD /* AzitWatch Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "AzitWatch Watch App";
+			sourceTree = "<group>";
+		};
 		8EAFEF892CD4524600136348 /* AzitTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = AzitTests;
@@ -376,6 +401,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8E13D2022D1DAC660090EEFD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8EAFEF732CD4524500136348 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -545,6 +577,7 @@
 				8EAFEF932CD4524600136348 /* AzitUITests */,
 				8EE014442CE5D33D003151F8 /* AzitWidget */,
 				8EE014742CE5D4EE003151F8 /* AzitWidgetExtension.entitlements */,
+				8E13D2062D1DAC660090EEFD /* AzitWatch Watch App */,
 				8EAFEFCF2CD45F0700136348 /* Frameworks */,
 				8EAFEF772CD4524500136348 /* Products */,
 			);
@@ -557,6 +590,7 @@
 				8EAFEF862CD4524600136348 /* AzitTests.xctest */,
 				8EAFEF902CD4524600136348 /* AzitUITests.xctest */,
 				8EE0143F2CE5D33D003151F8 /* AzitWidgetExtension.appex */,
+				8E13D2052D1DAC660090EEFD /* AzitWatch Watch App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -836,6 +870,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		8E13D2042D1DAC660090EEFD /* AzitWatch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8E13D2162D1DAC670090EEFD /* Build configuration list for PBXNativeTarget "AzitWatch Watch App" */;
+			buildPhases = (
+				8E13D2012D1DAC660090EEFD /* Sources */,
+				8E13D2022D1DAC660090EEFD /* Frameworks */,
+				8E13D2032D1DAC660090EEFD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				8E13D2062D1DAC660090EEFD /* AzitWatch Watch App */,
+			);
+			name = "AzitWatch Watch App";
+			packageProductDependencies = (
+			);
+			productName = "AzitWatch Watch App";
+			productReference = 8E13D2052D1DAC660090EEFD /* AzitWatch Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
 		8EAFEF752CD4524500136348 /* Azit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8EAFEF9A2CD4524600136348 /* Build configuration list for PBXNativeTarget "Azit" */;
@@ -844,11 +900,13 @@
 				8EAFEF732CD4524500136348 /* Frameworks */,
 				8EAFEF742CD4524500136348 /* Resources */,
 				8EE014532CE5D33E003151F8 /* Embed Foundation Extensions */,
+				8E13D2132D1DAC670090EEFD /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				8EE014512CE5D33E003151F8 /* PBXTargetDependency */,
+				8E13D2112D1DAC670090EEFD /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				8EAFEFB02CD4571D00136348 /* Fonts */,
@@ -968,6 +1026,9 @@
 				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
+					8E13D2042D1DAC660090EEFD = {
+						CreatedOnToolsVersion = 16.0;
+					};
 					8EAFEF752CD4524500136348 = {
 						CreatedOnToolsVersion = 16.0;
 					};
@@ -1010,11 +1071,19 @@
 				8EAFEF852CD4524600136348 /* AzitTests */,
 				8EAFEF8F2CD4524600136348 /* AzitUITests */,
 				8EE0143E2CE5D33D003151F8 /* AzitWidgetExtension */,
+				8E13D2042D1DAC660090EEFD /* AzitWatch Watch App */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		8E13D2032D1DAC660090EEFD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8EAFEF742CD4524500136348 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1054,6 +1123,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8E13D2012D1DAC660090EEFD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8EAFEF722CD4524500136348 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1206,6 +1282,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		8E13D2112D1DAC670090EEFD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8E13D2042D1DAC660090EEFD /* AzitWatch Watch App */;
+			targetProxy = 8E13D2102D1DAC670090EEFD /* PBXContainerItemProxy */;
+		};
 		8EAFEF882CD4524600136348 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8EAFEF752CD4524500136348 /* Azit */;
@@ -1224,6 +1305,68 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		8E13D2142D1DAC670090EEFD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"AzitWatch Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = 8QXLTDU8Z4;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = AzitWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = benear.azit.group;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = benear.azit.group.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+			};
+			name = Debug;
+		};
+		8E13D2152D1DAC670090EEFD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"AzitWatch Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = 8QXLTDU8Z4;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = AzitWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = benear.azit.group;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = benear.azit.group.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+			};
+			name = Release;
+		};
 		8EAFEF982CD4524600136348 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1582,6 +1725,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8E13D2162D1DAC670090EEFD /* Build configuration list for PBXNativeTarget "AzitWatch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8E13D2142D1DAC670090EEFD /* Debug */,
+				8E13D2152D1DAC670090EEFD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		8EAFEF712CD4524500136348 /* Build configuration list for PBXProject "Azit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
