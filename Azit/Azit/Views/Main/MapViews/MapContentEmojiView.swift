@@ -56,7 +56,7 @@ struct MapContentEmojiView: View {
                                             let placeholderText = emojiComponents?.count ?? 1 > 1 ? emojiComponents?[1] : "" // 안전한 인덱스 접근
                                             
                                             KFImage(URL(string: urlString))
-                                                .placeholder { Text(placeholderText ?? "") }
+                                                .placeholder { Text(placeholderText ?? "").font(.system(size: 60)) }
                                                 .resizable()
                                                 .scaledToFit()
                                                 .frame(width: 60, height: 60)

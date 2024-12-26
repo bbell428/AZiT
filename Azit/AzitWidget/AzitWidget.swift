@@ -262,12 +262,17 @@ struct AzitWidgetEntryView : View {
                         Text("")
                     }
                     
-                    if let codepoints = emojiManager.getCodepoints(forName: entry.widgetData?.userInfo?.previousState ?? "") {
-                        KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
+                    let emojiComponents = entry.widgetData?.recentStory?.emoji.components(separatedBy: "*")
+                    if let codepoints = emojiManager.getCodepoints(forName: emojiComponents?[0] ?? "") {
+                        let urlString = EmojiManager.getTwemojiURL(for: codepoints)
+                        
+                        let placeholderText = emojiComponents?.count ?? 1 > 1 ? emojiComponents?[1] : "" // 안전한 인덱스 접근
+                        
+                        KFImage(URL(string: urlString))
+                            .placeholder { Text(placeholderText ?? "").font(.system(size: 52)) }
                             .resizable()
                             .scaledToFit()
                             .frame(width: 60, height: 60)
-                            .padding(.top, 10)
                     }
                     
                     Text(entry.widgetData?.userInfo?.nickname ?? "")
@@ -279,12 +284,19 @@ struct AzitWidgetEntryView : View {
 
                     HStack {
                         HStack {
-                            if let codepoints = emojiManager.getCodepoints(forName: entry.widgetData?.userInfo?.previousState ?? "") {
-                                KFImage(URL(string: EmojiManager.getTwemojiURL(for: codepoints)))
+                            let emojiComponents = entry.widgetData?.recentStory?.emoji.components(separatedBy: "*")
+                            if let codepoints = emojiManager.getCodepoints(forName: emojiComponents?[0] ?? "") {
+                                let urlString = EmojiManager.getTwemojiURL(for: codepoints)
+                                
+                                let placeholderText = emojiComponents?.count ?? 1 > 1 ? emojiComponents?[1] : "" // 안전한 인덱스 접근
+                                
+                                KFImage(URL(string: urlString))
+                                    .placeholder { Text(placeholderText ?? "").font(.system(size: 10)) }
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 10, height: 10)
+                                    .frame(width: 12, height: 10)
                             }
+                            
                             Text(entry.widgetData?.userInfo?.nickname ?? "")
                                 .foregroundStyle(.accent)
                         }
@@ -295,7 +307,7 @@ struct AzitWidgetEntryView : View {
                         Spacer()
                     }
                     .padding([.leading], 10)
-                    .padding([.bottom], 5)
+                    .padding([.bottom], 15)
                     .font(.caption)
                     .offset(y: -350) // 나중에 %로 계산
                 }

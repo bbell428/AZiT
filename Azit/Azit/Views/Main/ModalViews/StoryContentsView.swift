@@ -51,7 +51,7 @@ struct StoryContentsView: View {
                         .placeholder {
                             if emojiComponents.count > 1 {
                                 Text(emojiComponents[1])
-                                    .font(.system(size: 70))
+                                    .font(.system(size: 60))
                             } else {
                                 Text("User")
                             }
@@ -61,7 +61,6 @@ struct StoryContentsView: View {
                         .frame(width: 70, height: 70)
                         .padding(.top, 40)
                 }
-                
             } else if !story.content.isEmpty {
                 HStack {
                     Text(story.content)

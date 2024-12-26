@@ -24,7 +24,7 @@ struct ContentsModalTopView: View {
                     .placeholder {
                             if emojiComponents.count > 1 {
                                 Text(emojiComponents[1])
-                                    .font(.system(size: 20))
+                                    .font(.system(size: 15))
                             } else {
                                 Text("User")
                             }
