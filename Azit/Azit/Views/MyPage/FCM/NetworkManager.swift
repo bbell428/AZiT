@@ -65,7 +65,6 @@ class NetworkManager {
             }
             
             // 서버 응답 확인
-            print("HTTP Response: \(httpResponse)")
             if let data = data, let statusResponse = try? JSONDecoder().decode([String: Bool].self, from: data),
                let isActive = statusResponse["isActive"] {
                 completion(isActive)

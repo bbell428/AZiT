@@ -96,6 +96,7 @@ struct MessageSendFieldView: View {
                                     NetworkManager.shared.updateChatStatusIfNeeded(userId: friendId, chatId: roomId) { isActive in
                                         if isActive {
                                             print("상대방이 채팅방에 있습니다.")
+                                            text = "" // 메시지 전송 후 입력 필드를 초기화
                                         } else {
                                             Task {
                                                 sendNotificationToServer(
@@ -107,12 +108,14 @@ struct MessageSendFieldView: View {
                                                     chatId: roomId,
                                                     viewType: "chatDetail"
                                                 )
+                                                
+                                                text = "" // 메시지 전송 후 입력 필드를 초기화
                                             }
                                         }
                                     }
                                 }
                                 
-                                text = "" // 메시지 전송 후 입력 필드를 초기화
+//                                text = "" // 메시지 전송 후 입력 필드를 초기화
                                 adjustHeight() // 높이 리셋
                             }
                         }) {
