@@ -92,7 +92,24 @@ struct MessageSendFieldView: View {
                                 
                                 // 상대방이 로그아웃 한 상태가 아니라면 메시지 입력하여 전송 시, 알림을 보냄
                                 if otherUserInfo?.fcmToken != nil {
-                                    sendNotificationToServer(myNickname: userInfoStore.userInfo?.nickname ?? "", message: text, fcmToken: otherUserInfo?.fcmToken ?? "", badge: await userInfoStore.sumIntegerValuesContainingUserID(userID: otherUserInfo?.id ?? ""), myUserInfo: userInfoStore.userInfo!, chatId: roomId, viewType: "chatDetail") // 푸시 알림-메시지
+                                    // 상대방이 해당 채팅방에 있다면 알림X
+                                    NetworkManager.shared.updateChatStatusIfNeeded(userId: friendId, chatId: roomId) { isActive in
+                                        if isActive {
+                                            print("상대방이 채팅방에 있습니다.")
+                                        } else {
+                                            Task {
+                                                sendNotificationToServer(
+                                                    myNickname: userInfoStore.userInfo?.nickname ?? "",
+                                                    message: text,
+                                                    fcmToken: otherUserInfo?.fcmToken ?? "",
+                                                    badge: await userInfoStore.sumIntegerValuesContainingUserID(userID: otherUserInfo?.id ?? ""),
+                                                    myUserInfo: userInfoStore.userInfo!,
+                                                    chatId: roomId,
+                                                    viewType: "chatDetail"
+                                                )
+                                            }
+                                        }
+                                    }
                                 }
                                 
                                 text = "" // 메시지 전송 후 입력 필드를 초기화
@@ -117,6 +134,20 @@ struct MessageSendFieldView: View {
             }
         }
         .onAppear {
+            // 채팅방에 들어갈 때, 해당 채팅방에 접속 상태 업데이트
+            NetworkManager.shared.updateChatStatus(
+                userId: authManager.userID,
+                chatId: roomId,
+                isActive: true // 채팅방 접속 상태 업데이트
+            ) { result in
+                switch result {
+                case .success:
+                    print("Chat status success")
+                case .failure(let error):
+                    print("Chat status failure: \(error.localizedDescription)")
+                }
+            }
+            
             // 상대방의 UserInfo 가져옴, 상대방 토큰을 위해 사용함
             userInfoStore.getUserInfoByIdWithCompletion(id: friendId) { userInfo in
                 if let userInfo = userInfo {
@@ -133,6 +164,21 @@ struct MessageSendFieldView: View {
                 Task {
                     // 해당 채팅방으로 들어간다면 읽지 않는 알림 개수를 계산하여 서버로 전송 후, 앱 뱃지 알림 개수 계산하고 업데이트
                     await sendNotificationToServer(myNickname: "", message: "", fcmToken: userInfoStore.userInfo?.fcmToken ?? "", badge: userInfoStore.sumIntegerValuesContainingUserID(userID: authManager.userID), myUserInfo: UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0, longitude: 0, blockedFriends: [], fcmToken: ""), chatId: "", viewType: "")
+                }
+            }
+        }
+        .onDisappear {
+            // 채팅방에 나갈 때, 해당 채팅방에 접속 상태 업데이트
+            NetworkManager.shared.updateChatStatus(
+                userId: authManager.userID,
+                chatId: roomId,
+                isActive: false // 채팅방 떠날 때 상태 업데이트
+            ) { result in
+                switch result {
+                case .success:
+                    print("Chat status success")
+                case .failure(let error):
+                    print("Chat status failure: \(error.localizedDescription)")
                 }
             }
         }

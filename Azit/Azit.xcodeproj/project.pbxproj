@@ -148,6 +148,8 @@
 		EA4914E22D15B3BA00EC6D6C /* SignInButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4914E12D15B3B800EC6D6C /* SignInButtonView.swift */; };
 		EA4914E42D15B41B00EC6D6C /* FocusableField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4914E32D15B41A00EC6D6C /* FocusableField.swift */; };
 		EA4914E62D15B46200EC6D6C /* SignUpEmailTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4914E52D15B45E00EC6D6C /* SignUpEmailTextFieldView.swift */; };
+		EA8B79562D21990600527358 /* ChatStatusRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B79552D21990500527358 /* ChatStatusRequest.swift */; };
+		EA8B79582D21994400527358 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B79572D21994400527358 /* NetworkManager.swift */; };
 		EAAABB662CE5E25F0003C250 /* QRCodeContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAABB652CE5E25F0003C250 /* QRCodeContent.swift */; };
 		EAAABB6E2CE5ECD30003C250 /* QRShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAABB6D2CE5ECD30003C250 /* QRShareSheet.swift */; };
 		EAAABB762CE6D0CA0003C250 /* QRInvitation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAABB752CE6D0CA0003C250 /* QRInvitation.swift */; };
@@ -316,6 +318,8 @@
 		EA4914E12D15B3B800EC6D6C /* SignInButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInButtonView.swift; sourceTree = "<group>"; };
 		EA4914E32D15B41A00EC6D6C /* FocusableField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusableField.swift; sourceTree = "<group>"; };
 		EA4914E52D15B45E00EC6D6C /* SignUpEmailTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpEmailTextFieldView.swift; sourceTree = "<group>"; };
+		EA8B79552D21990500527358 /* ChatStatusRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatStatusRequest.swift; sourceTree = "<group>"; };
+		EA8B79572D21994400527358 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		EAAABB652CE5E25F0003C250 /* QRCodeContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeContent.swift; sourceTree = "<group>"; };
 		EAAABB6D2CE5ECD30003C250 /* QRShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRShareSheet.swift; sourceTree = "<group>"; };
 		EAAABB752CE6D0CA0003C250 /* QRInvitation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRInvitation.swift; sourceTree = "<group>"; };
@@ -802,7 +806,9 @@
 		EABA948B2CEC303500193C1E /* FCM */ = {
 			isa = PBXGroup;
 			children = (
+				EA8B79572D21994400527358 /* NetworkManager.swift */,
 				EAF3D1012CEDA31800ABCB4F /* sendNotificationToServer.swift */,
+				EA8B79552D21990500527358 /* ChatStatusRequest.swift */,
 			);
 			path = FCM;
 			sourceTree = "<group>";
@@ -1160,6 +1166,7 @@
 				A7013EC02D0606E900AF0A43 /* EmojiTopView.swift in Sources */,
 				8B2FC1BB2CEDC5B30078443F /* TwemojiHelper.swift in Sources */,
 				CE6CD6732D0970ED00EC3CE7 /* SegmentedControlButtonView.swift in Sources */,
+				EA8B79582D21994400527358 /* NetworkManager.swift in Sources */,
 				8EAFEFB42CD4582200136348 /* Story.swift in Sources */,
 				CE6CD66C2D096AE700EC3CE7 /* AlbumNavigationBarView.swift in Sources */,
 				8B2FC1C42CEE47CC0078443F /* Emoji.swift in Sources */,
@@ -1168,6 +1175,7 @@
 				EA4914E62D15B46200EC6D6C /* SignUpEmailTextFieldView.swift in Sources */,
 				8E71EF732CE2E27500BA8F33 /* MapContentEmojiView.swift in Sources */,
 				CE78775E2D02CCE0000184D6 /* MessageDetailTopBarView.swift in Sources */,
+				EA8B79562D21990600527358 /* ChatStatusRequest.swift in Sources */,
 				8EC52DD62CE19C8300DC8190 /* FriendsContentEmojiView.swift in Sources */,
 				8E71EF772CE2E46200BA8F33 /* EllipsesView.swift in Sources */,
 			);
