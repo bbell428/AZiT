@@ -24,13 +24,19 @@ struct EditPhotoView: View {
                             isSelectText = true
                             isDisplayTextEditor.toggle()
                         } label: {
-                            Image(systemName: "pencil.circle")
-                                .font(.largeTitle)
-                                .foregroundStyle(isSelectText && !editPhotoService.textInput.isEmpty ? .accent : .gray)
-                                .background(Color.white.opacity(0.8))
+//                            Image(systemName: "pencil.circle")
+                            Circle()
+                                .foregroundStyle(Color.black.opacity(0.8))
+                                .frame(width: 40, height: 40)
+                                .overlay(Text("Aa"))
+                                    .font(.headline)
+                                    .bold()
+                                    .padding()
+                                    .foregroundStyle(.white)
+                                
                         }
                         .cornerRadius(15)
-                        .padding()
+//                        .padding()
                         .zIndex(4)
                         
                         Image(uiImage: cameraService.capturedImage!)
@@ -155,10 +161,10 @@ struct EditPhotoView: View {
                 .frame(width: editPhotoService.frameSize.width, height: editPhotoService.frameSize.height)
                 .background(Color.black)
                 .cornerRadius(15)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 15)
-                        .stroke(.accent, lineWidth: 2)
-                )
+//                .overlay(
+//                    RoundedRectangle(cornerRadius: 15)
+//                        .stroke(.accent, lineWidth: 2)
+//                )
                 .padding(.vertical, 10)
             }
         }

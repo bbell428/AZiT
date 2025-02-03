@@ -108,7 +108,7 @@ struct UploadPhotoStoryView: View {
                                             }
                                             .resizable()
                                             .scaledToFit()
-                                            .frame(width: 40, height: 40)
+                                            .frame(width: 25, height: 25)
                                     }
                                     
                                     Text(storyDraft.content)
@@ -160,7 +160,7 @@ struct UploadPhotoStoryView: View {
                                         .fill(Color.accentColor))
                                     .frame(width: 50, height: 40)
                                     .overlay(
-                                        Text("편집")
+                                        Text("Edit")
                                             .foregroundStyle(Color.white)
                                             .font(.caption)
                                     )
@@ -205,7 +205,7 @@ struct UploadPhotoStoryView: View {
             }
         }
         .navigationBarTitle("게시물 공유", displayMode: .inline)
-        .navigationBarBackButtonHidden(true)
+//        .navigationBarBackButtonHidden(true)
         .onDisappear {
             isSelectText = false
             editPhotoService.resetState()

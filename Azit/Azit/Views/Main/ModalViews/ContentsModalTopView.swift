@@ -43,7 +43,7 @@ struct ContentsModalTopView: View {
             
             Spacer()
             
-            Image(systemName: "location")
+            Image(systemName: "location.fill")
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 15, height: 15)

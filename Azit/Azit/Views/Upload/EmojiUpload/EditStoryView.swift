@@ -26,7 +26,7 @@ struct EditStoryView : View {
     @State private var scale: CGFloat = 0.1
     @State var friendID: String = ""
     
-    private let characterLimit = 20
+    private let characterLimit = 25
     let screenBounds = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds
     
     var body : some View{
@@ -48,7 +48,7 @@ struct EditStoryView : View {
                         isShowingsheet.toggle()
                     }) {
                         HStack {
-                            Image(systemName: "person")
+                            Image(systemName: "person.fill")
                             
                             if storyDraft.publishedTargets.count == userInfoStore.userInfo?.friends.count {
                                 Text("ALL")
@@ -81,7 +81,7 @@ struct EditStoryView : View {
                         .stroke(Color.subColor1, lineWidth: 0.5)
                         .background(Color.white.clipShape(RoundedRectangle(cornerRadius: 15)))
                 )
-                .padding(.bottom, 5)
+//                .padding(.bottom, 5)
                 .onChange(of: storyDraft.content) { newValue in
                     if newValue.count >= characterLimit {
                         storyDraft.content = String(newValue.prefix(characterLimit))
@@ -92,28 +92,31 @@ struct EditStoryView : View {
                 }
             
             if isLimitExceeded {
-                Text("최대 20자까지 입력할 수 있습니다.")
+                Text("최대 25자까지 입력할 수 있습니다.")
                     .font(.caption2)
                     .foregroundColor(.red)
+            } else {
+                Text("")
+                    .font(.caption2)
             }
 
             // 수정 완료 버튼
             Button (action:{
                 isDisplayEmojiPicker = false
             }) {
-                RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
+                RoundedRectangle(cornerSize: CGSize(width: 15.0, height: 15.0))
                     .stroke(Color.accentColor, lineWidth: 0.5)
                     .background(RoundedRectangle(cornerSize: CGSize(width: 12.0, height: 12.0))
                         .fill(Color.white))
                     .frame(width: 340, height: 40)
                     .overlay(Text("수정 완료")
-                        .padding(.bottom, 10)
+                        .padding()
                         .foregroundColor(Color.accentColor)
                     )
             }
         }
         .padding()
-        .frame(width: (screenBounds?.width ?? 0) - 32, height: 470) // 팝업창 크기
+        .frame(width: (screenBounds?.width ?? 0) - 32, height: 500) // 팝업창 크기
         .background(
             RoundedRectangle(cornerRadius: 15)
                 .fill(Color.subColor4)

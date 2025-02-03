@@ -57,14 +57,14 @@ struct EmojiView : View {
                             .stroke(Color.subColor1, lineWidth: 0.5)
                             .background(Color.white.clipShape(RoundedRectangle(cornerRadius: 15)))
                     )
-//                    .onChange(of: storyDraft.content) { newValue in
-//                        if newValue.count >= characterLimit {
-//                            storyDraft.content = String(newValue.prefix(characterLimit))
-//                            isLimitExceeded = true
-//                        } else {
-//                            isLimitExceeded = false
-//                        }
-//                    }
+                    .onChange(of: storyDraft.content) { newValue in
+                        if newValue.count >= characterLimit {
+                            storyDraft.content = String(newValue.prefix(characterLimit))
+                            isLimitExceeded = true
+                        } else {
+                            isLimitExceeded = false
+                        }
+                    }
                 
                 if isLimitExceeded {
                     Text("최대 25자까지 입력할 수 있습니다.")

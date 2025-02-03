@@ -53,7 +53,7 @@ struct MyContentsModalView: View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .foregroundStyle(.accent)
-                                .frame(width: 30)
+                                .frame(width: 28)
                                 .fontWeight(.light)
                             
 //                            Text("Likes")

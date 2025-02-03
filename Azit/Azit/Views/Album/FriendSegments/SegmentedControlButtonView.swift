@@ -50,7 +50,7 @@ struct SegmentedControlButtonView: View {
                                 Text(titles[index].profileImageName)
                                     .font(.largeTitle)
                             } else {
-                                Image(systemName: "person.3.fill")
+                                Image(systemName: "person.2.fill")
                                     .frame(width: 40, height: 40)  // Image 크기 명시
                                     .foregroundStyle(.white)
                             }
