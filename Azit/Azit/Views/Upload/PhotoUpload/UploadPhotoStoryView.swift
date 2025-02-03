@@ -204,7 +204,7 @@ struct UploadPhotoStoryView: View {
                 }
             }
         }
-        .navigationBarTitle("게시물 공유", displayMode: .inline)
+        .navigationBarTitle("Share", displayMode: .inline)
 //        .navigationBarBackButtonHidden(true)
         .onDisappear {
             isSelectText = false
