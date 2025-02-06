@@ -82,7 +82,8 @@ struct MainView: View {
                                 latitude: 0.0,
                                 longitude: 0.0,
                                 blockedFriends: [],
-                                fcmToken: ""
+                                fcmToken: "",
+                                notificationMessage: false
                             ),
                             isSendFriendStoryToast: $isShowToast,
                             roomId: roomId,
