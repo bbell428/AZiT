@@ -30,6 +30,25 @@ struct PostMessage: View {
         HStack(alignment: .bottom) {
             HStack(alignment: .top) {
                 VStack(alignment: .trailing, spacing: 5) {
+                    if chat.replyMessage != nil {
+                        HStack(spacing: 5) {
+                            Text(chat.replyMessage!)
+                                .font(.subheadline)
+                                .foregroundStyle(Color.white)
+                                .multilineTextAlignment(.trailing)
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 7)
+                                .background(Color.accent.opacity(0.5))
+                                .cornerRadius(15)
+                            
+                            Rectangle()
+                                .cornerRadius(15)
+                                .frame(width: 3)
+                                .foregroundStyle(Color.gray.opacity(0.07))
+                        }
+                        .fixedSize(horizontal: false, vertical: true) // 높이를 내용에 맞게 조절
+                    }
+                    
                     // 메시지 타입이 "Story" 라면
                     if let story = shareStory {
                         HStack(spacing: 0) {

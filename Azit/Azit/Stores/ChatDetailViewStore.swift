@@ -167,12 +167,12 @@ class ChatDetailViewStore: ObservableObject {
     }
     
     // MARK: - 메시지 전송
-    func sendMessage(text: String, myId: String, friendId: String, storyId: String = "", uploadImage: String = "") async {
+    func sendMessage(text: String, myId: String, friendId: String, storyId: String = "", uploadImage: String = "", replyMessage: String = "") async {
         let newMessageId = UUID().uuidString
         let roomId = generateChatRoomId(userId1: myId, userId2: friendId)
         
         do {
-            let newMessage = Chat(id: newMessageId, createAt: Date(), message: text, sender: myId, readBy: [myId], storyId: storyId, uploadImage: uploadImage)
+            let newMessage = Chat(id: newMessageId, createAt: Date(), message: text, sender: myId, readBy: [myId], storyId: storyId, uploadImage: uploadImage, replyMessage: replyMessage)
             
             let batch = db.batch()
             

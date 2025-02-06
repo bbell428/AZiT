@@ -17,6 +17,8 @@ struct Chat: Codable, Identifiable {
     
     var storyId: String? = "" // 게시물 공유 id
     var uploadImage: String? = "" // 이미지 단독 공유 id
+    var replyMessage: String? = ""
+    // 무슨 채팅에 답변 했는가? (선택한 메시지가 기록에 남음)
     
     // 포맷팅된 날짜 속성
     var formattedCreateAt: String {

@@ -111,7 +111,7 @@ struct MessageDetailView: View {
                     
                     // MARK: 메시지 입력 공간
                     MessageSendFieldView(isOpenGallery: $isOpenGallery, textEditorHeight: $textEditorHeight, selectedMessage: $selectedMessage, roomId: roomId, nickname: nickname  ,friendId: friendId)
-                        .frame(height: (selectedMessage != nil) ? textEditorHeight + 50 : textEditorHeight, alignment: .bottom)
+                        .frame(height: (selectedMessage != nil) ? textEditorHeight + 70 : textEditorHeight, alignment: .bottom)
                         .padding(.top, 10)
                         .zIndex(1)
                 }
