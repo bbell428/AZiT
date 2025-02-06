@@ -110,23 +110,23 @@ struct MainView: View {
             .toast(isPresenting: $isShowToast, alert: {
                 AlertToast(displayMode: .banner(.pop), type: .systemImage("envelope.open", Color.white), title: "전송 완료", style: .style(backgroundColor: .subColor1, titleColor: Color.white))
             })
-            // 포그라운드 상태에서 알림을 받아 클릭 시, 알림에서 받아온 값들을 할당
-            .onReceive(NotificationCenter.default.publisher(for: .didReceiveNotification)) { notification in
-                if let userInfo = notification.userInfo,
-                   let viewType = userInfo["viewType"] as? String,
-                   let friendNickname = userInfo["friendNickname"] as? String,
-                   let friendProfileImage = userInfo["friendProfileImage"] as? String,
-                   let chatId = userInfo["chatId"] as? String,
-                   let chatWithFriendId = userInfo["friendId"] as? String,
-                   
-                    viewType == "chatDetail" {
-                    self.nicknameFriend = friendNickname
-                    self.profileImageFriend = friendProfileImage
-                    self.chatRoomId = chatId
-                    self.navigateToChatDetail = true
-                    self.friendId = chatWithFriendId
-                }
-            }
+//            // 포그라운드 상태에서 알림을 받아 클릭 시, 알림에서 받아온 값들을 할당
+//            .onReceive(NotificationCenter.default.publisher(for: .didReceiveNotification)) { notification in
+//                if let userInfo = notification.userInfo,
+//                   let viewType = userInfo["viewType"] as? String,
+//                   let friendNickname = userInfo["friendNickname"] as? String,
+//                   let friendProfileImage = userInfo["friendProfileImage"] as? String,
+//                   let chatId = userInfo["chatId"] as? String,
+//                   let chatWithFriendId = userInfo["friendId"] as? String,
+//                   
+//                    viewType == "chatDetail" {
+//                    self.nicknameFriend = friendNickname
+//                    self.profileImageFriend = friendProfileImage
+//                    self.chatRoomId = chatId
+//                    self.navigateToChatDetail = true
+//                    self.friendId = chatWithFriendId
+//                }
+//            }
             // 백그라운드에서 알림을 클릭 시, 앱 처음 실행하여 알림에서 얻게 된 값들을 할당하여 뷰 이동
             .onAppear {
                 if ((FriendsStore.shared.nicknameFriend?.isEmpty) != nil) {

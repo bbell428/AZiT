@@ -27,7 +27,7 @@ struct NotificationSettingView: View {
                 }
                 .padding(.horizontal, 20)
                 
-                Text("Notification")
+                Text("알림 설정")
                     .font(.title3)
                     .fontWeight(.bold)
                     .frame(maxWidth: .infinity, alignment: .center)
