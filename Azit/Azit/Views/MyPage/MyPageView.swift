@@ -261,6 +261,21 @@ struct MyPageView: View {
                                     .stroke(Color.gray, lineWidth: 0.5))
                             }
                             
+                            NavigationLink {
+                                NotificationSettingView()
+                            } label: {
+                                HStack {
+                                    Text("알림 설정")
+                                        .foregroundStyle(Color.gray)
+                                        .font(.system(size: 15))
+                                        .bold()
+                                    Spacer()
+                                }
+                                .padding()
+                                .background(RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.gray, lineWidth: 0.5))
+                            }
+                            
                             Button {
                                 isLogout = true
                             } label: {
