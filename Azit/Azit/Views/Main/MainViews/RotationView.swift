@@ -34,7 +34,7 @@ struct RotationView: View {
     @State private var numberOfCircles: Int = 0 // 친구 story 개수
     @State private var isShowInvaitaion = false // QR로 앱 -> 알림 띄움 (친구추가)
     @State private var isShowYes = false // QR로 인해 친구추가 알림에서 Yes를 누를 경우
-    @State private var tappedWidgetUserInfo: UserInfo = UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0, blockedFriends: [], fcmToken: "")
+    @State private var tappedWidgetUserInfo: UserInfo = UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0, blockedFriends: [], fcmToken: "", notificationMessage: false)
     
     @State private var selectedWidgetUser: UserInfo?
   

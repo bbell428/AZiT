@@ -20,6 +20,7 @@ struct UserInfo: Codable, Equatable, Identifiable {
     var longitude: Double // 경도
     var blockedFriends: [String] // 차단된 유저
     var fcmToken: String = ""
+    var notificationMessage: Bool // 메시지 알림 권한으로 사용 - true: 알림X
     
     init(document: QueryDocumentSnapshot) async throws {
         let docData = document.data()
@@ -34,9 +35,10 @@ struct UserInfo: Codable, Equatable, Identifiable {
         self.longitude = docData["longitude"] as? Double ?? 0.0
         self.blockedFriends = docData["blockedFriends"] as? [String] ?? []
         self.fcmToken = docData["fcmToken"] as? String ?? ""
+        self.notificationMessage = docData["notificationMessage"] as? Bool ?? false
     }
     
-    init(id: String, email: String, nickname: String, profileImageName: String, previousState: String, friends: [String], latitude: Double, longitude: Double, blockedFriends: [String], fcmToken: String) {
+    init(id: String, email: String, nickname: String, profileImageName: String, previousState: String, friends: [String], latitude: Double, longitude: Double, blockedFriends: [String], fcmToken: String, notificationMessage: Bool) {
         self.id = id
         self.email = email
         self.nickname = nickname
@@ -47,5 +49,6 @@ struct UserInfo: Codable, Equatable, Identifiable {
         self.longitude = longitude
         self.blockedFriends = blockedFriends
         self.fcmToken = fcmToken
+        self.notificationMessage = notificationMessage
     }
 }

@@ -98,7 +98,8 @@ struct ProfileDetailView: View {
                 latitude: 0.0,
                 longitude: 0.0,
                 blockedFriends: [],
-                fcmToken: targetToken
+                fcmToken: targetToken,
+                notificationMessage: false
             )
             await userInfoStore.addUserInfo(newUserInfo)
             authManager.authenticationState = .authenticated

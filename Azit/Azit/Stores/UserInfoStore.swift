@@ -35,7 +35,8 @@ class UserInfoStore: ObservableObject {
                 "latitude": user.latitude,
                 "longitude": user.longitude,
                 "blockedFriends": user.blockedFriends,
-                "fcmToken": user.fcmToken
+                "fcmToken": user.fcmToken,
+                "notificationMessage": user.notificationMessage
             ])
             
             print("Document successfully written!")
@@ -67,7 +68,8 @@ class UserInfoStore: ObservableObject {
                     "latitude": user.latitude,
                     "longitude": user.longitude,
                     "blockedFriends": user.blockedFriends,
-                    "fcmToken": user.fcmToken
+                    "fcmToken": user.fcmToken,
+                    "notificationMessage": user.notificationMessage
                 ], merge: true)
                 
                 print("Document successfully updated!")
@@ -96,6 +98,7 @@ class UserInfoStore: ObservableObject {
             let longitude: Double = docData["longitude"] as? Double ?? 0.0
             let blockedFriends: [String] = docData["blockedFriends"] as? [String] ?? []
             let fcmToken: String = docData["fcmToken"] as? String ?? ""
+            let notificationMessage: Bool = docData["notificationMessage"] as? Bool ?? false
             
             // `userInfoStore` 업데이트
             self.userInfo = UserInfo(
@@ -108,7 +111,8 @@ class UserInfoStore: ObservableObject {
                 latitude: latitude,
                 longitude: longitude,
                 blockedFriends: blockedFriends,
-                fcmToken: fcmToken
+                fcmToken: fcmToken,
+                notificationMessage: notificationMessage
             )
             
             print("userinfo: \(String(describing: self.userInfo))")
@@ -237,7 +241,7 @@ class UserInfoStore: ObservableObject {
     func getUserNameById(id: String) async throws -> String {
         let db = Firestore.firestore()
         
-        var user: UserInfo = UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0, blockedFriends: [], fcmToken: "")
+        var user: UserInfo = UserInfo(id: "", email: "", nickname: "", profileImageName: "", previousState: "", friends: [], latitude: 0.0, longitude: 0.0, blockedFriends: [], fcmToken: "", notificationMessage: false)
         
         do {
             let querySnapshot = try await db.collection("User")
@@ -296,7 +300,8 @@ class UserInfoStore: ObservableObject {
                 latitude: latitude,
                 longitude: longitude,
                 blockedFriends: blockedFriends,
-                fcmToken: fcmToken
+                fcmToken: fcmToken,
+                notificationMessage: false
             )
             
             return userInfo
@@ -333,6 +338,7 @@ class UserInfoStore: ObservableObject {
             let longitude = docData["longitude"] as? Double ?? 0.0
             let blockedFriends = docData["blockedFriends"] as? [String] ?? []
             let fcmToken = docData["fcmToken"] as? String ?? ""
+            let notificationMessage = docData["notificationMessage"] as? Bool ?? false
             
             let userInfo = UserInfo(
                 id: id,
@@ -344,7 +350,8 @@ class UserInfoStore: ObservableObject {
                 latitude: latitude,
                 longitude: longitude,
                 blockedFriends: blockedFriends,
-                fcmToken: fcmToken
+                fcmToken: fcmToken,
+                notificationMessage: notificationMessage
             )
             
             completion(userInfo) // 실시간 업데이트된 데이터를 반환
@@ -494,5 +501,28 @@ class UserInfoStore: ObservableObject {
         }
         
         return totalSum
+    }
+    
+    // MARK: - 사용자 ID로 notificationMessage 가져오기
+    func getNotificationMessageByUserID(userID: String) async throws -> Bool {
+        let db = Firestore.firestore()
+
+        do {
+            // 해당 사용자 ID로 Firestore에서 데이터 가져오기
+            let document = try await db.collection("User").document(userID).getDocument()
+
+            // document가 존재하면 notificationMessage 필드를 반환
+            guard let docData = document.data() else {
+                print("No user data found for id: \(userID)")
+                return false
+            }
+
+            // notificationMessage 값을 가져오고, 없으면 기본값 false 반환
+            let notificationMessage = docData["notificationMessage"] as? Bool ?? false
+            return notificationMessage
+        } catch {
+            print("Error fetching notificationMessage: \(error)")
+            throw error
+        }
     }
 }
