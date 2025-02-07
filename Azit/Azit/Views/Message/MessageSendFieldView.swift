@@ -29,15 +29,53 @@ struct MessageSendFieldView: View {
     var body: some View {
         VStack(alignment: .leading) {
             if selectedMessage != nil {
-                if selectedMessage?.sender != userInfoStore.userInfo?.id {
-                    Text("\(nickname)님에게 답장 보내기")
-                        .padding(.horizontal, 10)
-                } else {
-                    Text("\(userInfoStore.userInfo!.nickname)님에게 답장 보내기")
-                        .padding(.horizontal, 10)
+                Divider()
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 0.2)
+                    .background(Color.gray)
+                
+                HStack {
+                    VStack(alignment: .leading) {
+                        if selectedMessage?.sender != userInfoStore.userInfo?.id {
+                            HStack {
+                                Image(systemName: "arrow.turn.down.right")
+                                    .foregroundStyle(.gray)
+                                
+                                Text("replying to \(nickname)")
+                                    .font(.caption)
+                                    .foregroundStyle(.gray)
+                            }
+                            .padding(.horizontal, 15)
+                        } else {
+                            HStack {
+                                Image(systemName: "arrow.turn.down.right")
+                                    .foregroundStyle(.gray)
+                                
+                                Text("replying to \(userInfoStore.userInfo!.nickname)")
+                                    .font(.caption)
+                                    .foregroundStyle(.gray)
+                            }
+                            .padding(.horizontal, 15)
+                        }
+                        Text((selectedMessage?.message.count)! > 20 ? "\(selectedMessage!.message.prefix(20))..." : "\(selectedMessage?.message ?? "")")
+                            .foregroundStyle(.gray)
+                            .font(.subheadline)
+                            .padding(.vertical, 2.5)
+                            .padding(.horizontal, 15)
+                    }
+                    
+                    Spacer()
+                    
+                    Button {
+                        selectedMessage = nil
+                    } label: {
+                        Image(systemName: "delete.right.fill")
+                            .font(.title2)
+                    }
+                    .padding(.horizontal, 15)
                 }
-                Text(selectedMessage?.message ?? "")
-                    .padding(.horizontal, 10)
+                .frame(maxWidth: .infinity)
+                .padding(5)
             }
             
             ZStack(alignment: .center) {
@@ -88,7 +126,12 @@ struct MessageSendFieldView: View {
                                 guard !text.isEmpty else { return }
                                 print("메시지 내용: \(text)")
                                 
-                                await chatDetailViewStore.sendMessage(text: text, myId: userInfoStore.userInfo?.id ?? "", friendId: friendId)
+                                // 답장하려는 메시지를 선택한 경우에 메시지를 보낼 때,
+                                if selectedMessage != nil {
+                                    await chatDetailViewStore.sendMessage(text: text, myId: userInfoStore.userInfo?.id ?? "", friendId: friendId, replyMessage: (selectedMessage?.message.count)! > 15 ? "\(selectedMessage!.message.prefix(15))..." : "\(selectedMessage?.message ?? "")")
+                                } else {
+                                    await chatDetailViewStore.sendMessage(text: text, myId: userInfoStore.userInfo?.id ?? "", friendId: friendId)
+                                }
                                 
                                 // 상대방이 로그아웃 한 상태가 아니라면 메시지 입력하여 전송 시, 알림을 보냄
                                 if otherUserInfo?.fcmToken != nil {
@@ -117,6 +160,7 @@ struct MessageSendFieldView: View {
                                 
 //                                text = "" // 메시지 전송 후 입력 필드를 초기화
                                 adjustHeight() // 높이 리셋
+                                selectedMessage = nil // 선택된 메시지 해제
                             }
                         }) {
                             Image(systemName: "paperplane.fill")
@@ -132,9 +176,10 @@ struct MessageSendFieldView: View {
                     
                     Spacer()
                 }
-                .padding(10)
+                .padding(.horizontal, 10)
                 .zIndex(2)
             }
+            .padding(.bottom, 5)
         }
         .onAppear {
             // 채팅방에 들어갈 때, 해당 채팅방에 접속 상태 업데이트

@@ -20,7 +20,16 @@ struct PhotoGalleryView: View {
     var friendId: String // 상대방 ID
     
     var body: some View {
-        VStack(alignment: .center, spacing: 20) {
+        VStack(alignment: .leading, spacing: 15) {
+            HStack(alignment: .center) {
+                Divider()
+                    .frame(width: 50, height: 5)
+                    .background(Color.gray.opacity(0.5))
+                    .cornerRadius(15)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.top, 10)
+            
             headerView
             
             ZStack(alignment: .bottom) {
@@ -40,10 +49,10 @@ struct PhotoGalleryView: View {
     }
     
     private var headerView: some View {
-        Text("사진")
-            .font(.title3)
-            .fontWeight(.bold)
-            .padding([.leading, .top], 20)
+            Text("사진")
+                .font(.title3)
+                .fontWeight(.bold)
+                .padding(.leading, 20)
     }
     
     private var photoGridView: some View {
@@ -89,11 +98,13 @@ struct PhotoGalleryView: View {
             ProgressView("사진 불러오는 중...")
                 .opacity(photoStore.photos.isEmpty ? 1 : 0)
         )
+        .background(Color.picker)
     }
     
     private var sendButtonBar: some View {
         BlurView(style: .systemMaterial)
             .frame(height: 80)
+            .opacity(0.1)
             .overlay(
                 HStack {
                     Spacer()
@@ -112,7 +123,7 @@ struct PhotoGalleryView: View {
                                 .foregroundColor(.white)
                                 .padding(.trailing, 20)
                         }
-                        .background(.blue)
+                        .background(.accent)
                         .cornerRadius(20)
                         .padding(.trailing, 20)
                         .padding(.bottom, 20)
