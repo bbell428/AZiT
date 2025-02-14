@@ -203,5 +203,13 @@ Azit
 <br/>
 <br/>
 
+# 📑 Firebase GoogleSerview-Info.plist 다운로드 방법
+1. Firebase Console에 로그인: Firebase Console에 로그인합니다.
+2. 프로젝트 선택: Firebase 프로젝트를 선택합니다. 만약 프로젝트가 없다면 새로 생성해야 합니다.
+3. iOS 앱 추가: 프로젝트 대시보드에서 "앱 추가" 버튼을 클릭하고 iOS 아이콘을 선택합니다.
+4. 앱 정보 입력: 앱의 번들 ID와 앱의 이름 등을 입력합니다. 필요한 정보를 입력한 후 "등록" 버튼을 클릭합니다.
+5. GoogleService-Info.plist 다운로드: 앱 등록이 완료되면 GoogleService-Info.plist 파일을 다운로드할 수 있는 링크가 제공됩니다. 이 파일을 클릭하여 다운로드합니다.
+6. 파일 추가: 다운로드한 GoogleService-Info.plist 파일을 Xcode 프로젝트에 추가합니다. 파일을 드래그하여 프로젝트 내에 포함시키면 됩니다.
+
 # 라이선스
 Licensed under the [MIT](LICENSE) license.
